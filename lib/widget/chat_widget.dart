@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 
 import '../theme/theme.dart';
 
@@ -25,26 +26,46 @@ class ChatLeft extends StatelessWidget {
         children: [
           Row(
             children: [
-              image != null
-                  ? Image.network(
-                      image.toString(),
-                      width: 35,
+              image!.contains('${Global.FILE}')
+                  ? Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            image!,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     )
-                  : Container(),
+                  : Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          image!,
+                          style: whiteTextStyle,
+                        ),
+                      ),
+                    ),
               const SizedBox(
                 width: 10,
               ),
               Text(
                 nameDoctor != null ? nameDoctor.toString() : '',
-                style: blackTextStyle.copyWith(
-                    fontSize: 15, color: const Color(0xFF616161)),
+                style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
               ),
             ],
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
-            padding:
-                const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,
@@ -103,17 +124,25 @@ class ChatRight extends StatelessWidget {
             children: [
               Text(
                 nameUser.toString(),
-                style: blackTextStyle.copyWith(
-                    fontSize: 15, color: const Color(0xFF616161)),
+                style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
               ),
               const SizedBox(
                 width: 10,
               ),
-              Image.network(
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
                       '${imgUser}',
-                      width: 30,
-                    )
-              // imgUser != null 
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              )
+              // imgUser != null
               //     ? Image.network(
               //         '${imgUser}',
               //         width: 30,
@@ -123,8 +152,7 @@ class ChatRight extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
-            padding:
-                const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,
@@ -194,8 +222,7 @@ class ChatRightWithImage extends StatelessWidget {
             children: [
               Text(
                 nameUser.toString(),
-                style: blackTextStyle.copyWith(
-                    fontSize: 15, color: const Color(0xFF616161)),
+                style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
               ),
               const SizedBox(
                 width: 10,
@@ -208,8 +235,7 @@ class ChatRightWithImage extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 40),
-            padding:
-                const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
               color: color,

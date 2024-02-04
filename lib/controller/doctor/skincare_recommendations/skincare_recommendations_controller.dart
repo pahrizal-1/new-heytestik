@@ -1,11 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/skincare_recommendations_model.dart';
 import 'package:heystetik_mobileapps/service/doctor/skincare_recommendations/skincare_recommendations_service.dart';
-import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
-    as Skincare;
+import 'package:heystetik_mobileapps/models/customer/skincare_model.dart' as Skincare;
 
 import '../../../service/customer/solution/solution_service.dart';
 
@@ -13,7 +13,7 @@ class SkincareRecommendationController extends StateClass {
   TextEditingController searchController = TextEditingController();
 
   Rx<SkincareRecommendationModel> skincare = SkincareRecommendationModel().obs;
-  RxList<Data2> filterData = List<Data2>.empty().obs;
+  List<Data2> filterData = [];
   List<Skincare.Data2> solutionSkincare = [];
   List dataSkincare = [].obs;
   List dataSkincareById = [].obs;
@@ -22,22 +22,37 @@ class SkincareRecommendationController extends StateClass {
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
   List<int>? itemCount = [1];
+  int page = 1;
+  int pagination = 1;
+  int limit = 10;
+  bool getFirstPagination = false;
+  bool getLastPagination = false;
+  var hasMoreLoading = true.obs;
 
-  getSkincareRecommendation(BuildContext context) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      skincare.value =
-          await SkincareRecommendationService().getSkincareRecommendation();
-      filterData.value = skincare.value.data!.data!;
-    });
+  getSkincareRecommendation(
+    BuildContext context, {
+    int? pages,
+    String? search,
+  }) async {
+    try {
+      isLoading.value = true;
+      var res = await SkincareRecommendationService().getSkincareRecommendation(
+        pages,
+        search,
+        10,
+      );
+      filterData = filterData + res.data!.data!;
+      print('datas ${res.data!.meta!.pageCount}');
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
     isLoading.value = false;
   }
 
   getSkincareRecomtById(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SkincareRecommendationService()
-          .getSkincareRecommendationById(id);
+      var res = await SkincareRecommendationService().getSkincareRecommendationById(id);
       print('resss ' + res['title'].toString());
       // treatmentDatasById.value = res;
 
@@ -51,7 +66,6 @@ class SkincareRecommendationController extends StateClass {
         dataSkincareById.add(a);
         itemCount?.add(a['qty']);
         print('itm count ${itemCount}');
-
       }
       // for (var i in dataSkincareById) {
       //   itemCount = i['qty'];
@@ -61,17 +75,22 @@ class SkincareRecommendationController extends StateClass {
   }
 
   onChangeFilterText(String value) {
-    filterData.value = skincare.value.data!.data!
-        .where((element) =>
-            element.title!.toLowerCase().contains(value.toLowerCase()))
-        .toList();
+    filterData = skincare.value.data!.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList();
   }
 
-  getSkincare(BuildContext context) async {
+  getSkincare(
+    BuildContext context, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
     isLoadingSkincare.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getAllSkincare(1);
-
+      // if (page == pagination) {}
+      var res = await SolutionService().getAllSkincare(
+        1,
+        search: search,
+        filter: filter,
+      );
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -96,12 +115,12 @@ class SkincareRecommendationController extends StateClass {
             {
               "skincare_id": dataSkincare[i]['id'],
               "notes": notesController[i].text,
-              "qty": itemCount![i]
+              "qty": itemCount![i],
             }
         ]
       };
-      var response = await SkincareRecommendationService()
-          .postSkincareRecommendation(data);
+      // print('payload ${data}');
+      var response = await SkincareRecommendationService().postSkincareRecommendation(data);
 
       if (response['success'] != true && response['message'] != 'Success') {
         throw ErrorConfig(
@@ -127,16 +146,10 @@ class SkincareRecommendationController extends StateClass {
         "title": titleController.text,
         "subtitle": subtitleController.text,
         "recipe_recomendation_skincare_items": [
-          for (var i = 0; i < dataSkincareById.length; i++)
-            {
-              "skincare_id": dataSkincareById[i]['skincare']['id'],
-              "notes": notesController[i].text,
-              "qty": itemCount
-            }
+          for (var i = 0; i < dataSkincareById.length; i++) {"skincare_id": dataSkincareById[i]['skincare']['id'], "notes": notesController[i].text, "qty": itemCount}
         ]
       };
-      var response = await SkincareRecommendationService()
-          .updateSkincareRecommendation(data, id);
+      var response = await SkincareRecommendationService().updateSkincareRecommendation(data, id);
 
       if (response['success'] != true && response['message'] != 'Success') {
         throw ErrorConfig(
@@ -157,8 +170,7 @@ class SkincareRecommendationController extends StateClass {
   deleteTreatment(BuildContext context, int id) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       isLoading.value = true;
-      var res = await SkincareRecommendationService()
-          .deleteSkincareRecommendation(id);
+      var res = await SkincareRecommendationService().deleteSkincareRecommendation(id);
       print(res);
       getSkincareRecommendation(context);
       isLoading.value = false;

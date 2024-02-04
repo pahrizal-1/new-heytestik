@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/profile/profile_controller.dart';
+import 'package:heystetik_mobileapps/core/string_name.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/detail_pasien_page.dart';
@@ -53,10 +54,8 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isVisibeliti = true;
   bool clik = true;
-  final DoctorProfileController stateProfile =
-      Get.put(DoctorProfileController());
-  final DoctorConsultationController state =
-      Get.put(DoctorConsultationController());
+  final DoctorProfileController stateProfile = Get.put(DoctorProfileController());
+  final DoctorConsultationController state = Get.put(DoctorConsultationController());
   IO.Socket? _socket;
   bool isOnline = false;
   bool isTyping = false;
@@ -91,53 +90,6 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       });
     });
 
-    // Timer.periodic(Duration(milliseconds: 200), (timer) {
-    //   if (mounted) {
-    //     // for (var i in itemCount) {
-    //     //     print('take' + i['itemCount'].toString());
-
-    //     //   // setState(() {
-    //     //   //   // take = i['itemCount'];
-    //     //   //   var a = json.decode(i);
-    //     //   //   print('take' + a.toString());
-    //     //   // });
-    //     // }
-    //     // getRequest(widget.roomCode, take);
-    //     _scrollDown();
-    //     // print('hey ' + itemCountt.toString());
-    //   } else {
-    //     timer.cancel();
-    //   }
-    // });
-    // controller.addListener(
-    //   () {
-    //     if (controller.position.atEdge) {
-    //       bool isTop = controller.position.pixels == 0;
-    //       if (isTop) {
-    //         print('At the top');
-    //         setState(() {
-    //           isLoading = false;
-    //         });
-    //         take -= 10;
-    //         getRequest(widget.roomCode, take);
-    //       }
-    //     } else {
-    //       print('At the bottom');
-    //       setState(() {
-    //         isLoading = false;
-    //       });
-    //       take += 10;
-    //       getRequest(widget.roomCode, take);
-    //     }
-    //     // if (controller.position.pixels == controller.position.maxScrollExtent) {
-    //     //   setState(() {
-    //     //     isLoading = false;
-    //     //   });
-    //     //   take += 10;
-    //     //   getRequest(widget.roomCode, take);
-    //     // }
-    //   },
-    // );
     connectSocket(context);
     LocalNotificationService.initialize();
     notificationService = NotificationService();
@@ -164,8 +116,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     String senderBy,
     String receiverBy,
   ) async {
-    final XFile? pickedImage = await ImagePicker()
-        .pickImage(source: ImageSource.camera, imageQuality: 50);
+    final XFile? pickedImage = await ImagePicker().pickImage(source: ImageSource.camera, imageQuality: 50);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
       print('img path $imagePath');
@@ -221,8 +172,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     String senderBy,
     String receiverBy,
   ) async {
-    final List<XFile>? selectImage =
-        await ImagePicker().pickMultiImage(imageQuality: 50);
+    final List<XFile>? selectImage = await ImagePicker().pickMultiImage(imageQuality: 50);
     if (selectImage! != null) {
       selectedMultipleImage.addAll(selectImage);
       print('awal$selectedMultipleImage');
@@ -245,9 +195,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                 widget.senderId ?? 0,
                 widget.receiverId ?? 0,
                 widget.roomCode,
-                state.messageController.text.isNotEmpty
-                    ? state.messageController.text
-                    : '',
+                state.messageController.text.isNotEmpty ? state.messageController.text : '',
                 widget.senderBy ?? '',
                 widget.receiverBy ?? '',
               );
@@ -291,8 +239,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
       isLoading = true;
     });
     //replace your restFull API here.
-    var response = await FetchMessageByRoom()
-        .getFetchMessage(roomCode, take, search ?? '');
+    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take, search ?? '');
     ListMessageModel result = ListMessageModel.fromJson(response);
     setState(() {
       msglist = result.data?.data;
@@ -503,8 +450,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
             // .setReconnectionDelay(1)
             .setExtraHeaders(
               {
-                'Authorization':
-                    'Bearer ${await LocalStorage().getAccessToken()}',
+                'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
               },
             )
             .build(),
@@ -604,8 +550,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                       child: TextField(
                         controller: searchController,
                         onSubmitted: (String value) {
-                          getRequest(
-                              widget.roomCode, take, searchController.text);
+                          getRequest(widget.roomCode, take, searchController.text);
                         },
                         decoration: InputDecoration(
                           hintText: 'Search',
@@ -655,8 +600,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
                     child: Row(
                       children: [
                         InkWell(
@@ -685,8 +629,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                             String refresh = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    DetailPasienPage(id: widget.id ?? 0),
+                                builder: (context) => DetailPasienPage(id: widget.id ?? 0),
                               ),
                             );
 
@@ -701,9 +644,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 14),
                             height: 25,
-                            decoration: BoxDecoration(
-                                color: greenColor,
-                                borderRadius: BorderRadius.circular(7)),
+                            decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(7)),
                             child: Center(
                               child: Text(
                                 'Detail Pasien',
@@ -716,8 +657,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                     ),
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 70, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 5),
                     child: Obx(() => Text(
                           state.isOnline.value && state.isTyping.value
                               ? 'Mengetik . . .'
@@ -739,16 +679,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
             : SingleChildScrollView(
                 controller: controller,
                 child: Padding(
-                  padding:
-                      EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 50),
+                  padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 50),
                   child: Column(
                     children: [
                       Container(
                         height: 20,
                         width: 62,
-                        decoration: BoxDecoration(
-                            color: subwhiteColor,
-                            borderRadius: BorderRadius.circular(5)),
+                        decoration: BoxDecoration(color: subwhiteColor, borderRadius: BorderRadius.circular(5)),
                         child: Center(
                           child: Text(
                             'Hari Ini',
@@ -771,16 +708,9 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (buildex, index) {
                                     var formatter = DateFormat('dd-MM-yyyy');
+                                    String formattedTime = DateFormat('HH:mm').format(DateTime.parse('${msglist![index].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)));
 
-                                    String formattedTime = DateFormat('HH:mm')
-                                        .format(DateTime.parse(
-                                                '${msglist![index].createdAt}')
-                                            .toUtc()
-                                            .add(Duration(
-                                                hours: 7, minutes: 00)));
-
-                                    if (widget.id == widget.roomId &&
-                                        msglist![index].senderId == 0) {
+                                    if (widget.id == widget.roomId && msglist![index].senderId == 0) {
                                       return ChatLeft(
                                         image: widget.image,
                                         // nameDoctor: 'Rina Rasmalina',
@@ -788,24 +718,17 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                         color: subwhiteColor,
                                         title: msglist![index].message,
                                       );
-                                    } else if (msglist![index].senderId ==
-                                            widget.senderId &&
-                                        msglist![index].message == '####') {
+                                    } else if (msglist![index].senderId == widget.senderId && msglist![index].message == '####') {
                                       return Padding(
                                         padding: const EdgeInsets.only(top: 10),
                                         child: Column(
                                           children: [
                                             Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                              mainAxisAlignment: MainAxisAlignment.end,
                                               children: [
                                                 Text(
                                                   widget.senderBy.toString(),
-                                                  style:
-                                                      blackTextStyle.copyWith(
-                                                          fontSize: 15,
-                                                          color: const Color(
-                                                              0xFF616161)),
+                                                  style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                 ),
                                                 const SizedBox(
                                                   width: 10,
@@ -815,132 +738,79 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                             Align(
                                               alignment: Alignment.centerRight,
                                               child: FutureBuilder(
-                                                future:
-                                                    state.detailConsultation(
-                                                        context, widget.id!),
+                                                future: state.detailConsultation(context, widget.id!),
                                                 builder: ((context, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return Center(
-                                                        child:
-                                                            CircularProgressIndicator());
+                                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                                    return Center(child: CircularProgressIndicator());
                                                   }
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.done) {
+                                                  if (snapshot.connectionState == ConnectionState.done) {
                                                     return Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10),
+                                                      padding: const EdgeInsets.only(top: 10),
                                                       child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
                                                         children: [
                                                           Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        12,
-                                                                    vertical:
-                                                                        14),
+                                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                                                             height: 43,
                                                             width: 270,
-                                                            decoration: BoxDecoration(
-                                                                color:
-                                                                    greenColor,
-                                                                borderRadius: const BorderRadius
-                                                                    .only(
-                                                                    topLeft: Radius
-                                                                        .circular(
-                                                                            10),
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            10))),
+                                                            decoration: BoxDecoration(color: greenColor, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
                                                             child: Text(
                                                               'Rekomendasi Dokter',
-                                                              style: whiteTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          15),
+                                                              style: whiteTextStyle.copyWith(fontSize: 15),
                                                             ),
                                                           ),
                                                           Container(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        12,
-                                                                    vertical:
-                                                                        11),
+                                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
                                                             // height: 299,
                                                             width: 270,
                                                             color: whiteColor,
                                                             child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              mainAxisAlignment: MainAxisAlignment.center,
                                                               children: [
                                                                 const SizedBox(
                                                                   height: 5,
                                                                 ),
                                                                 const Text(
                                                                   'Obat',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15),
+                                                                  style: TextStyle(fontSize: 15),
                                                                 ),
                                                                 const SizedBox(
                                                                   height: 10,
                                                                 ),
                                                                 Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              10),
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          itemCount: state
-                                                                              .data
-                                                                              .value
-                                                                              .consultationRecipeDrug
-                                                                              ?.length,
-                                                                          itemBuilder:
-                                                                              (context, index) {
-                                                                            return Column(
+                                                                  margin: EdgeInsets.only(top: 10),
+                                                                  child: ListView.builder(
+                                                                      shrinkWrap: true,
+                                                                      itemCount: state.data.value.consultationRecipeDrug?.length,
+                                                                      itemBuilder: (context, index) {
+                                                                        return Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
-                                                                                Row(
-                                                                                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-                                                                                    Expanded(
-                                                                                      child: Text(
-                                                                                        state.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
-                                                                                        style: grenTextStyle.copyWith(fontSize: 12),
-                                                                                      ),
-                                                                                    ),
-                                                                                    Expanded(
-                                                                                      child: Text(
-                                                                                        state.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
-                                                                                        maxLines: 1,
-                                                                                        overflow: TextOverflow.ellipsis,
-                                                                                        style: greyTextStyle,
-                                                                                      ),
-                                                                                    )
-                                                                                  ],
+                                                                                Expanded(
+                                                                                  child: Text(
+                                                                                    state.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
+                                                                                    style: grenTextStyle.copyWith(fontSize: 12),
+                                                                                  ),
                                                                                 ),
-                                                                                SizedBox(
-                                                                                  height: 5,
-                                                                                ),
+                                                                                Expanded(
+                                                                                  child: Text(
+                                                                                    state.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                    maxLines: 1,
+                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                    style: greyTextStyle,
+                                                                                  ),
+                                                                                )
                                                                               ],
-                                                                            );
-                                                                          }),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 5,
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      }),
                                                                 ),
                                                                 Divider(
                                                                   thickness: 2,
@@ -950,50 +820,38 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                 ),
                                                                 const Text(
                                                                   'Skincare',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15),
+                                                                  style: TextStyle(fontSize: 15),
                                                                 ),
                                                                 const SizedBox(
                                                                   height: 10,
                                                                 ),
                                                                 Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              10),
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          itemCount: state
-                                                                              .data
-                                                                              .value
-                                                                              .consultationRecomendationSkincare
-                                                                              ?.length,
-                                                                          itemBuilder:
-                                                                              (context, index) {
-                                                                            return Column(
+                                                                  margin: EdgeInsets.only(top: 10),
+                                                                  child: ListView.builder(
+                                                                      shrinkWrap: true,
+                                                                      itemCount: state.data.value.consultationRecomendationSkincare?.length,
+                                                                      itemBuilder: (context, index) {
+                                                                        return Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
-                                                                                Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      state.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
-                                                                                      style: grenTextStyle.copyWith(fontSize: 12),
-                                                                                    ),
-                                                                                    Text(
-                                                                                      state.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
-                                                                                      style: greyTextStyle,
-                                                                                    )
-                                                                                  ],
+                                                                                Text(
+                                                                                  state.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
+                                                                                  style: grenTextStyle.copyWith(fontSize: 12),
                                                                                 ),
-                                                                                SizedBox(
-                                                                                  height: 5,
-                                                                                ),
+                                                                                Text(
+                                                                                  state.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                  style: greyTextStyle,
+                                                                                )
                                                                               ],
-                                                                            );
-                                                                          }),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 5,
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      }),
                                                                 ),
                                                                 Divider(
                                                                   thickness: 2,
@@ -1003,53 +861,39 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                 ),
                                                                 const Text(
                                                                   'Treatment',
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15),
+                                                                  style: TextStyle(fontSize: 15),
                                                                 ),
                                                                 const SizedBox(
                                                                   height: 10,
                                                                 ),
                                                                 Container(
-                                                                  margin: EdgeInsets
-                                                                      .only(
-                                                                          top:
-                                                                              10),
-                                                                  child: ListView
-                                                                      .builder(
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          itemCount: state
-                                                                              .data
-                                                                              .value
-                                                                              .consultationRecomendationTreatment
-                                                                              ?.length,
-                                                                          itemBuilder:
-                                                                              (context, index) {
-                                                                            return Column(
+                                                                  margin: EdgeInsets.only(top: 10),
+                                                                  child: ListView.builder(
+                                                                      shrinkWrap: true,
+                                                                      itemCount: state.data.value.consultationRecomendationTreatment?.length,
+                                                                      itemBuilder: (context, index) {
+                                                                        return Column(
+                                                                          children: [
+                                                                            Row(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
-                                                                                Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      state.data.value.consultationRecomendationTreatment?[index].name ?? '-',
-                                                                                      style: grenTextStyle.copyWith(fontSize: 12),
-                                                                                    ),
-                                                                                  ],
-                                                                                ),
-                                                                                SizedBox(
-                                                                                  height: 5,
+                                                                                Text(
+                                                                                  state.data.value.consultationRecomendationTreatment?[index].name ?? '-',
+                                                                                  style: grenTextStyle.copyWith(fontSize: 12),
                                                                                 ),
                                                                               ],
-                                                                            );
-                                                                          }),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 5,
+                                                                            ),
+                                                                          ],
+                                                                        );
+                                                                      }),
                                                                 ),
                                                                 const SizedBox(
                                                                   height: 5,
                                                                 ),
-                                                                const ButtonGreenWidget(
-                                                                    title:
-                                                                        'Lihat Detail')
+                                                                const ButtonGreenWidget(title: 'Lihat Detail')
                                                               ],
                                                             ),
                                                           ),
@@ -1067,139 +911,73 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                           ],
                                         ),
                                       );
-                                    } else if (msglist![index].senderId ==
-                                            widget.senderId &&
-                                        msglist![index]
-                                                .mediaChatMessages!
-                                                .length ==
-                                            0) {
+                                    } else if (msglist![index].senderId == widget.senderId && msglist![index].mediaChatMessages!.length == 0) {
                                       return ChatRight(
-                                        imgUser: stateProfile
-                                                    .imgNetwork.value !=
-                                                ""
-                                            ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
-                                            : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                        imgUser: stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                         // "${msglist?[index].mediaChatMessages } assets/images/doctor-img.png",
                                         // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
                                         nameUser: widget.senderBy,
                                         timetitle: formattedTime,
                                         color: subgreenColor,
-                                        title:
-                                            msglist![index].message.toString(),
+                                        title: msglist![index].message.toString(),
                                       );
-                                    } else if (msglist![index].senderId ==
-                                            widget.senderId &&
-                                        (msglist![index]
-                                                    .mediaChatMessages
-                                                    ?.length ??
-                                                0) >
-                                            0) {
+                                    } else if (msglist![index].senderId == widget.senderId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
                                       return Padding(
                                         padding: const EdgeInsets.only(top: 10),
-                                        child: msglist![index]
-                                                    .mediaChatMessages!
-                                                    .length ==
-                                                1
+                                        child: msglist![index].mediaChatMessages!.length == 1
                                             ? Column(
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
+                                                    mainAxisAlignment: MainAxisAlignment.end,
                                                     children: [
                                                       Text(
-                                                        widget.senderBy
-                                                            .toString(),
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontSize: 15,
-                                                                color: const Color(
-                                                                    0xFF616161)),
+                                                        widget.senderBy.toString(),
+                                                        style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                       ),
                                                       const SizedBox(
                                                         width: 10,
                                                       ),
                                                       Image.network(
-                                                        stateProfile.imgNetwork
-                                                                    .value !=
-                                                                ""
-                                                            ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
-                                                            : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                                        stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                                         width: 30,
                                                       ),
                                                     ],
                                                   ),
                                                   Container(
-                                                    margin: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 40),
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 12,
-                                                            top: 11,
-                                                            right: 12,
-                                                            bottom: 7),
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
+                                                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                    padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                    width: MediaQuery.of(context).size.width,
                                                     decoration: BoxDecoration(
                                                       color: subgreenColor,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .only(
-                                                        topLeft:
-                                                            Radius.circular(10),
-                                                        topRight:
-                                                            Radius.circular(0),
-                                                        bottomRight:
-                                                            Radius.circular(10),
-                                                        bottomLeft:
-                                                            Radius.circular(10),
+                                                      borderRadius: const BorderRadius.only(
+                                                        topLeft: Radius.circular(10),
+                                                        topRight: Radius.circular(0),
+                                                        bottomRight: Radius.circular(10),
+                                                        bottomLeft: Radius.circular(10),
                                                       ),
                                                     ),
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         GridView.builder(
                                                           shrinkWrap: true,
-                                                          itemCount: msglist![
-                                                                  index]
-                                                              .mediaChatMessages!
-                                                              .length,
-                                                          gridDelegate:
-                                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                                                  crossAxisCount:
-                                                                      2,
-                                                                  crossAxisSpacing:
-                                                                      4.0,
-                                                                  mainAxisSpacing:
-                                                                      4.0),
-                                                          itemBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  count) {
-                                                            return Image
-                                                                .network(
+                                                          itemCount: msglist![index].mediaChatMessages!.length,
+                                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                          itemBuilder: (BuildContext context, count) {
+                                                            return Image.network(
                                                               '${Global.FILE}/${msglist![index].mediaChatMessages![0].media!.path!}',
                                                             );
                                                           },
                                                         ),
                                                         SizedBox(height: 10),
                                                         Text(
-                                                          msglist![index]
-                                                              .message
-                                                              .toString(),
-                                                          style: greyTextStyle
-                                                              .copyWith(
+                                                          msglist![index].message.toString(),
+                                                          style: greyTextStyle.copyWith(
                                                             fontSize: 15,
                                                           ),
                                                         ),
                                                         Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
+                                                          mainAxisAlignment: MainAxisAlignment.end,
                                                           children: [
                                                             Image.asset(
                                                               'assets/images/logo_cheac_wa.png',
@@ -1208,9 +986,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                             const SizedBox(
                                                               width: 2,
                                                             ),
-                                                            Text(formattedTime,
-                                                                style:
-                                                                    subGreyTextStyle)
+                                                            Text(formattedTime, style: subGreyTextStyle)
                                                           ],
                                                         )
                                                       ],
@@ -1218,33 +994,21 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   ),
                                                 ],
                                               )
-                                            : msglist![index]
-                                                        .mediaChatMessages!
-                                                        .length >
-                                                    1
+                                            : msglist![index].mediaChatMessages!.length > 1
                                                 ? Column(
                                                     children: [
                                                       Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
+                                                        mainAxisAlignment: MainAxisAlignment.end,
                                                         children: [
                                                           Text(
-                                                            widget.senderBy
-                                                                .toString(),
-                                                            style: blackTextStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: const Color(
-                                                                        0xFF616161)),
+                                                            widget.senderBy.toString(),
+                                                            style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                           ),
                                                           const SizedBox(
                                                             width: 10,
                                                           ),
                                                           Image.asset(
-                                                            'assets/images/doctor-img.png'
-                                                                .toString(),
+                                                            'assets/images/doctor-img.png'.toString(),
                                                             width: 30,
                                                           ),
                                                         ],
@@ -1252,92 +1016,40 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                       Stack(
                                                         children: [
                                                           Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        40),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 12,
-                                                                    top: 11,
-                                                                    right: 12,
-                                                                    bottom: 7),
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  subgreenColor,
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        0),
-                                                                bottomRight:
-                                                                    Radius
-                                                                        .circular(
-                                                                            10),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        10),
+                                                            margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                            width: MediaQuery.of(context).size.width,
+                                                            decoration: BoxDecoration(
+                                                              color: subgreenColor,
+                                                              borderRadius: const BorderRadius.only(
+                                                                topLeft: Radius.circular(10),
+                                                                topRight: Radius.circular(0),
+                                                                bottomRight: Radius.circular(10),
+                                                                bottomLeft: Radius.circular(10),
                                                               ),
                                                             ),
                                                             child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                GridView
-                                                                    .builder(
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  itemCount: msglist![
-                                                                          index]
-                                                                      .mediaChatMessages!
-                                                                      .length,
-                                                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                                                      crossAxisCount:
-                                                                          2,
-                                                                      crossAxisSpacing:
-                                                                          4.0,
-                                                                      mainAxisSpacing:
-                                                                          4.0),
-                                                                  itemBuilder:
-                                                                      (BuildContext
-                                                                              context,
-                                                                          count) {
-                                                                    return Image
-                                                                        .network(
+                                                                GridView.builder(
+                                                                  shrinkWrap: true,
+                                                                  itemCount: msglist![index].mediaChatMessages!.length,
+                                                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                                  itemBuilder: (BuildContext context, count) {
+                                                                    return Image.network(
                                                                       '${Global.FILE}/${msglist![index].mediaChatMessages![count].media!.path!}',
                                                                     );
                                                                   },
                                                                 ),
-                                                                SizedBox(
-                                                                    height: 10),
+                                                                SizedBox(height: 10),
                                                                 Text(
-                                                                  msglist![
-                                                                          index]
-                                                                      .message
-                                                                      .toString(),
-                                                                  style: greyTextStyle
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        15,
+                                                                  msglist![index].message.toString(),
+                                                                  style: greyTextStyle.copyWith(
+                                                                    fontSize: 15,
                                                                   ),
                                                                 ),
                                                                 Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
+                                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                                   children: [
                                                                     Image.asset(
                                                                       'assets/images/logo_cheac_wa.png',
@@ -1346,10 +1058,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                     const SizedBox(
                                                                       width: 2,
                                                                     ),
-                                                                    Text(
-                                                                        formattedTime,
-                                                                        style:
-                                                                            subGreyTextStyle)
+                                                                    Text(formattedTime, style: subGreyTextStyle)
                                                                   ],
                                                                 )
                                                               ],
@@ -1360,31 +1069,22 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                             left: 80,
                                                             child: Container(
                                                               width: 200,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                style: ElevatedButton
-                                                                    .styleFrom(
-                                                                  backgroundColor: Colors
-                                                                      .grey
-                                                                      .withOpacity(
-                                                                          0.5), // background
+                                                              child: ElevatedButton(
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.grey.withOpacity(0.5), // background
                                                                 ),
                                                                 onPressed: () {
-                                                                  Navigator
-                                                                      .push(
+                                                                  Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                      builder:
-                                                                          ((context) =>
-                                                                              PreviewImage(
-                                                                                path: msglist![index].mediaChatMessages,
-                                                                                senderId: widget.senderBy ?? '',
-                                                                              )),
+                                                                      builder: ((context) => PreviewImage(
+                                                                            path: msglist![index].mediaChatMessages,
+                                                                            senderId: widget.senderBy ?? '',
+                                                                          )),
                                                                     ),
                                                                   );
                                                                 },
-                                                                child:
-                                                                    Text('+1'),
+                                                                child: Text('+1'),
                                                               ),
                                                             ),
                                                           ),
@@ -1393,60 +1093,31 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                     ],
                                                   )
                                                 : ChatRight(
-                                                    imgUser: stateProfile
-                                                                .imgNetwork
-                                                                .value !=
-                                                            ""
-                                                        ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
-                                                        : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                                    imgUser: stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
 
                                                     // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
                                                     nameUser: widget.senderBy,
                                                     timetitle: formattedTime,
                                                     color: subgreenColor,
-                                                    title: msglist![index]
-                                                        .message
-                                                        .toString(),
+                                                    title: msglist![index].message.toString(),
                                                   ),
                                       );
-                                    } else if (msglist![index].senderId ==
-                                            widget.receiverId &&
-                                        (msglist![index]
-                                                    .mediaChatMessages
-                                                    ?.length ??
-                                                0) >
-                                            0) {
+                                    } else if (msglist![index].senderId == widget.receiverId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
                                       return Padding(
                                         padding: EdgeInsets.only(top: 10),
-                                        child: msglist![index]
-                                                    .mediaChatMessages
-                                                    ?.length ==
-                                                1
+                                        child: msglist![index].mediaChatMessages?.length == 1
                                             ? Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Row(
                                                     children: [
                                                       Text(
-                                                        widget.receiverBy
-                                                            .toString(),
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontSize: 15,
-                                                                color: const Color(
-                                                                    0xFF616161)),
+                                                        widget.receiverBy.toString(),
+                                                        style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                       ),
                                                       Text(
-                                                        msglist![index]
-                                                            .mediaChatMessages!
-                                                            .length
-                                                            .toString(),
-                                                        style: blackTextStyle
-                                                            .copyWith(
-                                                                fontSize: 15,
-                                                                color: const Color(
-                                                                    0xFF616161)),
+                                                        msglist![index].mediaChatMessages!.length.toString(),
+                                                        style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                       ),
                                                       const SizedBox(
                                                         width: 10,
@@ -1459,84 +1130,40 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                     ],
                                                   ),
                                                   Container(
-                                                    margin: const EdgeInsets
-                                                        .symmetric(
-                                                        horizontal: 40),
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 12,
-                                                            top: 11,
-                                                            right: 12,
-                                                            bottom: 7),
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
+                                                    margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                    padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                    width: MediaQuery.of(context).size.width,
                                                     decoration: BoxDecoration(
                                                       color: subwhiteColor,
-                                                      borderRadius:
-                                                          const BorderRadius
-                                                              .only(
-                                                        topLeft:
-                                                            Radius.circular(0),
-                                                        topRight:
-                                                            Radius.circular(10),
-                                                        bottomRight:
-                                                            Radius.circular(10),
-                                                        bottomLeft:
-                                                            Radius.circular(10),
+                                                      borderRadius: const BorderRadius.only(
+                                                        topLeft: Radius.circular(0),
+                                                        topRight: Radius.circular(10),
+                                                        bottomRight: Radius.circular(10),
+                                                        bottomLeft: Radius.circular(10),
                                                       ),
                                                     ),
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         GridView.builder(
                                                           shrinkWrap: true,
-                                                          itemCount: msglist![
-                                                                  index]
-                                                              .mediaChatMessages!
-                                                              .length,
-                                                          gridDelegate:
-                                                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                                                  crossAxisCount:
-                                                                      2,
-                                                                  crossAxisSpacing:
-                                                                      4.0,
-                                                                  mainAxisSpacing:
-                                                                      4.0),
-                                                          itemBuilder:
-                                                              (BuildContext
-                                                                      context,
-                                                                  count) {
-                                                            return Image
-                                                                .network(
-                                                              '${Global.FILE}/' +
-                                                                  msglist![
-                                                                          index]
-                                                                      .mediaChatMessages![
-                                                                          0]
-                                                                      .media!
-                                                                      .path!
-                                                                      .toString(),
+                                                          itemCount: msglist![index].mediaChatMessages!.length,
+                                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                          itemBuilder: (BuildContext context, count) {
+                                                            return Image.network(
+                                                              '${Global.FILE}/' + msglist![index].mediaChatMessages![0].media!.path!.toString(),
                                                             );
                                                           },
                                                         ),
                                                         SizedBox(height: 10),
                                                         Text(
-                                                          msglist![index]
-                                                              .message
-                                                              .toString(),
-                                                          style: greyTextStyle
-                                                              .copyWith(
+                                                          msglist![index].message.toString(),
+                                                          style: greyTextStyle.copyWith(
                                                             fontSize: 15,
                                                           ),
                                                         ),
                                                         Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .end,
+                                                          mainAxisAlignment: MainAxisAlignment.end,
                                                           children: [
                                                             Image.asset(
                                                               'assets/images/logo_cheac_wa.png',
@@ -1545,9 +1172,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                             const SizedBox(
                                                               width: 2,
                                                             ),
-                                                            Text(formattedTime,
-                                                                style:
-                                                                    subGreyTextStyle)
+                                                            Text(formattedTime, style: subGreyTextStyle)
                                                           ],
                                                         )
                                                       ],
@@ -1555,35 +1180,18 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   ),
                                                 ],
                                               )
-                                            : msglist![index]
-                                                        .mediaChatMessages
-                                                        ?.length !=
-                                                    1
+                                            : msglist![index].mediaChatMessages?.length != 1
                                                 ? Column(
                                                     children: [
                                                       Row(
                                                         children: [
                                                           Text(
-                                                            widget.receiverBy
-                                                                .toString(),
-                                                            style: blackTextStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: const Color(
-                                                                        0xFF616161)),
+                                                            widget.receiverBy.toString(),
+                                                            style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                           ),
                                                           Text(
-                                                            msglist![index]
-                                                                .mediaChatMessages!
-                                                                .length
-                                                                .toString(),
-                                                            style: blackTextStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        15,
-                                                                    color: const Color(
-                                                                        0xFF616161)),
+                                                            msglist![index].mediaChatMessages!.length.toString(),
+                                                            style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
                                                           ),
                                                           const SizedBox(
                                                             width: 10,
@@ -1598,97 +1206,44 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                       Stack(
                                                         children: [
                                                           Container(
-                                                            margin:
-                                                                const EdgeInsets
-                                                                    .symmetric(
-                                                                    horizontal:
-                                                                        40),
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 12,
-                                                                    top: 11,
-                                                                    right: 12,
-                                                                    bottom: 7),
-                                                            width:
-                                                                MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color:
-                                                                  subwhiteColor,
-                                                              borderRadius:
-                                                                  const BorderRadius
-                                                                      .only(
-                                                                topLeft: Radius
-                                                                    .circular(
-                                                                        0),
-                                                                topRight: Radius
-                                                                    .circular(
-                                                                        10),
-                                                                bottomRight:
-                                                                    Radius
-                                                                        .circular(
-                                                                            10),
-                                                                bottomLeft: Radius
-                                                                    .circular(
-                                                                        10),
+                                                            margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                            width: MediaQuery.of(context).size.width,
+                                                            decoration: BoxDecoration(
+                                                              color: subwhiteColor,
+                                                              borderRadius: const BorderRadius.only(
+                                                                topLeft: Radius.circular(0),
+                                                                topRight: Radius.circular(10),
+                                                                bottomRight: Radius.circular(10),
+                                                                bottomLeft: Radius.circular(10),
                                                               ),
                                                             ),
                                                             child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
-                                                                GridView
-                                                                    .builder(
-                                                                  shrinkWrap:
-                                                                      true,
-                                                                  itemCount: msglist![
-                                                                          index]
-                                                                      .mediaChatMessages
-                                                                      ?.length,
-                                                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                                                      crossAxisCount:
-                                                                          2,
-                                                                      crossAxisSpacing:
-                                                                          4.0,
-                                                                      mainAxisSpacing:
-                                                                          4.0),
-                                                                  itemBuilder:
-                                                                      (BuildContext
-                                                                              context,
-                                                                          count) {
+                                                                GridView.builder(
+                                                                  shrinkWrap: true,
+                                                                  itemCount: msglist![index].mediaChatMessages?.length,
+                                                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                                  itemBuilder: (BuildContext context, count) {
                                                                     return Column(
                                                                       children: [
-                                                                        Image
-                                                                            .network(
-                                                                          '${Global.FILE}/' +
-                                                                              msglist![index].mediaChatMessages![count].media!.path!,
+                                                                        Image.network(
+                                                                          '${Global.FILE}/' + msglist![index].mediaChatMessages![count].media!.path!,
                                                                         ),
                                                                       ],
                                                                     );
                                                                   },
                                                                 ),
-                                                                SizedBox(
-                                                                    height: 10),
+                                                                SizedBox(height: 10),
                                                                 Text(
-                                                                  msglist![
-                                                                          index]
-                                                                      .message
-                                                                      .toString(),
-                                                                  style: greyTextStyle
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        15,
+                                                                  msglist![index].message.toString(),
+                                                                  style: greyTextStyle.copyWith(
+                                                                    fontSize: 15,
                                                                   ),
                                                                 ),
                                                                 Row(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .end,
+                                                                  mainAxisAlignment: MainAxisAlignment.end,
                                                                   children: [
                                                                     Image.asset(
                                                                       'assets/images/logo_cheac_wa.png',
@@ -1697,10 +1252,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                                     const SizedBox(
                                                                       width: 2,
                                                                     ),
-                                                                    Text(
-                                                                        formattedTime,
-                                                                        style:
-                                                                            subGreyTextStyle)
+                                                                    Text(formattedTime, style: subGreyTextStyle)
                                                                   ],
                                                                 )
                                                               ],
@@ -1711,34 +1263,22 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                             left: 80,
                                                             child: Container(
                                                               width: 200,
-                                                              child:
-                                                                  ElevatedButton(
-                                                                style: ElevatedButton
-                                                                    .styleFrom(
-                                                                  backgroundColor: Colors
-                                                                      .grey
-                                                                      .withOpacity(
-                                                                          0.5), // background
+                                                              child: ElevatedButton(
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: Colors.grey.withOpacity(0.5), // background
                                                                 ),
                                                                 onPressed: () {
-                                                                  Navigator
-                                                                      .push(
+                                                                  Navigator.push(
                                                                     context,
                                                                     MaterialPageRoute(
-                                                                      builder:
-                                                                          ((context) =>
-                                                                              PreviewImage(
-                                                                                path: msglist![index].mediaChatMessages,
-                                                                                senderId: widget.receiverBy.toString(),
-                                                                              )),
+                                                                      builder: ((context) => PreviewImage(
+                                                                            path: msglist![index].mediaChatMessages,
+                                                                            senderId: widget.receiverBy.toString(),
+                                                                          )),
                                                                     ),
                                                                   );
                                                                 },
-                                                                child: Text(msglist![
-                                                                        index]
-                                                                    .mediaChatMessages!
-                                                                    .length
-                                                                    .toString()),
+                                                                child: Text(msglist![index].mediaChatMessages!.length.toString()),
                                                               ),
                                                             ),
                                                           ),
@@ -1748,17 +1288,13 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                                   )
                                                 : ChatLeft(
                                                     image: widget.image,
-                                                    nameDoctor:
-                                                        widget.receiverBy,
+                                                    nameDoctor: widget.receiverBy,
                                                     timetitle: formattedTime,
                                                     color: subwhiteColor,
-                                                    title: msglist![index]
-                                                        .message
-                                                        .toString(),
+                                                    title: msglist![index].message.toString(),
                                                   ),
                                       );
-                                    } else if (msglist![index].senderId ==
-                                        widget.receiverId) {
+                                    } else if (msglist![index].senderId == widget.receiverId) {
                                       return ChatLeft(
                                         image: widget.image,
                                         // imgUser: 'assets/images/doctor-img.png',
@@ -1766,8 +1302,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                         nameDoctor: widget.receiverBy,
                                         timetitle: formattedTime,
                                         color: subwhiteColor,
-                                        title:
-                                            msglist![index].message.toString(),
+                                        title: msglist![index].message.toString(),
                                       );
                                     } else {
                                       Container();
@@ -1776,8 +1311,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                             )
                           : Container(),
                       FutureBuilder(
-                          future:
-                              state.getDetailConsltation(context, widget.id!),
+                          future: state.getDetailConsltation(context, widget.id!),
                           builder: (context, snapshot) {
                             if (state.status.value == 'SELESAI') {
                               return Container(
@@ -1839,23 +1373,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                           child: Container(
                             height: 150,
                             width: 420,
-                            decoration: BoxDecoration(
-                                color: whiteColor,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(7),
-                                    topRight: Radius.circular(7))),
+                            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(7))),
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount:
-                                    Get.put(DoctorConsultationController())
-                                        .quickReplyChat
-                                        .length,
+                                itemCount: Get.put(DoctorConsultationController()).quickReplyChat.length,
                                 itemBuilder: ((context, index) {
                                   return GestureDetector(
                                     onTap: () async {
-                                      String desc = Get.put(
-                                              DoctorConsultationController())
-                                          .quickReplyChat[index]['message'];
+                                      String desc = Get.put(DoctorConsultationController()).quickReplyChat[index]['message'];
                                       await sendMessage(
                                         widget.roomId ?? 0,
                                         widget.roomId ?? 0,
@@ -1874,9 +1399,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Text(Get.put(
-                                              DoctorConsultationController())
-                                          .quickReplyChat[index]['shortcut']),
+                                      child: Text(Get.put(DoctorConsultationController()).quickReplyChat[index]['shortcut']),
                                     ),
                                   );
                                 })),

@@ -14,8 +14,7 @@ class AddTreatmentPage extends StatefulWidget {
 }
 
 class AddTreatmentPageState extends State<AddTreatmentPage> {
-  final TreatmentRecommendationController state =
-      Get.put(TreatmentRecommendationController());
+  final TreatmentRecommendationController state = Get.put(TreatmentRecommendationController());
 
   List dataClinic = [];
   var clinickName;
@@ -62,7 +61,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                     width: 5,
                   ),
                   Text(
-                    'Tambah Template Treatmen',
+                    'Tambah Template Treatment',
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'ProximaNova',
@@ -152,8 +151,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                         fillColor: greenColor,
                         hoverColor: greenColor,
                         hintText: '100000 - 200000',
-                        hintStyle: blackRegulerTextStyle.copyWith(
-                            fontSize: 12, color: blackColor),
+                        hintStyle: blackRegulerTextStyle.copyWith(fontSize: 12, color: blackColor),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: greenColor,
@@ -178,8 +176,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                         fillColor: greenColor,
                         hoverColor: greenColor,
                         hintText: '2 - 3 Hari',
-                        hintStyle: blackRegulerTextStyle.copyWith(
-                            fontSize: 12, color: blackColor),
+                        hintStyle: blackRegulerTextStyle.copyWith(fontSize: 12, color: blackColor),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: greenColor,
@@ -204,8 +201,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                         fillColor: greenColor,
                         hoverColor: greenColor,
                         hintText: 'Non Surgical',
-                        hintStyle: blackRegulerTextStyle.copyWith(
-                            fontSize: 12, color: blackColor),
+                        hintStyle: blackRegulerTextStyle.copyWith(fontSize: 12, color: blackColor),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: greenColor,
@@ -221,9 +217,8 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                     ),
                     SizedBox(height: 10),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         for (var i in state.clinics) print('datas ${i.name}');
-
                       },
                       child: Text(
                         'Klinik',
@@ -249,8 +244,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                           hint: Text('Pilih Klinik'),
                           onChanged: (newVal) {
                             setState(() {
-                              dataClinic.add(
-                                  {'id': newVal!.id, 'name': newVal.name});
+                              dataClinic.add({'id': newVal!.id, 'name': newVal.name});
                               // for (var i in dataClinic) {
                               //   setState(() {
                               //     clinickName = i;
@@ -283,8 +277,7 @@ class AddTreatmentPageState extends State<AddTreatmentPage> {
                                 right: 10,
                               ),
                               decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromRGBO(36, 167, 160, 0.1),
+                                  color: const Color.fromRGBO(36, 167, 160, 0.1),
                                   border: Border.all(
                                     color: greenColor,
                                   ),
