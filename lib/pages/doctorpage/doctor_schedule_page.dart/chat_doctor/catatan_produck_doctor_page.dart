@@ -6,10 +6,12 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen1_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/tambah_treatment_page.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
+import '../../../../core/currency_format.dart';
 import '../../../../core/global.dart';
 import '../../../../theme/theme.dart';
 
@@ -693,7 +695,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      rupiah,
+                                      CurrencyFormat.convertToIdr(
+                                        int.parse(state.listSkincare[index]['price'].toString()),
+                                        0,
+                                      ),
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         fontSize: 13,
@@ -898,13 +903,15 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RekomendasiTreatmen2Page(),
+                        builder: (context) => const TambahTreatmentCatatanDoktor(),
+                        // builder: (context) => const RekomendasiTreatmen2Page(),
                       ),
-                    ).then((value) => {
-                          setState(() {
-                            state.listTreatmentNote;
-                          })
-                        });
+                    ).then((value) => setState(() => state.listTreatmentNote));
+                    // .then((value) => {
+                    //   setState(() {
+                    //     state.listTreatmentNote;
+                    //   })
+                    // });
                   },
                   child: Text(
                     '+ Tambah Treatment',
@@ -979,7 +986,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                         // color: Colors.amberAccent,
 
                                         child: Text(
-                                          state.listTreatmentNote[index]['cost'],
+                                          CurrencyFormat.convertToIdr(
+                                            int.parse(state.listTreatmentNote[index]['cost']),
+                                            0,
+                                          ),
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 12,

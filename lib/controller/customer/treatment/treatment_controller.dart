@@ -200,6 +200,8 @@ class TreatmentController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
+    print('controler ${search}');
+    dataTreatment.value = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data = await TreatmentService().getAllTreatment(
         page,
@@ -209,6 +211,7 @@ class TreatmentController extends StateClass {
       responseTreatment.value = data;
       dataTreatment.value.addAll(responseTreatment.value.data!.data!);
     });
+    print('length ${dataTreatment.length}');
     isLoading.value = false;
     return responseTreatment.value.data!.data!;
   }

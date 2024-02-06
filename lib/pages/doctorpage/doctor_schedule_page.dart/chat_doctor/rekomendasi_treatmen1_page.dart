@@ -13,15 +13,12 @@ class RekomendasiTreatmen1Page extends StatefulWidget {
   const RekomendasiTreatmen1Page({super.key});
 
   @override
-  State<RekomendasiTreatmen1Page> createState() =>
-      _RekomendasiTreatmen1PageState();
+  State<RekomendasiTreatmen1Page> createState() => _RekomendasiTreatmen1PageState();
 }
 
 class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
-  final TreatmentRecommendationController state =
-      Get.put(TreatmentRecommendationController());
-  final DoctorConsultationController stateDoctor =
-      Get.put(DoctorConsultationController());
+  final TreatmentRecommendationController state = Get.put(TreatmentRecommendationController());
+  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
 
   @override
   void initState() {
@@ -42,9 +39,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
               onPressed: () async {
                 String refresh = await Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          const RekomendasiTreatmen2Page()),
+                  MaterialPageRoute(builder: (BuildContext context) => const RekomendasiTreatmen2Page()),
                 );
 
                 if (refresh == 'refresh') {
@@ -94,8 +89,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
               isLoading: state.isLoading.value,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 20, left: 20, right: 20, bottom: 50),
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 50),
                   child: Column(
                     children: [
                       Container(
@@ -105,21 +99,16 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                         ),
                         child: Row(children: [
                           Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                              padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Container(
                                 height: 12,
                                 width: 12,
-                                decoration: const BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/icons/search1.png'))),
+                                decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/icons/search1.png'))),
                               )),
                           Container(
                             constraints: const BoxConstraints(maxWidth: 280),
                             child: TextFormField(
-                              style: const TextStyle(
-                                  fontSize: 15, fontFamily: 'ProximaNova'),
+                              style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
                               decoration: InputDecoration(
                                 hintText: 'Cari Resep',
                                 border: InputBorder.none,
@@ -139,16 +128,15 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                       ),
                       ListView.builder(
                         shrinkWrap: true,
-                        keyboardDismissBehavior:
-                            ScrollViewKeyboardDismissBehavior.onDrag,
+                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: state.treatmentDatas.length,
                         itemBuilder: (BuildContext context, int index) {
                           return InkWell(
                             onTap: () {
-                              for (var i in state.treatmentDatas[index]
-                                  .recipeRecomendationTreatmentItems!) {
-                                stateDoctor.listTreatmentNote.add(i.toJson());
+                              for (var i in state.treatmentDatas[index].recipeRecomendationTreatmentItems!) {
+                                // i.toJson()
+                                stateDoctor.listTreatmentNote.add({'name': i.name, 'cost': i.cost, 'recovery_time': i.recoveryTime, 'type': i.type});
                                 print(i.toJson().toString());
                               }
                               Navigator.pop(context, 'refresh');
@@ -168,34 +156,18 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 15, top: 10, bottom: 10),
+                                        padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                              state.treatmentDatas[index]
-                                                      .title ??
-                                                  '',
-                                              style: TextStyle(
-                                                  fontWeight: bold,
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 15,
-                                                  letterSpacing: 0.5),
+                                              state.treatmentDatas[index].title ?? '',
+                                              style: TextStyle(fontWeight: bold, fontFamily: 'ProximaNova', fontSize: 15, letterSpacing: 0.5),
                                             ),
                                             Text(
-                                              state.treatmentDatas[index]
-                                                      .subtitle ??
-                                                  '',
-                                              style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 12,
-                                                  color:
-                                                      fromCssColor('#A3A3A3'),
-                                                  letterSpacing: 0.5),
+                                              state.treatmentDatas[index].subtitle ?? '',
+                                              style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, color: fromCssColor('#A3A3A3'), letterSpacing: 0.5),
                                             ),
                                           ],
                                         ),
@@ -207,8 +179,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                                       // setState(() {
                                       //   state.treatmentDatas.removeAt(index);
                                       // });
-                                      state.deleteTreatment(context,
-                                          state.treatmentDatas[index].id!);
+                                      state.deleteTreatment(context, state.treatmentDatas[index].id!);
                                       setState(() {
                                         // state.getRecipeTreatement(context);
                                         state.treatmentDatas;
@@ -223,11 +194,8 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                                       String refresh = await Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: ((context) =>
-                                                RekomendasiTreatmen3Page(
-                                                  id: state
-                                                      .treatmentDatas[index]
-                                                      .id!,
+                                            builder: ((context) => RekomendasiTreatmen3Page(
+                                                  id: state.treatmentDatas[index].id!,
                                                 )),
                                           ));
                                       if (refresh == 'refresh') {
