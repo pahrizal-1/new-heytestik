@@ -15,6 +15,7 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -396,8 +397,66 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                       height: 6,
                     ),
                     InkWell(
-                      onTap: () async {
-                        await _whatsapp();
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) => Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 300,
+                                width: 300,
+                                decoration: BoxDecoration(
+                                  color: whiteColor,
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, top: 33, bottom: 48),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.keyboard_arrow_left,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          DefaultTextStyle(
+                                            style: blackHigtTextStyle.copyWith(
+                                                fontSize: 20),
+                                            child:
+                                                Text('Jadwal Ulang Perawatan'),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30),
+                                      child: DefaultTextStyle(
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 15),
+                                        child: Text(
+                                            'Pastikan penjadwalan ulang dilakukan untuk H-1 sebelum perawatan dilakukan. Silakan lakukan penjadwalan ulang waktu perawatan kamu disini ya.'),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 39,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30),
+                                      child: ButtonGreenWidget(title: 'Lanjut'),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       },
                       child: const TextFromPerawat(
                         title: 'Jadwal Ulang Perawatan',
