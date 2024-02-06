@@ -581,7 +581,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                   Row(
                                     children: [
                                       Text(
-                                        'Berakhir',
+                                        'Durasi',
                                         style: subTitleTextStyle.copyWith(
                                           fontSize: 14,
                                         ),
@@ -589,71 +589,377 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                       SizedBox(
                                         width: 11,
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.only(
-                                            left: 11, right: 11, top: 0),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                            color: borderColor,
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.access_time,
-                                              color: subTitleColor,
-                                              size: 20,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            DropdownButtonHideUnderline(
-                                              child: DropdownButton<int>(
-                                                value: days,
-                                                icon: Icon(
-                                                  Icons.keyboard_arrow_down,
-                                                  color: subTitleColor,
-                                                ),
-                                                onChanged: (int? value) {
-                                                  setState(() {
-                                                    days = value!;
-                                                  });
-                                                },
-                                                items: [1, 2, 3, 4, 5, 6, 7]
-                                                    .map<DropdownMenuItem<int>>(
-                                                        (int value) {
-                                                  return DropdownMenuItem<int>(
-                                                    value: value,
-                                                    child: Text(
-                                                      "$value Hari",
-                                                      style: subTitleTextStyle
-                                                          .copyWith(
-                                                              fontSize: 14),
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      GestureDetector(
+                                      InkWell(
                                         onTap: () {
-                                          optionController.removeLast();
-                                          setState(() {});
+                                          customeshomodal(
+                                              context,
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 30,
+                                                        vertical: 45),
+                                                child: Wrap(
+                                                  children: [
+                                                    Text(
+                                                      'Polling Berakhir',
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                              fontSize: 20),
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 24,
+                                                            ),
+                                                            Text(
+                                                              'Hari',
+                                                              style: subTitleTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 14,
+                                                            ),
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          2),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7),
+                                                                border:
+                                                                    Border.all(
+                                                                  color:
+                                                                      subTitleColor,
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    '1',
+                                                                    style: blackTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_up,
+                                                                        color:
+                                                                            blackColor,
+                                                                      ),
+                                                                      Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_down,
+                                                                        color:
+                                                                            blackColor,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 47,
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 24,
+                                                            ),
+                                                            Text(
+                                                              'Jam',
+                                                              style: subTitleTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 14,
+                                                            ),
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          2),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7),
+                                                                border:
+                                                                    Border.all(
+                                                                  color:
+                                                                      subTitleColor,
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    '1',
+                                                                    style: blackTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_up,
+                                                                        color:
+                                                                            blackColor,
+                                                                      ),
+                                                                      Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_down,
+                                                                        color:
+                                                                            blackColor,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          width: 47,
+                                                        ),
+                                                        Column(
+                                                          children: [
+                                                            SizedBox(
+                                                              height: 24,
+                                                            ),
+                                                            Text(
+                                                              'Detik',
+                                                              style: subTitleTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 14,
+                                                            ),
+                                                            Container(
+                                                              padding: EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          10,
+                                                                      vertical:
+                                                                          2),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            7),
+                                                                border:
+                                                                    Border.all(
+                                                                  color:
+                                                                      subTitleColor,
+                                                                ),
+                                                              ),
+                                                              child: Row(
+                                                                children: [
+                                                                  Text(
+                                                                    '1',
+                                                                    style: blackTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                  SizedBox(
+                                                                    width: 10,
+                                                                  ),
+                                                                  Column(
+                                                                    children: [
+                                                                      Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_up,
+                                                                        color:
+                                                                            blackColor,
+                                                                      ),
+                                                                      Icon(
+                                                                        Icons
+                                                                            .keyboard_arrow_down,
+                                                                        color:
+                                                                            blackColor,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        )
+                                                      ],
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              top: 10),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        children: [
+                                                          Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        15,
+                                                                    vertical:
+                                                                        2),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border.all(
+                                                                  color:
+                                                                      greenColor),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7),
+                                                            ),
+                                                            child: Text(
+                                                              'batal',
+                                                              style: whiteTextStyle
+                                                                  .copyWith(
+                                                                      color:
+                                                                          borderColor,
+                                                                      fontSize:
+                                                                          15),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 15,
+                                                          ),
+                                                          Container(
+                                                            padding: EdgeInsets
+                                                                .symmetric(
+                                                                    horizontal:
+                                                                        15,
+                                                                    vertical:
+                                                                        2),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color: greenColor,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          7),
+                                                            ),
+                                                            child: Text(
+                                                              'Simpan',
+                                                              style: whiteTextStyle
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          15),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ));
                                         },
-                                        child: Text(
-                                          'Hapus',
-                                          style: subTitleTextStyle.copyWith(
-                                            fontSize: 14,
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              left: 11, right: 11, top: 0),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: borderColor,
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.access_time,
+                                                color: subTitleColor,
+                                                size: 20,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                '0 hari : 0 jam : 0 Detik',
+                                                style: subTitleTextStyle,
+                                              ),
+                                              Icon(
+                                                Icons.keyboard_arrow_down,
+                                                color: subTitleColor,
+                                              )
+                                              // DropdownButtonHideUnderline(
+                                              //   child: DropdownButton<int>(
+                                              //     value: days,
+                                              //     icon: Icon(
+                                              //       Icons.keyboard_arrow_down,
+                                              //       color: subTitleColor,
+                                              //     ),
+                                              //     onChanged: (int? value) {
+                                              //       setState(() {
+                                              //         days = value!;
+                                              //       });
+                                              //     },
+                                              //     items: [1, 2, 3, 4, 5, 6, 7]
+                                              //         .map<DropdownMenuItem<int>>(
+                                              //             (int value) {
+                                              //       return DropdownMenuItem<int>(
+                                              //         value: value,
+                                              //         child: Text(
+                                              //           "$value Hari",
+                                              //           style: subTitleTextStyle
+                                              //               .copyWith(
+                                              //                   fontSize: 14),
+                                              //         ),
+                                              //       );
+                                              //     }).toList(),
+                                              //   ),
+                                              // ),
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ],
-                                  )
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  GestureDetector(
+                                    onTap: () {
+                                      optionController.removeLast();
+                                      setState(() {});
+                                    },
+                                    child: Center(
+                                      child: Text(
+                                        'Hapus',
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 14, color: redColor),
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
