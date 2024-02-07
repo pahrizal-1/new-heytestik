@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
-import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
 import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
@@ -143,85 +142,218 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
       ),
       body: ListView(
         children: [
-          FutureBuilder(
-            future: state.getSlideShow(context),
-            builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
-              print("DATA INI");
-              print(snapshot.data);
-              if (!snapshot.hasData) {
-                return shimmerWidget(
-                  child: CarouselSlider(
-                    options: CarouselOptions(height: 184.0),
-                    items: [1, 2, 3, 4, 5].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(7)),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                );
-              }
+          // FutureBuilder(
+          //   future: state.getSlideShow(context),
+          //   builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
+          //     if (!snapshot.hasData) {
+          //       return shimmerWidget(
+          //         child: CarouselSlider(
+          //           options: CarouselOptions(height: 184.0),
+          //           items: [1, 2, 3, 4, 5].map((i) {
+          //             return Builder(
+          //               builder: (BuildContext context) {
+          //                 return Container(
+          //                   width: MediaQuery.of(context).size.width,
+          //                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
+          //                   decoration: BoxDecoration(
+          //                       color: Colors.amber,
+          //                       borderRadius: BorderRadius.circular(7)),
+          //                 );
+          //               },
+          //             );
+          //           }).toList(),
+          //         ),
+          //       );
+          //     }
 
-              return snapshot.data!.data!.isEmpty
-                  ? shimmerWidget(
-                      child: CarouselSlider(
-                        options: CarouselOptions(height: 184.0),
-                        items: [1, 2, 3, 4, 5].map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(7)),
-                              );
-                            },
-                          );
-                        }).toList(),
+          //     return snapshot.data!.data!.isEmpty
+          //         ? shimmerWidget(
+          //             child: CarouselSlider(
+          //               options: CarouselOptions(height: 184.0),
+          //               items: [1, 2, 3, 4, 5].map((i) {
+          //                 return Builder(
+          //                   builder: (BuildContext context) {
+          //                     return Container(
+          //                       width: MediaQuery.of(context).size.width,
+          //                       margin:
+          //                           const EdgeInsets.symmetric(horizontal: 5.0),
+          //                       decoration: BoxDecoration(
+          //                           color: Colors.amber,
+          //                           borderRadius: BorderRadius.circular(7)),
+          //                     );
+          //                   },
+          //                 );
+          //               }).toList(),
+          //             ),
+          //           )
+          //         : CarouselSlider(
+          //             options: CarouselOptions(
+          //               height: 170,
+          //               autoPlay: false,
+          //               initialPage: 2,
+          //               autoPlayAnimationDuration: const Duration(seconds: 3),
+          //             ),
+          //             items: snapshot.data!.data!.map<Widget>((value) {
+          //               return Builder(
+          //                 builder: (BuildContext context) {
+          //                   return InkWell(
+          //                     onTap: () {
+          //                       _launchURL(value.link.toString());
+          //                     },
+          //                     child: Container(
+          //                       width: MediaQuery.of(context).size.width,
+          //                       margin:
+          //                           const EdgeInsets.symmetric(horizontal: 5.0),
+          //                       decoration: BoxDecoration(
+          //                         image: const DecorationImage(
+          //                           fit: BoxFit.cover,
+          //                           image:
+          //                               AssetImage('assets/images/home1.png'),
+          //                         ),
+          //                         borderRadius: BorderRadius.circular(10),
+          //                       ),
+          //                     ),
+          //                   );
+          //                 },
+          //               );
+          //             }).toList(),
+          //           );
+          //   },
+          // ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: FutureBuilder(
+                future: stateNews.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: '',
+                  tagId: '',
+                ),
+                builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
+                  if (!snapshot.hasData) {
+                    return shimmerWidget(
+                        child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 100,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  : CarouselSlider(
-                      options: CarouselOptions(
-                        height: 170,
-                        autoPlay: false,
-                        initialPage: 2,
-                        autoPlayAnimationDuration: const Duration(seconds: 3),
-                      ),
-                      items: snapshot.data!.data!.map<Widget>((value) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return InkWell(
-                              onTap: () {
-                                _launchURL(value.link.toString());
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home1.png'),
+                    ));
+                  }
+                  return snapshot.data!.record!.isEmpty
+                      ? shimmerWidget(
+                          child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 5, bottom: 5),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 100,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ))
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (int index = 0;
+                                index < snapshot.data!.record!.length;
+                                index++)
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => ViewDetailBeutyStreamPage(
+                                      categoryId: snapshot
+                                          .data!.record![index].newscategoryId
+                                          .toString(),
+                                      category: snapshot.data!.record![index]
+                                                  .newscategoryId ==
+                                              '1'
+                                          ? 'Treatment'
+                                          : snapshot.data!.record![index]
+                                                      .newscategoryId
+                                                      .toString() ==
+                                                  '2'
+                                              ? 'Skincare'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '3'
+                                                  ? 'Concern'
+                                                  : '-',
+                                      detailNews: snapshot.data!.record![index],
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Container(
+                                    width: 250,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          snapshot
+                                              .data!.record![index].thumbLink
+                                              .toString(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            );
-                          },
+                          ],
                         );
-                      }).toList(),
-                    );
-            },
+                },
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,
@@ -370,7 +502,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           FutureBuilder(
             future: state.getSnipsTips(context),
             builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
-              print(snapshot.data);
               if (!snapshot.hasData) {
                 return shimmerWidget(
                   child: CarouselSlider(
@@ -382,8 +513,9 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                             width: MediaQuery.of(context).size.width,
                             margin: const EdgeInsets.symmetric(horizontal: 5.0),
                             decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(7)),
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(7),
+                            ),
                           );
                         },
                       );
@@ -586,25 +718,24 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                     ),
                                     Row(
                                       children: [
-                                        Obx(
-                                          () => Container(
-                                            height: 30,
-                                            width: 30,
-                                            decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                fit: BoxFit.cover,
-                                                image: stateProfile
-                                                            .imgNetwork.value !=
-                                                        ""
-                                                    ? NetworkImage(
-                                                            '${Global.FILE}/${stateProfile.imgNetwork.value}')
-                                                        as ImageProvider
-                                                    : AssetImage(
-                                                        'assets/images/profiledummy.png'),
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: value.doctor
+                                                          ?.mediaUserProfilePicture !=
+                                                      null
+                                                  ? NetworkImage(
+                                                      '${Global.FILE}/${value.doctor?.mediaUserProfilePicture?.media?.path}',
+                                                    ) as ImageProvider
+                                                  : AssetImage(
+                                                      'assets/images/profiledummy.png',
+                                                    ),
                                             ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
                                           ),
                                         ),
                                         const SizedBox(
@@ -644,6 +775,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                     );
             },
           ),
+
           // SingleChildScrollView(
           //   scrollDirection: Axis.horizontal,
           //   child: Padding(
@@ -1042,7 +1174,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               InkWell(
                                 onTap: () {
                                   Get.to(
-                                    ViewDetailBeutyStreamPage(
+                                    () => ViewDetailBeutyStreamPage(
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),
@@ -1283,7 +1415,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               InkWell(
                                 onTap: () {
                                   Get.to(
-                                    ViewDetailBeutyStreamPage(
+                                    () => ViewDetailBeutyStreamPage(
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),
