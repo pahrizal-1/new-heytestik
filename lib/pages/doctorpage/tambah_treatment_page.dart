@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -20,6 +21,7 @@ class TambahTreatmentCatatanDoktor extends StatefulWidget {
 
 class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDoktor> {
   final TreatmentController state = Get.put(TreatmentController());
+  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
   TextEditingController searchController = TextEditingController();
   String type = '';
   int rating = 0;
@@ -37,8 +39,8 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
       treatments.addAll(await state.getAllTreatment(
         context,
         page,
-        search: search,
-        filter: filter,
+        // search: search,
+        // filter: filter,
       ));
     });
   }
@@ -55,6 +57,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
           children: [
             InkWell(
               onTap: () {
+                // stateDoctor.listTreatmentNote = [];
                 Navigator.pop(
                   context,
                 );
@@ -75,14 +78,16 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
             const Spacer(),
             InkWell(
               onTap: () {
-                // if (stateDoctor.listSkincare.isNotEmpty && stateDoctor.notesSkincare.isNotEmpty && stateDoctor.listItemCount!.isNotEmpty) {
-                //   Navigator.pop(context, 'refresh');
-                // } else {
-                //   showDialog(
-                //     context: context,
-                //     builder: (context) => AlertWidget(subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
-                //   );
-                // }
+                if (stateDoctor.listTreatmentNote.isNotEmpty) {
+                  Navigator.pop(
+                    context,
+                  );
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertWidget(subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
+                  );
+                }
               },
               child: Text(
                 'Simpan',
@@ -112,7 +117,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                             onFieldSubmitted: (v) {
                               if (searchController.text == '') {
                                 setState(() {
-                                  state.getAllTreatment(context, 1);
+                                  state.getAllTreatment(context, 1, search: '');
                                 });
                               } else {
                                 setState(() {
@@ -235,81 +240,80 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 22, right: 22),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      for (var i = 0; i < treatments.length; i++)
-                        ProductTreatmentDoctor(
-                          treatmentData: treatments[i],
-                          namaKlinik: treatments[i].clinic?.name ?? '-',
-                          namaTreatmen: treatments[i].name ?? '-',
-                          diskonProduk: '0',
-                          hargaDiskon: '0',
-                          harga: treatments[i].price!.toString(),
-                          urlImg: treatments[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${treatments[i].mediaTreatments![0].media!.path!}",
-                          rating: '${treatments[i].rating} (0k)',
-                          km: '${treatments[i].distance ?? '0'} km',
-                          lokasiKlinik: treatments[i].clinic?.city?.name ?? '-',
-                          iconPlus: InkWell(
-                            onTap: () {
-                              if (toogle.contains(i)) {
-                                setState(() => toogle.remove(i));
-                              } else {
-                                setState(() {
-                                  toogle.add(i);
-                                });
-                              }
-                              print('e ${i}');
-                            },
-                            child: Container(
-                              height: 29,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(9),
-                                border: Border.all(color: greenColor),
-                              ),
-                              child: toogle.contains(i)
-                                  ? Center(
-                                      child: Text(
-                                        '-',
-                                        style: grenTextStyle.copyWith(fontSize: 20),
-                                      ),
-                                    )
-                                  : Icon(
-                                      Icons.add,
-                                      color: greenColor,
-                                    ),
-                            ),
-                          ),
-                        )
-                      //     treatments.map((element) {
-                      //   return ProductTreatmentDoctor(
-                      //     treatmentData: element,
-                      //     namaKlinik: element.clinic?.name ?? '-',
-                      //     namaTreatmen: element.name ?? '-',
-                      //     diskonProduk: '0',
-                      //     hargaDiskon: '0',
-                      //     harga: element.price!.toString(),
-                      //     urlImg: element.mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                      //     rating: '${element.rating} (0k)',
-                      //     km: '${element.distance ?? '0'} km',
-                      //     lokasiKlinik: element.clinic?.city?.name ?? '-',
-                      //     iconPlus: InkWell(
-                      //       onTap: () {
-                      //         print('e ${element}');
-                      //       },
-                      //       child: Container(
-                      //         decoration: BoxDecoration(
-                      //           borderRadius: BorderRadius.circular(9),
-                      //           border: Border.all(color: greenColor),
-                      //         ),
-                      //         child: Icon(
-                      //           Icons.add,
-                      //           color: greenColor,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   );
-                      // }).toList(),
-                    ]),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        state.isLoading.value
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : Container(
+                                child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.dataTreatment.length,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, i) {
+                                      return ProductTreatmentDoctor(
+                                        treatmentData: state.dataTreatment[i],
+                                        namaKlinik: state.dataTreatment[i].clinic?.name ?? '-',
+                                        recovTime: state.dataTreatment[i].downtime ?? '-',
+                                        typeTreatment: state.dataTreatment[i].treatmentType ?? '-',
+                                        namaTreatmen: state.dataTreatment[i].name ?? '-',
+                                        diskonProduk: '0',
+                                        hargaDiskon: '0',
+                                        harga: state.dataTreatment[i].price!.toString(),
+                                        urlImg: state.dataTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.dataTreatment[i].mediaTreatments![0].media!.path!}",
+                                        rating: '${state.dataTreatment[i].rating} (0k)',
+                                        km: '${state.dataTreatment[i].distance ?? '0'} km',
+                                        lokasiKlinik: state.dataTreatment[i].clinic?.city?.name ?? '-',
+                                        iconPlus: InkWell(
+                                          onTap: () {
+                                            if (toogle.contains(i)) {
+                                              setState(() {
+                                                toogle.remove(i);
+                                                stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
+                                                print('delete ${stateDoctor.listTreatmentNote}');
+                                              });
+                                            } else {
+                                              setState(() {
+                                                toogle.add(i);
+                                                stateDoctor.listTreatmentNote.add({
+                                                  'name': state.dataTreatment[i].name ?? '-',
+                                                  'cost': state.dataTreatment[i].price!.toString(),
+                                                  'recovery_time': state.dataTreatment[i].downtime ?? '-',
+                                                  'type': state.dataTreatment[i].treatmentType ?? '-',
+                                                });
+                                                print('list ${stateDoctor.listTreatmentNote}');
+                                                // stateDoctor.listTreatmentNote.add();
+                                              });
+                                            }
+                                            print('e ${i}');
+                                          },
+                                          child: Container(
+                                            height: 29,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(9),
+                                              border: Border.all(color: greenColor),
+                                            ),
+                                            child: toogle.contains(i)
+                                                ? Center(
+                                                    child: Text(
+                                                      '-',
+                                                      style: grenTextStyle.copyWith(fontSize: 20),
+                                                    ),
+                                                  )
+                                                : Icon(
+                                                    Icons.add,
+                                                    color: greenColor,
+                                                  ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              )
+                      ],
+                    ),
                   ),
                 ),
               ),

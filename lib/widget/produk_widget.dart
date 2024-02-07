@@ -278,6 +278,8 @@ class ProdukObat extends StatelessWidget {
 class ProductTreatmentDoctor extends StatelessWidget {
   final String namaKlinik;
   final String namaTreatmen;
+  final String recovTime;
+  final String typeTreatment;
   final String lokasiKlinik;
   final String diskonProduk;
   final String hargaDiskon;
@@ -292,6 +294,8 @@ class ProductTreatmentDoctor extends StatelessWidget {
     super.key,
     required this.namaKlinik,
     required this.namaTreatmen,
+    required this.recovTime,
+    required this.typeTreatment,
     required this.diskonProduk,
     required this.hargaDiskon,
     required this.harga,
@@ -321,19 +325,63 @@ class ProductTreatmentDoctor extends StatelessWidget {
       child: Row(
         children: [
           // image
-          Container(
-            width: MediaQuery.of(context).size.width / 3,
-            // constraints: const BoxConstraints(maxWidth: 250),
-            // height: 107,
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(7),
-                topRight: Radius.circular(7),
-              ),
-              image: DecorationImage(
-                image: NetworkImage(urlImg),
-                fit: BoxFit.cover,
-              ),
+          // Container(
+          //   width: MediaQuery.of(context).size.width / 3,
+          //   // constraints: const BoxConstraints(maxWidth: 250),
+          //   // height: 107,
+          //   decoration: BoxDecoration(
+          //     borderRadius: const BorderRadius.only(
+          //       topLeft: Radius.circular(7),
+          //       topRight: Radius.circular(7),
+          //     ),
+          //     image: DecorationImage(
+          //       image: NetworkImage(urlImg),
+          //       fit: BoxFit.cover,
+          //     ),
+          //   ),
+          // ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  namaTreatmen,
+                  style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis, color: greenColor),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'cost',
+                  style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Recov. Time',
+                  style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Type',
+                  style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
             ),
           ),
           SizedBox(
@@ -344,16 +392,8 @@ class ProductTreatmentDoctor extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                namaKlinik,
-                style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
-              ),
-              Text(
-                namaTreatmen,
-                style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
-              ),
               const SizedBox(
-                height: 6,
+                height: 5,
               ),
               if (int.parse(diskonProduk) > 0)
                 Row(
@@ -392,6 +432,14 @@ class ProductTreatmentDoctor extends StatelessWidget {
                   0,
                 ),
                 style: blackHigtTextStyle.copyWith(fontSize: 15),
+              ),
+              Text(
+                recovTime,
+                style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
+              ),
+              Text(
+                typeTreatment,
+                style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
               ),
             ],
           ),

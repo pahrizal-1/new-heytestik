@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 
 import '../theme/theme.dart';
 
@@ -51,9 +52,7 @@ class _CardSkincarePriceState extends State<CardSkincarePrice> {
                   decoration: BoxDecoration(
                     border: Border.all(width: 0.5, color: borderColor),
                     image: DecorationImage(
-                      image: widget.urlImg != null
-                          ? NetworkImage(widget.urlImg) as ImageProvider
-                          : AssetImage(widget.urlImg),
+                      image: widget.urlImg != null ? NetworkImage(widget.urlImg) as ImageProvider : AssetImage(widget.urlImg),
                     ),
                   ),
                 ),
@@ -66,9 +65,7 @@ class _CardSkincarePriceState extends State<CardSkincarePrice> {
                     Container(
                       constraints: const BoxConstraints(maxWidth: 150),
                       child: RichText(
-                        text: TextSpan(
-                            text: widget.nameTitle,
-                            style: grenTextStyle.copyWith(fontSize: 15)),
+                        text: TextSpan(text: widget.nameTitle, style: grenTextStyle.copyWith(fontSize: 15)),
                       ),
                     ),
                     const SizedBox(
@@ -83,7 +80,10 @@ class _CardSkincarePriceState extends State<CardSkincarePrice> {
                       height: 10,
                     ),
                     Text(
-                      widget.harga,
+                      CurrencyFormat.convertToIdr(
+                        int.parse(widget.harga),
+                        0,
+                      ),
                       style: blackTextStyle.copyWith(fontSize: 13),
                     ),
                   ],
