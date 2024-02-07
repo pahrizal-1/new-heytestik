@@ -243,7 +243,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         child: Row(
                           children: [
                             Container(
-                              height: 100,
+                              height: 200,
                               width: 300,
                               decoration: BoxDecoration(
                                 color: greyColor.withOpacity(0.9),
@@ -254,7 +254,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               width: 10,
                             ),
                             Container(
-                              height: 100,
+                              height: 200,
                               width: 300,
                               decoration: BoxDecoration(
                                 color: greyColor.withOpacity(0.9),
@@ -276,7 +276,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                             child: Row(
                               children: [
                                 Container(
-                                  height: 100,
+                                  height: 200,
                                   width: 300,
                                   decoration: BoxDecoration(
                                     color: greyColor.withOpacity(0.9),
@@ -287,7 +287,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                   width: 10,
                                 ),
                                 Container(
-                                  height: 100,
+                                  height: 200,
                                   width: 300,
                                   decoration: BoxDecoration(
                                     color: greyColor.withOpacity(0.9),

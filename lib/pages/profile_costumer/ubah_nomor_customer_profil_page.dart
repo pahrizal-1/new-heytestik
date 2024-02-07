@@ -80,6 +80,7 @@ class _UbahNomorCustomerProfilPageState
               height: 40,
               child: TextFormField(
                 controller: state.nomorHpController,
+                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(

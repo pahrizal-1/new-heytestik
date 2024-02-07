@@ -393,7 +393,6 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           MaterialPageRoute(
                             builder: (context) =>
                                 const UbahNomorCustomerProfilPage(),
-                            // const PilihMetodeVerifikasiProfil(),
                           ),
                         );
                         if (refresh == 'refresh') {
@@ -444,8 +443,10 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           });
                         }
                       },
-                      title2: DateFormat('dd-MM-yyyy')
-                          .format(DateTime.parse(state.dob.value)),
+                      title2: state.dob.isNotEmpty
+                          ? DateFormat('dd-MM-yyyy')
+                              .format(DateTime.parse(state.dob.value))
+                          : '-',
                       titlel: 'Tanggal Lahir',
                     )
                   ],
@@ -515,8 +516,7 @@ class TextProfil extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 170),
+          Expanded(
             child: RichText(
               text: TextSpan(
                 text: title2,
