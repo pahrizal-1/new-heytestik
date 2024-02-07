@@ -10,19 +10,18 @@ import 'package:heystetik_mobileapps/core/current_time.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart'
-    as RecentChat;
+import 'package:heystetik_mobileapps/models/chat/recent_chat_model.dart' as RecentChat;
 import 'package:heystetik_mobileapps/models/doctor/current_schedule_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/list_message_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 // import 'package:heystetik_mobileapps/service/doctor/consultation_schedule/consultation_schedule_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/convert_date.dart';
-import '../../../models/doctor/detail_constultation_model.dart'
-    as DetailConstultaion;
+import '../../../models/doctor/detail_constultation_model.dart' as DetailConstultaion;
 import '../../../models/doctor/find_doctor_note_model.dart' as DoctorNote;
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -31,8 +30,7 @@ import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_se
 
 class DoctorConsultationController extends StateClass {
   RxInt wigetIndex = 0.obs;
-  Rx<CurrentDoctorScheduleModel?> currentSchedule =
-      CurrentDoctorScheduleModel.fromJson({}).obs;
+  Rx<CurrentDoctorScheduleModel?> currentSchedule = CurrentDoctorScheduleModel.fromJson({}).obs;
   RxInt currentScheduleId = 0.obs;
   RxString startTime = ''.obs;
   RxString endTime = ''.obs;
@@ -59,10 +57,8 @@ class DoctorConsultationController extends StateClass {
   RxBool isSecondSchedule = false.obs;
   RxInt doctorId = 0.obs;
 
-  Rx<RecentChat.RecentChatModel?> recentChat =
-      RecentChat.RecentChatModel.fromJson({}).obs;
-  Rx<DetailConstultaion.ConsultationDetailModel?> constultaionDetail =
-      DetailConstultaion.ConsultationDetailModel.fromJson({}).obs;
+  Rx<RecentChat.RecentChatModel?> recentChat = RecentChat.RecentChatModel.fromJson({}).obs;
+  Rx<DetailConstultaion.ConsultationDetailModel?> constultaionDetail = DetailConstultaion.ConsultationDetailModel.fromJson({}).obs;
   RxInt totalRecentChatActive = 0.obs;
   RxInt totalRecentChatDone = 0.obs;
   List<RecentChat.Data> recentChatActive = [];
@@ -71,8 +67,7 @@ class DoctorConsultationController extends StateClass {
   List<Data2>? msglist = [];
   Rx<DoctorNote.Data> data = DoctorNote.Data.fromJson({}).obs;
   RxList dataDoctorNote = [].obs;
-  Rx<DoctorNote.FindDoctorNoteModel> dataFind =
-      DoctorNote.FindDoctorNoteModel.fromJson({}).obs;
+  Rx<DoctorNote.FindDoctorNoteModel> dataFind = DoctorNote.FindDoctorNoteModel.fromJson({}).obs;
 
   IO.Socket? _socket;
   RxBool isOnline = false.obs;
@@ -83,8 +78,7 @@ class DoctorConsultationController extends StateClass {
 
   TextEditingController messageController = TextEditingController();
   TextEditingController indicationController = TextEditingController();
-  TextEditingController diagnosisPossibilityController =
-      TextEditingController();
+  TextEditingController diagnosisPossibilityController = TextEditingController();
   TextEditingController diagnosisSecondaryController = TextEditingController();
   TextEditingController suggestionController = TextEditingController();
 
@@ -122,11 +116,9 @@ class DoctorConsultationController extends StateClass {
     notesMedicine = [];
   }
 
-  Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(
-      BuildContext context) async {
+  Future<CurrentDoctorScheduleModel?> getCurrentDoctorSchedule(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      currentSchedule.value =
-          await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
+      currentSchedule.value = await ConsultationDoctorScheduleServices().getCurrentDoctorSchedule();
       if (currentSchedule.value!.success!) {
         currentScheduleId.value = currentSchedule.value!.data!.id ?? 0;
         startTime.value = currentSchedule.value!.data!.firstSchedule ?? '-';
@@ -235,13 +227,11 @@ class DoctorConsultationController extends StateClass {
 
       doctorId.value = (await LocalStorage().getUserID())!;
 
-      recentChat.value =
-          await ConsultationDoctorScheduleServices().recentChat();
+      recentChat.value = await ConsultationDoctorScheduleServices().recentChat();
 
       print('recen ' + recentChat.toJson().toString());
 
-      if (recentChat.value!.success != true &&
-          recentChat.value!.message != 'Success') {
+      if (recentChat.value!.success != true && recentChat.value!.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: recentChat.value!.message.toString(),
@@ -288,8 +278,7 @@ class DoctorConsultationController extends StateClass {
 
   // image from camera
   Future openCamera() async {
-    final XFile? pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
+    final XFile? pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
       print('img path $imagePath');
@@ -306,8 +295,7 @@ class DoctorConsultationController extends StateClass {
   Future getDetailConsltation(BuildContext context, int id) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var response =
-          await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
+      var response = await ConsultationDoctorScheduleServices().getDetailConstultaion(id);
       print('data nya bpra ' + response.toString());
 
       listConstulDetail.add(response);
@@ -320,8 +308,7 @@ class DoctorConsultationController extends StateClass {
         status.value = i['status'];
         dateConsultation.value = ConvertDate.defaultDate(i['created_at']);
         pasienName.value = i['customer']['fullname'];
-        topic.value =
-            i['medical_history']['interest_condition']['concern']['name'];
+        topic.value = i['medical_history']['interest_condition']['concern']['name'];
         listPreAssesment.value = [];
         listPreAssesmentImage.value = [];
         for (var e in i['medical_history']['medical_history_items']) {
@@ -361,59 +348,14 @@ class DoctorConsultationController extends StateClass {
 
   postFinishConsultation(BuildContext context, int id) async {
     try {
-      var res =
-          await ConsultationDoctorScheduleServices().postFinishConsultation(id);
+      var res = await ConsultationDoctorScheduleServices().postFinishConsultation(id);
       print('res' + res.toString());
       Navigator.pop(context);
     } catch (e) {
       showDialog(
-          context: context,
-          builder: (_) {
-            return AlertDialog(
-              backgroundColor: Colors.transparent,
-              insetPadding: const EdgeInsets.all(0),
-              content: Container(
-                padding: const EdgeInsets.only(
-                  left: 25,
-                  right: 25,
-                ),
-                height: 210,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                        'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'),
-                    SizedBox(height: 10,),
-                    ButtonGreenWidget(
-                      title: 'Kembali ke home',
-                      onPressed: () {
-                        Get.back();
-                      },
-                    ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
-                ),
-              ),
-            );
-            // return AlertDialog(
-            //     actions: [
-            //       TextButton(
-            //           onPressed: () {
-            //             Navigator.pop(context);
-            //           },
-            //           child: Text('OK'))
-            //     ],
-            //     title: Text('Failed'),
-            //     content: Text(
-            //         'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'));
-          });
+        context: context,
+        builder: (context) => AlertWidget(subtitle: 'Silahkan Tunggu Sampai Dengan jam ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.parse('${endCreatedAt.value}').toUtc().add(Duration(hours: 7, minutes: 00)))}'),
+      );
     }
     // await ErrorConfig.doAndSolveCatchInContext(context, () async {
     //   isLoading.value = true;
@@ -444,12 +386,7 @@ class DoctorConsultationController extends StateClass {
         'diagnosis_secondary': diagnosisSecondary,
         'suggestion': suggestionController.text,
         'recomendation_skincare_items': [
-          for (var i = 0; i < listSkincare.length; i++)
-            {
-              "skincare_id": listSkincare[i]['id'],
-              "notes": notesSkincare[i].text,
-              "qty": listItemCount![i]
-            }
+          for (var i = 0; i < listSkincare.length; i++) {"skincare_id": listSkincare[i]['id'], "notes": notesSkincare[i].text, "qty": listItemCount![i]}
         ],
         'recomendation_treatment_items': [
           for (var i in listTreatmentNote)
@@ -459,20 +396,17 @@ class DoctorConsultationController extends StateClass {
               "recovery_time": i['recovery_time'],
               "type": i['type'],
               "clinics": [
-                for (var clinic in i['clinics'])
-                  {"clinic_id": clinic['clinic']['id']}
+                for (var clinic in i['clinics']) {"clinic_id": clinic['clinic']['id']}
               ]
             }
         ],
         'recipe_drug_items': [
-          for (var i = 0; i < listObat.length; i++)
-            {"drug_id": listObat[i]['id'], "notes": notesMedicine[i].text},
+          for (var i = 0; i < listObat.length; i++) {"drug_id": listObat[i]['id'], "notes": notesMedicine[i].text},
         ]
       };
       print('masyk sini');
 
-      var postNote =
-          await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
+      var postNote = await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
 
       if (postNote['success'] != true && postNote['message'] != 'Success') {
         throw ErrorConfig(
@@ -667,8 +601,7 @@ class DoctorConsultationController extends StateClass {
     final dateTime = DateTime.now();
     final stringDateTime = dateTime.toIso8601String();
     final parsedDateTime = DateTime.parse(stringDateTime);
-    var dateFormatted =
-        DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
+    var dateFormatted = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(DateTime.now());
 
     var newMes = {
       "id": 24,
@@ -731,8 +664,7 @@ class DoctorConsultationController extends StateClass {
             .enableForceNew()
             .setExtraHeaders(
               {
-                'Authorization':
-                    'Bearer ${await LocalStorage().getAccessToken()}',
+                'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
               },
             )
             .build(),

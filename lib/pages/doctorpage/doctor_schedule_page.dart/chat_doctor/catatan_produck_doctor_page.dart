@@ -6,10 +6,12 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen1_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambahan_skin_care_page.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/tambah_treatment_page.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
+import '../../../../core/currency_format.dart';
 import '../../../../core/global.dart';
 import '../../../../theme/theme.dart';
 
@@ -35,10 +37,8 @@ class _CatatanDocterState extends State<CatatanDocter> {
   bool isSufficButton = false;
   String? img;
   List<int>? itemCount;
-  final DoctorConsultationController state =
-      Get.put(DoctorConsultationController());
-  final TreatmentRecommendationController stateTreatment =
-      Get.put(TreatmentRecommendationController());
+  final DoctorConsultationController state = Get.put(DoctorConsultationController());
+  final TreatmentRecommendationController stateTreatment = Get.put(TreatmentRecommendationController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -131,7 +131,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 height: 15,
               ),
               Text(
-                'Apakah Profilmu Sudah Benar',
+                'Apakah Profile yang dipilih sudah benar',
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
               Text(
@@ -225,10 +225,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 minLines: 3,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(),
-                    hintText: ''),
+                decoration: InputDecoration(alignLabelWithHint: true, border: OutlineInputBorder(), hintText: ''),
               ),
               const SizedBox(
                 height: 11,
@@ -252,16 +249,13 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     suffix: state.diagnosisPossibilityController.text.length > 0
                         ? InkWell(
                             onTap: () {
-                              state.diagnosisPossibility.add(
-                                  state.diagnosisPossibilityController.text);
+                              state.diagnosisPossibility.add(state.diagnosisPossibilityController.text);
                               state.diagnosisPossibilityController.clear();
                             },
                             child: Container(
                               height: 30,
                               width: 90,
-                              decoration: BoxDecoration(
-                                  color: greenColor,
-                                  borderRadius: BorderRadius.circular(15)),
+                              decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(15)),
                               child: Center(
                                   child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -417,16 +411,13 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   suffix: state.diagnosisSecondaryController.text.length > 0
                       ? InkWell(
                           onTap: () {
-                            state.diagnosisSecondary
-                                .add(state.diagnosisSecondaryController.text);
+                            state.diagnosisSecondary.add(state.diagnosisSecondaryController.text);
                             state.diagnosisSecondaryController.clear();
                           },
                           child: Container(
                             height: 30,
                             width: 90,
-                            decoration: BoxDecoration(
-                                color: greenColor,
-                                borderRadius: BorderRadius.circular(15)),
+                            decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(15)),
                             child: Center(
                                 child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -500,10 +491,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 minLines: 6,
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
-                decoration: InputDecoration(
-                    alignLabelWithHint: true,
-                    border: OutlineInputBorder(),
-                    hintText: ''),
+                decoration: InputDecoration(alignLabelWithHint: true, border: OutlineInputBorder(), hintText: ''),
               ),
               const SizedBox(
                 height: 27,
@@ -545,9 +533,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greenColor),
-                    borderRadius: BorderRadius.circular(7)),
+                decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
                   onPressed: () async {
                     String refresh = await Navigator.push(
@@ -576,8 +562,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.listSkincare.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -588,11 +573,9 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   String rupiah = '';
 
                   title = state.listSkincare[index]['name'];
-                  howToUse = state.listSkincare[index]['skincare_detail']
-                      ['specification_how_to_use'];
+                  howToUse = state.listSkincare[index]['skincare_detail']['specification_how_to_use'];
                   rupiah = 'Rp' + state.listSkincare[index]['price'].toString();
-                  for (var i in state.listSkincare[index]['media_products'])
-                    image.add(i);
+                  for (var i in state.listSkincare[index]['media_products']) image.add(i);
                   for (var imege in image) {
                     imgList = imege['media']['path'];
                   }
@@ -616,16 +599,9 @@ class _CatatanDocterState extends State<CatatanDocter> {
                               height: 80,
                               width: 80,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5, color: fromCssColor('#E9E9E9')),
+                                border: Border.all(width: 0.5, color: fromCssColor('#E9E9E9')),
                                 image: DecorationImage(
-                                  image: state.listSkincare[index]
-                                              ['media_products'] !=
-                                          null
-                                      ? NetworkImage(
-                                              Global.FILE + '/' + imgList)
-                                          as ImageProvider
-                                      : AssetImage("assets/images/produk1.png"),
+                                  image: state.listSkincare[index]['media_products'] != null ? NetworkImage(Global.FILE + '/' + imgList) as ImageProvider : AssetImage("assets/images/produk1.png"),
                                 ),
                               ),
                             ),
@@ -638,8 +614,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 200),
+                                  constraints: const BoxConstraints(maxWidth: 200),
                                   child: RichText(
                                     text: TextSpan(
                                       text: title,
@@ -676,13 +651,11 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             // color: Colors.amberAccent,
-                                            constraints: const BoxConstraints(
-                                                maxWidth: 80),
+                                            constraints: const BoxConstraints(maxWidth: 80),
                                             child: Text(
                                               "Pagi & Malam",
                                               style: TextStyle(
@@ -719,11 +692,13 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      rupiah,
+                                      CurrencyFormat.convertToIdr(
+                                        int.parse(state.listSkincare[index]['price'].toString()),
+                                        0,
+                                      ),
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         fontSize: 13,
@@ -765,8 +740,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -808,15 +782,13 @@ class _CatatanDocterState extends State<CatatanDocter> {
                             height: 30,
                             width: 80,
                             decoration: BoxDecoration(
-                              border:
-                                  Border.all(color: fromCssColor("#A3A3A3")),
+                              border: Border.all(color: fromCssColor("#A3A3A3")),
                               borderRadius: BorderRadius.circular(7),
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(5),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   InkWell(
                                     onTap: () {
@@ -829,9 +801,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                         // }
                                         if (state.listItemCount![index] >= 1) {
                                           state.listItemCount![index]--;
-                                          print('stat' +
-                                              state.listItemCount![index]
-                                                  .toString());
+                                          print('stat' + state.listItemCount![index].toString());
                                         }
                                         // if (state.itemCount >= 1) {
                                         //   state.itemCount--;
@@ -861,9 +831,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                       setState(() {
                                         if (state.listItemCount![index] >= 0) {
                                           state.listItemCount![index]++;
-                                          print('stat' +
-                                              state.listItemCount![index]
-                                                  .toString());
+                                          print('stat' + state.listItemCount![index].toString());
                                         }
                                       });
                                     },
@@ -908,20 +876,17 @@ class _CatatanDocterState extends State<CatatanDocter> {
                 height: 13,
               ),
               InkWell(
-                onTap: () async {
-                  String refresh = await Navigator.push(
+                onTap: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const RekomendasiTreatmen1Page(),
                     ),
-                  );
-
-                  if (refresh == 'refresh') {
-                    // do update here
-                    setState(() {
-                      state.listTreatmentNote;
-                    });
-                  }
+                  ).then((value) => {
+                        setState(() {
+                          state.listTreatmentNote;
+                        })
+                      });
                 },
                 child: Text(
                   '+ Tambah Dari Template',
@@ -932,24 +897,21 @@ class _CatatanDocterState extends State<CatatanDocter> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greenColor),
-                    borderRadius: BorderRadius.circular(7)),
+                decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
-                  onPressed: () async {
-                    String refresh = await Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RekomendasiTreatmen2Page(),
+                        builder: (context) => const TambahTreatmentCatatanDoktor(),
+                        // builder: (context) => const RekomendasiTreatmen2Page(),
                       ),
-                    );
-
-                    if (refresh == 'refresh') {
-                      //  do update
-                      setState(() {
-                        state.listTreatmentNote;
-                      });
-                    }
+                    ).then((value) => setState(() => state.listTreatmentNote));
+                    // .then((value) => {
+                    //   setState(() {
+                    //     state.listTreatmentNote;
+                    //   })
+                    // });
                   },
                   child: Text(
                     '+ Tambah Treatment',
@@ -962,8 +924,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: state.listTreatmentNote.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -985,8 +946,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     constraints: BoxConstraints(maxWidth: 160),
                                     child: RichText(
                                       text: TextSpan(
-                                        text: state.listTreatmentNote[index]
-                                            ['name'],
+                                        text: state.listTreatmentNote[index]['name'],
                                         style: TextStyle(
                                           fontFamily: 'ProximaNova',
                                           color: greenColor,
@@ -1001,8 +961,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     height: 5,
                                   ),
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
@@ -1027,8 +986,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                         // color: Colors.amberAccent,
 
                                         child: Text(
-                                          state.listTreatmentNote[index]
-                                              ['cost'],
+                                          CurrencyFormat.convertToIdr(
+                                            int.parse(state.listTreatmentNote[index]['cost']),
+                                            0,
+                                          ),
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 12,
@@ -1046,8 +1007,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     height: 3,
                                   ),
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
@@ -1072,8 +1032,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                         // color: Colors.amberAccent,
 
                                         child: Text(
-                                          state.listTreatmentNote[index]
-                                              ['recovery_time'],
+                                          state.listTreatmentNote[index]['recovery_time'],
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 12,
@@ -1091,8 +1050,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     height: 3,
                                   ),
                                   Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       Container(
@@ -1117,8 +1075,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                         // color: Colors.amberAccent,
 
                                         child: Text(
-                                          state.listTreatmentNote[index]
-                                              ['type'],
+                                          state.listTreatmentNote[index]['type'],
                                           style: TextStyle(
                                             fontFamily: 'ProximaNova',
                                             fontSize: 12,
@@ -1148,8 +1105,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                   width: 20,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      image:
-                                          AssetImage("assets/icons/trash.png"),
+                                      image: AssetImage("assets/icons/trash.png"),
                                     ),
                                   ),
                                 ),
@@ -1189,9 +1145,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greenColor),
-                    borderRadius: BorderRadius.circular(7)),
+                decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
                   onPressed: () async {
                     String refresh = await Navigator.push(
@@ -1222,8 +1176,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state.listObat.length,
                 itemBuilder: (BuildContext context, int index) {
@@ -1247,14 +1200,9 @@ class _CatatanDocterState extends State<CatatanDocter> {
                               height: 80,
                               width: 80,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 0.5, color: fromCssColor('#E9E9E9')),
+                                border: Border.all(width: 0.5, color: fromCssColor('#E9E9E9')),
                                 image: DecorationImage(
-                                  image: state.listObat[index]['image'] != null
-                                      ? NetworkImage("${Global.FILE}/" +
-                                              state.listObat[index]['image'])
-                                          as ImageProvider
-                                      : AssetImage("assets/images/produk1.png"),
+                                  image: state.listObat[index]['image'] != null ? NetworkImage("${Global.FILE}/" + state.listObat[index]['image']) as ImageProvider : AssetImage("assets/images/produk1.png"),
                                 ),
                               ),
                             ),
@@ -1267,8 +1215,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 200),
+                                  constraints: const BoxConstraints(maxWidth: 200),
                                   child: RichText(
                                     text: TextSpan(
                                       text: state.listObat[index]['name'],
@@ -1305,13 +1252,11 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                     ),
                                     Expanded(
                                       child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Container(
                                             // color: Colors.amberAccent,
-                                            constraints: const BoxConstraints(
-                                                maxWidth: 80),
+                                            constraints: const BoxConstraints(maxWidth: 80),
                                             child: Text(
                                               "Pagi & Malam",
                                               style: TextStyle(
@@ -1348,13 +1293,10 @@ class _CatatanDocterState extends State<CatatanDocter> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      'Rp. ' +
-                                          state.listObat[index]['harga']
-                                              .toString(),
+                                      'Rp. ' + state.listObat[index]['harga'].toString(),
                                       style: TextStyle(
                                         fontFamily: 'ProximaNova',
                                         fontSize: 13,
@@ -1396,8 +1338,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 12),
+                            contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
                             ),

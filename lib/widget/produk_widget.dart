@@ -75,10 +75,7 @@ class ProdukKeranjang extends StatelessWidget {
                     ),
                     Text(
                       namaProduk,
-                      style: blackHigtTextStyle.copyWith(
-                          fontSize: 13,
-                          fontWeight: regular,
-                          overflow: TextOverflow.ellipsis),
+                      style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
                     ),
                     const SizedBox(
                       height: 6,
@@ -88,14 +85,11 @@ class ProdukKeranjang extends StatelessWidget {
                         Container(
                           width: 28,
                           height: 13,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
                           child: Center(
                             child: Text(
                               diskonProduk,
-                              style: blackHigtTextStyle.copyWith(
-                                  color: redColor, fontSize: 11),
+                              style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
                             ),
                           ),
                         ),
@@ -129,8 +123,7 @@ class ProdukKeranjang extends StatelessWidget {
                         ),
                         Text(
                           rating,
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
                         )
                       ],
                     ),
@@ -140,8 +133,7 @@ class ProdukKeranjang extends StatelessWidget {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 5, top: 5),
+                        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(3),
                           color: greenColor,
@@ -229,8 +221,7 @@ class ProdukObat extends StatelessWidget {
                   ),
                   Text(
                     'Per Tube',
-                    style: subGreyTextStyle.copyWith(
-                        fontSize: 12, color: const Color(0xFF9B9B9B)),
+                    style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xFF9B9B9B)),
                   ),
                   const SizedBox(
                     height: 4,
@@ -279,6 +270,182 @@ class ProdukObat extends StatelessWidget {
             )
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProductTreatmentDoctor extends StatelessWidget {
+  final String namaKlinik;
+  final String namaTreatmen;
+  final String recovTime;
+  final String typeTreatment;
+  final String lokasiKlinik;
+  final String diskonProduk;
+  final String hargaDiskon;
+  final String harga;
+  final String urlImg;
+  final String rating;
+  final String km;
+  final Data2 treatmentData;
+  final double? width;
+  final Widget iconPlus;
+  const ProductTreatmentDoctor({
+    super.key,
+    required this.namaKlinik,
+    required this.namaTreatmen,
+    required this.recovTime,
+    required this.typeTreatment,
+    required this.diskonProduk,
+    required this.hargaDiskon,
+    required this.harga,
+    required this.urlImg,
+    required this.rating,
+    required this.km,
+    required this.lokasiKlinik,
+    required this.treatmentData,
+    this.width,
+    required this.iconPlus,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 120,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.only(
+        bottom: 10,
+      ),
+      padding: EdgeInsets.all(9),
+      decoration: BoxDecoration(
+        color: whiteColor,
+        border: Border.all(color: borderColor, width: 0.2),
+        borderRadius: BorderRadius.circular(7),
+      ),
+      child: Row(
+        children: [
+          // image
+          // Container(
+          //   width: MediaQuery.of(context).size.width / 3,
+          //   // constraints: const BoxConstraints(maxWidth: 250),
+          //   // height: 107,
+          //   decoration: BoxDecoration(
+          //     borderRadius: const BorderRadius.only(
+          //       topLeft: Radius.circular(7),
+          //       topRight: Radius.circular(7),
+          //     ),
+          //     image: DecorationImage(
+          //       image: NetworkImage(urlImg),
+          //       fit: BoxFit.cover,
+          //     ),
+          //   ),
+          // ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  namaTreatmen,
+                  style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis, color: greenColor),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'cost',
+                  style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Recov. Time',
+                  style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Type',
+                  style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          // titile
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const SizedBox(
+                height: 5,
+              ),
+              if (int.parse(diskonProduk) > 0)
+                Row(
+                  children: [
+                    Container(
+                      width: 28,
+                      height: 13,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                      child: Center(
+                        child: Text(
+                          '$diskonProduk%',
+                          style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      CurrencyFormat.convertToIdr(
+                        int.parse(hargaDiskon),
+                        0,
+                      ),
+                      style: subGreyTextStyle.copyWith(
+                        fontSize: 12,
+                        decoration: TextDecoration.lineThrough,
+                        decorationThickness: 2,
+                        color: const Color(0xff9B9B9B),
+                      ),
+                    ),
+                  ],
+                ),
+              Text(
+                CurrencyFormat.convertToIdr(
+                  int.parse(harga),
+                  0,
+                ),
+                style: blackHigtTextStyle.copyWith(fontSize: 15),
+              ),
+              Text(
+                recovTime,
+                style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
+              ),
+              Text(
+                typeTreatment,
+                style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
+              ),
+            ],
+          ),
+          Spacer(),
+          iconPlus
+        ],
       ),
     );
   }
@@ -361,15 +528,11 @@ class ProdukTreatment extends StatelessWidget {
                 children: [
                   Text(
                     namaKlinik,
-                    style: blackHigtTextStyle.copyWith(
-                        fontSize: 13, overflow: TextOverflow.ellipsis),
+                    style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
                   ),
                   Text(
                     namaTreatmen,
-                    style: blackHigtTextStyle.copyWith(
-                        fontSize: 13,
-                        fontWeight: regular,
-                        overflow: TextOverflow.ellipsis),
+                    style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
                   ),
                   const SizedBox(
                     height: 6,
@@ -380,14 +543,11 @@ class ProdukTreatment extends StatelessWidget {
                         Container(
                           width: 28,
                           height: 13,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
                           child: Center(
                             child: Text(
                               '$diskonProduk%',
-                              style: blackHigtTextStyle.copyWith(
-                                  color: redColor, fontSize: 11),
+                              style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
                             ),
                           ),
                         ),
@@ -437,8 +597,7 @@ class ProdukTreatment extends StatelessWidget {
                       ),
                       Text(
                         rating,
-                        style: subGreyTextStyle.copyWith(
-                            fontSize: 11, color: const Color(0xff9B9B9B)),
+                        style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),
                       const SizedBox(
                         width: 6,
@@ -449,8 +608,7 @@ class ProdukTreatment extends StatelessWidget {
                       ),
                       Text(
                         ' $km',
-                        style: subGreyTextStyle.copyWith(
-                            fontSize: 11, color: const Color(0xff9B9B9B)),
+                        style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),
                     ],
                   ),
@@ -470,9 +628,7 @@ class ProdukTreatment extends StatelessWidget {
                     },
                     child: Container(
                       height: 25,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          borderRadius: BorderRadius.circular(3)),
+                      decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(3)),
                       child: Center(
                         child: Text(
                           'Reservasi',

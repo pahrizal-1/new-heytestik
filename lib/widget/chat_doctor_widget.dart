@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class ChatAktif extends StatelessWidget {
@@ -51,7 +52,7 @@ class ChatAktif extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              img != null
+              img.contains('${Global.FILE}')
                   ? Container(
                       width: 52,
                       height: 52,
@@ -65,9 +66,19 @@ class ChatAktif extends StatelessWidget {
                         ),
                       ),
                     )
-                  : Image.asset(
-                      'assets/images/doctor-img.png',
-                      width: 39,
+                  : Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          img,
+                          style: whiteTextStyle,
+                        ),
+                      ),
                     ),
               const SizedBox(
                 width: 11,
@@ -88,8 +99,7 @@ class ChatAktif extends StatelessWidget {
                     ),
                     Text(
                       chat,
-                      style: blackTextStyle.copyWith(
-                          fontSize: 14, fontWeight: regular),
+                      style: blackTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                       overflow: TextOverflow.ellipsis,
                     )
                   ],
@@ -202,33 +212,29 @@ class ChatRead extends StatelessWidget {
                       ),
                       Text(
                         chat,
-                        style: blackTextStyle.copyWith(
-                            fontSize: 14, fontWeight: regular),
+                        style: blackTextStyle.copyWith(fontSize: 14, fontWeight: regular),
                         overflow: TextOverflow.ellipsis,
                       )
                     ],
                   ),
                 ),
                 const Spacer(),
-                Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        menit,
-                        style: subTitleTextStyle,
-                        softWrap: false,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Image.asset(
-                        'assets/images/logo_cheac_wa.png',
-                        width: 20,
-                      ),
-                    ]),
+                Column(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.end, children: [
+                  Text(
+                    menit,
+                    style: subTitleTextStyle,
+                    softWrap: false,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Image.asset(
+                    'assets/images/logo_cheac_wa.png',
+                    width: 20,
+                  ),
+                ]),
               ],
             ),
           ],

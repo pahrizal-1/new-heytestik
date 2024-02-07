@@ -13,18 +13,31 @@ class RekomendasiSkincare1Page extends StatefulWidget {
   const RekomendasiSkincare1Page({super.key});
 
   @override
-  State<RekomendasiSkincare1Page> createState() =>
-      _RekomendasiSkincare1PageState();
+  State<RekomendasiSkincare1Page> createState() => _RekomendasiSkincare1PageState();
 }
 
 class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
-  final SkincareRecommendationController state =
-      Get.put(SkincareRecommendationController());
-  final DoctorConsultationController stateDoctor =
-      Get.put(DoctorConsultationController());
+  final SkincareRecommendationController state = Get.put(SkincareRecommendationController());
+  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
+  final ScrollController scrollController = ScrollController();
   @override
   void initState() {
     super.initState();
+    state.getSkincareRecommendation(context, pages: 1);
+    scrollController.addListener(onScrolling);
+  }
+
+  onScrolling() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      print('testing scroll');
+      state.page += 1;
+      state.getSkincareRecommendation(context, pages: state.page);
+    } else {
+      print('no testing ');
+    }
+  }
+
+  Future onRefresh() async {
     state.getSkincareRecommendation(context);
   }
 
@@ -41,8 +54,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (BuildContext context) =>
-                      const RekomendasiSkincare2Page(),
+                  builder: (BuildContext context) => const RekomendasiSkincare2Page(),
                 ),
               );
             },
@@ -64,6 +76,8 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
               InkWell(
                 onTap: () {
                   stateDoctor.listItemCount = [];
+                  state.filterData = [];
+                  state.page = 1;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -86,92 +100,86 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
       body: Obx(
         () => LoadingWidget(
           isLoading: state.isLoading.value,
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 20, left: 20, right: 20, bottom: 50),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10, right: 10),
-                        child: Container(
-                          height: 12,
-                          width: 12,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/icons/search1.png'),
-                            ),
-                          ),
-                        ),
+          child: RefreshIndicator(
+            onRefresh: onRefresh,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 50),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      Container(
-                        constraints: const BoxConstraints(maxWidth: 280),
-                        child: TextFormField(
-                          onChanged: (value) {
-                            state.onChangeFilterText(value);
-                          },
-                          style: const TextStyle(
-                              fontSize: 15, fontFamily: 'ProximaNova'),
-                          decoration: InputDecoration(
-                            hintText: 'Cari Resep',
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                              fontFamily: 'ProximaNova',
-                              color: fromCssColor(
-                                '#9B9B9B',
+                      child: Row(children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            height: 12,
+                            width: 12,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage('assets/icons/search1.png'),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ]),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    keyboardDismissBehavior:
-                        ScrollViewKeyboardDismissBehavior.onDrag,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.filterData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          // stateDoctor.listSkincare
-                          //     .add(state.filterData[index].toJson());
-                          // print(stateDoctor.listSkincare.toString());
-                          for (var i in state.filterData[index]
-                              .recipeRecomendationSkincareItems!) {
-                            // print('hye' + i.skincare!.toJson().toString());
-                            stateDoctor.listSkincare.add(i.skincare!.toJson());
-                            stateDoctor.notesSkincare
-                                .add(TextEditingController(text: i.notes));
-                            stateDoctor.listItemCount!.add(i.qty!.toInt());
+                        Container(
+                          constraints: const BoxConstraints(maxWidth: 280),
+                          child: TextFormField(
+                            onChanged: (value) {
+                              state.onChangeFilterText(value);
+                            },
+                            style: const TextStyle(fontSize: 15, fontFamily: 'ProximaNova'),
+                            decoration: InputDecoration(
+                              hintText: 'Cari Resep',
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                fontFamily: 'ProximaNova',
+                                color: fromCssColor(
+                                  '#9B9B9B',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Container(
+                      height: MediaQuery.of(context).size.height / 1.35,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        controller: scrollController,
+                        itemCount: state.isLoading.value ? state.filterData.length + 1 : state.filterData.length,
+                        physics: BouncingScrollPhysics(),
+                        itemBuilder: (BuildContext context, int index) {
+                          print('datalengs ${state.filterData.length}');
+                          if (index < state.filterData.length) {
+                            return InkWell(
+                              onTap: () {
+                                for (var i in state.filterData[index].recipeRecomendationSkincareItems!) {
+                                  stateDoctor.listSkincare.add(i.skincare!.toJson());
+                                  stateDoctor.notesSkincare.add(TextEditingController(text: i.notes));
+                                  // stateDoctor.listItemCount!.add(i.qty!.toInt());
+                                }
+                                // Navigator.pop(context, 'refresh');
+                              },
+                              child: tileWidget(index),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
                           }
-                          print(stateDoctor.listItemCount);
-
-                          // for (var i in state.filterData[index]
-                          //     .recipeRecomendationSkincareItems!){
-                          //       print('hel' + i['notes']);
-                          //     }
-                          // print(state.notesController[i]);
-
-                          // stateDoctor.listSkincare.add(state.dataSkincare);
-                          // stateDoctor.notesSkincare.add(state.notesController[index]);
-                          Navigator.pop(context, 'refresh');
                         },
-                        child: tileWidget(index),
-                      );
-                    },
-                  ),
-                ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -187,7 +195,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
         children: [
           Expanded(
             child: Container(
-              height: 57,
+              // height: 57,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: fromCssColor('#D9D9D9'),
@@ -203,19 +211,11 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                   children: [
                     Text(
                       state.filterData[index].title ?? '-',
-                      style: TextStyle(
-                          fontWeight: bold,
-                          fontFamily: 'ProximaNova',
-                          fontSize: 15,
-                          letterSpacing: 0.5),
+                      style: TextStyle(fontWeight: bold, fontFamily: 'ProximaNova', fontSize: 15, letterSpacing: 0.5),
                     ),
                     Text(
                       state.filterData[index].subtitle ?? '-',
-                      style: TextStyle(
-                          fontFamily: 'ProximaNova',
-                          fontSize: 12,
-                          color: fromCssColor('#A3A3A3'),
-                          letterSpacing: 0.5),
+                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, color: fromCssColor('#A3A3A3'), letterSpacing: 0.5),
                     ),
                   ],
                 ),

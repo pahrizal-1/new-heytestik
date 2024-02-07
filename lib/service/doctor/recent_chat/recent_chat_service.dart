@@ -7,8 +7,7 @@ import 'package:heystetik_mobileapps/models/customer/gallery_file_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class RecentChatService extends ProviderClass {
-  RecentChatService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  RecentChatService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future getRecentChat() async {
     var response = await networkingConfig.doGet(
@@ -56,6 +55,7 @@ class FetchMessageByRoom extends ProviderClass {
       params: {
         'search': search,
         'take': take,
+        'order': 'asc',
       },
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
@@ -70,8 +70,7 @@ class FetchMessageByRoom extends ProviderClass {
 }
 
 class LastChatService extends ProviderClass {
-  LastChatService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  LastChatService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future getLastChat() async {
     var response = await networkingConfig.doGet(
@@ -88,8 +87,7 @@ class LastChatService extends ProviderClass {
 }
 
 class DetailConsultationService extends ProviderClass {
-  DetailConsultationService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  DetailConsultationService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<DetailConsultationModel> detailConsultation(int id) async {
     var response = await networkingConfig.doGet(

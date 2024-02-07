@@ -6,18 +6,29 @@ import 'package:heystetik_mobileapps/models/doctor/skincare_recommendations_mode
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SkincareRecommendationService extends ProviderClass {
-  SkincareRecommendationService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  SkincareRecommendationService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<SkincareRecommendationModel> getSkincareRecommendation() async {
-    var response = await networkingConfig.doGet(
-      '/recipe/recomendation/skincare',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-    return SkincareRecommendationModel.fromJson(response);
+  Future<SkincareRecommendationModel> getSkincareRecommendation(int? page, String? search, int? limit) async {
+    try {
+      var response = await networkingConfig.doGet(
+        '/recipe/recomendation/skincare',
+        params: {
+          'page': page,
+          'take': limit,
+          'order': 'asc',
+          'search': search,
+        },
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+      print('res ${response}');
+      return SkincareRecommendationModel.fromJson(response);
+    } catch (e) {
+      print('err ${e}');
+      return SkincareRecommendationModel();
+    }
   }
 
   Future getSkincareRecommendationById(int id) async {

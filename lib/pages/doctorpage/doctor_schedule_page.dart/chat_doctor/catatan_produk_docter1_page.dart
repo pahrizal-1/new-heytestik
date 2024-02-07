@@ -164,8 +164,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 17),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 17),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
                   color: whiteColor,
@@ -173,8 +172,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                 ),
                 child: Text(
                   'Konsultasi, kulit abu-abu, dan timbul jerawat akibat penggunaan kosmetik.',
-                  style: blackTextStyle.copyWith(
-                      fontSize: 15, fontWeight: regular),
+                  style: blackTextStyle.copyWith(fontSize: 15, fontWeight: regular),
                 ),
               ),
               const SizedBox(
@@ -189,8 +187,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 17),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 17),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
                   color: whiteColor,
@@ -198,8 +195,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                 ),
                 child: Text(
                   'Acne',
-                  style: blackTextStyle.copyWith(
-                      fontSize: 15, fontWeight: regular),
+                  style: blackTextStyle.copyWith(fontSize: 15, fontWeight: regular),
                 ),
               ),
               const SizedBox(
@@ -214,8 +210,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 14, vertical: 17),
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 17),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(7),
                   color: whiteColor,
@@ -223,8 +218,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                 ),
                 child: Text(
                   '',
-                  style: blackTextStyle.copyWith(
-                      fontSize: 15, fontWeight: regular),
+                  style: blackTextStyle.copyWith(fontSize: 15, fontWeight: regular),
                 ),
               ),
               SizedBox(
@@ -238,8 +232,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
@@ -254,11 +247,9 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                               height: 80,
                               width: 80,
                               decoration: BoxDecoration(
-                                border:
-                                    Border.all(width: 0.5, color: greenColor),
+                                border: Border.all(width: 0.5, color: greenColor),
                                 image: DecorationImage(
-                                  image:
-                                      AssetImage("assets/images/produk1.png"),
+                                  image: AssetImage("assets/images/produk1.png"),
                                 ),
                               ),
                             ),
@@ -269,8 +260,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  constraints:
-                                      const BoxConstraints(maxWidth: 200),
+                                  constraints: const BoxConstraints(maxWidth: 200),
                                   child: RichText(
                                     text: TextSpan(
                                       text: "Teenderm gel sensitive 150 ml",
@@ -306,13 +296,11 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                                       width: 10,
                                     ),
                                     Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Container(
                                           // color: Colors.amberAccent,
-                                          constraints: const BoxConstraints(
-                                              maxWidth: 80),
+                                          constraints: const BoxConstraints(maxWidth: 80),
                                           child: Text(
                                             "Pagi & Malam",
                                             style: TextStyle(
@@ -346,8 +334,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                                   height: 10,
                                 ),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "Rp250.000",
@@ -391,13 +378,11 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               hintText: "Cleanser",
-                              contentPadding: const EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 12),
+                              contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
+                              floatingLabelBehavior: FloatingLabelBehavior.always,
                               labelStyle: TextStyle(
                                 color: fromCssColor("#A3A3A3"),
                               ),
@@ -426,15 +411,13 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
                               height: 30,
                               width: 80,
                               decoration: BoxDecoration(
-                                border:
-                                    Border.all(color: fromCssColor("#A3A3A3")),
+                                border: Border.all(color: fromCssColor("#A3A3A3")),
                                 borderRadius: BorderRadius.circular(7),
                               ),
                               child: Padding(
                                 padding: EdgeInsets.all(5),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       "-",
@@ -482,9 +465,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greenColor),
-                    borderRadius: BorderRadius.circular(7)),
+                decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
                   onPressed: () {
                     Navigator.push(
@@ -512,8 +493,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               ),
               ListView.builder(
                 shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: 4,
                 itemBuilder: (BuildContext context, int index) {
@@ -715,9 +695,7 @@ class _CatatanDocter1State extends State<CatatanDocter1> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 45,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greenColor),
-                    borderRadius: BorderRadius.circular(7)),
+                decoration: BoxDecoration(border: Border.all(color: greenColor), borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
                   onPressed: null,
                   child: Text(
