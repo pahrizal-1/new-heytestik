@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/tambah_treatment.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/tambah_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -12,11 +13,13 @@ class RekomendasiTreatmen2Page extends StatefulWidget {
   const RekomendasiTreatmen2Page({super.key});
 
   @override
-  State<RekomendasiTreatmen2Page> createState() => _RekomendasiTreatmen2PageState();
+  State<RekomendasiTreatmen2Page> createState() =>
+      _RekomendasiTreatmen2PageState();
 }
 
 class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
-  final TreatmentRecommendationController state = Get.put(TreatmentRecommendationController());
+  final TreatmentRecommendationController state =
+      Get.put(TreatmentRecommendationController());
 
   @override
   void initState() {
@@ -65,7 +68,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
               InkWell(
                 onTap: () {
                   state.postTreatment(context);
-                  for (var i in state.dataTreatmentItems) print('sss' + i.toString());
+                  for (var i in state.dataTreatmentItems)
+                    print('sss' + i.toString());
                 },
                 child: Text(
                   'SIMPAN',
@@ -83,7 +87,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
+            padding:
+                const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -105,7 +110,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                       fontSize: 16,
                       fontWeight: bold,
                       letterSpacing: 0.2,
-                      color: fromCssColor('#323232'), // Ubah dengan warna teks yang diinginkan
+                      color: fromCssColor(
+                          '#323232'), // Ubah dengan warna teks yang diinginkan
                     ),
                     decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -138,7 +144,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                       fontSize: 16,
                       fontWeight: bold,
                       letterSpacing: 0.2,
-                      color: fromCssColor('#323232'), // Ubah dengan warna teks yang diinginkan
+                      color: fromCssColor(
+                          '#323232'), // Ubah dengan warna teks yang diinginkan
                     ),
                     decoration: InputDecoration(
                       focusedBorder: UnderlineInputBorder(
@@ -156,7 +163,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                 state.dataTreatmentItems.isNotEmpty
                     ? ListView.builder(
                         shrinkWrap: true,
-                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                        keyboardDismissBehavior:
+                            ScrollViewKeyboardDismissBehavior.onDrag,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: state.dataTreatmentItems.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -164,17 +172,22 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                             children: [
                               Container(
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          constraints: BoxConstraints(maxWidth: 160),
+                                          constraints:
+                                              BoxConstraints(maxWidth: 160),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: state.dataTreatmentItems[index]['name'],
+                                              text: state
+                                                      .dataTreatmentItems[index]
+                                                  ['name'],
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
                                                 color: greenColor,
@@ -189,7 +202,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                           height: 5,
                                         ),
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
@@ -214,7 +228,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                state.dataTreatmentItems[index]['cost'],
+                                                state.dataTreatmentItems[index]
+                                                    ['cost'],
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -232,7 +247,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                           height: 3,
                                         ),
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
@@ -257,7 +273,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                state.dataTreatmentItems[index]['recovery_time'],
+                                                state.dataTreatmentItems[index]
+                                                    ['recovery_time'],
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -275,7 +292,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                           height: 3,
                                         ),
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           children: [
                                             Container(
@@ -300,7 +318,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                state.dataTreatmentItems[index]['type'],
+                                                state.dataTreatmentItems[index]
+                                                    ['type'],
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -327,7 +346,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                         width: 20,
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
-                                            image: AssetImage("assets/icons/trash.png"),
+                                            image: AssetImage(
+                                                "assets/icons/trash.png"),
                                           ),
                                         ),
                                       ),
@@ -367,7 +387,8 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                     String refresh = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (BuildContext context) => const AddTreatmentPage(),
+                        builder: (BuildContext context) =>
+                            const TambahTreatmentCatatanDoktor(),
                       ),
                     );
 
