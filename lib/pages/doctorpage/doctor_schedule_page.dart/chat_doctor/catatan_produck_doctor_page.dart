@@ -148,7 +148,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        isSelected = true;
+                        isSelected = false;
                       });
                     },
                     child: Container(
@@ -156,7 +156,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                       height: 20,
                       width: 20,
                       decoration: BoxDecoration(
-                        color: isSelected ? greenColor : whiteColor,
+                        color: isSelected ? whiteColor : greenColor,
                         border: Border.all(
                           color: subTitleColor,
                         ),
@@ -185,16 +185,16 @@ class _CatatanDocterState extends State<CatatanDocter> {
                   InkWell(
                     onTap: () {
                       setState(() {
-                        isSelected = false;
+                        isSelected = true;
                       });
                     },
                     child: Container(
                       height: 20,
                       width: 20,
                       decoration: BoxDecoration(
-                          color: isSelected ? whiteColor : greenColor,
+                          color: isSelected ? greenColor : whiteColor,
                           border: Border.all(
-                            color: subTitleColor,
+                            color: blackColor,
                           ),
                           shape: BoxShape.circle),
                       child: Center(
@@ -214,6 +214,32 @@ class _CatatanDocterState extends State<CatatanDocter> {
               ),
               const SizedBox(
                 height: 31,
+              ),
+              Visibility(
+                visible: isSelected,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Tulis berdasarkan nama, jenis kelamin, dan usia.*',
+                      style: blackTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                    TextFormField(
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      decoration: InputDecoration(
+                          alignLabelWithHint: true,
+                          border: OutlineInputBorder(),
+                          hintText: ''),
+                    ),
+                    const SizedBox(
+                      height: 11,
+                    ),
+                  ],
+                ),
               ),
               Text(
                 'Gejala*',
@@ -397,9 +423,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
               //     ],
               //   ),
               // ),
-              const SizedBox(
-                height: 11,
-              ),
+
               Text(
                 'Diagnosis Sekunder (Opsional)',
                 style: blackTextStyle,
@@ -487,9 +511,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                           );
                         }),
                   )),
-              const SizedBox(
-                height: 11,
-              ),
+
               Text(
                 'Saran',
                 style: blackTextStyle,
