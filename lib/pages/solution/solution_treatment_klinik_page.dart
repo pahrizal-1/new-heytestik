@@ -6,7 +6,6 @@ import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_p
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
-import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../models/clinic.dart';
@@ -180,6 +179,40 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   children: [
+                    if (filter.isNotEmpty || promo)
+                      InkWell(
+                        onTap: () async {
+                          promo = false;
+                          filter.clear();
+                          page = 1;
+                          clinics.clear();
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: greenColor,
+                          ),
+                        ),
+                      ),
                     Container(
                       margin: const EdgeInsets.only(left: 9),
                       padding: const EdgeInsets.only(left: 9, right: 9),
@@ -297,48 +330,71 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         ),
                       ),
                     ),
-                    FiklterTreatment(
-                      title: 'Bintang 4.5+',
+                    InkWell(
                       onTap: () async {
                         if (filter.containsKey("rating[]")) {
                           filter.remove('rating[]');
                           clinics.clear();
                           clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
                           setState(() {});
                         } else {
                           filter['rating[]'] = ['4', '5'];
                           clinics.clear();
                           clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Bintang 4.5+',
+                        isSelected: filter['rating[]'].toString() ==
+                            ['4', '5'].toString(),
+                      ),
                     ),
-                    FiklterTreatment(
-                      title: 'Buka Sekarang',
+                    InkWell(
                       onTap: () async {
                         if (filter['open_now'] == true) {
                           filter['open_now'] = false;
+                          filter.remove('open_now');
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         } else {
                           filter['open_now'] = true;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Buka Sekarang',
+                        isSelected: filter['open_now'] == true,
+                      ),
                     ),
-                    FiklterTreatment(
-                      title: 'Promo',
+                    InkWell(
                       onTap: () async {
                         if (promo) {
                           promo = false;
@@ -358,6 +414,10 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Promo',
+                        isSelected: promo,
+                      ),
                     ),
                   ],
                 ),

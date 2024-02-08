@@ -775,6 +775,43 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (filter.isNotEmpty)
+                              InkWell(
+                                onTap: () async {
+                                  filter.clear();
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {
+                                    emptyLoading = true;
+                                  });
+                                  treatments.addAll(
+                                    await state.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  emptyLoading = false;
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: greenColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: greenColor,
+                                  ),
+                                ),
+                              ),
                             InkWell(
                               onTap: () async {
                                 return showModalBottomSheet(
@@ -994,7 +1031,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                     () => const EtalaseTreatMentPage());
 
                                 if (res == 'semua') {
-                                  filter = {};
+                                  filter.clear();
                                   page = 1;
                                   treatments.clear();
                                   setState(() {

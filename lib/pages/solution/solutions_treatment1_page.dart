@@ -655,7 +655,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   var res = await Get.to(
                                       () => EtalaseTreatMentPage());
                                   if (res == 'semua') {
-                                    filter = {};
+                                    filter.clear();
                                     page = 1;
                                     treatments.clear();
                                     treatments.addAll(
@@ -762,53 +762,91 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                           const SizedBox(
                             height: 9,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              return showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadiusDirectional.only(
-                                    topEnd: Radius.circular(25),
-                                    topStart: Radius.circular(25),
+                          Row(
+                            children: [
+                              if (filter.isNotEmpty)
+                                InkWell(
+                                  onTap: () async {
+                                    filter.clear();
+                                    page = 1;
+                                    treatments.clear();
+                                    treatments.addAll(
+                                      await stateTreatment.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 5),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: greenColor,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: greenColor,
+                                    ),
                                   ),
                                 ),
-                                builder: (context) =>
-                                    FilterAllTreatmentWidget(),
-                              ).then((value) async {
-                                if (value == null) return;
-
-                                if (value['promo'] == true) {
-                                  treatments.clear();
-                                  page = 1;
-                                  setState(() {});
-                                } else {
-                                  filter['treatment_type[]'] =
-                                      value['treatment'];
-                                  filter['order_by'] = value['orderBy'];
-                                  filter['open_now'] = value['openNow'];
-                                  filter['min_price'] = value['minPrice'];
-                                  filter['max_price'] = value['maxPrice'];
-
-                                  page = 1;
-                                  treatments.clear();
-                                  treatments.addAll(
-                                    await stateTreatment.getAllTreatment(
-                                      context,
-                                      page,
-                                      search: search,
-                                      filter: filter,
+                              InkWell(
+                                onTap: () async {
+                                  return showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.only(
+                                        topEnd: Radius.circular(25),
+                                        topStart: Radius.circular(25),
+                                      ),
                                     ),
-                                  );
-                                }
-                                setState(() {});
-                              });
-                            },
-                            child: Image.asset(
-                              'assets/icons/filters.png',
-                              width: 78,
-                            ),
+                                    builder: (context) =>
+                                        FilterAllTreatmentWidget(),
+                                  ).then((value) async {
+                                    if (value == null) return;
+
+                                    if (value['promo'] == true) {
+                                      treatments.clear();
+                                      page = 1;
+                                      setState(() {});
+                                    } else {
+                                      filter['treatment_type[]'] =
+                                          value['treatment'];
+                                      filter['order_by'] = value['orderBy'];
+                                      filter['open_now'] = value['openNow'];
+                                      filter['min_price'] = value['minPrice'];
+                                      filter['max_price'] = value['maxPrice'];
+
+                                      page = 1;
+                                      treatments.clear();
+                                      treatments.addAll(
+                                        await stateTreatment.getAllTreatment(
+                                          context,
+                                          page,
+                                          search: search,
+                                          filter: filter,
+                                        ),
+                                      );
+                                    }
+                                    setState(() {});
+                                  });
+                                },
+                                child: Image.asset(
+                                  'assets/icons/filters.png',
+                                  width: 78,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 15,

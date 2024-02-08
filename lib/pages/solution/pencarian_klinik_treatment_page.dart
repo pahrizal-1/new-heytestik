@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_treatment_widget.dart';
 import '../../models/clinic.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
-import '../../widget/fikter_card_solusions_widget.dart';
 import '../../widget/filter_treatment_widgets.dart';
 
 class PencarianKlinikTraetmentPage extends StatefulWidget {
@@ -35,7 +34,7 @@ class _PencarianKlinikTraetmentPageState
   @override
   void initState() {
     super.initState();
-    if (widget.treatmentType != " ") {
+    if (widget.treatmentType != "") {
       filter['treatment_type[]'] = widget.treatmentType;
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -151,6 +150,40 @@ class _PencarianKlinikTraetmentPageState
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   children: [
+                    if (filter.isNotEmpty || promo)
+                      InkWell(
+                        onTap: () async {
+                          promo = false;
+                          filter.clear();
+                          page = 1;
+                          clinics.clear();
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: greenColor,
+                          ),
+                        ),
+                      ),
                     Container(
                       margin: const EdgeInsets.only(left: 9),
                       padding: const EdgeInsets.only(left: 9, right: 9),
@@ -268,41 +301,41 @@ class _PencarianKlinikTraetmentPageState
                         ),
                       ),
                     ),
-                    FiklterTreatment(
-                      title: 'Bintang 4.5+',
+                    InkWell(
                       onTap: () async {
                         if (filter.containsKey("rating[]")) {
                           filter.remove('rating[]');
                           clinics.clear();
-                          clinics.addAll(
-                            await stateTreatment.getClinic(
-                              context,
-                              page,
-                              search: search,
-                              filter: filter,
-                            ),
-                          );
+                          clinics.addAll(await stateTreatment.getClinic(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
                           setState(() {});
                         } else {
                           filter['rating[]'] = ['4', '5'];
                           clinics.clear();
-                          clinics.addAll(
-                            await stateTreatment.getClinic(
-                              context,
-                              page,
-                              search: search,
-                              filter: filter,
-                            ),
-                          );
+                          clinics.addAll(await stateTreatment.getClinic(
+                            context,
+                            page,
+                            search: search,
+                            filter: filter,
+                          ));
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Bintang 4.5+',
+                        isSelected: filter['rating[]'].toString() ==
+                            ['4', '5'].toString(),
+                      ),
                     ),
-                    FiklterTreatment(
-                      title: 'Buka Sekarang',
+                    InkWell(
                       onTap: () async {
                         if (filter['open_now'] == true) {
                           filter['open_now'] = false;
+                          filter.remove('open_now');
                           clinics.clear();
                           clinics.addAll(
                             await stateTreatment.getClinic(
@@ -327,9 +360,12 @@ class _PencarianKlinikTraetmentPageState
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Buka Sekarang',
+                        isSelected: filter['open_now'] == true,
+                      ),
                     ),
-                    FiklterTreatment(
-                      title: 'Promo',
+                    InkWell(
                       onTap: () async {
                         if (promo) {
                           promo = false;
@@ -349,6 +385,10 @@ class _PencarianKlinikTraetmentPageState
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Promo',
+                        isSelected: promo,
+                      ),
                     ),
                   ],
                 ),
