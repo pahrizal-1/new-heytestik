@@ -142,129 +142,133 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
               ),
             )
           : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (drugs.isNotEmpty)
-                    Text(
-                      'Obat',
-                      style: TextStyle(
-                        fontWeight: bold,
-                        fontFamily: 'ProximaNova',
-                        fontSize: 18,
-                        letterSpacing: 0.5,
-                        color: fromCssColor(
-                          '#323232',
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15, top: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (drugs.isNotEmpty)
+                      Text(
+                        'Obat',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 18,
+                          letterSpacing: 0.5,
+                          color: fromCssColor(
+                            '#323232',
+                          ),
                         ),
                       ),
-                    ),
-                  if (drugs.isNotEmpty)
-                    SizedBox(
-                      height: 10,
-                    ),
-                  if (drugs.isNotEmpty)
-                    Wrap(
-                      runSpacing: 12,
-                      spacing: 12,
-                      children: drugs.map((drug) {
-                        return KonsultasiProduk(
-                          drug: drug,
-                        );
-                      }).toList(),
-                    ),
-                  if (drugs.isNotEmpty)
-                    SizedBox(
-                      height: 12,
-                    ),
-                  if (skincare.isNotEmpty)
-                    Text(
-                      'Skincare',
-                      style: TextStyle(
-                        fontWeight: bold,
-                        fontFamily: 'ProximaNova',
-                        fontSize: 18,
-                        letterSpacing: 0.5,
-                        color: fromCssColor(
-                          '#323232',
+                    if (drugs.isNotEmpty)
+                      SizedBox(
+                        height: 20,
+                      ),
+                    if (drugs.isNotEmpty)
+                      Wrap(
+                        runSpacing: 12,
+                        spacing: 12,
+                        children: drugs.map((drug) {
+                          return KonsultasiProduk(
+                            drug: drug,
+                          );
+                        }).toList(),
+                      ),
+                    if (drugs.isNotEmpty)
+                      SizedBox(
+                        height: 12,
+                      ),
+                    if (skincare.isNotEmpty)
+                      Text(
+                        'Skincare',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 18,
+                          letterSpacing: 0.5,
+                          color: fromCssColor(
+                            '#323232',
+                          ),
                         ),
                       ),
-                    ),
-                  if (skincare.isNotEmpty)
-                    SizedBox(
-                      height: 10,
-                    ),
-                  if (skincare.isNotEmpty)
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: skincare
-                          .map(
-                            (e) => InkWell(
-                              onTap: () {
-                                Get.to(() => DetailSkinCarePage(
-                                      productId: e.id!.toInt(),
-                                    ));
-                              },
-                              child: Produkheight(
-                                produkId: e.id!.toInt(),
-                                namaBrand: e.skincareDetail!.brand.toString(),
-                                namaProduk: e.name.toString(),
-                                diskonProduk: '20',
-                                hargaDiskon:
-                                    CurrencyFormat.convertToIdr(e.price, 0),
-                                harga: CurrencyFormat.convertToIdr(e.price, 0),
-                                urlImg: e.mediaProducts!.isEmpty
-                                    ? ''
-                                    : '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                rating: '${e.rating} (0k)',
+                    if (skincare.isNotEmpty)
+                      SizedBox(
+                        height: 20,
+                      ),
+                    if (skincare.isNotEmpty)
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: skincare
+                            .map(
+                              (e) => InkWell(
+                                onTap: () {
+                                  Get.to(() => DetailSkinCarePage(
+                                        productId: e.id!.toInt(),
+                                      ));
+                                },
+                                child: Produkheight(
+                                  produkId: e.id!.toInt(),
+                                  namaBrand: e.skincareDetail!.brand.toString(),
+                                  namaProduk: e.name.toString(),
+                                  diskonProduk: '20',
+                                  hargaDiskon:
+                                      CurrencyFormat.convertToIdr(e.price, 0),
+                                  harga:
+                                      CurrencyFormat.convertToIdr(e.price, 0),
+                                  urlImg: e.mediaProducts!.isEmpty
+                                      ? ''
+                                      : '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                  rating: '${e.rating} (0k)',
+                                ),
                               ),
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  if (skincare.isNotEmpty)
-                    SizedBox(
-                      height: 12,
-                    ),
-                  if (treatment.isNotEmpty)
-                    Text(
-                      'Reservasi Treatment',
-                      style: TextStyle(
-                        fontWeight: bold,
-                        fontFamily: 'ProximaNova',
-                        fontSize: 18,
-                        letterSpacing: 0.5,
-                        color: fromCssColor(
-                          '#323232',
+                            )
+                            .toList(),
+                      ),
+                    if (skincare.isNotEmpty)
+                      SizedBox(
+                        height: 12,
+                      ),
+                    if (treatment.isNotEmpty)
+                      Text(
+                        'Reservasi Treatment',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 18,
+                          letterSpacing: 0.5,
+                          color: fromCssColor(
+                            '#323232',
+                          ),
                         ),
                       ),
-                    ),
-                  if (treatment.isNotEmpty)
-                    SizedBox(
-                      height: 10,
-                    ),
-                  if (treatment.isNotEmpty)
-                    Wrap(
-                      spacing: 12,
-                      runSpacing: 12,
-                      children: treatment.map((element) {
-                        return ProdukTreatment(
-                          treatmentData: element,
-                          namaKlinik: element.clinic?.name ?? '-',
-                          namaTreatmen: element.name ?? '-',
-                          diskonProduk: '0',
-                          hargaDiskon: '0',
-                          harga: element.price!.toString(),
-                          urlImg: element.mediaTreatments!.isEmpty
-                              ? ""
-                              : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (0k)',
-                          km: '${element.distance ?? '0'}',
-                          lokasiKlinik: element.clinic?.city?.name ?? '-',
-                        );
-                      }).toList(),
-                    ),
-                ],
+                    if (treatment.isNotEmpty)
+                      SizedBox(
+                        height: 20,
+                      ),
+                    if (treatment.isNotEmpty)
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 12,
+                        children: treatment.map((element) {
+                          return ProdukTreatment(
+                            treatmentData: element,
+                            namaKlinik: element.clinic?.name ?? '-',
+                            namaTreatmen: element.name ?? '-',
+                            diskonProduk: '0',
+                            hargaDiskon: '0',
+                            harga: element.price!.toString(),
+                            urlImg: element.mediaTreatments!.isEmpty
+                                ? ""
+                                : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                            rating: '${element.rating} (0k)',
+                            km: '${element.distance ?? '0'}',
+                            lokasiKlinik: element.clinic?.city?.name ?? '-',
+                          );
+                        }).toList(),
+                      ),
+                  ],
+                ),
               ),
             ),
     );
