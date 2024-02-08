@@ -16,6 +16,7 @@ import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_pa
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
+import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/maps_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -725,8 +726,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     topStart: Radius.circular(25),
                                   ),
                                 ),
-                                builder: (context) => FilterAll(),
+                                builder: (context) =>
+                                    FilterAllTreatmentWidget(),
                               ).then((value) async {
+                                if (value == null) return;
+
                                 if (value['promo'] == true) {
                                   treatments.clear();
                                   page = 1;
@@ -739,8 +743,8 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   filter['min_price'] = value['minPrice'];
                                   filter['max_price'] = value['maxPrice'];
 
-                                  treatments.clear();
                                   page = 1;
+                                  treatments.clear();
                                   treatments.addAll(
                                     await stateTreatment.getAllTreatment(
                                       context,
