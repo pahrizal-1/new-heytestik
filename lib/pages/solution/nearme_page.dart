@@ -8,11 +8,9 @@ import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
-import '../../widget/filter_all_widgets.dart';
+import '../../widget/filter_treatment_widgets.dart';
 import '../../widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
-
-import '../../widget/treatment_widgets.dart';
 
 class NearMePage extends StatefulWidget {
   const NearMePage({super.key});
@@ -201,8 +199,10 @@ class _NearMePageState extends State<NearMePage> {
                                 topStart: Radius.circular(25),
                               ),
                             ),
-                            builder: (context) => FilterAllWidget(),
+                            builder: (context) => FilterAllTreatmentWidget(),
                           ).then((value) async {
+                            if (value == null) return;
+
                             if (value['promo'] == true) {
                               treatments.clear();
                               page = 1;
@@ -246,11 +246,13 @@ class _NearMePageState extends State<NearMePage> {
                               topStart: Radius.circular(25),
                             ),
                           ),
-                          builder: (context) => TreatmentFilter(),
+                          builder: (context) => FilterTreatmentType(),
                         ).then((value) async {
-                          treatments.clear();
+                          if (value == null) return;
+
                           page = 1;
                           filter['treatment_type[]'] = value;
+                          treatments.clear();
                           treatments.addAll(
                             await stateTreatment.getNearTreatment(
                               context,
@@ -305,8 +307,7 @@ class _NearMePageState extends State<NearMePage> {
                           ));
                           setState(() {});
                         } else {
-                          filter['rating[]'] = '4';
-                          filter['rating[]'] = '5';
+                          filter['rating[]'] = ['4', '5'];
                           treatments.clear();
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
@@ -322,7 +323,7 @@ class _NearMePageState extends State<NearMePage> {
                     FiklterTreatment(
                       title: 'Buka Sekarang',
                       onTap: () async {
-                        if (filter.containsKey("open_now")) {
+                        if (filter['open_now'] == true) {
                           filter['open_now'] = false;
                           treatments.clear();
                           treatments

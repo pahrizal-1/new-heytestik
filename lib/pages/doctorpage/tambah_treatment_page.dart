@@ -2,26 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
-
-import '../solution/solutions_treatment1_Page.dart';
+import '../../widget/filter_treatment_widgets.dart';
 
 class TambahTreatmentCatatanDoktor extends StatefulWidget {
   const TambahTreatmentCatatanDoktor({super.key});
 
   @override
-  State<TambahTreatmentCatatanDoktor> createState() => _TambahTreatmentCatatanDoktorState();
+  State<TambahTreatmentCatatanDoktor> createState() =>
+      _TambahTreatmentCatatanDoktorState();
 }
 
-class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDoktor> {
+class _TambahTreatmentCatatanDoktorState
+    extends State<TambahTreatmentCatatanDoktor> {
   final TreatmentController state = Get.put(TreatmentController());
-  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
+  final DoctorConsultationController stateDoctor =
+      Get.put(DoctorConsultationController());
   TextEditingController searchController = TextEditingController();
   String type = '';
   int rating = 0;
@@ -85,7 +86,8 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                 } else {
                   showDialog(
                     context: context,
-                    builder: (context) => AlertWidget(subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
+                    builder: (context) => AlertWidget(
+                        subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
                   );
                 }
               },
@@ -121,7 +123,8 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                 });
                               } else {
                                 setState(() {
-                                  state.getAllTreatment(context, 1, search: searchController.text);
+                                  state.getAllTreatment(context, 1,
+                                      search: searchController.text);
                                 });
                               }
                             },
@@ -157,7 +160,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => FilterAll(),
+                              builder: (context) => FilterAllTreatmentWidget(),
                             ).then((value) async {
                               if (value['promo'] == true) {
                                 treatments.clear();
@@ -255,35 +258,63 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                     itemBuilder: (context, i) {
                                       return ProductTreatmentDoctor(
                                         treatmentData: state.dataTreatment[i],
-                                        namaKlinik: state.dataTreatment[i].clinic?.name ?? '-',
-                                        recovTime: state.dataTreatment[i].downtime ?? '-',
-                                        typeTreatment: state.dataTreatment[i].treatmentType ?? '-',
-                                        namaTreatmen: state.dataTreatment[i].name ?? '-',
+                                        namaKlinik: state.dataTreatment[i]
+                                                .clinic?.name ??
+                                            '-',
+                                        recovTime:
+                                            state.dataTreatment[i].downtime ??
+                                                '-',
+                                        typeTreatment: state.dataTreatment[i]
+                                                .treatmentType ??
+                                            '-',
+                                        namaTreatmen:
+                                            state.dataTreatment[i].name ?? '-',
                                         diskonProduk: '0',
                                         hargaDiskon: '0',
-                                        harga: state.dataTreatment[i].price!.toString(),
-                                        urlImg: state.dataTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.dataTreatment[i].mediaTreatments![0].media!.path!}",
-                                        rating: '${state.dataTreatment[i].rating} (0k)',
+                                        harga: state.dataTreatment[i].price!
+                                            .toString(),
+                                        urlImg: state.dataTreatment[i]
+                                                .mediaTreatments!.isEmpty
+                                            ? ""
+                                            : "${Global.FILE}/${state.dataTreatment[i].mediaTreatments![0].media!.path!}",
+                                        rating:
+                                            '${state.dataTreatment[i].rating} (0k)',
                                         km: '${state.dataTreatment[i].distance ?? '0'} km',
-                                        lokasiKlinik: state.dataTreatment[i].clinic?.city?.name ?? '-',
+                                        lokasiKlinik: state.dataTreatment[i]
+                                                .clinic?.city?.name ??
+                                            '-',
                                         iconPlus: InkWell(
                                           onTap: () {
                                             if (toogle.contains(i)) {
                                               setState(() {
                                                 toogle.remove(i);
-                                                stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
-                                                print('delete ${stateDoctor.listTreatmentNote}');
+                                                stateDoctor.listTreatmentNote
+                                                    .remove(stateDoctor
+                                                        .listTreatmentNote[i]);
+                                                print(
+                                                    'delete ${stateDoctor.listTreatmentNote}');
                                               });
                                             } else {
                                               setState(() {
                                                 toogle.add(i);
-                                                stateDoctor.listTreatmentNote.add({
-                                                  'name': state.dataTreatment[i].name ?? '-',
-                                                  'cost': state.dataTreatment[i].price!.toString(),
-                                                  'recovery_time': state.dataTreatment[i].downtime ?? '-',
-                                                  'type': state.dataTreatment[i].treatmentType ?? '-',
+                                                stateDoctor.listTreatmentNote
+                                                    .add({
+                                                  'name': state.dataTreatment[i]
+                                                          .name ??
+                                                      '-',
+                                                  'cost': state
+                                                      .dataTreatment[i].price!
+                                                      .toString(),
+                                                  'recovery_time': state
+                                                          .dataTreatment[i]
+                                                          .downtime ??
+                                                      '-',
+                                                  'type': state.dataTreatment[i]
+                                                          .treatmentType ??
+                                                      '-',
                                                 });
-                                                print('list ${stateDoctor.listTreatmentNote}');
+                                                print(
+                                                    'list ${stateDoctor.listTreatmentNote}');
                                                 // stateDoctor.listTreatmentNote.add();
                                               });
                                             }
@@ -293,14 +324,18 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                             height: 29,
                                             width: 40,
                                             decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(9),
-                                              border: Border.all(color: greenColor),
+                                              borderRadius:
+                                                  BorderRadius.circular(9),
+                                              border:
+                                                  Border.all(color: greenColor),
                                             ),
                                             child: toogle.contains(i)
                                                 ? Center(
                                                     child: Text(
                                                       '-',
-                                                      style: grenTextStyle.copyWith(fontSize: 20),
+                                                      style: grenTextStyle
+                                                          .copyWith(
+                                                              fontSize: 20),
                                                     ),
                                                   )
                                                 : Icon(

@@ -551,13 +551,10 @@ class _SolutionPageState extends State<SolutionPage> {
                         padding: const EdgeInsets.only(left: 25),
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PencarianKlinikTraetmentPage(),
-                              ),
-                            );
+                            Get.to(() => PencarianKlinikTraetmentPage(
+                                  treatmentType: stateTreatment
+                                      .treatment[index].treatmentType,
+                                ));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 8),

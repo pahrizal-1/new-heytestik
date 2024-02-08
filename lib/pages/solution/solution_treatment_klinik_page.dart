@@ -10,8 +10,7 @@ import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../models/clinic.dart';
-import '../../widget/filter_all_widgets.dart';
-import '../../widget/treatment_widgets.dart';
+import '../../widget/filter_treatment_widgets.dart';
 
 class TreatmentKlink extends StatefulWidget {
   const TreatmentKlink({super.key});
@@ -201,8 +200,10 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                                 topStart: Radius.circular(25),
                               ),
                             ),
-                            builder: (context) => FilterAllWidget(),
+                            builder: (context) => FilterAllTreatmentWidget(),
                           ).then((value) async {
+                            if (value == null) return;
+
                             if (value['promo'] == true) {
                               clinics.clear();
                               page = 1;
@@ -246,14 +247,21 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                               topStart: Radius.circular(25),
                             ),
                           ),
-                          builder: (context) => TreatmentFilter(),
+                          builder: (context) => FilterTreatmentType(),
                         ).then((value) async {
+                          if (value == null) return;
+
                           page = 1;
                           filter['treatment_type[]'] = value;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         });
                       },
@@ -300,8 +308,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                               search: search, filter: filter));
                           setState(() {});
                         } else {
-                          filter['rating[]'] = '4';
-                          filter['rating[]'] = '5';
+                          filter['rating[]'] = ['4', '5'];
                           clinics.clear();
                           clinics.addAll(await stateTreatment.getClinic(
                               context, page,
@@ -313,7 +320,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                     FiklterTreatment(
                       title: 'Buka Sekarang',
                       onTap: () async {
-                        if (filter.containsKey("open_now")) {
+                        if (filter['open_now'] == true) {
                           filter['open_now'] = false;
                           clinics.clear();
                           clinics.addAll(await stateTreatment.getClinic(
@@ -336,9 +343,14 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
                         if (promo) {
                           promo = false;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         } else {
                           promo = true;

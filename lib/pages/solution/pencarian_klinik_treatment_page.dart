@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -5,14 +7,14 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_treatment_widget.dart';
-import 'package:heystetik_mobileapps/widget/treatment_widgets.dart';
 import '../../models/clinic.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
-import '../../widget/filter_all_widgets.dart';
+import '../../widget/filter_treatment_widgets.dart';
 
 class PencarianKlinikTraetmentPage extends StatefulWidget {
-  const PencarianKlinikTraetmentPage({super.key});
+  String? treatmentType;
+  PencarianKlinikTraetmentPage({super.key, this.treatmentType = ""});
 
   @override
   State<PencarianKlinikTraetmentPage> createState() =>
@@ -33,6 +35,9 @@ class _PencarianKlinikTraetmentPageState
   @override
   void initState() {
     super.initState();
+    if (widget.treatmentType != " ") {
+      filter['treatment_type[]'] = widget.treatmentType;
+    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       clinics.addAll(await stateTreatment.getClinic(context, page,
           search: search, filter: filter));
@@ -166,8 +171,10 @@ class _PencarianKlinikTraetmentPageState
                                 topStart: Radius.circular(25),
                               ),
                             ),
-                            builder: (context) => FilterAllWidget(),
+                            builder: (context) => FilterAllTreatmentWidget(),
                           ).then((value) async {
+                            if (value == null) return;
+
                             if (value['promo'] == true) {
                               clinics.clear();
                               page = 1;
@@ -211,14 +218,21 @@ class _PencarianKlinikTraetmentPageState
                               topStart: Radius.circular(25),
                             ),
                           ),
-                          builder: (context) => TreatmentFilter(),
+                          builder: (context) => FilterTreatmentType(),
                         ).then((value) async {
+                          if (value == null) return;
+
                           page = 1;
                           filter['treatment_type[]'] = value;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         });
                       },
@@ -260,17 +274,26 @@ class _PencarianKlinikTraetmentPageState
                         if (filter.containsKey("rating[]")) {
                           filter.remove('rating[]');
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         } else {
-                          filter['rating[]'] = '4';
-                          filter['rating[]'] = '5';
+                          filter['rating[]'] = ['4', '5'];
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         }
                       },
@@ -278,19 +301,29 @@ class _PencarianKlinikTraetmentPageState
                     FiklterTreatment(
                       title: 'Buka Sekarang',
                       onTap: () async {
-                        if (filter.containsKey("open_now")) {
+                        if (filter['open_now'] == true) {
                           filter['open_now'] = false;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         } else {
                           filter['open_now'] = true;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         }
                       },
@@ -301,9 +334,14 @@ class _PencarianKlinikTraetmentPageState
                         if (promo) {
                           promo = false;
                           clinics.clear();
-                          clinics.addAll(await stateTreatment.getClinic(
-                              context, page,
-                              search: search, filter: filter));
+                          clinics.addAll(
+                            await stateTreatment.getClinic(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
                           setState(() {});
                         } else {
                           promo = true;
