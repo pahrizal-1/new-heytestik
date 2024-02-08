@@ -152,7 +152,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                 width: 55,
                 child: FloatingActionButton(
                   onPressed: () {
-                    Get.to(const BelumKonsultasiChat());
+                    Get.to(() => const SelectConditionsPage());
                   },
                   backgroundColor: greenColor,
                   child: Icon(
@@ -201,12 +201,7 @@ class BelumKonsultasiChat extends StatelessWidget {
             child: ButtonGreenWidget(
               title: 'Mulai Konsultasi',
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SelectConditionsPage(),
-                  ),
-                );
+                Get.to(() => const SelectConditionsPage());
               },
             ),
           ),
