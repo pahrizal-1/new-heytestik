@@ -2,8 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../../models/clinic.dart';
 
@@ -131,7 +133,16 @@ class CardTreatment extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ...treatments.map((val) {
-                      return ScrollTreatmentCard(treat: val);
+                      return InkWell(
+                        onTap: () {
+                          Get.to(
+                            () => DetailTreatmentPage(
+                              treatmentId: val.id!,
+                            ),
+                          );
+                        },
+                        child: ScrollTreatmentCard(treat: val),
+                      );
                     })
                   ],
                 ),
