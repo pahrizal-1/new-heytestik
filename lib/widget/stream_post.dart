@@ -149,6 +149,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
           if (widget.stream.postImage.isNotEmpty)
             CarouselSlider(
               options: CarouselOptions(
+                pauseAutoPlayInFiniteScroll: false,
                 padEnds: false,
                 enableInfiniteScroll: true,
                 height: 300,
