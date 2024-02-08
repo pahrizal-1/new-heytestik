@@ -418,7 +418,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           child: Center(
                             child: Text(
                               'Belum ada transaksi',
-                              style: blackTextStyle.copyWith(fontSize: 15),
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         )

@@ -119,19 +119,19 @@ class TransaksiKonsultan extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                            color: progres == 'Menunggu Pembayaran'
-                                ? const Color.fromARGB(255, 255, 204, 170)
-                                : progres == 'Ready'
-                                    ? const Color.fromARGB(255, 255, 204, 170)
-                                    : progres == 'Review'
-                                        ? const Color.fromARGB(
-                                            255, 255, 204, 170)
-                                        : progres == 'Aktif'
-                                            ? subgreenColor
-                                            : progres == 'Selesai'
-                                                ? subgreenColor
-                                                : subgreenColor,
-                            borderRadius: BorderRadius.circular(7)),
+                          color: progres == 'Menunggu Pembayaran'
+                              ? const Color.fromARGB(255, 255, 204, 170)
+                              : progres == 'Ready'
+                                  ? const Color.fromARGB(255, 255, 204, 170)
+                                  : progres == 'Review'
+                                      ? const Color.fromARGB(255, 255, 204, 170)
+                                      : progres == 'Aktif'
+                                          ? subgreenColor
+                                          : progres == 'Selesai'
+                                              ? subgreenColor
+                                              : subgreenColor,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         child: Text(
                           progres,
                           style: grenTextStyle.copyWith(
@@ -438,9 +438,10 @@ class TransaksiProduk extends StatelessWidget {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(4),
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    '${Global.FILE}/${product!.transactionProductItems?[i].product!.mediaProducts?[0].media?.path}'),
-                                fit: BoxFit.cover),
+                              image: NetworkImage(
+                                  '${Global.FILE}/${product!.transactionProductItems?[i].product!.mediaProducts?[0].media?.path}'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -665,16 +666,17 @@ class TransaksiTreatment extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                          color: progres == 'Menunggu Pembayaran'
-                              ? const Color.fromARGB(255, 255, 204, 170)
-                              : progres == 'Menunggu Konfirmasi Klinik'
-                                  ? const Color.fromARGB(255, 255, 204, 170)
-                                  : progres == 'Klinik Mengkonfirmasi'
-                                      ? subgreenColor
-                                      : progres == 'Selesai'
-                                          ? subgreenColor
-                                          : subgreenColor,
-                          borderRadius: BorderRadius.circular(7)),
+                        color: progres == 'Menunggu Pembayaran'
+                            ? const Color.fromARGB(255, 255, 204, 170)
+                            : progres == 'Menunggu Konfirmasi Klinik'
+                                ? const Color.fromARGB(255, 255, 204, 170)
+                                : progres == 'Klinik Mengkonfirmasi'
+                                    ? subgreenColor
+                                    : progres == 'Selesai'
+                                        ? subgreenColor
+                                        : subgreenColor,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
                       child: Text(
                         progres,
                         style: grenTextStyle.copyWith(
