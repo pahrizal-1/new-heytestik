@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/transaction/history/his
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/models/customer/detail_transaksi_produk_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
@@ -31,6 +32,9 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
   final HistoryTransactionController state =
       Get.put(HistoryTransactionController());
 
+  List<TransactionProductItems> listProduct = [];
+  bool isMore = false;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +43,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
         context,
         widget.transactionId.toString(),
       );
+      listProduct.addAll(
+          state.detailTransaksiProd.value.data?.transactionProductItems ?? []);
       setState(() {});
     });
   }
@@ -275,10 +281,10 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                     SizedBox(
                       height: 20,
                     ),
-                    ...?state
-                        .detailTransaksiProd.value.data?.transactionProductItems
-                        ?.map((item) {
-                      return Container(
+                    for (int index = 0;
+                        index < (isMore ? listProduct.length : 1);
+                        index++)
+                      Container(
                         margin: EdgeInsets.only(bottom: 9),
                         decoration: BoxDecoration(
                             border: Border.all(color: borderColor),
@@ -293,7 +299,7 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                      '${Global.FILE}/${item.product?.mediaProducts?[0].media?.path}'),
+                                      '${Global.FILE}/${listProduct[index].product?.mediaProducts?[0].media?.path}'),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -306,14 +312,14 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    item.product?.name ?? '-',
+                                    listProduct[index].product?.name ?? '-',
                                     style: grenTextStyle.copyWith(fontSize: 15),
                                   ),
                                   SizedBox(
                                     height: 3,
                                   ),
                                   Text(
-                                    '${item.qty} items',
+                                    '${listProduct[index].qty} items',
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 15),
                                   ),
@@ -322,13 +328,15 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                   ),
                                   Row(
                                     children: [
-                                      Text(
-                                        CurrencyFormat.convertToIdr(
-                                          item.subtotal,
-                                          0,
+                                      Expanded(
+                                        child: Text(
+                                          CurrencyFormat.convertToIdr(
+                                            listProduct[index].subtotal,
+                                            0,
+                                          ),
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 15),
                                         ),
-                                        style: blackTextStyle.copyWith(
-                                            fontSize: 15),
                                       ),
                                     ],
                                   ),
@@ -338,22 +346,10 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                             Spacer(),
                             InkWell(
                               onTap: () {
-                                if (state
-                                        .detailTransaksiProd
-                                        .value
-                                        .data
-                                        ?.transactionProductItems?[0]
-                                        .product
-                                        ?.type ==
+                                if (listProduct[index].product?.type ==
                                     'DRUGS') {
                                   Get.to(() => const DrugSolutionsPage());
-                                } else if (state
-                                        .detailTransaksiProd
-                                        .value
-                                        .data
-                                        ?.transactionProductItems?[0]
-                                        .product
-                                        ?.type ==
+                                } else if (listProduct[index].product?.type ==
                                     'SKINCARE') {
                                   Get.to(() => const SolutionSkincare1Page());
                                 }
@@ -378,26 +374,56 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                             )
                           ],
                         ),
-                      );
-                    }).toList(),
+                      ),
                     SizedBox(
                       height: 20,
                     ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Tampilkan Lebih Sedikit',
-                            style: grenTextStyle.copyWith(fontSize: 15),
+                    if (listProduct.length > 1)
+                      if (!isMore)
+                        InkWell(
+                          onTap: () {
+                            isMore = true;
+                            setState(() {});
+                          },
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Tampilkan Lebih Banyak',
+                                  style: grenTextStyle.copyWith(fontSize: 15),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: greenColor,
+                                )
+                              ],
+                            ),
                           ),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: greenColor,
-                          )
-                        ],
-                      ),
-                    ),
+                        ),
+                    if (listProduct.length > 1)
+                      if (isMore)
+                        InkWell(
+                          onTap: () {
+                            isMore = false;
+                            setState(() {});
+                          },
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Tampilkan Lebih Sedikit',
+                                  style: grenTextStyle.copyWith(fontSize: 15),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_up,
+                                  color: greenColor,
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
                   ],
                 ),
               ),
