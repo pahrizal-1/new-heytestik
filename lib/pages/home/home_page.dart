@@ -70,8 +70,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           child: Row(
             children: [
               InkWell(
-                onTap: () async {
-                  // await stateProfile.timeout(context);
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -104,10 +103,12 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 'Hai, ',
                 style: blackRegulerTextStyle.copyWith(fontSize: 18),
               ),
-              Obx(
-                () => Text(
-                  stateProfile.fullName.value,
-                  style: blackTextStyle.copyWith(fontSize: 18),
+              Expanded(
+                child: Obx(
+                  () => Text(
+                    stateProfile.fullName.value,
+                    style: blackTextStyle.copyWith(fontSize: 18),
+                  ),
                 ),
               )
             ],
