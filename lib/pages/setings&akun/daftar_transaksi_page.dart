@@ -106,9 +106,25 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
               onEditingComplete: () async {
                 page = 1;
                 search = searchController.text;
+                totalPending = 0;
+                cek.clear();
+                cek.addAll(
+                  await state.getAllHistory(
+                    context,
+                    page,
+                    search: search,
+                    filter: filter,
+                  ),
+                );
                 history.clear();
-                history.addAll(await state.getAllHistory(context, page,
-                    search: search, filter: filter));
+                for (int i = 0; i < cek.length; i++) {
+                  if (cek[i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
+                    totalPending += 1;
+                  }
+                  if (cek[i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
+                    history.add(cek[i]);
+                  }
+                }
                 setState(() {});
               },
               decoration: InputDecoration(
@@ -173,10 +189,27 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             onTap: () async {
                               filter.clear();
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             },
                             child: Container(
@@ -186,11 +219,14 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: borderColor,
+                                  color: greenColor,
                                 ),
                                 borderRadius: BorderRadius.circular(7),
                               ),
-                              child: const Icon(Icons.close),
+                              child: Icon(
+                                Icons.close,
+                                color: greenColor,
+                              ),
                             ),
                           ),
                         InkWell(
@@ -199,10 +235,27 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 .then((value) async {
                               filter['transaction_status[]'] = value;
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             });
                           },
@@ -240,10 +293,27 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 .then((value) async {
                               filter['transaction_type[]'] = value;
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             });
                           },
@@ -281,13 +351,29 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 .then((value) async {
                               filter['start_date'] = DateTime.now()
                                   .subtract(Duration(days: value));
-                              filter['end_date'] = DateTime.now()
-                                  .subtract(Duration(days: value));
+                              filter['end_date'] = DateTime.now();
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             });
                           },
