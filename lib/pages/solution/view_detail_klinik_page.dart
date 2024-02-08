@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
@@ -21,8 +22,6 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as Treatment;
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
-import '../../widget/card_widget.dart';
-import '../../widget/filter_tap_widget.dart';
 
 class DetailKlinikPage extends StatefulWidget {
   int clinicId;
@@ -50,9 +49,11 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
   ];
   int currentIndex = 0;
   bool isSelecteTampilan = true;
-
   List<Treatment.Data2> treatments = [];
   int page = 1;
+  String? search;
+  Map<String, dynamic> filter = {};
+  bool emptyLoading = false;
 
   @override
   void initState() {
@@ -146,7 +147,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: emptyLoading ? false : state.isLoading.value,
           child: ListView(
             children: [
               CarouselSlider.builder(
@@ -754,10 +755,10 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
+                              onTap: () async {
+                                return showModalBottomSheet(
                                   isScrollControlled: true,
+                                  context: context,
                                   backgroundColor: Colors.white,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadiusDirectional.only(
@@ -765,8 +766,40 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterShowModal(),
-                                );
+                                  builder: (context) =>
+                                      FilterAllTreatmentWidget(),
+                                ).then((value) async {
+                                  if (value == null) return;
+
+                                  if (value['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                  } else {
+                                    filter['treatment_type[]'] =
+                                        value['treatment'];
+                                    filter['order_by'] = value['orderBy'];
+                                    filter['open_now'] = value['openNow'];
+                                    filter['min_price'] = value['minPrice'];
+                                    filter['max_price'] = value['maxPrice'];
+
+                                    page = 1;
+                                    treatments.clear();
+                                    setState(() {
+                                      emptyLoading = true;
+                                    });
+                                    treatments.addAll(
+                                      await state.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+                                    emptyLoading = false;
+                                  }
+                                  setState(() {});
+                                });
                               },
                               child: Image.asset(
                                 'assets/icons/filters.png',
@@ -823,20 +856,81 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                             const SizedBox(
                                               height: 31,
                                             ),
-                                            const FilterTapTreatment(
-                                              title: 'Rating Tertinggi',
+                                            FilterTapTreatment(
+                                              title: 'Terbaru',
+                                              onTap: () async {
+                                                Get.back();
+                                                filter['order_by'] = 'RATING';
+
+                                                page = 1;
+                                                treatments.clear();
+                                                setState(() {
+                                                  emptyLoading = true;
+                                                });
+                                                treatments.addAll(
+                                                  await state.getAllTreatment(
+                                                    context,
+                                                    page,
+                                                    search: search,
+                                                    filter: filter,
+                                                  ),
+                                                );
+                                                emptyLoading = false;
+                                                setState(() {});
+                                              },
                                             ),
                                             const SizedBox(
                                               height: 18,
                                             ),
-                                            const FilterTapTreatment(
-                                              title: 'Ulasan Terbanyaki',
+                                            FilterTapTreatment(
+                                              title: 'Popularitas',
+                                              onTap: () async {
+                                                Get.back();
+                                                filter['order_by'] =
+                                                    'POPULARITY';
+
+                                                page = 1;
+                                                treatments.clear();
+                                                setState(() {
+                                                  emptyLoading = true;
+                                                });
+                                                treatments.addAll(
+                                                  await state.getAllTreatment(
+                                                    context,
+                                                    page,
+                                                    search: search,
+                                                    filter: filter,
+                                                  ),
+                                                );
+                                                emptyLoading = false;
+                                                setState(() {});
+                                              },
                                             ),
                                             const SizedBox(
                                               height: 18,
                                             ),
-                                            const FilterTapTreatment(
-                                              title: 'Treatment Terlaris',
+                                            FilterTapTreatment(
+                                              title: 'Jarak',
+                                              onTap: () async {
+                                                Get.back();
+                                                filter['order_by'] = 'DISTANCE';
+
+                                                page = 1;
+                                                treatments.clear();
+                                                setState(() {
+                                                  emptyLoading = true;
+                                                });
+                                                treatments.addAll(
+                                                  await state.getAllTreatment(
+                                                    context,
+                                                    page,
+                                                    search: search,
+                                                    filter: filter,
+                                                  ),
+                                                );
+                                                emptyLoading = false;
+                                                setState(() {});
+                                              },
                                             ),
                                             const SizedBox(
                                               height: 29,
@@ -933,7 +1027,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                   urlImg: element.mediaTreatments!.isEmpty
                                       ? ""
                                       : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                                  rating: '${element.rating} (120k)',
+                                  rating: '${element.rating} (0k)',
                                   km: '${element.distance}',
                                   lokasiKlinik: element.clinic!.city!.name!,
                                 );
@@ -988,163 +1082,6 @@ class MapsWidgetClinic extends StatelessWidget {
           buttonText: 'Lokasi',
           onPicked: (pickedData) async {},
         ),
-      ),
-    );
-  }
-}
-
-class FilterShowModal extends StatelessWidget {
-  const FilterShowModal({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Filter',
-            style: blackHigtTextStyle.copyWith(fontSize: 20),
-          ),
-          const SizedBox(
-            height: 31,
-          ),
-          Text(
-            'Pilihan Klinik',
-            style: blackTextStyle.copyWith(fontSize: 15),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: const [
-              CardSearch(
-                title: 'Promo',
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              CardSearch(
-                title: 'Buka Sekarang',
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 28,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    fillColor: greenColor,
-                    hoverColor: greenColor,
-                    hintText: 'Min.',
-                    hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(7)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    contentPadding: const EdgeInsets.all(12),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 13,
-              ),
-              Text(
-                'hingga',
-                style: subGreyTextStyle,
-              ),
-              const SizedBox(
-                width: 13,
-              ),
-              Expanded(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    fillColor: greenColor,
-                    hoverColor: greenColor,
-                    hintText: 'Max',
-                    hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(7)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    contentPadding: const EdgeInsets.all(12),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 29,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: () {},
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        color: greenColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Simpan',
-                        style: whiteTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ],
       ),
     );
   }
