@@ -375,89 +375,103 @@ class _NearMePageState extends State<NearMePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 12, left: 25, right: 25),
+      body: treatments.isEmpty
+          ? Center(
+              child: Text(
+                'Belum ada treatment',
+                style: TextStyle(
+                  fontWeight: bold,
+                  fontFamily: 'ProximaNova',
+                  fontSize: 20,
+                ),
+              ),
+            )
+          : SingleChildScrollView(
               child: Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        isSelecteTampilan = !isSelecteTampilan;
-                      });
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 12, left: 25, right: 25),
+                    child: Column(
                       children: [
-                        Text(
-                          'Tampilan',
-                          style: subTitleTextStyle.copyWith(
-                              color: const Color(0xff6B6B6B)),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isSelecteTampilan = !isSelecteTampilan;
+                            });
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Tampilan',
+                                style: subTitleTextStyle.copyWith(
+                                    color: const Color(0xff6B6B6B)),
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              isSelecteTampilan
+                                  ? SvgPicture.asset(
+                                      'assets/icons/tampilan1.svg')
+                                  : SvgPicture.asset(
+                                      'assets/icons/tampillan2.svg')
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          width: 4,
+                          height: 17,
                         ),
-                        isSelecteTampilan
-                            ? SvgPicture.asset('assets/icons/tampilan1.svg')
-                            : SvgPicture.asset('assets/icons/tampillan2.svg')
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 17,
-                  ),
+                  isSelecteTampilan
+                      ? Container(
+                          padding: const EdgeInsets.only(
+                            left: 20.0,
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          child: Wrap(
+                            runSpacing: 12,
+                            spacing: 12,
+                            children: treatments.map((element) {
+                              return ProdukTreatment(
+                                namaKlinik: element.clinic?.name ?? '-',
+                                namaTreatmen: element.name!,
+                                diskonProduk: '0',
+                                hargaDiskon: '0',
+                                harga: element.price.toString(),
+                                urlImg: element.mediaTreatments!.isEmpty
+                                    ? ""
+                                    : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                rating: '${element.rating} (0k)',
+                                km: element.distance ?? '0',
+                                lokasiKlinik: element.clinic?.city?.name ?? '-',
+                                treatmentData: element,
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 19),
+                          child: Column(
+                            children: treatments
+                                .map(
+                                  (e) => TampilanRight(
+                                    treatment: e,
+                                    urlImg: e.mediaTreatments!.isEmpty
+                                        ? ""
+                                        : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
                 ],
               ),
             ),
-            isSelecteTampilan
-                ? Container(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    child: Wrap(
-                      runSpacing: 12,
-                      spacing: 12,
-                      children: treatments.map((element) {
-                        return ProdukTreatment(
-                          namaKlinik: element.clinic?.name ?? '-',
-                          namaTreatmen: element.name!,
-                          diskonProduk: '0',
-                          hargaDiskon: '0',
-                          harga: element.price.toString(),
-                          urlImg: element.mediaTreatments!.isEmpty
-                              ? ""
-                              : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (0k)',
-                          km: element.distance ?? '0',
-                          lokasiKlinik: element.clinic?.city?.name ?? '-',
-                          treatmentData: element,
-                        );
-                      }).toList(),
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 19),
-                    child: Column(
-                      children: treatments
-                          .map(
-                            (e) => TampilanRight(
-                              treatment: e,
-                              urlImg: e.mediaTreatments!.isEmpty
-                                  ? ""
-                                  : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-          ],
-        ),
-      ),
     );
   }
 }

@@ -322,7 +322,7 @@ class _PencarianKlinikTraetmentPageState
       body: clinics.isEmpty
           ? Center(
               child: Text(
-                'Belum ada Klinik',
+                'Belum ada klinik',
                 style: TextStyle(
                   fontWeight: bold,
                   fontFamily: 'ProximaNova',
