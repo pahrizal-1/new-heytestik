@@ -112,29 +112,39 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
       ),
       body: ListView(
         children: [
-          Padding(
-            padding: lsymetric.copyWith(top: 18, bottom: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Semua Treatment',
-                  style: blackHigtTextStyle.copyWith(fontSize: 18),
-                ),
-              ],
+          InkWell(
+            onTap: () {
+              Get.back(result: "semua");
+            },
+            child: Padding(
+              padding: lsymetric.copyWith(top: 18, bottom: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Semua Treatment',
+                    style: blackHigtTextStyle.copyWith(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
           dividergrey(),
-          Padding(
-            padding: lsymetric.copyWith(top: 18, bottom: 18),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Diskon',
-                  style: blackHigtTextStyle.copyWith(fontSize: 18),
-                ),
-              ],
+          InkWell(
+            onTap: () {
+              Get.back(result: "diskon");
+            },
+            child: Padding(
+              padding: lsymetric.copyWith(top: 18, bottom: 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Diskon',
+                    style: blackHigtTextStyle.copyWith(fontSize: 18),
+                  ),
+                ],
+              ),
             ),
           ),
           dividergrey(),
@@ -184,11 +194,16 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
                               ),
                             ),
                             itemBuilder: (c, element) {
-                              return EtalaseTreatmentPage(
-                                interestConditionId: element.id,
-                                title: element.name.toString(),
-                                img:
-                                    '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                              return InkWell(
+                                onTap: () {
+                                  Get.back(result: element.id);
+                                },
+                                child: CardEtalase(
+                                  interestConditionId: element.id,
+                                  title: element.name.toString(),
+                                  img:
+                                      '${Global.FILE}/${element.mediaConcern!.media!.path}',
+                                ),
                               );
                             },
                           ),
@@ -203,11 +218,11 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
   }
 }
 
-class EtalaseTreatmentPage extends StatelessWidget {
+class CardEtalase extends StatelessWidget {
   final int? interestConditionId;
   final String title;
   final String img;
-  const EtalaseTreatmentPage({
+  const CardEtalase({
     super.key,
     required this.interestConditionId,
     required this.title,
@@ -218,47 +233,41 @@ class EtalaseTreatmentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: InkWell(
-        onTap: () {
-          print('interestConditionId $interestConditionId');
-          // Get.to(ChatPage(interestConditionId: interestConditionId));
-        },
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 47,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: const Color(0xffD9D9D9),
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        img,
-                      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                height: 47,
+                width: 60,
+                decoration: BoxDecoration(
+                  color: const Color(0xffD9D9D9),
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      img,
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 13,
-                ),
-                Text(
-                  title,
-                  style: blackTextStyle,
-                ),
-                // const Spacer(),
-                // const Icon(
-                //   Icons.arrow_forward_ios_rounded,
-                // ),
-              ],
-            ),
-            Divider(
-              color: greyColor,
-              thickness: 0.5,
-            ),
-          ],
-        ),
+              ),
+              const SizedBox(
+                width: 13,
+              ),
+              Text(
+                title,
+                style: blackTextStyle,
+              ),
+              // const Spacer(),
+              // const Icon(
+              //   Icons.arrow_forward_ios_rounded,
+              // ),
+            ],
+          ),
+          Divider(
+            color: greyColor,
+            thickness: 0.5,
+          ),
+        ],
       ),
     );
   }

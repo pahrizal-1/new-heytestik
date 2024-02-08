@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +33,7 @@ class DetailKlinikPage extends StatefulWidget {
 
 class _DetailKlnikPageState extends State<DetailKlinikPage> {
   final TreatmentController state = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
   bool isVisibelity = true;
   bool isVisibelityJam = true;
   int activeIndex = 0;
@@ -62,6 +63,25 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
       state.getClinicDetail(context, widget.clinicId);
       treatments.addAll(await state.getAllTreatment(context, page));
       setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            emptyLoading = true;
+            treatments.addAll(await state.getAllTreatment(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
+            emptyLoading = false;
+            setState(() {});
+          });
+        }
+      }
     });
   }
 
@@ -149,6 +169,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
         () => LoadingWidget(
           isLoading: emptyLoading ? false : state.isLoading.value,
           child: ListView(
+            controller: scrollController,
             children: [
               CarouselSlider.builder(
                 itemCount:
@@ -968,13 +989,50 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                               ),
                             ),
                             InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EtalaseTreatMentPage()),
-                                );
+                              onTap: () async {
+                                var res = await Get.to(
+                                    () => const EtalaseTreatMentPage());
+
+                                if (res == 'semua') {
+                                  filter = {};
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {
+                                    emptyLoading = true;
+                                  });
+                                  treatments.addAll(
+                                    await state.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  emptyLoading = false;
+                                  setState(() {});
+                                } else if (res == 'diskon') {
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {});
+                                } else {
+                                  filter['concern_ids[]'] = res;
+
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {
+                                    emptyLoading = true;
+                                  });
+                                  treatments.addAll(
+                                    await state.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  emptyLoading = false;
+                                  setState(() {});
+                                }
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 9),
@@ -1007,51 +1065,63 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                     ],
                   ),
                 ),
-                content: isSelecteTampilan
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15, top: 19),
-                            child: Wrap(
-                              spacing: 15,
-                              runSpacing: 15,
-                              children: treatments.map((element) {
-                                return ProdukTreatment(
-                                  treatmentData: element,
-                                  namaKlinik: element.clinic!.name!,
-                                  namaTreatmen: element.name!,
-                                  diskonProduk: '0',
-                                  hargaDiskon: '0',
-                                  harga: element.price!.toString(),
-                                  urlImg: element.mediaTreatments!.isEmpty
-                                      ? ""
-                                      : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                                  rating: '${element.rating} (0k)',
-                                  km: '${element.distance}',
-                                  lokasiKlinik: element.clinic!.city!.name!,
-                                );
-                              }).toList(),
-                            ),
-                          )
-                        ],
+                content: treatments.isEmpty
+                    ? Center(
+                        child: Text(
+                          'Belum ada treatment',
+                          style: TextStyle(
+                            fontWeight: bold,
+                            fontFamily: 'ProximaNova',
+                            fontSize: 20,
+                          ),
+                        ),
                       )
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 19),
-                        child: Column(
-                          children: treatments
-                              .map(
-                                (e) => TampilanRight(
-                                  treatment: e,
-                                  urlImg: e.mediaTreatments!.isEmpty
-                                      ? ""
-                                      : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                    : isSelecteTampilan
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, top: 19),
+                                child: Wrap(
+                                  spacing: 15,
+                                  runSpacing: 15,
+                                  children: treatments.map((element) {
+                                    return ProdukTreatment(
+                                      treatmentData: element,
+                                      namaKlinik: element.clinic!.name!,
+                                      namaTreatmen: element.name!,
+                                      diskonProduk: '0',
+                                      hargaDiskon: '0',
+                                      harga: element.price!.toString(),
+                                      urlImg: element.mediaTreatments!.isEmpty
+                                          ? ""
+                                          : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                      rating: '${element.rating} (0k)',
+                                      km: '${element.distance}',
+                                      lokasiKlinik: element.clinic!.city!.name!,
+                                    );
+                                  }).toList(),
                                 ),
                               )
-                              .toList(),
-                        ),
-                      ),
+                            ],
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 19),
+                            child: Column(
+                              children: treatments
+                                  .map(
+                                    (e) => TampilanRight(
+                                      treatment: e,
+                                      urlImg: e.mediaTreatments!.isEmpty
+                                          ? ""
+                                          : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
               ),
               const SizedBox(
                 height: 14,
