@@ -790,7 +790,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               ? ""
                               : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
                           rating: '${element.rating} (0k)',
-                          km: '${element.distance ?? '0'} km',
+                          km: '${element.distance ?? '0'}',
                           lokasiKlinik: element.clinic?.city?.name ?? '-',
                         );
                       }).toList(),

@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/search_solution_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
@@ -30,7 +31,6 @@ import '../../core/currency_format.dart';
 import '../../core/global.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
-import '../../widget/pencarian_search_widget.dart';
 import '../../widget/produk_height_widget.dart';
 import '../../widget/produk_widget.dart';
 
@@ -192,7 +192,7 @@ class _SolutionPageState extends State<SolutionPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => SearchSolutionPage(),
                 ),
               );
             },
