@@ -19,7 +19,6 @@ import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/maps_widget.dart';
-import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
@@ -288,62 +287,57 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
-            child: InkWell(
-              onTap: () {
-                Get.to(PencarianPageWidget());
-              },
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: fromCssColor('#CCCCCC'),
-                  ),
-                  borderRadius: BorderRadius.circular(35),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: fromCssColor('#CCCCCC'),
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 10,
-                      ),
-                      child: Image.asset(
-                        'assets/icons/search1.png',
-                        width: 10,
-                      ),
+                borderRadius: BorderRadius.circular(35),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 10,
                     ),
-                    Container(
-                      transform: Matrix4.translationValues(0, -2, 0),
-                      constraints: const BoxConstraints(maxWidth: 250),
-                      child: TextFormField(
-                        controller: searchController,
-                        onEditingComplete: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TreatmentSearch(
-                                search: searchController.text,
-                              ),
+                    child: Image.asset(
+                      'assets/icons/search1.png',
+                      width: 10,
+                    ),
+                  ),
+                  Container(
+                    transform: Matrix4.translationValues(0, -2, 0),
+                    constraints: const BoxConstraints(maxWidth: 250),
+                    child: TextFormField(
+                      controller: searchController,
+                      onEditingComplete: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TreatmentSearch(
+                              search: searchController.text,
                             ),
-                          );
-                        },
-                        style: const TextStyle(
-                            fontSize: 15, fontFamily: "ProximaNova"),
-                        decoration: InputDecoration(
-                          hintText: "Cari Treatment",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                            fontFamily: "ProximaNova",
-                            color: fromCssColor(
-                              '#9B9B9B',
-                            ),
+                          ),
+                        );
+                      },
+                      style: const TextStyle(
+                          fontSize: 15, fontFamily: "ProximaNova"),
+                      decoration: InputDecoration(
+                        hintText: "Cari Treatment",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: fromCssColor(
+                            '#9B9B9B',
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
