@@ -15,7 +15,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.da
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.dart';
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';

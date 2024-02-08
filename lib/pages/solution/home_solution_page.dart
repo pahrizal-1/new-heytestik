@@ -15,7 +15,7 @@ import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_p
 import 'package:heystetik_mobileapps/pages/solution/search_solution_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
-import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
