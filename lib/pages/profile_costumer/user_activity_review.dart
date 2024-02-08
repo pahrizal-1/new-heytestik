@@ -96,10 +96,10 @@ class _UserActivityReviewState extends State<UserActivityReview> {
                                       ?.fullname ??
                                   '-',
                               nameProduk: reviews[index]
-                                      .detail!
-                                      .consultation
+                                      .detail
                                       ?.medicalHistory
                                       ?.interestCondition
+                                      ?.concern
                                       ?.name ??
                                   '-',
                               waktu: timeago.format(DateTime.parse(

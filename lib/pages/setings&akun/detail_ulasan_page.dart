@@ -144,8 +144,8 @@ class DetailPageUlasanKonsultasi extends StatelessWidget {
                             style: blackHigtTextStyle.copyWith(fontSize: 13),
                           ),
                           Text(
-                            data.detail!.consultation?.medicalHistory
-                                    ?.interestCondition?.name ??
+                            data.detail?.medicalHistory?.interestCondition
+                                    ?.concern?.name ??
                                 '-',
                             style: blackRegulerTextStyle.copyWith(
                                 fontSize: 13, color: blackColor),

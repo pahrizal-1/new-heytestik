@@ -10,17 +10,17 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import '../models/customer/waiting_review_model.dart';
 
 class UlasanKonsultasi extends StatelessWidget {
-  final String nameProduk;
+  final String nameDoktor;
   final String tanggal;
   final VoidCallback? onPressed;
   final String img;
-  final String namabrand;
+  final String concern;
   // final String titleButton;
   const UlasanKonsultasi({
     super.key,
-    required this.nameProduk,
+    required this.nameDoktor,
     required this.tanggal,
-    required this.namabrand,
+    required this.concern,
     // required this.titleButton,
     required this.img,
     this.onPressed,
@@ -76,11 +76,11 @@ class UlasanKonsultasi extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    nameProduk,
+                    nameDoktor,
                     style: blackHigtTextStyle.copyWith(fontSize: 13),
                   ),
                   Text(
-                    namabrand,
+                    concern,
                     style: blackRegulerTextStyle.copyWith(
                         fontSize: 13, color: blackColor),
                   ),
