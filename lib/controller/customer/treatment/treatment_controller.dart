@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/models/clinic.dart';
+import 'package:heystetik_mobileapps/models/clinic.dart' as Clinic;
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
@@ -27,9 +27,9 @@ class TreatmentController extends StateClass {
   RxString fullName = '-'.obs;
   RxString phone = '-'.obs;
 
-  Rx<ClinicModel> responseClinic = ClinicModel().obs;
-  RxList<ClinicDataModel> dataClinic =
-      List<ClinicDataModel>.empty(growable: true).obs;
+  Rx<Clinic.ClinicModel> responseClinic = Clinic.ClinicModel().obs;
+  RxList<Clinic.Data2> dataClinic =
+      List<Clinic.Data2>.empty(growable: true).obs;
   Rx<FindClinicModel> responseClinicDetail = FindClinicModel().obs;
 
   RxList<TreatmentReview.Data2> treatmentReview =
@@ -41,7 +41,7 @@ class TreatmentController extends StateClass {
     phone.value = dataUser['no_phone'];
   }
 
-  Future<List<ClinicDataModel>> getClinic(
+  Future<List<Clinic.Data2>> getClinic(
     BuildContext context,
     int page, {
     String? search,
@@ -50,15 +50,17 @@ class TreatmentController extends StateClass {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      ClinicModel data = await TreatmentService()
+      Clinic.ClinicModel data = await TreatmentService()
           .getClinic(page, search: search, filter: filter);
       responseClinic.value = data;
-      dataClinic.value.addAll(responseClinic.value.data!);
+      dataClinic.value.addAll(responseClinic.value.data?.data ?? []);
+
+      print(responseClinic.value.data?.data?.length);
     });
 
     isLoading.value = false;
 
-    return responseClinic.value.data!;
+    return responseClinic.value.data?.data ?? [];
   }
 
   void getFilterTreatment() async {}

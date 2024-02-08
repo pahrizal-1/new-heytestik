@@ -11,7 +11,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/search_solution_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
 
@@ -555,7 +555,7 @@ class _SolutionPageState extends State<SolutionPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    const PeelinngTraetmentPage(),
+                                    const PencarianKlinikTraetmentPage(),
                               ),
                             );
                           },
