@@ -771,33 +771,44 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ],
                 ),
               ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Wrap(
-                      spacing: 15,
-                      runSpacing: 12,
-                      children: treatments.map((element) {
-                        return ProdukTreatment(
-                          treatmentData: element,
-                          namaKlinik: element.clinic?.name ?? '-',
-                          namaTreatmen: element.name ?? '-',
-                          diskonProduk: '0',
-                          hargaDiskon: '0',
-                          harga: element.price!.toString(),
-                          urlImg: element.mediaTreatments!.isEmpty
-                              ? ""
-                              : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (0k)',
-                          km: '${element.distance ?? '0'}',
-                          lokasiKlinik: element.clinic?.city?.name ?? '-',
-                        );
-                      }).toList(),
+              content: treatments.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Belum ada treatment',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Wrap(
+                            spacing: 15,
+                            runSpacing: 12,
+                            children: treatments.map((element) {
+                              return ProdukTreatment(
+                                treatmentData: element,
+                                namaKlinik: element.clinic?.name ?? '-',
+                                namaTreatmen: element.name ?? '-',
+                                diskonProduk: '0',
+                                hargaDiskon: '0',
+                                harga: element.price!.toString(),
+                                urlImg: element.mediaTreatments!.isEmpty
+                                    ? ""
+                                    : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                rating: '${element.rating} (0k)',
+                                km: '${element.distance ?? '0'}',
+                                lokasiKlinik: element.clinic?.city?.name ?? '-',
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
             )
           ],
         ),
