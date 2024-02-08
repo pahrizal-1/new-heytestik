@@ -507,7 +507,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                         history[index].transactionId.toString(),
                                     tanggal: ConvertDate.defaultDate(
                                         history[index].createdAt ?? '-'),
-                                    pesanan: 'Treatment',
+                                    pesanan: 'Reservasi Treatment',
                                     progres: history[index].detail?.status ==
                                             'MENUNGGU_PEMBAYARAN'
                                         ? 'Menunggu Pembayaran'

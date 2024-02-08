@@ -348,7 +348,7 @@ class TransaksiProduk extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Produk',
+                      'Pesan Obat & Skincare',
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     Text(
@@ -423,53 +423,50 @@ class TransaksiProduk extends StatelessWidget {
             const SizedBox(
               height: 7,
             ),
-            Column(
-              children: [
-                for (int i = 0;
-                    i < product!.transactionProductItems!.length;
-                    i++)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 37,
-                          width: 37,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  '${Global.FILE}/${product!.transactionProductItems?[i].product!.mediaProducts?[0].media?.path}'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product!.transactionProductItems?[i].product
-                                      ?.name ??
-                                  '-',
-                              style: blackHigtTextStyle.copyWith(fontSize: 13),
-                            ),
-                            Text(
-                              product!.transactionProductItems?[i].product
-                                      ?.type ??
-                                  '-',
-                              style:
-                                  blackRegulerTextStyle.copyWith(fontSize: 13),
-                            ),
-                          ],
-                        ),
-                      ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                children: [
+                  Container(
+                    height: 37,
+                    width: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            '${Global.FILE}/${product!.transactionProductItems?[0].product!.mediaProducts?[0].media?.path}'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product!.transactionProductItems?[0].product?.name ??
+                            '-',
+                        style: blackHigtTextStyle.copyWith(fontSize: 13),
+                      ),
+                      Text(
+                        '${product!.transactionProductItems?[0].qty} barang',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(
+              height: 5,
+            ),
+            if ((product!.transactionProductItems?.length ?? 0) > 1)
+              Text(
+                '+${(product!.transactionProductItems?.length ?? 0) - 1} produk lainnnya',
+                style: blackRegulerTextStyle.copyWith(fontSize: 13),
+              ),
             const SizedBox(
               height: 14,
             ),
