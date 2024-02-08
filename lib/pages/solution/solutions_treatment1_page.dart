@@ -650,10 +650,58 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               .entries
                               .map((element) {
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 if (element.key == 0) {
-                                  Get.to(() => EtalaseTreatMentPage());
-                                } else {}
+                                  var res = await Get.to(
+                                      () => EtalaseTreatMentPage());
+                                  if (res == 'semua') {
+                                    filter = {};
+                                    page = 1;
+                                    treatments.clear();
+                                    treatments.addAll(
+                                      await stateTreatment.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+
+                                    setState(() {});
+                                  } else if (res == 'diskon') {
+                                    page = 1;
+                                    treatments.clear();
+                                    setState(() {});
+                                  } else {
+                                    filter['concern_ids[]'] = res;
+
+                                    page = 1;
+                                    treatments.clear();
+                                    treatments.addAll(
+                                      await stateTreatment.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+
+                                    setState(() {});
+                                  }
+                                } else {
+                                  filter['concern_ids[]'] = element.value.id;
+                                  page = 1;
+                                  treatments.clear();
+                                  treatments.addAll(
+                                    await stateTreatment.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                }
                               },
                               child: element.key == 0
                                   ? Column(

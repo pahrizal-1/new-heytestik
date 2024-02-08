@@ -1047,7 +1047,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: const [
-                                    Text('Retalase Treatment'),
+                                    Text('Etalase Treatment'),
                                     SizedBox(
                                       width: 9,
                                     ),
