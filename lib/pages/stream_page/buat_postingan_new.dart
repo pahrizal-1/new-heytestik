@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'dart:io';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -321,18 +322,28 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                   ),
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: imagePath
-                      .asMap()
-                      .map((i, element) => MapEntry(i, fotoStream(element, i)))
-                      .values
-                      .toList(),
-                ),
+              // SingleChildScrollView(
+              //   scrollDirection: Axis.horizontal,
+              //   child: Row(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     mainAxisAlignment: MainAxisAlignment.start,
+              // children: imagePath
+              //     .asMap()
+              //     .map((i, element) => MapEntry(i, fotoStream(element, i)))
+              //     .values
+              //     .toList(),
+              //   ),
+              // ),
+              CarouselSlider(
+                options: CarouselOptions(
+                    initialPage: 1, enableInfiniteScroll: false),
+                items: imagePath
+                    .asMap()
+                    .map((i, element) => MapEntry(i, fotoStream(element, i)))
+                    .values
+                    .toList(),
               ),
+
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 11),
                 child: Row(
@@ -1006,16 +1017,17 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   Widget fotoStream(String image, int index) {
     return Container(
       margin: EdgeInsets.only(right: 10),
-      width: 200,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+            image: FileImage(File(image)),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(5)),
       child: Stack(
         children: [
-          Image.file(
-            File(image),
-            fit: BoxFit.fill,
-          ),
           Positioned(
-            top: 10,
-            left: 170,
+            top: 5,
+            left: 250,
             child: InkWell(
               onTap: () {
                 imagePath.removeWhere((item) {

@@ -181,6 +181,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                   return buildImg1('${Global.FILE}/$image');
                 },
                 options: CarouselOptions(
+                  pauseAutoPlayInFiniteScroll: false,
                   height: 210,
                   viewportFraction: 1,
                   onPageChanged: (index, reason) => setState(

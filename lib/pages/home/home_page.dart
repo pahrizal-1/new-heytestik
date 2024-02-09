@@ -587,7 +587,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                             right: 20,
                                             top: 15,
                                             bottom: 17),
-                                        height: 150,
+                                        height: 160,
                                         width:
                                             MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
@@ -634,11 +634,18 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                                               ),
                                               Row(
                                                 children: [
-                                                  const CircleAvatar(
+                                                  CircleAvatar(
                                                     maxRadius: 17,
-                                                    backgroundImage: AssetImage(
-                                                      'assets/images/profiledummy.png',
-                                                    ),
+                                                    backgroundImage: value
+                                                                .doctor
+                                                                ?.mediaUserProfilePicture !=
+                                                            null
+                                                        ? NetworkImage(
+                                                            '${Global.FILE}/${value.doctor?.mediaUserProfilePicture?.media?.path}',
+                                                          ) as ImageProvider
+                                                        : AssetImage(
+                                                            'assets/images/profiledummy.png',
+                                                          ),
                                                   ),
                                                   const SizedBox(
                                                     width: 11,

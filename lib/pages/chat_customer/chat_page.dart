@@ -65,6 +65,7 @@ class _ChatPageState extends State<ChatPage> {
                         },
                         options: CarouselOptions(
                           height: 320,
+                          pauseAutoPlayInFiniteScroll: false,
                           viewportFraction: 1,
                           autoPlay: true,
                           autoPlayAnimationDuration: const Duration(seconds: 2),
