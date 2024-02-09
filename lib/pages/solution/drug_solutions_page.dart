@@ -622,6 +622,7 @@ class _FilterAllState extends State<FilterAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
         height: 60,
@@ -682,57 +683,60 @@ class _FilterAllState extends State<FilterAll> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Filter',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 31,
-              ),
-              Text(
-                'Pilih Display',
-                style: blackRegulerTextStyle.copyWith(fontSize: 17),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ...lookupDisplay.map((e) {
-                return FilterTapProduct(
-                  title: e.value.toString(),
-                  function: () {
-                    display.add(e.value.toString());
-                  },
-                );
-              }),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Pilih Category',
-                style: blackRegulerTextStyle.copyWith(fontSize: 17),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ...lookupCategory.map((e) {
-                return FilterTapProduct(
-                  title: e.value.toString(),
-                  function: () {
-                    category.add(e.value.toString());
-                  },
-                );
-              }),
-              const SizedBox(
-                height: 15,
-              ),
-            ],
+        child: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(17)),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              left: 25,
+              right: 25,
+              top: 36,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Filter',
+                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 31,
+                ),
+                Text(
+                  'Pilih Display',
+                  style: blackRegulerTextStyle.copyWith(fontSize: 17),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ...lookupDisplay.map((e) {
+                  return FilterTapProduct(
+                    title: e.value.toString(),
+                    function: () {
+                      display.add(e.value.toString());
+                    },
+                  );
+                }),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  'Pilih Category',
+                  style: blackRegulerTextStyle.copyWith(fontSize: 17),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ...lookupCategory.map((e) {
+                  return FilterTapProduct(
+                    title: e.value.toString(),
+                    function: () {
+                      category.add(e.value.toString());
+                    },
+                  );
+                }),
+              ],
+            ),
           ),
         ),
       ),
