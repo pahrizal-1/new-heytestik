@@ -22,7 +22,7 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
+import 'package:heystetik_mobileapps/widget/skincare_widget.dart';
 import '../../widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
@@ -1169,7 +1169,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   ),
                                 );
                               },
-                              child: Produkheight(
+                              child: SkincareWidget(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: e.name.toString(),
@@ -1237,7 +1237,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   ),
                                 );
                               },
-                              child: Produkheight(
+                              child: SkincareWidget(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: e.name.toString(),

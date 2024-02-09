@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
+import 'package:heystetik_mobileapps/widget/drug_widget.dart';
 
 class DrugSearch extends StatefulWidget {
   const DrugSearch({
@@ -33,7 +33,11 @@ class _DrugSearchState extends State<DrugSearch> {
     localSearch = widget.search;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       drugs.addAll(
-        await state.getDrug(context, page, search: localSearch),
+        await state.getDrug(
+          context,
+          page,
+          search: localSearch,
+        ),
       );
       setState(() {});
     });
@@ -44,7 +48,12 @@ class _DrugSearchState extends State<DrugSearch> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             drugs.addAll(
-                await state.getDrug(context, page, search: localSearch));
+              await state.getDrug(
+                context,
+                page,
+                search: localSearch,
+              ),
+            );
             setState(() {});
           });
         }
@@ -105,19 +114,22 @@ class _DrugSearchState extends State<DrugSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            print("INI GW KLIK");
                             page = 1;
                             drugs.clear();
                             localSearch = searchController.text;
-                            drugs.addAll(await state.getDrug(context, page,
-                                search: localSearch));
-                            print(drugs);
+                            drugs.addAll(
+                              await state.getDrug(
+                                context,
+                                page,
+                                search: localSearch,
+                              ),
+                            );
                             setState(() {});
                           },
                           style: const TextStyle(
                               fontSize: 15, fontFamily: "ProximaNova"),
                           decoration: InputDecoration(
-                            hintText: "Cari Obat 11",
+                            hintText: "Cari Obat",
                             border: InputBorder.none,
                             hintStyle: TextStyle(
                               fontFamily: "ProximaNova",
@@ -139,7 +151,7 @@ class _DrugSearchState extends State<DrugSearch> {
       body: drugs.isEmpty
           ? Center(
               child: Text(
-                'Tidak ada produk obat',
+                'Belum ada obat',
                 style: TextStyle(
                   fontWeight: bold,
                   fontFamily: 'ProximaNova',
@@ -158,7 +170,7 @@ class _DrugSearchState extends State<DrugSearch> {
                       runSpacing: 12,
                       spacing: 12,
                       children: drugs.map((drug) {
-                        return KonsultasiProduk(
+                        return DrugWidget(
                           drug: drug,
                         );
                       }).toList(),

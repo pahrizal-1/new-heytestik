@@ -8,12 +8,12 @@ import 'package:heystetik_mobileapps/controller/customer/solution/drug_controlle
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/drug_widget.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:social_share/social_share.dart';
@@ -1005,7 +1005,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                         scrollDirection: Axis.horizontal,
                         child: Row(
                           children: drugRecomendation.map((drug) {
-                            return KonsultasiProduk(
+                            return DrugWidget(
                               drug: drug,
                             );
                           }).toList(),
@@ -1024,9 +1024,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
             () => Padding(
                 padding: const EdgeInsets.only(
                     left: 25, right: 25, top: 10, bottom: 10),
-                child: drugController
-                            .drugDetail.value.consultationRecipeDrugs?.length ==
-                        0
+                child: (drugController.drugDetail.value.consultationRecipeDrugs
+                            ?.isEmpty ==
+                        0)
                     ? Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 6, vertical: 6),

@@ -10,12 +10,12 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
+import 'package:heystetik_mobileapps/widget/cirkel_category.dart';
 import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/maps_widget.dart';
@@ -47,6 +47,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   int page = 1;
   List<Data2> treatments = [];
   String? search;
+  String? concernName = "Semua Treatment";
   int activeIndex = 0;
   final List<String> images = [
     'assets/images/bg-buy-get1.png',
@@ -655,7 +656,9 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   var res = await Get.to(
                                       () => EtalaseTreatMentPage());
                                   if (res == 'semua') {
+                                    print("SEMUA");
                                     filter.clear();
+                                    concernName = "Semua Treatment";
                                     page = 1;
                                     treatments.clear();
                                     treatments.addAll(
@@ -666,15 +669,15 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                         filter: filter,
                                       ),
                                     );
-
                                     setState(() {});
                                   } else if (res == 'diskon') {
+                                    print("diskon");
                                     page = 1;
                                     treatments.clear();
                                     setState(() {});
                                   } else {
-                                    filter['concern_ids[]'] = res;
-
+                                    filter['concern_ids[]'] = res[0];
+                                    concernName = res[1];
                                     page = 1;
                                     treatments.clear();
                                     treatments.addAll(
@@ -685,11 +688,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                         filter: filter,
                                       ),
                                     );
-
                                     setState(() {});
                                   }
                                 } else {
                                   filter['concern_ids[]'] = element.value.id;
+                                  concernName = element.value.name;
                                   page = 1;
                                   treatments.clear();
                                   treatments.addAll(
@@ -756,7 +759,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Semua Treatment',
+                            concernName.toString(),
                             style: blackHigtTextStyle.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
@@ -768,6 +771,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                 InkWell(
                                   onTap: () async {
                                     filter.clear();
+                                    concernName = "Semua Treatment";
                                     page = 1;
                                     treatments.clear();
                                     treatments.addAll(

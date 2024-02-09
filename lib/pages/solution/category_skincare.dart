@@ -1,22 +1,19 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/widget/filter_concern.dart';
+import 'package:heystetik_mobileapps/widget/filter_skincare.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 import '../../theme/theme.dart';
-import '../../widget/produk_height_widget.dart';
+import '../../widget/skincare_widget.dart';
 import 'view_detail_skincare_page.dart';
-import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
-    as Lookup;
-import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
-    as Concern;
 
 class CategorySkinCare extends StatefulWidget {
   String category;
@@ -165,6 +162,39 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (filter.isNotEmpty)
+                              InkWell(
+                                onTap: () async {
+                                  filter.clear();
+                                  skincare.clear();
+                                  page = 1;
+                                  skincare.addAll(
+                                    await state.getAllSkincare(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: greenColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: greenColor,
+                                  ),
+                                ),
+                              ),
                             InkWell(
                               onTap: () async {
                                 showModalBottomSheet(
@@ -177,8 +207,10 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterAll(),
+                                  builder: (context) => FilterAllSkincare(),
                                 ).then((value) async {
+                                  if (value == null) return;
+
                                   filter['display[]'] = value['display'];
                                   filter['category[]'] = value['category'];
                                   skincare.clear();
@@ -211,8 +243,10 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterEtalase(),
+                                  builder: (context) => FilterConcern(),
                                 ).then((value) async {
+                                  if (value == null) return;
+
                                   filter['concern_ids[]'] =
                                       value['concern_ids'];
                                   skincare.clear();
@@ -280,11 +314,11 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                     child: skincare.isEmpty
                         ? Center(
                             child: Text(
-                              'Belum ada produk',
+                              'Belum ada skincare',
                               style: TextStyle(
                                 fontWeight: bold,
                                 fontFamily: 'ProximaNova',
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                           )
@@ -299,7 +333,7 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                         productId: e.id!.toInt(),
                                       ));
                                     },
-                                    child: Produkheight(
+                                    child: SkincareWidget(
                                       produkId: e.id!.toInt(),
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
@@ -324,313 +358,6 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
           const SizedBox(
             height: 14,
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class FilterAll extends StatefulWidget {
-  const FilterAll({super.key});
-
-  @override
-  State<FilterAll> createState() => _FilterAllState();
-}
-
-class _FilterAllState extends State<FilterAll> {
-  final SkincareController state = Get.put(SkincareController());
-  List<Lookup.Data2> lookupDisplay = [];
-  List<Lookup.Data2> lookupCategory = [];
-  List display = [];
-  List category = [];
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      lookupDisplay.addAll(await state.getLookup(context, 'SKINCARE_DISPLAY'));
-      lookupCategory
-          .addAll(await state.getLookup(context, 'SKINCARE_CATEGORY'));
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Filter',
-              style: blackHigtTextStyle.copyWith(fontSize: 20),
-            ),
-            const SizedBox(
-              height: 31,
-            ),
-            Text(
-              'Pilih Display',
-              style: blackRegulerTextStyle.copyWith(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ...lookupDisplay.map((e) {
-              return FilterTapProduct(
-                title: e.value.toString(),
-                function: () {
-                  display.add(e.value.toString());
-                },
-              );
-            }),
-            const SizedBox(
-              height: 15,
-            ),
-            Text(
-              'Pilih Category',
-              style: blackRegulerTextStyle.copyWith(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ...lookupCategory.map((e) {
-              return FilterTapProduct(
-                title: e.value.toString(),
-                function: () {
-                  category.add(e.value.toString());
-                },
-              );
-            }),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      Navigator.pop(context, {
-                        "display": display,
-                        "category": category,
-                      });
-                    },
-                    child: Container(
-                      width: 165,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Simpan',
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FilterEtalase extends StatefulWidget {
-  const FilterEtalase({super.key});
-
-  @override
-  State<FilterEtalase> createState() => _FilterEtalaseState();
-}
-
-class _FilterEtalaseState extends State<FilterEtalase> {
-  final EtalaseController state = Get.put(EtalaseController());
-  List<Concern.Data2> concern = [];
-  List concernIds = [];
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      concern.addAll(await state.getConcern(context));
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Filter',
-              style: blackHigtTextStyle.copyWith(fontSize: 20),
-            ),
-            const SizedBox(
-              height: 31,
-            ),
-            Text(
-              'Pilih Concern',
-              style: blackRegulerTextStyle.copyWith(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ...concern.map((e) {
-              return FilterTapProduct(
-                title: e.name.toString(),
-                function: () {
-                  concernIds.add(e.id.toString());
-                },
-              );
-            }),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context, {
-                      "concern_ids": [],
-                    });
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      Navigator.pop(context, {
-                        "concern_ids": concernIds,
-                      });
-                    },
-                    child: Container(
-                      width: 165,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Simpan',
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class FilterTapProduct extends StatefulWidget {
-  final String title;
-  Function()? function;
-
-  FilterTapProduct({
-    Key? key,
-    required this.title,
-    this.function,
-  }) : super(key: key);
-
-  @override
-  State<FilterTapProduct> createState() => _FilterTapProductState();
-}
-
-class _FilterTapProductState extends State<FilterTapProduct> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.function == null ? () {} : widget.function!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
         ],
       ),
     );

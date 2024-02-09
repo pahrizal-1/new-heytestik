@@ -9,9 +9,9 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
-import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
+import 'package:heystetik_mobileapps/widget/drug_widget.dart';
+import 'package:heystetik_mobileapps/widget/skincare_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import '../../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
@@ -169,7 +169,7 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                         runSpacing: 12,
                         spacing: 12,
                         children: drugs.map((drug) {
-                          return KonsultasiProduk(
+                          return DrugWidget(
                             drug: drug,
                           );
                         }).toList(),
@@ -207,7 +207,7 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                                         productId: e.id!.toInt(),
                                       ));
                                 },
-                                child: Produkheight(
+                                child: SkincareWidget(
                                   produkId: e.id!.toInt(),
                                   namaBrand: e.skincareDetail!.brand.toString(),
                                   namaProduk: e.name.toString(),

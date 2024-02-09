@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
-import 'package:heystetik_mobileapps/pages/solution/concern_obat.dart';
+import 'package:heystetik_mobileapps/pages/solution/concern_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
+import 'package:heystetik_mobileapps/widget/cirkel_category.dart';
+import 'package:heystetik_mobileapps/widget/drug_widget.dart';
+import 'package:heystetik_mobileapps/widget/filter_drug.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
 import '../../controller/customer/solution/drug_controller.dart';
@@ -20,8 +20,7 @@ import '../../core/global.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 import '../setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
-    as Lookup;
+
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
     as Concern;
 
@@ -43,6 +42,7 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
   List<Concern.Data2> concern = [];
   String? search;
   Map<String, dynamic> filter = {};
+  String? concernName = "Semua";
 
   @override
   void initState() {
@@ -181,7 +181,9 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                       );
                     },
                     style: const TextStyle(
-                        fontSize: 15, fontFamily: "ProximaNova"),
+                      fontSize: 15,
+                      fontFamily: "ProximaNova",
+                    ),
                     decoration: InputDecoration(
                       hintText: "Cari Obat",
                       border: InputBorder.none,
@@ -287,18 +289,78 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                         padding: EdgeInsets.only(left: 20),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: etalaseController.filterData.map((element) {
+                          children: etalaseController.filterData
+                              .asMap()
+                              .entries
+                              .map((element) {
                             return InkWell(
-                              onTap: () {
-                                Get.to(() => ConcernObatPage(
-                                      idConcern: element.id!.toInt(),
-                                    ));
+                              onTap: () async {
+                                if (element.key == 0) {
+                                  var res = await Get.to(() => ConcernPage());
+                                  filter['concern_ids[]'] = res[0];
+                                  concernName = res[1];
+                                  page = 1;
+                                  drugs.clear();
+                                  drugs.addAll(
+                                    await state.getDrug(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                } else {
+                                  concernName = element.value.name;
+                                  filter['concern_ids[]'] = element.value.id;
+                                  drugs.clear();
+                                  page = 1;
+                                  drugs.addAll(
+                                    await state.getDrug(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                }
                               },
-                              child: CirkelCategory(
-                                title: element.name ?? "-",
-                                img:
-                                    "${Global.FILE}/${element.mediaConcern!.media!.path!}",
-                              ),
+                              child: element.key == 0
+                                  ? Column(
+                                      children: [
+                                        Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            image: const DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/images/lainnya.png'),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            'Lihat Semua',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                blackRegulerTextStyle.copyWith(
+                                              fontSize: 12,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : CirkelCategory(
+                                      title: element.value.name ?? '-',
+                                      img:
+                                          '${Global.FILE}/${element.value.mediaConcern!.media!.path}',
+                                    ),
                             );
                           }).toList(),
                         ),
@@ -316,7 +378,7 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Semua',
+                            concernName.toString(),
                             style: blackHigtTextStyle.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
@@ -326,6 +388,40 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                             scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
+                                if (filter.isNotEmpty)
+                                  InkWell(
+                                    onTap: () async {
+                                      filter.clear();
+                                      concernName = "Semua";
+                                      drugs.clear();
+                                      page = 1;
+                                      drugs.addAll(
+                                        await state.getDrug(
+                                          context,
+                                          page,
+                                          search: search,
+                                          filter: filter,
+                                        ),
+                                      );
+                                      setState(() {});
+                                    },
+                                    child: Container(
+                                      margin: const EdgeInsets.only(right: 5),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: greenColor,
+                                        ),
+                                        borderRadius: BorderRadius.circular(7),
+                                      ),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: greenColor,
+                                      ),
+                                    ),
+                                  ),
                                 InkWell(
                                   onTap: () async {
                                     showModalBottomSheet(
@@ -339,8 +435,10 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                           topStart: Radius.circular(25),
                                         ),
                                       ),
-                                      builder: (context) => FilterAll(),
+                                      builder: (context) => FilterAllDrug(),
                                     ).then((value) async {
+                                      if (value == null) return;
+
                                       filter['display[]'] = value['display'];
                                       filter['category[]'] = value['category'];
                                       drugs.clear();
@@ -361,29 +459,6 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                     width: 78,
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Container(
-                                  height: 30,
-                                  margin: const EdgeInsets.only(right: 5),
-                                  padding: const EdgeInsets.only(left: 11.5),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: borderColor),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        'Etalase Obat',
-                                        style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                      const Icon(Icons.keyboard_arrow_down)
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
                           ),
@@ -396,399 +471,31 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                   ],
                 ),
               ),
-              content: Center(
-                child: Wrap(
-                  spacing: 15,
-                  runSpacing: 12,
-                  children: drugs.map((drug) {
-                    return KonsultasiProduk(
-                      drug: drug,
-                    );
-                  }).toList(),
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class KonsultasiProduk extends StatelessWidget {
-  KonsultasiProduk({
-    Key? key,
-    required this.drug,
-  }) : super(key: key);
-
-  final Drug.Data2 drug;
-  DrugController state = Get.put(DrugController());
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Get.to(
-          () => DetailDrugPage(
-            drugId: drug.id!,
-          ),
-        );
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: whiteColor,
-          border: Border.all(color: borderColor, width: 0.2),
-          borderRadius: BorderRadius.circular(7),
-        ),
-        width: 164,
-        height: 315,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 140,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                image: DecorationImage(
-                  image: NetworkImage(
-                      "${Global.FILE}/${drug.mediaProducts?[0].media?.path}"),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Container(
-              padding: const EdgeInsets.only(left: 11, bottom: 11, right: 11),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    drug.name ?? '-',
-                    style: subGreyTextStyle.copyWith(
-                        fontSize: 13, color: const Color(0xFF323232)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    CurrencyFormat.convertToIdr(drug.price ?? 0, 2),
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    drug.drugDetail?.specificationPackaging ?? '-',
-                    style: subGreyTextStyle.copyWith(
-                        fontSize: 12, color: const Color(0xFF9B9B9B)),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'Bisa dibeli apabila telah melakukan konsultasi',
-                    style: subGreyTextStyle.copyWith(
-                      color: const Color(0XFF9B9B9B),
-                      fontSize: 11,
-                      fontWeight: medium,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 12,
-                  ),
-                  if (drug.consultationRecipeDrugs?.isNotEmpty ??
-                      drug.consultationRecipeDrugs != null)
-                    Container(
-                      height: 30,
-                      child: TextButton(
-                        onPressed: () {
-                          state.addDrugToCart(
-                            context,
-                            drug.id!,
-                          );
-                          SnackbarWidget.getSuccessSnackbar(
-                            context,
-                            'Info',
-                            'Produk ditambahkan ke keranjang',
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: greenColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(3),
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '+ Keranjang',
-                            style: whiteTextStyle.copyWith(fontSize: 12),
-                          ),
+              content: drugs.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Belum ada obat',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 20,
                         ),
                       ),
                     )
-                  else
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 6),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      child: Text(
-                        'Harus Dengan Resep Dokter',
-                        style: grenTextStyle.copyWith(fontSize: 10),
+                  : Center(
+                      child: Wrap(
+                        spacing: 15,
+                        runSpacing: 12,
+                        children: drugs.map((drug) {
+                          return DrugWidget(
+                            drug: drug,
+                          );
+                        }).toList(),
                       ),
                     ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CirkelCategory extends StatelessWidget {
-  final String img;
-  final String title;
-  const CirkelCategory({
-    Key? key,
-    required this.img,
-    required this.title,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            height: 48,
-            width: 48,
-            decoration: BoxDecoration(
-              border: Border.all(color: borderColor, width: 0.2),
-              borderRadius: BorderRadius.circular(30),
-              image:
-                  DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: 70,
-            child: Text(title,
-                textAlign: TextAlign.center,
-                style: blackRegulerTextStyle.copyWith(
-                    fontSize: 12, color: blackColor)),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class FilterAll extends StatefulWidget {
-  const FilterAll({super.key});
-
-  @override
-  State<FilterAll> createState() => _FilterAllState();
-}
-
-class _FilterAllState extends State<FilterAll> {
-  final SkincareController state = Get.put(SkincareController());
-  List<Lookup.Data2> lookupDisplay = [];
-  List<Lookup.Data2> lookupCategory = [];
-  List display = [];
-  List category = [];
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      lookupDisplay.addAll(await state.getLookup(context, 'SKINCARE_DISPLAY'));
-      lookupCategory
-          .addAll(await state.getLookup(context, 'SKINCARE_CATEGORY'));
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
-        height: 60,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: () {
-                Navigator.pop(context, {
-                  "display": [],
-                  "category": [],
-                });
-              },
-              child: Container(
-                width: 165,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greenColor),
-                    borderRadius: BorderRadius.circular(7)),
-                height: 50,
-                child: Center(
-                  child: Text(
-                    'Batal',
-                    style:
-                        grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: InkWell(
-                onTap: () async {
-                  Navigator.pop(context, {
-                    "display": display,
-                    "category": category,
-                  });
-                },
-                child: Container(
-                  width: 165,
-                  decoration: BoxDecoration(
-                      color: greenColor,
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7)),
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      'Simpan',
-                      style: whiteTextStyle.copyWith(
-                          fontSize: 15, fontWeight: bold),
-                    ),
-                  ),
-                ),
-              ),
             )
           ],
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Filter',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 31,
-              ),
-              Text(
-                'Pilih Display',
-                style: blackRegulerTextStyle.copyWith(fontSize: 17),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ...lookupDisplay.map((e) {
-                return FilterTapProduct(
-                  title: e.value.toString(),
-                  function: () {
-                    display.add(e.value.toString());
-                  },
-                );
-              }),
-              const SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Pilih Category',
-                style: blackRegulerTextStyle.copyWith(fontSize: 17),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ...lookupCategory.map((e) {
-                return FilterTapProduct(
-                  title: e.value.toString(),
-                  function: () {
-                    category.add(e.value.toString());
-                  },
-                );
-              }),
-              const SizedBox(
-                height: 15,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FilterTapProduct extends StatefulWidget {
-  final String title;
-  Function()? function;
-
-  FilterTapProduct({
-    Key? key,
-    required this.title,
-    this.function,
-  }) : super(key: key);
-
-  @override
-  State<FilterTapProduct> createState() => _FilterTapProductState();
-}
-
-class _FilterTapProductState extends State<FilterTapProduct> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.function == null ? () {} : widget.function!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
       ),
     );
   }
