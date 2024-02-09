@@ -24,6 +24,7 @@ class TreatmentController extends StateClass {
   var dataUser;
   RxString fullName = '-'.obs;
   RxString phone = '-'.obs;
+  var hasMore = true.obs;
 
   Rx<ClinicModel> responseClinic = ClinicModel().obs;
   RxList<ClinicDataModel> dataClinic = List<ClinicDataModel>.empty(growable: true).obs;
@@ -200,7 +201,6 @@ class TreatmentController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
-    print('controler ${search}');
     dataTreatment.value = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       TreatmentModel data = await TreatmentService().getAllTreatment(
@@ -209,7 +209,8 @@ class TreatmentController extends StateClass {
         filter: filter,
       );
       responseTreatment.value = data;
-      dataTreatment.value.addAll(responseTreatment.value.data!.data!);
+
+      dataTreatment.addAll(responseTreatment.value.data!.data!);
     });
     print('length ${dataTreatment.length}');
     isLoading.value = false;

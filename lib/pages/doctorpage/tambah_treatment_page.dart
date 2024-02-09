@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
-import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_doctor_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../solution/solutions_treatment1_Page.dart';
 
@@ -20,9 +20,10 @@ class TambahTreatmentCatatanDoktor extends StatefulWidget {
 }
 
 class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDoktor> {
-  final TreatmentController state = Get.put(TreatmentController());
+  final TreatmentDoctorController state = Get.put(TreatmentDoctorController());
   final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
   TextEditingController searchController = TextEditingController();
+  ScrollController scrollController = ScrollController();
   String type = '';
   int rating = 0;
   int page = 1;
@@ -36,12 +37,15 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await state.getAllTreatment(
-        context,
-        page,
-        // search: search,
-        // filter: filter,
-      ));
+      context.read<TreatmentDoctorController>().refresh(
+            context,
+          );
+    });
+    scrollController.addListener(() async {
+      context.read<TreatmentDoctorController>().loadMore(
+            context,
+            scrollController,
+          );
     });
   }
 
@@ -238,6 +242,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                 right: 0,
                 bottom: 0,
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 22, right: 22),
                     child: Column(
@@ -247,71 +252,83 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                             ? Center(
                                 child: CircularProgressIndicator(),
                               )
-                            : Container(
-                                child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: state.dataTreatment.length,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, i) {
-                                      return ProductTreatmentDoctor(
-                                        treatmentData: state.dataTreatment[i],
-                                        namaKlinik: state.dataTreatment[i].clinic?.name ?? '-',
-                                        recovTime: state.dataTreatment[i].downtime ?? '-',
-                                        typeTreatment: state.dataTreatment[i].treatmentType ?? '-',
-                                        namaTreatmen: state.dataTreatment[i].name ?? '-',
-                                        diskonProduk: '0',
-                                        hargaDiskon: '0',
-                                        harga: state.dataTreatment[i].price!.toString(),
-                                        urlImg: state.dataTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.dataTreatment[i].mediaTreatments![0].media!.path!}",
-                                        rating: '${state.dataTreatment[i].rating} (0k)',
-                                        km: '${state.dataTreatment[i].distance ?? '0'} km',
-                                        lokasiKlinik: state.dataTreatment[i].clinic?.city?.name ?? '-',
-                                        iconPlus: InkWell(
-                                          onTap: () {
-                                            if (toogle.contains(i)) {
-                                              setState(() {
-                                                toogle.remove(i);
-                                                stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
-                                                print('delete ${stateDoctor.listTreatmentNote}');
-                                              });
-                                            } else {
-                                              setState(() {
-                                                toogle.add(i);
-                                                stateDoctor.listTreatmentNote.add({
-                                                  'name': state.dataTreatment[i].name ?? '-',
-                                                  'cost': state.dataTreatment[i].price!.toString(),
-                                                  'recovery_time': state.dataTreatment[i].downtime ?? '-',
-                                                  'type': state.dataTreatment[i].treatmentType ?? '-',
-                                                });
-                                                print('list ${stateDoctor.listTreatmentNote}');
-                                                // stateDoctor.listTreatmentNote.add();
-                                              });
-                                            }
-                                            print('e ${i}');
-                                          },
-                                          child: Container(
-                                            height: 29,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(9),
-                                              border: Border.all(color: greenColor),
+                            : Consumer<TreatmentDoctorController>(builder: (_, state, __) {
+                                return Container(
+                                  child: ListView.builder(
+                                      // controller: scrollController,
+                                      shrinkWrap: true,
+                                      itemCount: state.hasMore.value ? state.dataTreatment.length + 1 : state.dataTreatment.length,
+                                      physics: ClampingScrollPhysics(),
+                                      itemBuilder: (context, i) {
+                                        if (i < state.dataTreatment.length) {
+                                          return ProductTreatmentDoctor(
+                                            treatmentData: state.dataTreatment[i],
+                                            namaKlinik: state.dataTreatment[i].clinic?.name ?? '-',
+                                            recovTime: state.dataTreatment[i].downtime ?? '-',
+                                            typeTreatment: state.dataTreatment[i].treatmentType ?? '-',
+                                            namaTreatmen: state.dataTreatment[i].name ?? '-',
+                                            diskonProduk: '0',
+                                            hargaDiskon: '0',
+                                            harga: state.dataTreatment[i].price!.toString(),
+                                            urlImg: state.dataTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.dataTreatment[i].mediaTreatments![0].media!.path!}",
+                                            rating: '${state.dataTreatment[i].rating} (0k)',
+                                            km: '${state.dataTreatment[i].distance ?? '0'} km',
+                                            lokasiKlinik: state.dataTreatment[i].clinic?.city?.name ?? '-',
+                                            iconPlus: InkWell(
+                                              onTap: () {
+                                                if (toogle.contains(i)) {
+                                                  setState(() {
+                                                    toogle.remove(i);
+                                                    stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
+                                                    print('delete ${stateDoctor.listTreatmentNote}');
+                                                  });
+                                                } else {
+                                                  setState(() {
+                                                    toogle.add(i);
+                                                    stateDoctor.listTreatmentNote.add({
+                                                      'name': state.dataTreatment[i].name ?? '-',
+                                                      'cost': state.dataTreatment[i].price!.toString(),
+                                                      'recovery_time': state.dataTreatment[i].downtime ?? '-',
+                                                      'type': state.dataTreatment[i].treatmentType ?? '-',
+                                                    });
+                                                    print('list ${stateDoctor.listTreatmentNote}');
+                                                    // stateDoctor.listTreatmentNote.add();
+                                                  });
+                                                }
+                                                print('e ${i}');
+                                              },
+                                              child: Container(
+                                                height: 29,
+                                                width: 40,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(9),
+                                                  border: Border.all(color: greenColor),
+                                                ),
+                                                child: toogle.contains(i)
+                                                    ? Center(
+                                                        child: Text(
+                                                          '-',
+                                                          style: grenTextStyle.copyWith(fontSize: 20),
+                                                        ),
+                                                      )
+                                                    : Icon(
+                                                        Icons.add,
+                                                        color: greenColor,
+                                                      ),
+                                              ),
                                             ),
-                                            child: toogle.contains(i)
-                                                ? Center(
-                                                    child: Text(
-                                                      '-',
-                                                      style: grenTextStyle.copyWith(fontSize: 20),
-                                                    ),
-                                                  )
-                                                : Icon(
-                                                    Icons.add,
-                                                    color: greenColor,
-                                                  ),
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                              )
+                                          );
+                                        } else {
+                                          return Padding(
+                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            child: Center(
+                                              child: CircularProgressIndicator(),
+                                            ),
+                                          );
+                                        }
+                                      }),
+                                );
+                              })
                       ],
                     ),
                   ),

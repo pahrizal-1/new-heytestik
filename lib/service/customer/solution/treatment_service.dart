@@ -338,8 +338,6 @@ class TreatmentService extends ProviderClass {
       "search": search,
     };
 
-    print('service ${search}');
-
     if (filter != null) {
       params.addAll(filter);
     }
@@ -353,6 +351,7 @@ class TreatmentService extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
+      print('responss ${response}');
       return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);

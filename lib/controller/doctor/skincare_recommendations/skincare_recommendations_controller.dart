@@ -13,8 +13,8 @@ class SkincareRecommendationController extends StateClass {
   TextEditingController searchController = TextEditingController();
 
   Rx<SkincareRecommendationModel> skincare = SkincareRecommendationModel().obs;
-  List<Data2> filterData = [];
-  List<Skincare.Data2> solutionSkincare = [];
+  RxList<Data2> filterData = List<Data2>.empty(growable: true).obs;
+  RxList<Skincare.Data2> solutionSkincare = List<Skincare.Data2>.empty(growable: true).obs;
   List dataSkincare = [].obs;
   List dataSkincareById = [].obs;
   RxBool isLoadingSkincare = false.obs;
@@ -22,12 +22,11 @@ class SkincareRecommendationController extends StateClass {
   TextEditingController titleController = TextEditingController();
   TextEditingController subtitleController = TextEditingController();
   List<int>? itemCount = [1];
-  int page = 1;
-  int pagination = 1;
-  int limit = 10;
+  RxInt currentPage = 1.obs;
+  RxInt totalPage = 1.obs;
   bool getFirstPagination = false;
   bool getLastPagination = false;
-  var hasMoreLoading = true.obs;
+  var hasMore = true.obs;
 
   getSkincareRecommendation(
     BuildContext context, {
@@ -41,7 +40,13 @@ class SkincareRecommendationController extends StateClass {
         search,
         10,
       );
-      filterData = filterData + res.data!.data!;
+      if (pages! > totalPage.value) {
+        hasMore.value = false;
+      }
+      filterData.addAll(res.data!.data!);
+      currentPage.value++;
+      totalPage.value = res.data!.meta!.pageCount!.toInt();
+      notifyListeners();
       print('datas ${res.data!.meta!.pageCount}');
     } catch (e) {
       if (kDebugMode) print(e.toString());
@@ -65,41 +70,84 @@ class SkincareRecommendationController extends StateClass {
         notesController.add(TextEditingController(text: a['notes']));
         dataSkincareById.add(a);
         itemCount?.add(a['qty']);
-        print('itm count ${itemCount}');
       }
-      // for (var i in dataSkincareById) {
-      //   itemCount = i['qty'];
-      // }
     });
     isLoading.value = false;
   }
 
   onChangeFilterText(String value) {
-    filterData = skincare.value.data!.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList();
+    filterData.addAll(
+      skincare.value.data!.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList(),
+    );
   }
 
   getSkincare(
-    BuildContext context, {
+    BuildContext context,
+    int page, {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
     isLoadingSkincare.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      // if (page == pagination) {}
-      var res = await SolutionService().getAllSkincare(
-        1,
+      Skincare.SkincareModel res = await SolutionService().getAllSkincare(
+        page,
         search: search,
         filter: filter,
       );
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
+
+      if (page > totalPage.value) {
+        hasMore.value = false;
       }
-      solutionSkincare = res.data!.data!;
+      solutionSkincare.addAll(res.data!.data!);
+      print('skin sol ${solutionSkincare}');
+      currentPage.value++;
+      totalPage.value = res.data!.meta!.pageCount!.toInt();
+      notifyListeners();
     });
     isLoadingSkincare.value = false;
+  }
+
+  Future refresh(BuildContext context) async {
+    currentPage.value = 1;
+    hasMore.value = true;
+    solutionSkincare.value = [];
+    totalPage.value = 1;
+
+    await getSkincare(context, currentPage.value);
+    notifyListeners();
+  }
+
+  Future refreshRecommendation(BuildContext context) async {
+    currentPage.value = 1;
+    hasMore.value = true;
+    filterData.value = [];
+    totalPage.value = 1;
+
+    await getSkincareRecommendation(
+      context,
+      pages: currentPage.value,
+    );
+    notifyListeners();
+  }
+
+  Future loadMore(BuildContext context, ScrollController scrollController) async {
+    // scrollController.hasClients;
+    if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
+      await getSkincare(
+        context,
+        currentPage.value,
+      );
+    }
+  }
+
+  Future loadMoreRecommendation(BuildContext context, ScrollController scrollController) async {
+    // scrollController.hasClients;
+    if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
+      await getSkincareRecommendation(
+        context,
+        pages: currentPage.value,
+      );
+    }
   }
 
   postSkincare(

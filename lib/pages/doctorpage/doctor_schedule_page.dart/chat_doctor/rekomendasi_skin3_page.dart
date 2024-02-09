@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
 import '../../../../core/global.dart';
@@ -15,13 +16,12 @@ class RekomendasiSkincare3Page extends StatefulWidget {
   const RekomendasiSkincare3Page({super.key, required this.id});
 
   @override
-  State<RekomendasiSkincare3Page> createState() =>
-      _RekomendasiSkincare3PageState();
+  State<RekomendasiSkincare3Page> createState() => _RekomendasiSkincare3PageState();
 }
 
 class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
-  final SkincareRecommendationController state =
-      Get.put(SkincareRecommendationController());
+  final SkincareRecommendationController state = Get.put(SkincareRecommendationController());
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
@@ -29,8 +29,14 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       state.getSkincareRecomtById(context, widget.id);
-      state.getSkincare(context);
+      context.read<SkincareRecommendationController>().refresh(context);
       print('length ${state.itemCount}');
+    });
+    scrollController.addListener(() async {
+      context.read<SkincareRecommendationController>().loadMore(
+            context,
+            scrollController,
+          );
     });
   }
 
@@ -93,8 +99,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
           isLoading: state.isLoading.value,
           child: SingleChildScrollView(
             child: Padding(
-              padding:
-                  EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
+              padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 40),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -116,8 +121,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                         fontSize: 16,
                         fontWeight: bold,
                         letterSpacing: 0.2,
-                        color: fromCssColor(
-                            "#323232"), // Ubah dengan warna teks yang diinginkan
+                        color: fromCssColor("#323232"), // Ubah dengan warna teks yang diinginkan
                       ),
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
@@ -150,8 +154,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                         fontSize: 16,
                         fontWeight: bold,
                         letterSpacing: 0.2,
-                        color: fromCssColor(
-                            "#323232"), // Ubah dengan warna teks yang diinginkan
+                        color: fromCssColor("#323232"), // Ubah dengan warna teks yang diinginkan
                       ),
                       decoration: InputDecoration(
                         focusedBorder: UnderlineInputBorder(
@@ -187,9 +190,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                               itemBuilder: (context, index) {
                                 List image = [];
                                 String img = '';
-                                for (var i in state.dataSkincareById[index]
-                                    ['skincare']['media_products'])
-                                  image.add(i);
+                                for (var i in state.dataSkincareById[index]['skincare']['media_products']) image.add(i);
                                 for (var imege in image) {
                                   img = imege['media']['path'];
                                 }
@@ -197,33 +198,22 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         InkWell(
                                           onTap: () {
                                             print('data' + image.toString());
                                             for (var i in image) {
-                                              print('img ' +
-                                                  i['media']['path']
-                                                      .toString());
+                                              print('img ' + i['media']['path'].toString());
                                             }
                                           },
                                           child: Container(
                                             height: 80,
                                             width: 80,
                                             decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 0.5,
-                                                  color:
-                                                      fromCssColor('#E9E9E9')),
+                                              border: Border.all(width: 0.5, color: fromCssColor('#E9E9E9')),
                                               image: DecorationImage(
-                                                image: img != null
-                                                    ? NetworkImage(Global.FILE +
-                                                        '/' +
-                                                        img) as ImageProvider
-                                                    : AssetImage(
-                                                        "assets/images/produk1.png"),
+                                                image: img != null ? NetworkImage(Global.FILE + '/' + img) as ImageProvider : AssetImage("assets/images/produk1.png"),
                                               ),
                                             ),
                                           ),
@@ -233,26 +223,18 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                         ),
                                         Expanded(
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Container(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 200),
+                                                constraints: const BoxConstraints(maxWidth: 200),
                                                 child: RichText(
                                                   text: TextSpan(
-                                                    text:
-                                                        state.dataSkincareById[
-                                                                    index]
-                                                                ['skincare']
-                                                            ['name'],
+                                                    text: state.dataSkincareById[index]['skincare']['name'],
                                                     style: TextStyle(
                                                       fontFamily: 'ProximaNova',
                                                       color: greenColor,
                                                       fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                       height: 1.1,
                                                     ),
                                                   ),
@@ -262,8 +244,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                                 height: 5,
                                               ),
                                               Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
                                                     "Penggunaan",
@@ -282,46 +263,30 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                                   ),
                                                   Expanded(
                                                     child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         Container(
                                                           // color: Colors.amberAccent,
-                                                          constraints:
-                                                              const BoxConstraints(
-                                                                  maxWidth: 80),
+                                                          constraints: const BoxConstraints(maxWidth: 80),
                                                           child: Text(
                                                             "Pagi & Malam",
                                                             style: TextStyle(
-                                                              fontFamily:
-                                                                  'ProximaNova',
+                                                              fontFamily: 'ProximaNova',
                                                               fontSize: 12,
                                                               height: 1.3,
-                                                              letterSpacing:
-                                                                  0.5,
-                                                              color:
-                                                                  fromCssColor(
+                                                              letterSpacing: 0.5,
+                                                              color: fromCssColor(
                                                                 '#9B9B9B',
                                                               ),
                                                             ),
                                                           ),
                                                         ),
                                                         Text(
-                                                          state.dataSkincareById[
-                                                                          index]
-                                                                      [
-                                                                      'skincare']
-                                                                  [
-                                                                  'skincare_detail']
-                                                              [
-                                                              'specification_how_to_use'],
+                                                          state.dataSkincareById[index]['skincare']['skincare_detail']['specification_how_to_use'],
                                                           maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                          overflow: TextOverflow.ellipsis,
                                                           style: TextStyle(
-                                                            fontFamily:
-                                                                'ProximaNova',
+                                                            fontFamily: 'ProximaNova',
                                                             fontSize: 12,
                                                             height: 1.3,
                                                             letterSpacing: 0.5,
@@ -339,22 +304,14 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                                 height: 10,
                                               ),
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
                                                   Text(
-                                                    'Rp' +
-                                                        state.dataSkincareById[
-                                                                index]
-                                                                ['skincare']
-                                                                ['price']
-                                                            .toString(),
+                                                    'Rp' + state.dataSkincareById[index]['skincare']['price'].toString(),
                                                     style: TextStyle(
                                                       fontFamily: 'ProximaNova',
                                                       fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.bold,
+                                                      fontWeight: FontWeight.bold,
                                                       letterSpacing: 0.5,
                                                       color: fromCssColor(
                                                         '#323232',
@@ -377,33 +334,26 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                     Container(
                                       height: 40,
                                       child: TextFormField(
-                                        controller:
-                                            state.notesController[index],
+                                        controller: state.notesController[index],
                                         decoration: InputDecoration(
                                           labelText: "Catatan",
                                           enabledBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: greenColor,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                           focusedBorder: OutlineInputBorder(
                                             borderSide: BorderSide(
                                               color: greenColor,
                                             ),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
-                                          contentPadding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 8, horizontal: 12),
+                                          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                                           border: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
-                                          floatingLabelBehavior:
-                                              FloatingLabelBehavior.always,
+                                          floatingLabelBehavior: FloatingLabelBehavior.always,
                                           labelStyle: TextStyle(
                                             color: fromCssColor("#A3A3A3"),
                                           ),
@@ -419,8 +369,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                         InkWell(
                                           onTap: () {
                                             setState(() {
-                                              state.dataSkincareById
-                                                  .removeAt(index);
+                                              state.dataSkincareById.removeAt(index);
                                             });
                                           },
                                           child: Container(
@@ -428,8 +377,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                             width: 20,
                                             decoration: BoxDecoration(
                                               image: DecorationImage(
-                                                image: AssetImage(
-                                                    "assets/icons/trash.png"),
+                                                image: AssetImage("assets/icons/trash.png"),
                                               ),
                                             ),
                                           ),
@@ -441,26 +389,19 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                           height: 30,
                                           width: 80,
                                           decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: fromCssColor("#A3A3A3")),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
+                                            border: Border.all(color: fromCssColor("#A3A3A3")),
+                                            borderRadius: BorderRadius.circular(7),
                                           ),
                                           child: Padding(
                                             padding: EdgeInsets.all(5),
                                             child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      if (state.itemCount![
-                                                              index] >=
-                                                          1) {
-                                                        state.itemCount![
-                                                            index]--;
+                                                      if (state.itemCount![index] >= 1) {
+                                                        state.itemCount![index]--;
                                                       }
                                                     });
                                                   },
@@ -470,32 +411,24 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                                       fontSize: 15,
                                                       fontWeight: bold,
                                                       fontFamily: "ProximaNova",
-                                                      color: fromCssColor(
-                                                          "#A3A3A3"),
+                                                      color: fromCssColor("#A3A3A3"),
                                                     ),
                                                   ),
                                                 ),
                                                 Text(
-                                                  state.itemCount![index]
-                                                      .toString(),
+                                                  state.itemCount![index].toString(),
                                                   style: TextStyle(
                                                     fontFamily: "ProximaNova",
                                                     fontSize: 13,
-                                                    color:
-                                                        fromCssColor("#323232"),
+                                                    color: fromCssColor("#323232"),
                                                   ),
                                                 ),
                                                 InkWell(
                                                   onTap: () {
                                                     setState(() {
-                                                      if (state.itemCount![
-                                                              index] >=
-                                                          1) {
-                                                        state.itemCount![
-                                                            index]++;
-                                                        print('stat' +
-                                                            state.itemCount
-                                                                .toString());
+                                                      if (state.itemCount![index] >= 1) {
+                                                        state.itemCount![index]++;
+                                                        print('stat' + state.itemCount.toString());
                                                       }
                                                     });
                                                   },
@@ -520,7 +453,11 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                 );
                               }),
                         )
-                      : Container(),
+                      : Center(
+                          child: Text(
+                            'No Data Yet',
+                          ),
+                        ),
                   SizedBox(
                     height: 20,
                   ),
@@ -541,8 +478,7 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                         builder: (context) => Wrap(
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 25, right: 25, top: 36, bottom: 40),
+                              padding: const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -582,13 +518,8 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                               //       .toJson()
                                               // });
                                               // log('dskin ' + string.toString());
-                                              state.dataSkincareById.add({
-                                                'skincare': state
-                                                    .solutionSkincare[index]
-                                                    .toJson()
-                                              });
-                                              state.notesController
-                                                  .add(TextEditingController());
+                                              state.dataSkincareById.add({'skincare': state.solutionSkincare[index].toJson()});
+                                              state.notesController.add(TextEditingController());
                                             });
                                             Navigator.pop(context);
                                           },
@@ -601,21 +532,17 @@ class _RekomendasiSkincare3PageState extends State<RekomendasiSkincare3Page> {
                                               right: 20,
                                             ),
                                             decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
+                                              borderRadius: BorderRadius.circular(12),
                                               border: Border.all(
                                                 color: fromCssColor('#D9D9D9'),
                                                 width: 1,
                                               ),
                                             ),
                                             child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
+                                              padding: const EdgeInsets.all(8.0),
                                               child: Text(
-                                                state.solutionSkincare[index]
-                                                    .name!,
-                                                style:
-                                                    blackHigtTextStyle.copyWith(
+                                                state.solutionSkincare[index].name!,
+                                                style: blackHigtTextStyle.copyWith(
                                                   fontSize: 15,
                                                 ),
                                               ),

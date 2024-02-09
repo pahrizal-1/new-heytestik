@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_skincare2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 
@@ -23,22 +24,18 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
   @override
   void initState() {
     super.initState();
-    state.getSkincareRecommendation(context, pages: 1);
-    scrollController.addListener(onScrolling);
-  }
-
-  onScrolling() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
-      print('testing scroll');
-      state.page += 1;
-      state.getSkincareRecommendation(context, pages: state.page);
-    } else {
-      print('no testing ');
-    }
-  }
-
-  Future onRefresh() async {
-    state.getSkincareRecommendation(context);
+    context.read<SkincareRecommendationController>().refresh(context);
+    context.read<SkincareRecommendationController>().refreshRecommendation(context);
+    scrollController.addListener(() async {
+      context.read<SkincareRecommendationController>().loadMore(
+            context,
+            scrollController,
+          );
+      context.read<SkincareRecommendationController>().loadMoreRecommendation(
+            context,
+            scrollController,
+          );
+    });
   }
 
   @override
@@ -76,8 +73,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
               InkWell(
                 onTap: () {
                   stateDoctor.listItemCount = [];
-                  state.filterData = [];
-                  state.page = 1;
+                  state.filterData.value = [];
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -101,8 +97,11 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
         () => LoadingWidget(
           isLoading: state.isLoading.value,
           child: RefreshIndicator(
-            onRefresh: onRefresh,
+            onRefresh: () async {
+              context.read<SkincareRecommendationController>().refresh(context);
+            },
             child: SingleChildScrollView(
+              controller: scrollController,
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 50),
                 child: Column(
@@ -149,35 +148,37 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                     const SizedBox(
                       height: 15,
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 1.35,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        controller: scrollController,
-                        itemCount: state.isLoading.value ? state.filterData.length + 1 : state.filterData.length,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (BuildContext context, int index) {
-                          print('datalengs ${state.filterData.length}');
-                          if (index < state.filterData.length) {
-                            return InkWell(
-                              onTap: () {
-                                for (var i in state.filterData[index].recipeRecomendationSkincareItems!) {
-                                  stateDoctor.listSkincare.add(i.skincare!.toJson());
-                                  stateDoctor.notesSkincare.add(TextEditingController(text: i.notes));
-                                  // stateDoctor.listItemCount!.add(i.qty!.toInt());
-                                }
-                                // Navigator.pop(context, 'refresh');
-                              },
-                              child: tileWidget(index),
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                      ),
-                    ),
+                    Consumer<SkincareRecommendationController>(builder: (_, state, __) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height / 1.35,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          controller: scrollController,
+                          itemCount: state.isLoading.value ? state.filterData.length + 1 : state.filterData.length,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            print('datalengs ${state.filterData.length}');
+                            if (index < state.filterData.length) {
+                              return InkWell(
+                                onTap: () {
+                                  for (var i in state.filterData[index].recipeRecomendationSkincareItems!) {
+                                    stateDoctor.listSkincare.add(i.skincare!.toJson());
+                                    stateDoctor.notesSkincare.add(TextEditingController(text: i.notes));
+                                    // stateDoctor.listItemCount!.add(i.qty!.toInt());
+                                  }
+                                  // Navigator.pop(context, 'refresh');
+                                },
+                                child: tileWidget(index),
+                              );
+                            } else {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    })
                   ],
                 ),
               ),
@@ -232,21 +233,20 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
             icon: Icon(Icons.delete),
           ),
           IconButton(
-            onPressed: () async {
-              String refresh = await Navigator.push(
+            onPressed: () {
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: ((context) => RekomendasiSkincare3Page(
                         id: state.filterData[index].id!.toInt(),
                       )),
                 ),
-              );
-              if (refresh == 'refresh') {
-                setState(() {
+              ).then(
+                (value) => setState(() {
                   state.getSkincareRecommendation(context);
                   state.filterData;
-                });
-              }
+                }),
+              );
             },
             icon: Icon(Icons.visibility),
           ),
