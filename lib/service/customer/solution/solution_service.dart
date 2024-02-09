@@ -31,7 +31,7 @@ class SolutionService extends ProviderClass {
     if (filter != null) {
       params.addAll(filter);
     }
-    print("params $params");
+    print("params getAllSkincare $params");
     try {
       var response = await networkingConfig.doGet(
         '/solution/skincare',
@@ -41,7 +41,7 @@ class SolutionService extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
-      print('kesini g ${response}');
+
       return SkincareModel.fromJson(response);
     } catch (error) {
       print(error);
@@ -194,7 +194,7 @@ class SolutionService extends ProviderClass {
     if (filter != null) {
       params.addAll(filter);
     }
-    print("params $params");
+    print("params getDrug $params");
     try {
       var response = await networkingConfig.doGet(
         '/solution/drug',

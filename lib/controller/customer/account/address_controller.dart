@@ -257,12 +257,12 @@ class AddressController extends StateClass {
           message: 'Alamat lengkap harus diisi',
         );
       }
-      if (noteForCourier.text.isEmpty) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Catatan harus diisi',
-        );
-      }
+      // if (noteForCourier.text.isEmpty) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Catatan harus diisi',
+      //   );
+      // }
 
       var req = {
         "recipient_name": recipientName.text,
@@ -374,12 +374,13 @@ class AddressController extends StateClass {
           message: 'Alamat lengkap harus diisi',
         );
       }
-      if (noteForCourier.text.isEmpty) {
-        throw ErrorConfig(
-          cause: ErrorConfig.userInput,
-          message: 'Catatan harus diisi',
-        );
-      }
+      // if (noteForCourier.text.isEmpty) {
+      //   throw ErrorConfig(
+      //     cause: ErrorConfig.userInput,
+      //     message: 'Catatan harus diisi',
+      //   );
+      // }
+
       var req = {
         "recipient_name": recipientName.text,
         "recipient_phone": recipientPhone.text,

@@ -4,7 +4,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/cart_controlle
 
 import '../theme/theme.dart';
 
-class Produkheight extends StatelessWidget {
+class SkincareWidget extends StatelessWidget {
   final int produkId;
   final String namaBrand;
   final String namaProduk;
@@ -15,7 +15,7 @@ class Produkheight extends StatelessWidget {
   final String harga;
   final String urlImg;
   final String rating;
-  Produkheight({
+  SkincareWidget({
     super.key,
     required this.produkId,
     required this.namaBrand,

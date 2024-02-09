@@ -45,7 +45,7 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
             Spacer(),
             InkWell(
               onTap: () {
-                Get.to(Alamatpage());
+                Get.to(() => Alamatpage());
               },
               child: Text(
                 'Tambah Alamat',

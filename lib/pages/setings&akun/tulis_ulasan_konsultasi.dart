@@ -95,18 +95,21 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   decoration: BoxDecoration(
-                      border: Border.all(color: borderColor),
-                      borderRadius: BorderRadius.circular(7)),
+                    border: Border.all(color: borderColor),
+                    borderRadius: BorderRadius.circular(7),
+                  ),
                   child: Row(
                     children: [
                       Container(
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            image: DecorationImage(
-                                image: NetworkImage(widget.img),
-                                fit: BoxFit.cover)),
+                          borderRadius: BorderRadius.circular(4),
+                          image: DecorationImage(
+                            image: NetworkImage(widget.img),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         width: 10,
@@ -121,7 +124,9 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                           Text(
                             widget.interest,
                             style: blackRegulerTextStyle.copyWith(
-                                fontSize: 13, color: blackColor),
+                              fontSize: 13,
+                              color: blackColor,
+                            ),
                           ),
                         ],
                       ),

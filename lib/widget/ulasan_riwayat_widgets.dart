@@ -25,7 +25,6 @@ class TextUlasanRiwayat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(rating);
     return Column(
       children: [
         InkWell(

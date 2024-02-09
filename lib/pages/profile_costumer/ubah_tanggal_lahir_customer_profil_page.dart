@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:intl/intl.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../widget/button_widget.dart';
 
@@ -125,11 +126,18 @@ class _UbahTanggalLahirProfilCustomerState
   }
 
   Future<void> _selectDate() async {
+    DateFormat dateFormat = DateFormat("yyyy-MM-dd");
+    DateTime firstDate = DateTime.now();
+    DateTime dateTime = dateFormat.parse(
+        "${firstDate.year - 17}-${firstDate.month.toString()}-${firstDate.day.toString()}");
     DateTime? _picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.parse(DateFormat("yyyy-MM-dd").format(
+          state.dateController.text == ""
+              ? dateTime
+              : dateFormat.parse(state.dateController.text))),
       firstDate: DateTime(1990),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.parse(DateFormat("yyyy-MM-dd").format(dateTime)),
     );
 
     if (_picked != null) {

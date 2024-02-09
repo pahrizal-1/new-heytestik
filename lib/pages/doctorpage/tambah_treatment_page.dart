@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../widget/filter_treatment_widgets.dart';
 import '../solution/solutions_treatment1_Page.dart';
 
 class TambahTreatmentCatatanDoktor extends StatefulWidget {
@@ -161,7 +162,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                   topStart: Radius.circular(25),
                                 ),
                               ),
-                              builder: (context) => FilterAll(),
+                              builder: (context) => FilterAllTreatmentWidget(),
                             ).then((value) async {
                               if (value['promo'] == true) {
                                 treatments.clear();

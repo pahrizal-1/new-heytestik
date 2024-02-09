@@ -149,7 +149,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                 width: 55,
                 child: FloatingActionButton(
                   onPressed: () {
-                    Get.to(const BelumKonsultasiChat());
+                    Get.to(() => const SelectConditionsPage());
                   },
                   backgroundColor: greenColor,
                   child: Icon(

@@ -10,22 +10,20 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/trending_treatment.dart';
-import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/cirkel_category.dart';
+import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/maps_widget.dart';
-import 'package:heystetik_mobileapps/widget/pencarian_search_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../controller/customer/solution/etalase_controller.dart';
 import '../../controller/customer/treatment/treatment_controller.dart';
-import '../../models/lookup_treatment.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 
@@ -49,6 +47,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
   int page = 1;
   List<Data2> treatments = [];
   String? search;
+  String? concernName = "Semua Treatment";
   int activeIndex = 0;
   final List<String> images = [
     'assets/images/bg-buy-get1.png',
@@ -68,6 +67,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.getLocation(context);
       etalaseController.getConcern(context);
+      stateTreatment.getTreatment(context);
       treatments.addAll(await stateTreatment.getAllTreatment(
         context,
         page,
@@ -288,62 +288,57 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
             padding:
                 const EdgeInsets.only(left: 25, right: 25, bottom: 10, top: 10),
             height: 56.0,
-            child: InkWell(
-              onTap: () {
-                Get.to(PencarianPageWidget());
-              },
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: fromCssColor('#CCCCCC'),
-                  ),
-                  borderRadius: BorderRadius.circular(35),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: fromCssColor('#CCCCCC'),
                 ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 20,
-                        right: 10,
-                      ),
-                      child: Image.asset(
-                        'assets/icons/search1.png',
-                        width: 10,
-                      ),
+                borderRadius: BorderRadius.circular(35),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 20,
+                      right: 10,
                     ),
-                    Container(
-                      transform: Matrix4.translationValues(0, -2, 0),
-                      constraints: const BoxConstraints(maxWidth: 250),
-                      child: TextFormField(
-                        controller: searchController,
-                        onEditingComplete: () async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => TreatmentSearch(
-                                search: searchController.text,
-                              ),
+                    child: Image.asset(
+                      'assets/icons/search1.png',
+                      width: 10,
+                    ),
+                  ),
+                  Container(
+                    transform: Matrix4.translationValues(0, -2, 0),
+                    constraints: const BoxConstraints(maxWidth: 250),
+                    child: TextFormField(
+                      controller: searchController,
+                      onEditingComplete: () async {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TreatmentSearch(
+                              search: searchController.text,
                             ),
-                          );
-                        },
-                        style: const TextStyle(
-                            fontSize: 15, fontFamily: "ProximaNova"),
-                        decoration: InputDecoration(
-                          hintText: "Cari Treatment",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                            fontFamily: "ProximaNova",
-                            color: fromCssColor(
-                              '#9B9B9B',
-                            ),
+                          ),
+                        );
+                      },
+                      style: const TextStyle(
+                          fontSize: 15, fontFamily: "ProximaNova"),
+                      decoration: InputDecoration(
+                        hintText: "Cari Treatment",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: fromCssColor(
+                            '#9B9B9B',
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -424,7 +419,10 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     padding: const EdgeInsets.only(left: 25),
                     child: InkWell(
                       onTap: () {
-                        Get.to(PeelinngTraetmentPage());
+                        Get.to(() => PencarianKlinikTraetmentPage(
+                              treatmentType:
+                                  stateTreatment.treatment[index].treatmentType,
+                            ));
                       },
                       child: Container(
                         margin: const EdgeInsets.only(right: 8),
@@ -653,10 +651,60 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                               .entries
                               .map((element) {
                             return InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 if (element.key == 0) {
-                                  Get.to(() => EtalaseTreatMentPage());
-                                } else {}
+                                  var res = await Get.to(
+                                      () => EtalaseTreatMentPage());
+                                  if (res == 'semua') {
+                                    print("SEMUA");
+                                    filter.clear();
+                                    concernName = "Semua Treatment";
+                                    page = 1;
+                                    treatments.clear();
+                                    treatments.addAll(
+                                      await stateTreatment.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+                                    setState(() {});
+                                  } else if (res == 'diskon') {
+                                    print("diskon");
+                                    page = 1;
+                                    treatments.clear();
+                                    setState(() {});
+                                  } else {
+                                    filter['concern_ids[]'] = res[0];
+                                    concernName = res[1];
+                                    page = 1;
+                                    treatments.clear();
+                                    treatments.addAll(
+                                      await stateTreatment.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+                                    setState(() {});
+                                  }
+                                } else {
+                                  filter['concern_ids[]'] = element.value.id;
+                                  concernName = element.value.name;
+                                  page = 1;
+                                  treatments.clear();
+                                  treatments.addAll(
+                                    await stateTreatment.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  setState(() {});
+                                }
                               },
                               child: element.key == 0
                                   ? Column(
@@ -711,56 +759,98 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Semua Treatment',
+                            concernName.toString(),
                             style: blackHigtTextStyle.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
                             height: 9,
                           ),
-                          InkWell(
-                            onTap: () async {
-                              return showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadiusDirectional.only(
-                                    topEnd: Radius.circular(25),
-                                    topStart: Radius.circular(25),
+                          Row(
+                            children: [
+                              if (filter.isNotEmpty)
+                                InkWell(
+                                  onTap: () async {
+                                    filter.clear();
+                                    concernName = "Semua Treatment";
+                                    page = 1;
+                                    treatments.clear();
+                                    treatments.addAll(
+                                      await stateTreatment.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 5),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: greenColor,
+                                      ),
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Icon(
+                                      Icons.close,
+                                      color: greenColor,
+                                    ),
                                   ),
                                 ),
-                                builder: (context) => FilterAll(),
-                              ).then((value) async {
-                                if (value['promo'] == true) {
-                                  treatments.clear();
-                                  page = 1;
-                                  setState(() {});
-                                } else {
-                                  filter['treatment_type[]'] =
-                                      value['treatment'];
-                                  filter['order_by'] = value['orderBy'];
-                                  filter['open_now'] = value['openNow'];
-                                  filter['min_price'] = value['minPrice'];
-                                  filter['max_price'] = value['maxPrice'];
-
-                                  treatments.clear();
-                                  page = 1;
-                                  treatments.addAll(
-                                    await stateTreatment.getAllTreatment(
-                                      context,
-                                      page,
-                                      search: search,
-                                      filter: filter,
+                              InkWell(
+                                onTap: () async {
+                                  return showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    context: context,
+                                    backgroundColor: Colors.white,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadiusDirectional.only(
+                                        topEnd: Radius.circular(25),
+                                        topStart: Radius.circular(25),
+                                      ),
                                     ),
-                                  );
-                                }
-                                setState(() {});
-                              });
-                            },
-                            child: Image.asset(
-                              'assets/icons/filters.png',
-                              width: 78,
-                            ),
+                                    builder: (context) =>
+                                        FilterAllTreatmentWidget(),
+                                  ).then((value) async {
+                                    if (value == null) return;
+
+                                    if (value['promo'] == true) {
+                                      treatments.clear();
+                                      page = 1;
+                                      setState(() {});
+                                    } else {
+                                      filter['treatment_type[]'] =
+                                          value['treatment'];
+                                      filter['order_by'] = value['orderBy'];
+                                      filter['open_now'] = value['openNow'];
+                                      filter['min_price'] = value['minPrice'];
+                                      filter['max_price'] = value['maxPrice'];
+
+                                      page = 1;
+                                      treatments.clear();
+                                      treatments.addAll(
+                                        await stateTreatment.getAllTreatment(
+                                          context,
+                                          page,
+                                          search: search,
+                                          filter: filter,
+                                        ),
+                                      );
+                                    }
+                                    setState(() {});
+                                  });
+                                },
+                                child: Image.asset(
+                                  'assets/icons/filters.png',
+                                  width: 78,
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 15,
@@ -771,450 +861,47 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ],
                 ),
               ),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Wrap(
-                      spacing: 15,
-                      runSpacing: 12,
-                      children: treatments.map((element) {
-                        return ProdukTreatment(
-                          treatmentData: element,
-                          namaKlinik: element.clinic?.name ?? '-',
-                          namaTreatmen: element.name ?? '-',
-                          diskonProduk: '0',
-                          hargaDiskon: '0',
-                          harga: element.price!.toString(),
-                          urlImg: element.mediaTreatments!.isEmpty
-                              ? ""
-                              : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (0k)',
-                          km: '${element.distance ?? '0'} km',
-                          lokasiKlinik: element.clinic?.city?.name ?? '-',
-                        );
-                      }).toList(),
+              content: treatments.isEmpty
+                  ? Center(
+                      child: Text(
+                        'Belum ada treatment',
+                        style: TextStyle(
+                          fontWeight: bold,
+                          fontFamily: 'ProximaNova',
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Wrap(
+                            spacing: 15,
+                            runSpacing: 12,
+                            children: treatments.map((element) {
+                              return ProdukTreatment(
+                                treatmentData: element,
+                                namaKlinik: element.clinic?.name ?? '-',
+                                namaTreatmen: element.name ?? '-',
+                                diskonProduk: '0',
+                                hargaDiskon: '0',
+                                harga: element.price!.toString(),
+                                urlImg: element.mediaTreatments!.isEmpty
+                                    ? ""
+                                    : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                rating: '${element.rating} (0k)',
+                                km: '${element.distance ?? '0'}',
+                                lokasiKlinik: element.clinic?.city?.name ?? '-',
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class FilterAll extends StatefulWidget {
-  const FilterAll({super.key});
-
-  @override
-  State<FilterAll> createState() => _FilterAllState();
-}
-
-class _FilterAllState extends State<FilterAll> {
-  final TreatmentController stateTreatment = Get.put(TreatmentController());
-  final TextEditingController minPriceController = TextEditingController();
-  final TextEditingController maxPriceController = TextEditingController();
-
-  List<String> filter = [];
-  List<LookupTreatmentModel> treatments = [];
-  String orderBy = "";
-  bool promo = false;
-  bool openNow = false;
-  int? minPrice;
-  int? maxPrice;
-
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getLookupTreatment(context));
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25, top: 70),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Filter',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 31,
-              ),
-              Text(
-                'Urutkan',
-                style: blackTextStyle.copyWith(fontSize: 15),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              FilterTap(
-                title: 'Rating',
-                img: 'assets/icons/stars-icons.png',
-                onTap: () {
-                  if (orderBy == "RATING") {
-                    orderBy = "";
-                  } else {
-                    orderBy = "RATING";
-                  }
-                  setState(() {});
-                },
-                isActive: orderBy == "RATING",
-              ),
-              FilterTap(
-                title: 'Popularitas',
-                img: 'assets/icons/popularity.png',
-                onTap: () {
-                  if (orderBy == "POPULARITY") {
-                    orderBy = "";
-                  } else {
-                    orderBy = "POPULARITY";
-                  }
-                  setState(() {});
-                },
-                isActive: orderBy == "POPULARITY",
-              ),
-              FilterTap(
-                title: 'Jarak',
-                img: 'assets/icons/mapgrey.png',
-                onTap: () {
-                  if (orderBy == "DISTANCE") {
-                    orderBy = "";
-                  } else {
-                    orderBy = "DISTANCE";
-                  }
-                  print(orderBy);
-                  setState(() {});
-                },
-                isActive: orderBy == "DISTANCE",
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Text(
-                'Pilihan Klinik',
-                style: blackTextStyle.copyWith(fontSize: 15),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  CardSearch(
-                    title: 'Promo',
-                    onTap: () {
-                      promo = !promo;
-                    },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  CardSearch(
-                    title: 'Buka Sekarang',
-                    onTap: () {
-                      openNow = !openNow;
-                    },
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 28,
-              ),
-              Text(
-                'Pilihan Klinik',
-                style: blackTextStyle.copyWith(fontSize: 15),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: minPriceController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        fillColor: greenColor,
-                        hoverColor: greenColor,
-                        hintText: 'Min.',
-                        hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: greenColor,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        contentPadding: const EdgeInsets.all(12),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 13,
-                  ),
-                  Text(
-                    'hingga',
-                    style: subGreyTextStyle,
-                  ),
-                  const SizedBox(
-                    width: 13,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      controller: maxPriceController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        fillColor: greenColor,
-                        hoverColor: greenColor,
-                        hintText: 'Max',
-                        hintStyle: TextStyle(
-                          color: subgreyColor,
-                          fontSize: 12,
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: greenColor,
-                            width: 2,
-                          ),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        contentPadding: const EdgeInsets.all(12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 29,
-              ),
-              Text(
-                'Treatment',
-                style: blackHigtTextStyle.copyWith(fontSize: 15),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ...treatments.map((treatment) {
-                return FilterTapTreatment(
-                  title: treatment.name,
-                  function: () {
-                    filter.add(treatment.name);
-                  },
-                );
-              }).toList(),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        height: 90,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 25, right: 25),
-          child: Row(
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                          fontSize: 15,
-                          fontWeight: bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    minPrice = minPriceController.text == ""
-                        ? null
-                        : int.parse(minPriceController.text);
-                    minPrice = maxPriceController.text == ""
-                        ? null
-                        : int.parse(maxPriceController.text);
-
-                    Navigator.pop(context, {
-                      "treatment": filter,
-                      "orderBy": orderBy,
-                      "openNow": openNow,
-                      "promo": promo,
-                      "minPrice": minPrice,
-                      "maxPrice": maxPrice,
-                    });
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                      color: greenColor,
-                      border: Border.all(color: greenColor),
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Simpan',
-                        style: whiteTextStyle.copyWith(
-                          fontSize: 15,
-                          fontWeight: bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class FilterTap extends StatefulWidget {
-  final String img;
-  final String title;
-  final Function()? onTap;
-  final bool isActive;
-
-  const FilterTap({
-    Key? key,
-    required this.img,
-    required this.title,
-    this.onTap,
-    required this.isActive,
-  }) : super(key: key);
-
-  @override
-  State<FilterTap> createState() => _FilterTapState();
-}
-
-class _FilterTapState extends State<FilterTap> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        InkWell(
-          onTap: () {
-            widget.onTap == null ? () {} : widget.onTap!();
-            setState(() {
-              isSelected = !widget.isActive;
-            });
-          },
-          child: Row(
-            children: [
-              Container(
-                width: 17,
-                height: 17,
-                decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage(widget.img))),
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                widget.title,
-                style: blackRegulerTextStyle.copyWith(color: blackColor),
-              ),
-              const Spacer(),
-              Icon(
-                isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected ? greenColor : blackColor,
-              ),
-            ],
-          ),
-        ),
-        Divider(
-          thickness: 1,
-          color: borderColor,
-        )
-      ],
-    );
-  }
-}
-
-class FilterTapTreatment extends StatefulWidget {
-  final String title;
-  Function()? function;
-
-  FilterTapTreatment({
-    Key? key,
-    required this.title,
-    this.function,
-  }) : super(key: key);
-
-  @override
-  State<FilterTapTreatment> createState() => _FilterTapTreatmentState();
-}
-
-class _FilterTapTreatmentState extends State<FilterTapTreatment> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.function == null ? () {} : widget.function!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
       ),
     );
   }

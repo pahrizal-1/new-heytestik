@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
+import 'package:heystetik_mobileapps/widget/skincare_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 
@@ -109,14 +109,17 @@ class _SkincareSearchState extends State<SkincareSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            print("INI GW KLIK");
                             page = 1;
                             skincare.clear();
                             localSearch = searchController.text;
-                            skincare.addAll(await state.getAllSkincare(
-                                context, page,
-                                search: localSearch));
-                            print(skincare);
+                            skincare.addAll(
+                              await state.getAllSkincare(
+                                context,
+                                page,
+                                search: localSearch,
+                              ),
+                            );
+
                             setState(() {});
                           },
                           style: const TextStyle(
@@ -144,7 +147,7 @@ class _SkincareSearchState extends State<SkincareSearch> {
       body: skincare.isEmpty
           ? Center(
               child: Text(
-                'Tidak ada produk',
+                'Belum ada skincare',
                 style: TextStyle(
                   fontWeight: bold,
                   fontFamily: 'ProximaNova',
@@ -169,7 +172,7 @@ class _SkincareSearchState extends State<SkincareSearch> {
                                     productId: e.id!.toInt(),
                                   ));
                                 },
-                                child: Produkheight(
+                                child: SkincareWidget(
                                   produkId: e.id!.toInt(),
                                   namaBrand: e.skincareDetail!.brand.toString(),
                                   namaProduk: e.name.toString(),

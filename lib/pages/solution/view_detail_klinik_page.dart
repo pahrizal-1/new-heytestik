@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
@@ -21,8 +22,6 @@ import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
     as Treatment;
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
-import '../../widget/card_widget.dart';
-import '../../widget/filter_tap_widget.dart';
 
 class DetailKlinikPage extends StatefulWidget {
   int clinicId;
@@ -34,6 +33,7 @@ class DetailKlinikPage extends StatefulWidget {
 
 class _DetailKlnikPageState extends State<DetailKlinikPage> {
   final TreatmentController state = Get.put(TreatmentController());
+  final ScrollController scrollController = ScrollController();
   bool isVisibelity = true;
   bool isVisibelityJam = true;
   int activeIndex = 0;
@@ -50,9 +50,11 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
   ];
   int currentIndex = 0;
   bool isSelecteTampilan = true;
-
   List<Treatment.Data2> treatments = [];
   int page = 1;
+  String? search;
+  Map<String, dynamic> filter = {};
+  bool emptyLoading = false;
 
   @override
   void initState() {
@@ -61,6 +63,25 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
       state.getClinicDetail(context, widget.clinicId);
       treatments.addAll(await state.getAllTreatment(context, page));
       setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            emptyLoading = true;
+            treatments.addAll(await state.getAllTreatment(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
+            emptyLoading = false;
+            setState(() {});
+          });
+        }
+      }
     });
   }
 
@@ -146,8 +167,9 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoading.value,
+          isLoading: emptyLoading ? false : state.isLoading.value,
           child: ListView(
+            controller: scrollController,
             children: [
               CarouselSlider.builder(
                 itemCount:
@@ -159,6 +181,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                   return buildImg1('${Global.FILE}/$image');
                 },
                 options: CarouselOptions(
+                  pauseAutoPlayInFiniteScroll: false,
                   height: 210,
                   viewportFraction: 1,
                   onPageChanged: (index, reason) => setState(
@@ -753,11 +776,48 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            if (filter.isNotEmpty)
+                              InkWell(
+                                onTap: () async {
+                                  filter.clear();
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {
+                                    emptyLoading = true;
+                                  });
+                                  treatments.addAll(
+                                    await state.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  emptyLoading = false;
+                                  setState(() {});
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 5),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: greenColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(7),
+                                  ),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: greenColor,
+                                  ),
+                                ),
+                              ),
                             InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  context: context,
+                              onTap: () async {
+                                return showModalBottomSheet(
                                   isScrollControlled: true,
+                                  context: context,
                                   backgroundColor: Colors.white,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadiusDirectional.only(
@@ -765,8 +825,40 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterShowModal(),
-                                );
+                                  builder: (context) =>
+                                      FilterAllTreatmentWidget(),
+                                ).then((value) async {
+                                  if (value == null) return;
+
+                                  if (value['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                  } else {
+                                    filter['treatment_type[]'] =
+                                        value['treatment'];
+                                    filter['order_by'] = value['orderBy'];
+                                    filter['open_now'] = value['openNow'];
+                                    filter['min_price'] = value['minPrice'];
+                                    filter['max_price'] = value['maxPrice'];
+
+                                    page = 1;
+                                    treatments.clear();
+                                    setState(() {
+                                      emptyLoading = true;
+                                    });
+                                    treatments.addAll(
+                                      await state.getAllTreatment(
+                                        context,
+                                        page,
+                                        search: search,
+                                        filter: filter,
+                                      ),
+                                    );
+                                    emptyLoading = false;
+                                  }
+                                  setState(() {});
+                                });
                               },
                               child: Image.asset(
                                 'assets/icons/filters.png',
@@ -823,20 +915,81 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                             const SizedBox(
                                               height: 31,
                                             ),
-                                            const FilterTapTreatment(
-                                              title: 'Rating Tertinggi',
+                                            FilterTapTreatment(
+                                              title: 'Terbaru',
+                                              onTap: () async {
+                                                Get.back();
+                                                filter['order_by'] = 'RATING';
+
+                                                page = 1;
+                                                treatments.clear();
+                                                setState(() {
+                                                  emptyLoading = true;
+                                                });
+                                                treatments.addAll(
+                                                  await state.getAllTreatment(
+                                                    context,
+                                                    page,
+                                                    search: search,
+                                                    filter: filter,
+                                                  ),
+                                                );
+                                                emptyLoading = false;
+                                                setState(() {});
+                                              },
                                             ),
                                             const SizedBox(
                                               height: 18,
                                             ),
-                                            const FilterTapTreatment(
-                                              title: 'Ulasan Terbanyaki',
+                                            FilterTapTreatment(
+                                              title: 'Popularitas',
+                                              onTap: () async {
+                                                Get.back();
+                                                filter['order_by'] =
+                                                    'POPULARITY';
+
+                                                page = 1;
+                                                treatments.clear();
+                                                setState(() {
+                                                  emptyLoading = true;
+                                                });
+                                                treatments.addAll(
+                                                  await state.getAllTreatment(
+                                                    context,
+                                                    page,
+                                                    search: search,
+                                                    filter: filter,
+                                                  ),
+                                                );
+                                                emptyLoading = false;
+                                                setState(() {});
+                                              },
                                             ),
                                             const SizedBox(
                                               height: 18,
                                             ),
-                                            const FilterTapTreatment(
-                                              title: 'Treatment Terlaris',
+                                            FilterTapTreatment(
+                                              title: 'Jarak',
+                                              onTap: () async {
+                                                Get.back();
+                                                filter['order_by'] = 'DISTANCE';
+
+                                                page = 1;
+                                                treatments.clear();
+                                                setState(() {
+                                                  emptyLoading = true;
+                                                });
+                                                treatments.addAll(
+                                                  await state.getAllTreatment(
+                                                    context,
+                                                    page,
+                                                    search: search,
+                                                    filter: filter,
+                                                  ),
+                                                );
+                                                emptyLoading = false;
+                                                setState(() {});
+                                              },
                                             ),
                                             const SizedBox(
                                               height: 29,
@@ -874,13 +1027,50 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                               ),
                             ),
                             InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const EtalaseTreatMentPage()),
-                                );
+                              onTap: () async {
+                                var res = await Get.to(
+                                    () => const EtalaseTreatMentPage());
+
+                                if (res == 'semua') {
+                                  filter.clear();
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {
+                                    emptyLoading = true;
+                                  });
+                                  treatments.addAll(
+                                    await state.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  emptyLoading = false;
+                                  setState(() {});
+                                } else if (res == 'diskon') {
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {});
+                                } else {
+                                  filter['concern_ids[]'] = res;
+
+                                  page = 1;
+                                  treatments.clear();
+                                  setState(() {
+                                    emptyLoading = true;
+                                  });
+                                  treatments.addAll(
+                                    await state.getAllTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  emptyLoading = false;
+                                  setState(() {});
+                                }
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 9),
@@ -895,7 +1085,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: const [
-                                    Text('Retalase Treatment'),
+                                    Text('Etalase Treatment'),
                                     SizedBox(
                                       width: 9,
                                     ),
@@ -913,51 +1103,63 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                     ],
                   ),
                 ),
-                content: isSelecteTampilan
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15, top: 19),
-                            child: Wrap(
-                              spacing: 15,
-                              runSpacing: 15,
-                              children: treatments.map((element) {
-                                return ProdukTreatment(
-                                  treatmentData: element,
-                                  namaKlinik: element.clinic!.name!,
-                                  namaTreatmen: element.name!,
-                                  diskonProduk: '0',
-                                  hargaDiskon: '0',
-                                  harga: element.price!.toString(),
-                                  urlImg: element.mediaTreatments!.isEmpty
-                                      ? ""
-                                      : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                                  rating: '${element.rating} (120k)',
-                                  km: '${element.distance}',
-                                  lokasiKlinik: element.clinic!.city!.name!,
-                                );
-                              }).toList(),
-                            ),
-                          )
-                        ],
+                content: treatments.isEmpty
+                    ? Center(
+                        child: Text(
+                          'Belum ada treatment',
+                          style: TextStyle(
+                            fontWeight: bold,
+                            fontFamily: 'ProximaNova',
+                            fontSize: 20,
+                          ),
+                        ),
                       )
-                    : Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 25, vertical: 19),
-                        child: Column(
-                          children: treatments
-                              .map(
-                                (e) => TampilanRight(
-                                  treatment: e,
-                                  urlImg: e.mediaTreatments!.isEmpty
-                                      ? ""
-                                      : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                    : isSelecteTampilan
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 15, top: 19),
+                                child: Wrap(
+                                  spacing: 15,
+                                  runSpacing: 15,
+                                  children: treatments.map((element) {
+                                    return ProdukTreatment(
+                                      treatmentData: element,
+                                      namaKlinik: element.clinic!.name!,
+                                      namaTreatmen: element.name!,
+                                      diskonProduk: '0',
+                                      hargaDiskon: '0',
+                                      harga: element.price!.toString(),
+                                      urlImg: element.mediaTreatments!.isEmpty
+                                          ? ""
+                                          : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                      rating: '${element.rating} (0k)',
+                                      km: '${element.distance}',
+                                      lokasiKlinik: element.clinic!.city!.name!,
+                                    );
+                                  }).toList(),
                                 ),
                               )
-                              .toList(),
-                        ),
-                      ),
+                            ],
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 25, vertical: 19),
+                            child: Column(
+                              children: treatments
+                                  .map(
+                                    (e) => TampilanRight(
+                                      treatment: e,
+                                      urlImg: e.mediaTreatments!.isEmpty
+                                          ? ""
+                                          : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
               ),
               const SizedBox(
                 height: 14,
@@ -988,163 +1190,6 @@ class MapsWidgetClinic extends StatelessWidget {
           buttonText: 'Lokasi',
           onPicked: (pickedData) async {},
         ),
-      ),
-    );
-  }
-}
-
-class FilterShowModal extends StatelessWidget {
-  const FilterShowModal({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Filter',
-            style: blackHigtTextStyle.copyWith(fontSize: 20),
-          ),
-          const SizedBox(
-            height: 31,
-          ),
-          Text(
-            'Pilihan Klinik',
-            style: blackTextStyle.copyWith(fontSize: 15),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Row(
-            children: const [
-              CardSearch(
-                title: 'Promo',
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              CardSearch(
-                title: 'Buka Sekarang',
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 28,
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    fillColor: greenColor,
-                    hoverColor: greenColor,
-                    hintText: 'Min.',
-                    hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(7)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    contentPadding: const EdgeInsets.all(12),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 13,
-              ),
-              Text(
-                'hingga',
-                style: subGreyTextStyle,
-              ),
-              const SizedBox(
-                width: 13,
-              ),
-              Expanded(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    fillColor: greenColor,
-                    hoverColor: greenColor,
-                    hintText: 'Max',
-                    hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: greenColor,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(7)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    ),
-                    contentPadding: const EdgeInsets.all(12),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 29,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: InkWell(
-                  onTap: () {},
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        color: greenColor,
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Simpan',
-                        style: whiteTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ],
       ),
     );
   }

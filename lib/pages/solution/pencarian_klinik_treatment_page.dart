@@ -1,38 +1,42 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
-
-import '../../controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/widget/card_treatment_widget.dart';
 import '../../models/clinic.dart';
+import '../../controller/customer/treatment/treatment_controller.dart';
 import '../../widget/filter_treatment_widgets.dart';
 
-class TreatmentKlink extends StatefulWidget {
-  const TreatmentKlink({super.key});
+class PencarianKlinikTraetmentPage extends StatefulWidget {
+  String? treatmentType;
+  PencarianKlinikTraetmentPage({super.key, this.treatmentType = ""});
 
   @override
-  State<TreatmentKlink> createState() => _TreatmentKlinkState();
+  State<PencarianKlinikTraetmentPage> createState() =>
+      _PencarianKlinikTraetmentPageState();
 }
 
-class _TreatmentKlinkState extends State<TreatmentKlink> {
+class _PencarianKlinikTraetmentPageState
+    extends State<PencarianKlinikTraetmentPage> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
-  final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
   int page = 1;
   String? search;
   List<Data2> clinics = [];
-  bool isSelecteSearch = true;
-  bool isSelecteTampilan = true;
   bool promo = false;
   Map<String, dynamic> filter = {};
 
   @override
   void initState() {
     super.initState();
+    if (widget.treatmentType != "") {
+      filter['treatment_type[]'] = widget.treatmentType;
+    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       clinics.addAll(await stateTreatment.getClinic(context, page,
           search: search, filter: filter));
@@ -56,118 +60,85 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: whiteColor,
       appBar: AppBar(
         backgroundColor: whiteColor,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 10, right: 10),
-          child: isSelecteSearch
-              ? Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 24,
-                        color: blackColor,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 11,
-                    ),
-                    Text(
-                      'Klinik',
-                      style: blackTextStyle.copyWith(fontSize: 20),
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Get.to(() => PencarianKlinikTraetmentPage());
-                        // setState(() {
-                        //   isSelecteSearch = !isSelecteSearch;
-                        // });
-                      },
-                      child: Image.asset(
-                        'assets/icons/search1.png',
-                        width: 18,
-                        color: blackColor,
-                      ),
-                    )
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Icon(
-                        Icons.arrow_back,
-                        size: 24,
-                        color: blackColor,
-                      ),
-                    ),
-                    Container(
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Color(0xffF1F1F1),
-                        border: Border.all(
-                          color: fromCssColor("#CCCCCC"),
-                        ),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 10,
-                              right: 10,
-                            ),
-                            child: Image.asset(
-                              'assets/icons/search1.png',
-                              width: 10,
-                            ),
-                          ),
-                          Container(
-                            transform: Matrix4.translationValues(0, -2, 0),
-                            constraints: const BoxConstraints(maxWidth: 250),
-                            child: TextFormField(
-                              controller: searchController,
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontFamily: "ProximaNova",
-                              ),
-                              onEditingComplete: () async {
-                                page = 1;
-                                search = searchController.text;
-                                clinics.clear();
-                                clinics.addAll(await stateTreatment
-                                    .getClinic(context, page, search: search));
-                                setState(() {});
-                              },
-                              decoration: InputDecoration(
-                                hintText: "Cari Klinik",
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontFamily: "ProximaNova",
-                                  color: fromCssColor(
-                                    '#9B9B9B',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+        title: Row(
+          children: [
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Icon(
+                Icons.arrow_back,
+                size: 24,
+                color: blackColor,
+              ),
+            ),
+            const SizedBox(
+              width: 11,
+            ),
+            Container(
+              height: 35,
+              decoration: BoxDecoration(
+                color: Color(0xffF1F1F1),
+                border: Border.all(
+                  color: fromCssColor("#CCCCCC"),
                 ),
+                borderRadius: BorderRadius.circular(7),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: 10,
+                      right: 10,
+                    ),
+                    child: Image.asset(
+                      'assets/icons/search1.png',
+                      width: 10,
+                    ),
+                  ),
+                  Container(
+                    transform: Matrix4.translationValues(0, -2, 0),
+                    constraints: const BoxConstraints(maxWidth: 250),
+                    child: TextFormField(
+                      controller: searchController,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontFamily: "ProximaNova",
+                      ),
+                      onEditingComplete: () async {
+                        page = 1;
+                        search = searchController.text;
+                        clinics.clear();
+                        clinics.addAll(
+                          await stateTreatment.getClinic(
+                            context,
+                            page,
+                            search: search,
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Cari Klinik",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                          fontFamily: "ProximaNova",
+                          color: fromCssColor(
+                            '#9B9B9B',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(60.0),
@@ -443,19 +414,21 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
-                    Get.to(() => DetailKlinikPage(
-                          clinicId: clinics[index].id!,
-                        ));
+                    Get.to(
+                      () => DetailKlinikPage(
+                        clinicId: clinics[index].id!,
+                      ),
+                    );
                   },
-                  child: CardKlinik(
+                  child: CardTreatment(
                     namaKlink:
                         '${clinics[index].name}, ${clinics[index].city?.name}',
                     rating: '${clinics[index].rating} (0k)',
                     km: clinics[index].distance.toString(),
                     urlImg:
                         "${Global.FILE}/${clinics[index].mediaClinicLogo?.media?.path}",
-                    price: clinics[index].avgPrice!,
                     // buttonTitle: 'Lihat semua cabang klinik',
+                    treatments: clinics[index].treatments ?? [],
                   ),
                 );
               },

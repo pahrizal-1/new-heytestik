@@ -44,6 +44,7 @@ class ProfileController extends StateClass {
   RxString email = ''.obs;
   RxString noHp = ''.obs;
   RxString dob = ''.obs;
+  RxInt age = 0.obs;
   RxString otp = ''.obs;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
@@ -61,7 +62,7 @@ class ProfileController extends StateClass {
     'Perempuan',
   ];
   RxString gender = 'Pilih jenis kelamin'.obs;
-  RxInt age = 0.obs;
+
   Map dataUser = {};
   File? image;
   String? fileImg64;
@@ -93,25 +94,21 @@ class ProfileController extends StateClass {
     if (dataUser['dob'] != null) {
       age.value = currentDate.year - DateTime.parse(dataUser['dob']).year;
     }
-
-    print('fullname ${fullName.value}');
-    print('dataUser $dataUser');
-    print('dataUser ${dataUser['fullname']}');
   }
 
-  timeout(BuildContext context) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await ProfileService().timeout();
-      if (res['success'] != true && res['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res['message'],
-        );
-      }
-    });
-    isLoading.value = false;
-  }
+  // timeout(BuildContext context) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await ProfileService().timeout();
+  //     if (res['success'] != true && res['message'] != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res['message'],
+  //       );
+  //     }
+  //   });
+  //   isLoading.value = false;
+  // }
 
   Future accountVerification(BuildContext context,
       {required Function() doInPost}) async {
@@ -205,7 +202,7 @@ class ProfileController extends StateClass {
       var response = await ProfileService().getProfileCust();
       profileData.value = response;
 
-      DateTime tdata = DateTime.now();
+      DateTime? tdata;
       if (profileData.value.data!.dob != null) {
         tdata = DateTime.parse(profileData.value.data!.dob ?? '-');
       }
@@ -220,7 +217,7 @@ class ProfileController extends StateClass {
       email.value = profileData.value.data!.email ?? '-';
       noHp.value = profileData.value.data!.noPhone ?? '-';
       gender.value = profileData.value.data!.gender ?? 'Pilih jenis kelamin';
-      dob.value = formatter.format(tdata);
+      dob.value = (tdata != null ? formatter.format(tdata) : '');
       imgNetwork.value =
           (profileData.value.data!.mediaUserProfilePicture != null
               ? profileData.value.data!.mediaUserProfilePicture!.media!.path
@@ -231,7 +228,7 @@ class ProfileController extends StateClass {
       bioController.text = profileData.value.data!.bio ?? '-';
       emailController.text = profileData.value.data!.email ?? '-';
       // nomorHpController.text = profileData.value.data!.noPhone ?? '-';
-      dateController.text = formatter.format(tdata);
+      dateController.text = (tdata != null ? formatter.format(tdata) : '');
     });
     isLoading.value = false;
   }
@@ -423,8 +420,11 @@ class ProfileController extends StateClass {
         "dob": dateController.text,
       };
       var response = await ProfileService().changeProfile(data);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        await init();
+      }
       Navigator.pop(context, 'refresh');
-      print(response);
     });
     isLoading.value = false;
   }

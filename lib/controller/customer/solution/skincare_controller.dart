@@ -6,8 +6,7 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_skincare_solution_model.dart'
     as DetailSkincare;
-import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
-    as Lookup;
+
 import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
     as Overview;
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
@@ -37,7 +36,6 @@ class SkincareController extends StateClass {
 
   RxBool isLoadingDetailSkincare = false.obs;
   RxBool isLoadingProductReviewSkincare = false.obs;
-  RxBool isLoadingLookup = false.obs;
 
   Future<List<Skincare.Data2>> getAllSkincare(
     BuildContext context,
@@ -167,24 +165,6 @@ class SkincareController extends StateClass {
     isLoadingProductReviewSkincare.value = false;
 
     return productReview.value;
-  }
-
-  Future<List<Lookup.Data2>> getLookup(
-      BuildContext context, String category) async {
-    isLoadingLookup.value = true;
-    List<Lookup.Data2> data = [];
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getLookup(category);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      data.addAll(res.data!.data!);
-    });
-    isLoadingLookup.value = false;
-    return data;
   }
 
   void helped(BuildContext context, int reviewId) async {

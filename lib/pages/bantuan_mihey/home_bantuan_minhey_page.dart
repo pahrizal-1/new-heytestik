@@ -1,18 +1,94 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
+import 'dart:convert';
+import 'dart:io';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
+    as Treat;
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/bantuan_mihey/pilih_transaksi_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import '../../theme/theme.dart';
 import '../../widget/appar_cutome.dart';
 
-class HomeMinheyPage extends StatelessWidget {
+class HomeMinheyPage extends StatefulWidget {
   const HomeMinheyPage({super.key});
+
+  @override
+  State<HomeMinheyPage> createState() => _HomeMinheyPageState();
+}
+
+class _HomeMinheyPageState extends State<HomeMinheyPage> {
+  final HistoryTransactionController state =
+      Get.put(HistoryTransactionController());
+  final ScrollController scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+
+  List<Data2> history = [];
+  int page = 1;
+  String? search;
+  Map<String, dynamic> filter = {};
+  int totalPending = 0;
+  bool isLogin = false;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      var cek = await LocalStorage().getAccessToken();
+      if (cek == '-') {
+        isLogin = false;
+        return;
+      }
+
+      isLogin = true;
+      history.addAll(await state.getAllHistory(
+        context,
+        page,
+        search: search,
+        filter: filter,
+      ));
+
+      setState(() {});
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
+            history.addAll(await state.getAllHistory(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
+            setState(() {});
+            state.isLoadingMore.value = false;
+          });
+        }
+      }
+    });
+    super.initState();
+  }
+
   _whatsapp(BuildContext context) async {
     var contact = "+6281287639838";
     var androidUrl = "whatsapp://send?phone=$contact&text=Hi";
@@ -131,173 +207,185 @@ class HomeMinheyPage extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: lsymetric.copyWith(top: 20, bottom: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ada kendala dalam transaksimu?',
-                  style: blackTextStyle.copyWith(fontSize: 18),
-                ),
-                SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  'Pilih transaksi yang berkendala dalam 1 bulan terakhir',
-                  style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 288,
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: borderColor),
-                        ),
-                        child: Column(children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '12 Jun 2023',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 10),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  color: Color(0xff24A7A0).withOpacity(0.2),
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 4, horizontal: 8),
-                                child: Text(
-                                  'Selesai',
-                                  style: grenTextStyle.copyWith(fontSize: 10),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                height: 48,
-                                width: 48,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                        'assets/images/penting1.png',
-                                      ),
-                                      fit: BoxFit.fill),
+          if (isLogin)
+            Padding(
+              padding: lsymetric.copyWith(top: 20, bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Ada kendala dalam transaksimu?',
+                    style: blackTextStyle.copyWith(fontSize: 18),
+                  ),
+                  SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    'Pilih transaksi yang berkendala dalam 1 bulan terakhir',
+                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        ...history.map((val) {
+                          if (val.transactionType == 'CONSULTATION') {
+                            return InkWell(
+                              onTap: () {
+                                if (val.detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  Get.to(
+                                      () => SelesaikanPembayaranKonsultasiPage(
+                                            isWillPop: false,
+                                            orderId: val.detail!.orderId!,
+                                            expireTime: '',
+                                            paymentMethodId:
+                                                val.detail!.paymentMethodId!,
+                                          ));
+                                } else if (val.detail?.status == 'READY') {
+                                  Get.to(() => SuccessPage(
+                                        isNotConsultation: false,
+                                        orderId: val.detail?.orderId ?? '',
+                                        isWillPop: false,
+                                      ));
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CardTransProd11(
+                                  data: val,
                                 ),
                               ),
-                              SizedBox(
-                                width: 14,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Teenderm Hydra 40ml',
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 13),
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: '1 Barang',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12),
-                                      children: [
-                                        TextSpan(
-                                          text: ' +2 barang lainnya',
-                                          style: grenTextStyle.copyWith(
-                                              fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 2,
-                                  ),
-                                  RichText(
-                                    text: TextSpan(
-                                      text: 'Total :',
-                                      style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 12),
-                                      children: [
-                                        TextSpan(
-                                          text: ' Rp915.000',
-                                          style: grenTextStyle.copyWith(
-                                            fontSize: 12,
-                                            color: Color(
-                                              0xffF76707,
+                            );
+                          } else if (val.transactionType == 'TREATMENT') {
+                            return InkWell(
+                              onTap: () {
+                                if (val.detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  Get.to(() =>
+                                      SelesaikanPembayaranTreatmentPage(
+                                        isWillPop: false,
+                                        orderId: val.transactionId.toString(),
+                                        expireTime: '',
+                                        pax: val
+                                                .detail!
+                                                .transactionTreatmentItems?[0]
+                                                .pax ??
+                                            0,
+                                        treatment: Treat.Data2.fromJson(
+                                          jsonDecode(
+                                            jsonEncode(
+                                              val
+                                                  .detail!
+                                                  .transactionTreatmentItems?[0]
+                                                  .treatment,
                                             ),
                                           ),
                                         ),
-                                      ],
+                                        paymentMethodId:
+                                            val.detail!.paymentMethodId!,
+                                      ));
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CardTransProd11(
+                                  data: val,
+                                ),
+                              ),
+                            );
+                          } else if (val.transactionType == 'PRODUCT') {
+                            return InkWell(
+                              onTap: () {
+                                if (val.detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  Get.to(
+                                    () => SelesaikanPembayaranProdukPage(
+                                      isWillPop: false,
+                                      orderId: val.detail!.orderId!,
+                                      expireTime: '',
+                                      paymentMethodId:
+                                          val.detail!.paymentMethodId!,
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            height: 14,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 30,
-                            child: TextButton(
-                              onPressed: () {},
-                              style: TextButton.styleFrom(
-                                backgroundColor: greenColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  );
+                                } else if (val.detail?.status == 'SELESAI') {
+                                  Get.to(
+                                    () => DetailTransaksiPage(
+                                      transactionId: val.detail!.id!,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CardTransProd11(
+                                  data: val,
                                 ),
                               ),
-                              child: Text(
-                                'Pilih Solusi Cepat',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: whiteColor,
-                                  fontWeight: bold,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ]),
+                            );
+                          }
+                          return Container();
+                        }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 17,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => PilihTranskasiMinheyPage());
+                    },
+                    child: Text(
+                      'Pilih Transaksi Lain',
+                      style: grenTextStyle.copyWith(fontSize: 13),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          else
+            Padding(
+              padding: lsymetric.copyWith(top: 20, bottom: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Masuk untuk mendapat bantuan terkait transaksi',
+                    style: blackTextStyle.copyWith(fontSize: 15),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 40,
+                    child: TextButton(
+                      onPressed: () {
+                        Get.to(() => LoginPageNew());
+                      },
+                      style: TextButton.styleFrom(
+                        backgroundColor: greenColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ],
+                      child: Text(
+                        'Masuk',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: whiteColor,
+                          fontWeight: bold,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 17,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.to(PilihTranskasiMinheyPage());
-                  },
-                  child: Text(
-                    'Pilih Transaksi Lain',
-                    style: grenTextStyle.copyWith(fontSize: 13),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
           dividergreen(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -667,6 +755,314 @@ class HomeMinheyPage extends StatelessWidget {
                   title1: 'Kebijakan Privasi Heystetik',
                 ),
               ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CardTransProd11 extends StatelessWidget {
+  Data2 data;
+  CardTransProd11({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 288,
+      padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(7),
+        border: Border.all(color: borderColor),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                ConvertDate.defaultDate(data.createdAt ?? '-'),
+                style: blackRegulerTextStyle.copyWith(fontSize: 10),
+              ),
+              if (data.transactionType == 'PRODUCT')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: data.detail?.orderStatus.toString() == 'NEW_ORDER' ||
+                            data.detail?.orderStatus.toString() ==
+                                'DELIVERY_PROCESS' ||
+                            data.detail?.orderStatus.toString() == 'IN_DELIVERY'
+                        ? const Color.fromARGB(255, 255, 204, 170)
+                        : data.detail?.orderStatus.toString() ==
+                                'ORDER_COMPLETED'
+                            ? subgreenColor
+                            : subgreenColor,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text(
+                    data.detail?.orderStatus.toString() == 'NEW_ORDER' ||
+                            data.detail?.orderStatus.toString() ==
+                                'DELIVERY_PROCESS'
+                        ? 'Pesanan Diproses'
+                        : data.detail?.orderStatus.toString() == 'IN_DELIVERY'
+                            ? 'Pesanan Dikirim'
+                            : data.detail?.orderStatus.toString() ==
+                                    'ORDER_COMPLETED'
+                                ? 'Selesai'
+                                : 'Selesai',
+                    style: grenTextStyle.copyWith(
+                      fontSize: 10,
+                      color:
+                          data.detail?.orderStatus.toString() == 'NEW_ORDER' ||
+                                  data.detail?.orderStatus.toString() ==
+                                      'DELIVERY_PROCESS' ||
+                                  data.detail?.orderStatus.toString() ==
+                                      'IN_DELIVERY'
+                              ? const Color.fromARGB(255, 255, 102, 0)
+                              : data.detail?.orderStatus.toString() ==
+                                      'ORDER_COMPLETED'
+                                  ? greenColor
+                                  : greenColor,
+                    ),
+                  ),
+                )
+              else if (data.transactionType == 'TREATMENT')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: data.detail?.status == 'MENUNGGU_PEMBAYARAN'
+                        ? const Color.fromARGB(255, 255, 204, 170)
+                        : data.detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                            ? const Color.fromARGB(255, 255, 204, 170)
+                            : data.detail?.status == 'KLINIK_MENGKONFIRMASI'
+                                ? subgreenColor
+                                : data.detail?.status == 'SELESAI'
+                                    ? subgreenColor
+                                    : subgreenColor,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text(
+                    data.detail?.status == 'MENUNGGU_PEMBAYARAN'
+                        ? 'Menunggu Pembayaran'
+                        : data.detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                            ? 'Menunggu Konfirmasi Klinik'
+                            : data.detail?.status == 'KLINIK_MENGKONFIRMASI'
+                                ? 'Klinik Mengkonfirmasi'
+                                : data.detail?.status == 'SELESAI'
+                                    ? 'Selesai'
+                                    : 'Selesai',
+                    style: grenTextStyle.copyWith(
+                      fontSize: 10,
+                      color: data.detail?.status == 'MENUNGGU_PEMBAYARAN'
+                          ? const Color.fromARGB(255, 255, 102, 0)
+                          : data.detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
+                              ? const Color.fromARGB(255, 255, 102, 0)
+                              : data.detail?.status == 'KLINIK_MENGKONFIRMASI'
+                                  ? greenColor
+                                  : data.detail?.status == 'SELESAI'
+                                      ? greenColor
+                                      : greenColor,
+                    ),
+                  ),
+                )
+              else if (data.transactionType == 'CONSULTATION')
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: data.detail?.status == 'MENUNGGU_PEMBAYARAN'
+                        ? const Color.fromARGB(255, 255, 204, 170)
+                        : data.detail?.status == 'READY'
+                            ? const Color.fromARGB(255, 255, 204, 170)
+                            : data.detail?.status == 'REVIEW'
+                                ? const Color.fromARGB(255, 255, 204, 170)
+                                : data.detail?.status == 'AKTIF'
+                                    ? subgreenColor
+                                    : data.detail?.status == 'SELESAI'
+                                        ? subgreenColor
+                                        : subgreenColor,
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                  child: Text(
+                    data.detail?.status == 'MENUNGGU_PEMBAYARAN'
+                        ? 'Menunggu Pembayaran'
+                        : data.detail?.status == 'READY'
+                            ? 'Ready'
+                            : data.detail?.status == 'REVIEW'
+                                ? 'Review'
+                                : data.detail?.status == 'AKTIF'
+                                    ? 'Aktif'
+                                    : data.detail?.status == 'SELESAI'
+                                        ? 'Selesai'
+                                        : 'Selesai',
+                    style: grenTextStyle.copyWith(
+                      fontSize: 10,
+                      color: data.detail?.status == 'MENUNGGU_PEMBAYARAN'
+                          ? const Color.fromARGB(255, 255, 102, 0)
+                          : data.detail?.status == 'READY'
+                              ? const Color.fromARGB(255, 255, 102, 0)
+                              : data.detail?.status == 'REVIEW'
+                                  ? const Color.fromARGB(255, 255, 102, 0)
+                                  : data.detail?.status == 'AKTIF'
+                                      ? greenColor
+                                      : data.detail?.status == 'SELESAI'
+                                          ? greenColor
+                                          : greenColor,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: [
+              if (data.transactionType == 'PRODUCT')
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                          '${Global.FILE}/${data.detail?.transactionProductItems?[0].product!.mediaProducts?[0].media?.path}'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              else if (data.transactionType == 'TREATMENT')
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        '${Global.FILE}/${data.detail?.transactionTreatmentItems?[0].treatment?.mediaTreatments?[0].media?.path}',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                )
+              else if (data.transactionType == 'CONSULTATION')
+                Container(
+                  height: 48,
+                  width: 48,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        '${Global.FILE}/${data.detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+              SizedBox(
+                width: 14,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (data.transactionType == 'PRODUCT')
+                    Text(
+                      data.detail?.transactionProductItems?[0].product?.name ??
+                          '-',
+                      style: blackTextStyle.copyWith(fontSize: 13),
+                    )
+                  else if (data.transactionType == 'TREATMENT')
+                    Text(
+                      data.detail?.transactionTreatmentItems?[0].treatment
+                              ?.name ??
+                          '-',
+                      style: blackTextStyle.copyWith(fontSize: 13),
+                    )
+                  else if (data.transactionType == 'CONSULTATION')
+                    Text(
+                      data.detail?.consultation?.doctor?.fullname ?? '-',
+                      style: blackTextStyle.copyWith(fontSize: 13),
+                    ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  if (data.transactionType == 'PRODUCT')
+                    RichText(
+                      text: TextSpan(
+                        text: '1 Barang',
+                        style: subTitleTextStyle.copyWith(fontSize: 12),
+                        children: [
+                          TextSpan(
+                            text: (data.detail?.transactionProductItems
+                                            ?.length ??
+                                        0) >
+                                    1
+                                ? ' +${(data.detail?.transactionProductItems?.length ?? 0) - 1} barang lainnya'
+                                : '',
+                            style: grenTextStyle.copyWith(fontSize: 12),
+                          ),
+                        ],
+                      ),
+                    )
+                  else if (data.transactionType == 'TREATMENT')
+                    Text(
+                      data.detail?.transactionTreatmentItems?[0].treatment
+                              ?.clinic?.name ??
+                          '-',
+                      style: subTitleTextStyle.copyWith(fontSize: 13),
+                    )
+                  else if (data.transactionType == 'CONSULTATION')
+                    Text(
+                      data.detail?.medicalHistory?.interestCondition?.concern
+                              ?.name ??
+                          '-',
+                    ),
+                  SizedBox(
+                    height: 2,
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      text: 'Total :',
+                      style: blackRegulerTextStyle.copyWith(fontSize: 12),
+                      children: [
+                        TextSpan(
+                          text:
+                              ' ${CurrencyFormat.convertToIdr(data.detail?.totalPaid, 0)}',
+                          style: grenTextStyle.copyWith(
+                            fontSize: 12,
+                            color: Color(
+                              0xffF76707,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+          SizedBox(
+            height: 14,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 30,
+            child: TextButton(
+              onPressed: () {
+                Get.to(() => const TabBarCustomer(currentIndex: 3));
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: greenColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text(
+                'Pilih Solusi Cepat',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: whiteColor,
+                  fontWeight: bold,
+                ),
+              ),
             ),
           ),
         ],

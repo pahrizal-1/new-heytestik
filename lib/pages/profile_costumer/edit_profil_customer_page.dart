@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/ubah_tanggal_lahir_c
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -40,7 +40,6 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
       state.init();
       state.getProfile(context);
     });
-    // state.getProfile(context);
   }
 
   Future pickImage() async {
@@ -51,14 +50,40 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
       final imageTempory = File(image.path);
       setState(() {
         state.image = imageTempory;
-        final bytes = imageTempory.readAsBytesSync();
-        String img64 = base64Encode(bytes);
-        state.fileImg64 = "data:/png;base64,$img64";
+        // final bytes = imageTempory.readAsBytesSync();
+        // String img64 = base64Encode(bytes);
+        // state.fileImg64 = "data:/png;base64,$img64";
         state.isSave.value = true;
       });
-      // setState(() => this.state.image = imageTempory);
     } on PlatformException catch (e) {
       print('Failed to pick : $e');
+    }
+  }
+
+  Future _cropImage() async {
+    CroppedFile? cropped = await ImageCropper().cropImage(
+      sourcePath: state.image!.path,
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop',
+            cropGridColor: Colors.black,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(title: 'Crop')
+      ],
+    );
+
+    if (cropped != null) {
+      setState(() {
+        state.image = File(cropped.path);
+      });
     }
   }
 
@@ -153,12 +178,27 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                       visible: state.isSave.value,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: ButtonGreenWidget(
-                          title: 'Simpan',
-                          onPressed: () {
-                            state.updateProfile(context);
-                            // state.verifyCode(context);
-                          },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ButtonGreenWidget(
+                                title: 'Simpan',
+                                onPressed: () {
+                                  state.updateProfile(context);
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ButtonWhiteWidget(
+                                title: 'Crop',
+                                onPressed: _cropImage,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
@@ -393,7 +433,6 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           MaterialPageRoute(
                             builder: (context) =>
                                 const UbahNomorCustomerProfilPage(),
-                            // const PilihMetodeVerifikasiProfil(),
                           ),
                         );
                         if (refresh == 'refresh') {
@@ -444,8 +483,10 @@ class _EditProfilCostomerState extends State<EditProfilCostomer> {
                           });
                         }
                       },
-                      title2: DateFormat('dd-MM-yyyy')
-                          .format(DateTime.parse(state.dob.value)),
+                      title2: state.dob.isNotEmpty
+                          ? DateFormat('dd-MM-yyyy')
+                              .format(DateTime.parse(state.dob.value))
+                          : '-',
                       titlel: 'Tanggal Lahir',
                     )
                   ],
@@ -515,8 +556,7 @@ class TextProfil extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 170),
+          Expanded(
             child: RichText(
               text: TextSpan(
                 text: title2,

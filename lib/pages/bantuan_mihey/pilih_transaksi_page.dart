@@ -1,9 +1,78 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
-import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 
-class PilihTranskasiMinheyPage extends StatelessWidget {
+import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
+import 'package:heystetik_mobileapps/widget/card_transaction_minhey.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
+    as Treat;
+
+class PilihTranskasiMinheyPage extends StatefulWidget {
   const PilihTranskasiMinheyPage({super.key});
+
+  @override
+  State<PilihTranskasiMinheyPage> createState() =>
+      _PilihTranskasiMinheyPageState();
+}
+
+class _PilihTranskasiMinheyPageState extends State<PilihTranskasiMinheyPage> {
+  final HistoryTransactionController state =
+      Get.put(HistoryTransactionController());
+  final ScrollController scrollController = ScrollController();
+  final TextEditingController searchController = TextEditingController();
+
+  List<Data2> history = [];
+  int page = 1;
+  String? search;
+  Map<String, dynamic> filter = {};
+  int totalPending = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      history.addAll(await state.getAllHistory(
+        context,
+        page,
+        search: search,
+        filter: filter,
+      ));
+
+      setState(() {});
+    });
+
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          page += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            state.isLoadingMore.value = true;
+            history.addAll(await state.getAllHistory(
+              context,
+              page,
+              search: search,
+              filter: filter,
+            ));
+            setState(() {});
+            state.isLoadingMore.value = false;
+          });
+        }
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,19 +135,18 @@ class PilihTranskasiMinheyPage extends StatelessWidget {
                     transform: Matrix4.translationValues(0, -2, 0),
                     constraints: const BoxConstraints(maxWidth: 250),
                     child: TextFormField(
-                      onEditingComplete: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => TreatmentSearch(
-                        //         search: searchController.text),
-                        //   ),
-                        // );
-                        // page = 1;
-                        // treatments.clear();
-                        // search = searchController.text;
-                        // treatments.addAll(await stateTreatment.getAllTreatment(context, page, search: search));
-                        // setState(() {});
+                      controller: searchController,
+                      onEditingComplete: () async {
+                        page = 1;
+                        history.clear();
+                        search = searchController.text;
+                        history.addAll(await state.getAllHistory(
+                          context,
+                          page,
+                          search: search,
+                          filter: filter,
+                        ));
+                        setState(() {});
                       },
                       style: const TextStyle(
                           fontSize: 15, fontFamily: "ProximaNova"),
@@ -105,121 +173,149 @@ class PilihTranskasiMinheyPage extends StatelessWidget {
           left: 25,
           right: 25,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                keyboardDismissBehavior:
-                    ScrollViewKeyboardDismissBehavior.onDrag,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    margin: EdgeInsets.only(top: 16, bottom: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: borderColor),
+        child: Obx(
+          () => LoadingWidget(
+            isLoading:
+                state.isLoadingMore.value ? false : state.isLoading.value,
+            child: history.isEmpty
+                ? Center(
+                    child: Text(
+                      'Belum ada transaksi',
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
-                    child: Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '12 Jun 2023',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 10),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              color: Color(0xff24A7A0).withOpacity(0.2),
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 8),
-                            child: Text(
-                              'Selesai',
-                              style: grenTextStyle.copyWith(fontSize: 10),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            height: 48,
-                            width: 48,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                    'assets/images/penting1.png',
-                                  ),
-                                  fit: BoxFit.fill),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 14,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Teenderm Hydra 40ml',
-                                style: blackTextStyle.copyWith(fontSize: 13),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  text: '1 Barang',
-                                  style:
-                                      subTitleTextStyle.copyWith(fontSize: 12),
-                                  children: [
-                                    TextSpan(
-                                      text: ' +2 barang lainnya',
-                                      style:
-                                          grenTextStyle.copyWith(fontSize: 12),
-                                    ),
-                                  ],
+                  )
+                : SingleChildScrollView(
+                    controller: scrollController,
+                    child: Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          keyboardDismissBehavior:
+                              ScrollViewKeyboardDismissBehavior.onDrag,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: history.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (history[index].transactionType ==
+                                'CONSULTATION') {
+                              return InkWell(
+                                onTap: () {
+                                  if (history[index].detail?.status ==
+                                      'MENUNGGU_PEMBAYARAN') {
+                                    Get.to(() =>
+                                        SelesaikanPembayaranKonsultasiPage(
+                                          isWillPop: false,
+                                          orderId:
+                                              history[index].detail!.orderId!,
+                                          expireTime: '',
+                                          paymentMethodId: history[index]
+                                              .detail!
+                                              .paymentMethodId!,
+                                        ));
+                                  } else if (history[index].detail?.status ==
+                                      'READY') {
+                                    Get.to(() => SuccessPage(
+                                          isNotConsultation: false,
+                                          orderId:
+                                              history[index].detail?.orderId ??
+                                                  '',
+                                          isWillPop: false,
+                                        ));
+                                  }
+                                },
+                                child: CardTransKons(
+                                  data: history[index],
                                 ),
-                              ),
-                              SizedBox(
-                                height: 2,
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  text: 'Total :',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 12),
-                                  children: [
-                                    TextSpan(
-                                      text: ' Rp915.000',
-                                      style: grenTextStyle.copyWith(
-                                        fontSize: 12,
-                                        color: Color(
-                                          0xffF76707,
-                                        ),
+                              );
+                            } else if (history[index].transactionType ==
+                                'TREATMENT') {
+                              return InkWell(
+                                onTap: () {
+                                  if (history[index].detail?.status ==
+                                      'MENUNGGU_PEMBAYARAN') {
+                                    Get.to(() =>
+                                        SelesaikanPembayaranTreatmentPage(
+                                          isWillPop: false,
+                                          orderId: history[index]
+                                              .transactionId
+                                              .toString(),
+                                          expireTime: '',
+                                          pax: history[index]
+                                                  .detail!
+                                                  .transactionTreatmentItems?[0]
+                                                  .pax ??
+                                              0,
+                                          treatment: Treat.Data2.fromJson(
+                                            jsonDecode(
+                                              jsonEncode(
+                                                history[index]
+                                                    .detail!
+                                                    .transactionTreatmentItems?[
+                                                        0]
+                                                    .treatment,
+                                              ),
+                                            ),
+                                          ),
+                                          paymentMethodId: history[index]
+                                              .detail!
+                                              .paymentMethodId!,
+                                        ));
+                                  }
+                                },
+                                child: CardTransTreat(
+                                  data: history[index],
+                                ),
+                              );
+                            } else if (history[index].transactionType ==
+                                'PRODUCT') {
+                              return InkWell(
+                                onTap: () {
+                                  if (history[index].detail?.status ==
+                                      'MENUNGGU_PEMBAYARAN') {
+                                    Get.to(
+                                      () => SelesaikanPembayaranProdukPage(
+                                        isWillPop: false,
+                                        orderId:
+                                            history[index].detail!.orderId!,
+                                        expireTime: '',
+                                        paymentMethodId: history[index]
+                                            .detail!
+                                            .paymentMethodId!,
                                       ),
-                                    ),
-                                  ],
+                                    );
+                                  } else if (history[index].detail?.status ==
+                                      'SELESAI') {
+                                    Get.to(
+                                      () => DetailTransaksiPage(
+                                        transactionId:
+                                            history[index].detail!.id!,
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: CardTransProd(
+                                  data: history[index],
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                    ]),
-                  );
-                },
-              ),
-            ],
+                              );
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Obx(
+                          () => state.isLoading.value
+                              ? Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: LoadingMore(),
+                                )
+                              : Container(),
+                        ),
+                      ],
+                    ),
+                  ),
           ),
         ),
       ),

@@ -6,15 +6,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/peliing_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/search_solution_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
-
-import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
@@ -30,8 +31,7 @@ import '../../core/currency_format.dart';
 import '../../core/global.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
-import '../../widget/pencarian_search_widget.dart';
-import '../../widget/produk_height_widget.dart';
+import '../../widget/skincare_widget.dart';
 import '../../widget/produk_widget.dart';
 
 class SolutionPage extends StatefulWidget {
@@ -44,8 +44,9 @@ class SolutionPage extends StatefulWidget {
 class _SolutionPageState extends State<SolutionPage> {
   final LocationController state = Get.put(LocationController());
   final DrugController stateDrug = Get.put(DrugController());
-  final TreatmentController stateTreatment = Get.put(TreatmentController());
   final SkincareController stateSkincare = Get.put(SkincareController());
+  final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final EtalaseController stateEtalase = Get.put(EtalaseController());
 
   int activeIndex = 0;
   final images = [
@@ -72,7 +73,7 @@ class _SolutionPageState extends State<SolutionPage> {
       state.getLocation(context);
       drugRecipe.addAll(await stateDrug.getDrugRecipe(context, page));
       lookupCategory
-          .addAll(await stateSkincare.getLookup(context, 'SKINCARE_CATEGORY'));
+          .addAll(await stateEtalase.getLookup(context, 'SKINCARE_CATEGORY'));
       skincare.addAll(await stateSkincare.getAllSkincare(context, page));
       stateTreatment.getTreatment(context);
       setState(() {});
@@ -192,7 +193,7 @@ class _SolutionPageState extends State<SolutionPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PencarianPageWidget(),
+                  builder: (context) => SearchSolutionPage(),
                 ),
               );
             },
@@ -508,7 +509,7 @@ class _SolutionPageState extends State<SolutionPage> {
                                       productId: e.id!.toInt(),
                                     ));
                               },
-                              child: Produkheight(
+                              child: SkincareWidget(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: e.name.toString(),
@@ -551,13 +552,10 @@ class _SolutionPageState extends State<SolutionPage> {
                         padding: const EdgeInsets.only(left: 25),
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const PeelinngTraetmentPage(),
-                              ),
-                            );
+                            Get.to(() => PencarianKlinikTraetmentPage(
+                                  treatmentType: stateTreatment
+                                      .treatment[index].treatmentType,
+                                ));
                           },
                           child: Container(
                             margin: const EdgeInsets.only(right: 8),

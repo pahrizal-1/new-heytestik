@@ -12,7 +12,7 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/widget/produk_height_widget.dart';
+import 'package:heystetik_mobileapps/widget/skincare_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/cart_model.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
@@ -252,7 +252,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
                                   ),
                                 );
                               },
-                              child: Produkheight(
+                              child: SkincareWidget(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: ' e.name.toString()',

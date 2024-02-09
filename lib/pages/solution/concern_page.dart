@@ -4,18 +4,17 @@ import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart';
 import '../../theme/theme.dart';
 
-class EtalaseTreatMentPage extends StatefulWidget {
-  const EtalaseTreatMentPage({super.key});
+class ConcernPage extends StatefulWidget {
+  const ConcernPage({super.key});
 
   @override
-  State<EtalaseTreatMentPage> createState() => _EtalaseTreatMentPageState();
+  State<ConcernPage> createState() => _ConcernPageState();
 }
 
-class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
+class _ConcernPageState extends State<ConcernPage> {
   final EtalaseController state = Get.put(EtalaseController());
 
   @override
@@ -50,7 +49,7 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
                 width: 11,
               ),
               Text(
-                'Etalase Treatment',
+                'Concern',
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               )
             ],
@@ -93,7 +92,7 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
                       style: const TextStyle(
                           fontSize: 15, fontFamily: 'ProximaNova'),
                       decoration: InputDecoration(
-                        hintText: 'Cari Treatment',
+                        hintText: 'Cari Concern',
                         border: InputBorder.none,
                         hintStyle: TextStyle(
                           fontFamily: 'ProximaNova',
@@ -112,45 +111,6 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
       ),
       body: ListView(
         children: [
-          InkWell(
-            onTap: () {
-              Get.back(result: "semua");
-            },
-            child: Padding(
-              padding: lsymetric.copyWith(top: 18, bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Semua Treatment',
-                    style: blackHigtTextStyle.copyWith(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          dividergrey(),
-          InkWell(
-            onTap: () {
-              Get.back(result: "diskon");
-            },
-            child: Padding(
-              padding: lsymetric.copyWith(top: 18, bottom: 18),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Diskon',
-                    style: blackHigtTextStyle.copyWith(fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          dividergrey(),
-          const SizedBox(
-            height: 18,
-          ),
           Padding(
             padding: lsymetric,
             child: Column(

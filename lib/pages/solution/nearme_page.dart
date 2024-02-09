@@ -4,15 +4,12 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
 import '../../controller/customer/treatment/treatment_controller.dart';
-import '../../widget/filter_all_widgets.dart';
+import '../../widget/filter_treatment_widgets.dart';
 import '../../widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
-
-import '../../widget/treatment_widgets.dart';
 
 class NearMePage extends StatefulWidget {
   const NearMePage({super.key});
@@ -181,6 +178,40 @@ class _NearMePageState extends State<NearMePage> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   children: [
+                    if (filter.isNotEmpty || promo)
+                      InkWell(
+                        onTap: () async {
+                          promo = false;
+                          filter.clear();
+                          page = 1;
+                          treatments.clear();
+                          treatments.addAll(
+                            await stateTreatment.getNearTreatment(
+                              context,
+                              page,
+                              search: search,
+                              filter: filter,
+                            ),
+                          );
+                          setState(() {});
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 5),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                          ),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: greenColor,
+                            ),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Icon(
+                            Icons.close,
+                            color: greenColor,
+                          ),
+                        ),
+                      ),
                     Container(
                       margin: const EdgeInsets.only(left: 9),
                       padding: const EdgeInsets.only(left: 9, right: 9),
@@ -201,8 +232,10 @@ class _NearMePageState extends State<NearMePage> {
                                 topStart: Radius.circular(25),
                               ),
                             ),
-                            builder: (context) => FilterAllWidget(),
+                            builder: (context) => FilterAllTreatmentWidget(),
                           ).then((value) async {
+                            if (value == null) return;
+
                             if (value['promo'] == true) {
                               treatments.clear();
                               page = 1;
@@ -246,11 +279,13 @@ class _NearMePageState extends State<NearMePage> {
                               topStart: Radius.circular(25),
                             ),
                           ),
-                          builder: (context) => TreatmentFilter(),
+                          builder: (context) => FilterTreatmentType(),
                         ).then((value) async {
-                          treatments.clear();
+                          if (value == null) return;
+
                           page = 1;
                           filter['treatment_type[]'] = value;
+                          treatments.clear();
                           treatments.addAll(
                             await stateTreatment.getNearTreatment(
                               context,
@@ -290,8 +325,7 @@ class _NearMePageState extends State<NearMePage> {
                         ),
                       ),
                     ),
-                    FiklterTreatment(
-                      title: 'Bintang 4.5+',
+                    InkWell(
                       onTap: () async {
                         if (filter.containsKey("rating[]")) {
                           filter.remove('rating[]');
@@ -305,8 +339,7 @@ class _NearMePageState extends State<NearMePage> {
                           ));
                           setState(() {});
                         } else {
-                          filter['rating[]'] = '4';
-                          filter['rating[]'] = '5';
+                          filter['rating[]'] = ['4', '5'];
                           treatments.clear();
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
@@ -318,12 +351,17 @@ class _NearMePageState extends State<NearMePage> {
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Bintang 4.5+',
+                        isSelected: filter['rating[]'].toString() ==
+                            ['4', '5'].toString(),
+                      ),
                     ),
-                    FiklterTreatment(
-                      title: 'Buka Sekarang',
+                    InkWell(
                       onTap: () async {
-                        if (filter.containsKey("open_now")) {
+                        if (filter['open_now'] == true) {
                           filter['open_now'] = false;
+                          filter.remove('open_now');
                           treatments.clear();
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
@@ -346,9 +384,12 @@ class _NearMePageState extends State<NearMePage> {
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Buka Sekarang',
+                        isSelected: filter['open_now'] == true,
+                      ),
                     ),
-                    FiklterTreatment(
-                      title: 'Promo',
+                    InkWell(
                       onTap: () async {
                         if (promo) {
                           promo = false;
@@ -367,6 +408,10 @@ class _NearMePageState extends State<NearMePage> {
                           setState(() {});
                         }
                       },
+                      child: FilterTreatment(
+                        title: 'Promo',
+                        isSelected: promo,
+                      ),
                     ),
                   ],
                 ),
@@ -375,89 +420,103 @@ class _NearMePageState extends State<NearMePage> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 12, left: 25, right: 25),
+      body: treatments.isEmpty
+          ? Center(
+              child: Text(
+                'Belum ada treatment',
+                style: TextStyle(
+                  fontWeight: bold,
+                  fontFamily: 'ProximaNova',
+                  fontSize: 20,
+                ),
+              ),
+            )
+          : SingleChildScrollView(
               child: Column(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        isSelecteTampilan = !isSelecteTampilan;
-                      });
-                    },
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      mainAxisAlignment: MainAxisAlignment.end,
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 12, left: 25, right: 25),
+                    child: Column(
                       children: [
-                        Text(
-                          'Tampilan',
-                          style: subTitleTextStyle.copyWith(
-                              color: const Color(0xff6B6B6B)),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isSelecteTampilan = !isSelecteTampilan;
+                            });
+                          },
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Tampilan',
+                                style: subTitleTextStyle.copyWith(
+                                    color: const Color(0xff6B6B6B)),
+                              ),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              isSelecteTampilan
+                                  ? SvgPicture.asset(
+                                      'assets/icons/tampilan1.svg')
+                                  : SvgPicture.asset(
+                                      'assets/icons/tampillan2.svg')
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          width: 4,
+                          height: 17,
                         ),
-                        isSelecteTampilan
-                            ? SvgPicture.asset('assets/icons/tampilan1.svg')
-                            : SvgPicture.asset('assets/icons/tampillan2.svg')
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 17,
-                  ),
+                  isSelecteTampilan
+                      ? Container(
+                          padding: const EdgeInsets.only(
+                            left: 20.0,
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          child: Wrap(
+                            runSpacing: 12,
+                            spacing: 12,
+                            children: treatments.map((element) {
+                              return ProdukTreatment(
+                                namaKlinik: element.clinic?.name ?? '-',
+                                namaTreatmen: element.name!,
+                                diskonProduk: '0',
+                                hargaDiskon: '0',
+                                harga: element.price.toString(),
+                                urlImg: element.mediaTreatments!.isEmpty
+                                    ? ""
+                                    : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
+                                rating: '${element.rating} (0k)',
+                                km: element.distance ?? '0',
+                                lokasiKlinik: element.clinic?.city?.name ?? '-',
+                                treatmentData: element,
+                              );
+                            }).toList(),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 19),
+                          child: Column(
+                            children: treatments
+                                .map(
+                                  (e) => TampilanRight(
+                                    treatment: e,
+                                    urlImg: e.mediaTreatments!.isEmpty
+                                        ? ""
+                                        : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
+                                  ),
+                                )
+                                .toList(),
+                          ),
+                        ),
                 ],
               ),
             ),
-            isSelecteTampilan
-                ? Container(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    child: Wrap(
-                      runSpacing: 12,
-                      spacing: 12,
-                      children: treatments.map((element) {
-                        return ProdukTreatment(
-                          namaKlinik: element.clinic?.name ?? '-',
-                          namaTreatmen: element.name!,
-                          diskonProduk: '0',
-                          hargaDiskon: '0',
-                          harga: element.price.toString(),
-                          urlImg: element.mediaTreatments!.isEmpty
-                              ? ""
-                              : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                          rating: '${element.rating} (0k)',
-                          km: element.distance ?? '0',
-                          lokasiKlinik: element.clinic?.city?.name ?? '-',
-                          treatmentData: element,
-                        );
-                      }).toList(),
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 19),
-                    child: Column(
-                      children: treatments
-                          .map(
-                            (e) => TampilanRight(
-                              treatment: e,
-                              urlImg: e.mediaTreatments!.isEmpty
-                                  ? ""
-                                  : "${Global.FILE}/${e.mediaTreatments![0].media!.path!}",
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-          ],
-        ),
-      ),
     );
   }
 }

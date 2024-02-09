@@ -106,9 +106,25 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
               onEditingComplete: () async {
                 page = 1;
                 search = searchController.text;
+                totalPending = 0;
+                cek.clear();
+                cek.addAll(
+                  await state.getAllHistory(
+                    context,
+                    page,
+                    search: search,
+                    filter: filter,
+                  ),
+                );
                 history.clear();
-                history.addAll(await state.getAllHistory(context, page,
-                    search: search, filter: filter));
+                for (int i = 0; i < cek.length; i++) {
+                  if (cek[i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
+                    totalPending += 1;
+                  }
+                  if (cek[i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
+                    history.add(cek[i]);
+                  }
+                }
                 setState(() {});
               },
               decoration: InputDecoration(
@@ -168,42 +184,78 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         left: 26, top: 9, right: 26, bottom: 8),
                     child: Row(
                       children: [
-                        filter.isEmpty
-                            ? Container()
-                            : InkWell(
-                                onTap: () async {
-                                  filter.clear();
-                                  page = 1;
-                                  history.clear();
-                                  history.addAll(await state.getAllHistory(
-                                      context, page,
-                                      search: search, filter: filter));
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 5),
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: borderColor,
-                                    ),
-                                    borderRadius: BorderRadius.circular(7),
-                                  ),
-                                  child: const Icon(Icons.close),
+                        if (filter.isNotEmpty)
+                          InkWell(
+                            onTap: () async {
+                              filter.clear();
+                              page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
                                 ),
+                              );
+                              history.clear();
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
+                              setState(() {});
+                            },
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 5),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
                               ),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: greenColor,
+                                ),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: Icon(
+                                Icons.close,
+                                color: greenColor,
+                              ),
+                            ),
+                          ),
                         InkWell(
                           onTap: () {
                             customeshomodal(context, FilterStatusTransaksi())
                                 .then((value) async {
                               filter['transaction_status[]'] = value;
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             });
                           },
@@ -241,10 +293,27 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 .then((value) async {
                               filter['transaction_type[]'] = value;
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             });
                           },
@@ -282,13 +351,29 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 .then((value) async {
                               filter['start_date'] = DateTime.now()
                                   .subtract(Duration(days: value));
-                              filter['end_date'] = DateTime.now()
-                                  .subtract(Duration(days: value));
+                              filter['end_date'] = DateTime.now();
                               page = 1;
+                              totalPending = 0;
+                              cek.clear();
+                              cek.addAll(
+                                await state.getAllHistory(
+                                  context,
+                                  page,
+                                  search: search,
+                                  filter: filter,
+                                ),
+                              );
                               history.clear();
-                              history.addAll(await state.getAllHistory(
-                                  context, page,
-                                  search: search, filter: filter));
+                              for (int i = 0; i < cek.length; i++) {
+                                if (cek[i].detail?.status ==
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  totalPending += 1;
+                                }
+                                if (cek[i].detail?.status !=
+                                    'MENUNGGU_PEMBAYARAN') {
+                                  history.add(cek[i]);
+                                }
+                              }
                               setState(() {});
                             });
                           },
@@ -418,7 +503,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           child: Center(
                             child: Text(
                               'Belum ada transaksi',
-                              style: blackTextStyle.copyWith(fontSize: 15),
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
                             ),
                           ),
                         )
@@ -505,7 +592,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                         history[index].transactionId.toString(),
                                     tanggal: ConvertDate.defaultDate(
                                         history[index].createdAt ?? '-'),
-                                    pesanan: 'Treatment',
+                                    pesanan: 'Reservasi Treatment',
                                     progres: history[index].detail?.status ==
                                             'MENUNGGU_PEMBAYARAN'
                                         ? 'Menunggu Pembayaran'

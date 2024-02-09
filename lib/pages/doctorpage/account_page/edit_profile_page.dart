@@ -4,8 +4,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/models/doctor/profile_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../controller/doctor/profile/profile_controller.dart';
@@ -47,6 +49,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
       });
     } else {
       print("image not selected");
+    }
+  }
+
+  Future _cropImage() async {
+    if (state.profileData != null) {
+      CroppedFile? cropped = await ImageCropper()
+          .cropImage(sourcePath: state.profileData.string, aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ], uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop',
+            cropGridColor: Colors.black,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(title: 'Crop')
+      ]);
+
+      if (cropped != null) {
+        setState(() {
+          state.profileData = File(cropped.path) as Rx<ProfileModel>;
+        });
+      }
     }
   }
 

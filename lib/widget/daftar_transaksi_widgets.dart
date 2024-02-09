@@ -15,7 +15,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/detail_transaksi_page.da
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_Page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.dart';
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
@@ -119,19 +119,19 @@ class TransaksiKonsultan extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                            color: progres == 'Menunggu Pembayaran'
-                                ? const Color.fromARGB(255, 255, 204, 170)
-                                : progres == 'Ready'
-                                    ? const Color.fromARGB(255, 255, 204, 170)
-                                    : progres == 'Review'
-                                        ? const Color.fromARGB(
-                                            255, 255, 204, 170)
-                                        : progres == 'Aktif'
-                                            ? subgreenColor
-                                            : progres == 'Selesai'
-                                                ? subgreenColor
-                                                : subgreenColor,
-                            borderRadius: BorderRadius.circular(7)),
+                          color: progres == 'Menunggu Pembayaran'
+                              ? const Color.fromARGB(255, 255, 204, 170)
+                              : progres == 'Ready'
+                                  ? const Color.fromARGB(255, 255, 204, 170)
+                                  : progres == 'Review'
+                                      ? const Color.fromARGB(255, 255, 204, 170)
+                                      : progres == 'Aktif'
+                                          ? subgreenColor
+                                          : progres == 'Selesai'
+                                              ? subgreenColor
+                                              : subgreenColor,
+                          borderRadius: BorderRadius.circular(7),
+                        ),
                         child: Text(
                           progres,
                           style: grenTextStyle.copyWith(
@@ -348,7 +348,7 @@ class TransaksiProduk extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Produk',
+                      'Pesan Obat & Skincare',
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                     Text(
@@ -423,52 +423,50 @@ class TransaksiProduk extends StatelessWidget {
             const SizedBox(
               height: 7,
             ),
-            Column(
-              children: [
-                for (int i = 0;
-                    i < product!.transactionProductItems!.length;
-                    i++)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 37,
-                          width: 37,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(4),
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    '${Global.FILE}/${product!.transactionProductItems?[i].product!.mediaProducts?[0].media?.path}'),
-                                fit: BoxFit.cover),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product!.transactionProductItems?[i].product
-                                      ?.name ??
-                                  '-',
-                              style: blackHigtTextStyle.copyWith(fontSize: 13),
-                            ),
-                            Text(
-                              product!.transactionProductItems?[i].product
-                                      ?.type ??
-                                  '-',
-                              style:
-                                  blackRegulerTextStyle.copyWith(fontSize: 13),
-                            ),
-                          ],
-                        ),
-                      ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Row(
+                children: [
+                  Container(
+                    height: 37,
+                    width: 37,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4),
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            '${Global.FILE}/${product!.transactionProductItems?[0].product!.mediaProducts?[0].media?.path}'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-              ],
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product!.transactionProductItems?[0].product?.name ??
+                            '-',
+                        style: blackHigtTextStyle.copyWith(fontSize: 13),
+                      ),
+                      Text(
+                        '${product!.transactionProductItems?[0].qty} barang',
+                        style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
+            const SizedBox(
+              height: 5,
+            ),
+            if ((product!.transactionProductItems?.length ?? 0) > 1)
+              Text(
+                '+${(product!.transactionProductItems?.length ?? 0) - 1} produk lainnnya',
+                style: blackRegulerTextStyle.copyWith(fontSize: 13),
+              ),
             const SizedBox(
               height: 14,
             ),
@@ -665,16 +663,17 @@ class TransaksiTreatment extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
-                          color: progres == 'Menunggu Pembayaran'
-                              ? const Color.fromARGB(255, 255, 204, 170)
-                              : progres == 'Menunggu Konfirmasi Klinik'
-                                  ? const Color.fromARGB(255, 255, 204, 170)
-                                  : progres == 'Klinik Mengkonfirmasi'
-                                      ? subgreenColor
-                                      : progres == 'Selesai'
-                                          ? subgreenColor
-                                          : subgreenColor,
-                          borderRadius: BorderRadius.circular(7)),
+                        color: progres == 'Menunggu Pembayaran'
+                            ? const Color.fromARGB(255, 255, 204, 170)
+                            : progres == 'Menunggu Konfirmasi Klinik'
+                                ? const Color.fromARGB(255, 255, 204, 170)
+                                : progres == 'Klinik Mengkonfirmasi'
+                                    ? subgreenColor
+                                    : progres == 'Selesai'
+                                        ? subgreenColor
+                                        : subgreenColor,
+                        borderRadius: BorderRadius.circular(7),
+                      ),
                       child: Text(
                         progres,
                         style: grenTextStyle.copyWith(

@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
-import 'package:heystetik_mobileapps/models/customer/banne_model.dart';
 import 'package:heystetik_mobileapps/models/customer/snips_tips_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/chat_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
@@ -71,8 +70,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
           child: Row(
             children: [
               InkWell(
-                onTap: () async {
-                  // await stateProfile.timeout(context);
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -105,10 +103,12 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 'Hai, ',
                 style: blackRegulerTextStyle.copyWith(fontSize: 18),
               ),
-              Obx(
-                () => Text(
-                  stateProfile.fullName.value,
-                  style: blackTextStyle.copyWith(fontSize: 18),
+              Expanded(
+                child: Obx(
+                  () => Text(
+                    stateProfile.fullName.value,
+                    style: blackTextStyle.copyWith(fontSize: 18),
+                  ),
                 ),
               )
             ],
@@ -143,85 +143,218 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
       ),
       body: ListView(
         children: [
-          FutureBuilder(
-            future: state.getSlideShow(context),
-            builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
-              print("DATA INI");
-              print(snapshot.data);
-              if (!snapshot.hasData) {
-                return shimmerWidget(
-                  child: CarouselSlider(
-                    options: CarouselOptions(height: 184.0),
-                    items: [1, 2, 3, 4, 5].map((i) {
-                      return Builder(
-                        builder: (BuildContext context) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius: BorderRadius.circular(7)),
-                          );
-                        },
-                      );
-                    }).toList(),
-                  ),
-                );
-              }
+          // FutureBuilder(
+          //   future: state.getSlideShow(context),
+          //   builder: (context, AsyncSnapshot<BannerModel?> snapshot) {
+          //     if (!snapshot.hasData) {
+          //       return shimmerWidget(
+          //         child: CarouselSlider(
+          //           options: CarouselOptions(height: 184.0),
+          //           items: [1, 2, 3, 4, 5].map((i) {
+          //             return Builder(
+          //               builder: (BuildContext context) {
+          //                 return Container(
+          //                   width: MediaQuery.of(context).size.width,
+          //                   margin: const EdgeInsets.symmetric(horizontal: 5.0),
+          //                   decoration: BoxDecoration(
+          //                       color: Colors.amber,
+          //                       borderRadius: BorderRadius.circular(7)),
+          //                 );
+          //               },
+          //             );
+          //           }).toList(),
+          //         ),
+          //       );
+          //     }
 
-              return snapshot.data!.data!.isEmpty
-                  ? shimmerWidget(
-                      child: CarouselSlider(
-                        options: CarouselOptions(height: 184.0),
-                        items: [1, 2, 3, 4, 5].map((i) {
-                          return Builder(
-                            builder: (BuildContext context) {
-                              return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.circular(7)),
-                              );
-                            },
-                          );
-                        }).toList(),
+          //     return snapshot.data!.data!.isEmpty
+          //         ? shimmerWidget(
+          //             child: CarouselSlider(
+          //               options: CarouselOptions(height: 184.0),
+          //               items: [1, 2, 3, 4, 5].map((i) {
+          //                 return Builder(
+          //                   builder: (BuildContext context) {
+          //                     return Container(
+          //                       width: MediaQuery.of(context).size.width,
+          //                       margin:
+          //                           const EdgeInsets.symmetric(horizontal: 5.0),
+          //                       decoration: BoxDecoration(
+          //                           color: Colors.amber,
+          //                           borderRadius: BorderRadius.circular(7)),
+          //                     );
+          //                   },
+          //                 );
+          //               }).toList(),
+          //             ),
+          //           )
+          //         : CarouselSlider(
+          //             options: CarouselOptions(
+          //               height: 170,
+          //               autoPlay: false,
+          //               initialPage: 2,
+          //               autoPlayAnimationDuration: const Duration(seconds: 3),
+          //             ),
+          //             items: snapshot.data!.data!.map<Widget>((value) {
+          //               return Builder(
+          //                 builder: (BuildContext context) {
+          //                   return InkWell(
+          //                     onTap: () {
+          //                       _launchURL(value.link.toString());
+          //                     },
+          //                     child: Container(
+          //                       width: MediaQuery.of(context).size.width,
+          //                       margin:
+          //                           const EdgeInsets.symmetric(horizontal: 5.0),
+          //                       decoration: BoxDecoration(
+          //                         image: const DecorationImage(
+          //                           fit: BoxFit.cover,
+          //                           image:
+          //                               AssetImage('assets/images/home1.png'),
+          //                         ),
+          //                         borderRadius: BorderRadius.circular(10),
+          //                       ),
+          //                     ),
+          //                   );
+          //                 },
+          //               );
+          //             }).toList(),
+          //           );
+          //   },
+          // ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: FutureBuilder(
+                future: stateNews.getArticle(
+                  context,
+                  page: 1,
+                  search: '',
+                  categoryId: '',
+                  tagId: '',
+                ),
+                builder: (context, AsyncSnapshot<ArticleModel?> snapshot) {
+                  if (!snapshot.hasData) {
+                    return shimmerWidget(
+                        child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 200,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Container(
+                              height: 200,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                color: greyColor.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  : CarouselSlider(
-                      options: CarouselOptions(
-                        height: 170,
-                        autoPlay: false,
-                        initialPage: 2,
-                        autoPlayAnimationDuration: const Duration(seconds: 3),
-                      ),
-                      items: snapshot.data!.data!.map<Widget>((value) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return InkWell(
-                              onTap: () {
-                                _launchURL(value.link.toString());
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                  image: const DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage('assets/images/home1.png'),
+                    ));
+                  }
+                  return snapshot.data!.record!.isEmpty
+                      ? shimmerWidget(
+                          child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, top: 5, bottom: 5),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 200,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
-                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  height: 200,
+                                  width: 300,
+                                  decoration: BoxDecoration(
+                                    color: greyColor.withOpacity(0.9),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ))
+                      : Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (int index = 0;
+                                index < snapshot.data!.record!.length;
+                                index++)
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                    () => ViewDetailBeutyStreamPage(
+                                      categoryId: snapshot
+                                          .data!.record![index].newscategoryId
+                                          .toString(),
+                                      category: snapshot.data!.record![index]
+                                                  .newscategoryId ==
+                                              '1'
+                                          ? 'Treatment'
+                                          : snapshot.data!.record![index]
+                                                      .newscategoryId
+                                                      .toString() ==
+                                                  '2'
+                                              ? 'Skincare'
+                                              : snapshot.data!.record![index]
+                                                          .newscategoryId
+                                                          .toString() ==
+                                                      '3'
+                                                  ? 'Concern'
+                                                  : '-',
+                                      detailNews: snapshot.data!.record![index],
+                                    ),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Container(
+                                    width: 250,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(
+                                          snapshot
+                                              .data!.record![index].thumbLink
+                                              .toString(),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ),
-                            );
-                          },
+                          ],
                         );
-                      }).toList(),
-                    );
-            },
+                },
+              ),
+            ),
           ),
           const SizedBox(
             height: 10,
@@ -367,285 +500,563 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, top: 8),
-              child: FutureBuilder(
-                  future: state.getSnipsTips(context),
-                  builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
-                    print(snapshot.data);
-
-                    if (!snapshot.hasData) {
-                      return shimmerWidget(
-                          child: Padding(
-                        padding:
-                            const EdgeInsets.only(left: 10, top: 5, bottom: 5),
-                        child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              Container(
-                                height: 100,
-                                width: 300,
-                                decoration: BoxDecoration(
-                                  color: greyColor.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Container(
-                                height: 100,
-                                width: 300,
-                                decoration: BoxDecoration(
-                                  color: greyColor.withOpacity(0.9),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ));
-                    }
-                    return snapshot.data!.data!.isEmpty
-                        ? shimmerWidget(
-                            child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 10, top: 5, bottom: 5),
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 100,
-                                    width: 300,
-                                    decoration: BoxDecoration(
-                                      color: greyColor.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    width: 300,
-                                    decoration: BoxDecoration(
-                                      color: greyColor.withOpacity(0.9),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ],
-                              ),
+          FutureBuilder(
+            future: state.getSnipsTips(context),
+            builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
+              if (!snapshot.hasData) {
+                return shimmerWidget(
+                  child: CarouselSlider(
+                    options: CarouselOptions(height: 184.0),
+                    items: [1, 2, 3, 4, 5].map((i) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius: BorderRadius.circular(7),
                             ),
-                          ))
-                        : Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: snapshot.data!.data!.map<Widget>((value) {
-                              return InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return Center(
-                                        child: Container(
-                                          padding: const EdgeInsets.only(
-                                              left: 20,
-                                              right: 20,
-                                              top: 15,
-                                              bottom: 17),
-                                          height: 150,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            image: const DecorationImage(
-                                                image: AssetImage(
-                                                  'assets/icons/bg_wekkly.png',
-                                                ),
-                                                fit: BoxFit.fill),
-                                          ),
-                                          child: Center(
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Get.back();
-                                                      },
-                                                      child: Image.asset(
-                                                        'assets/icons/danger-icons.png',
-                                                        width: 13,
-                                                        height: 13,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  value.tips ?? '-',
-                                                  style: TextStyle(
-                                                    fontFamily: 'ProximaNova',
-                                                    color: whiteColor,
-                                                    fontWeight: regular,
-                                                    fontSize: 15,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    const CircleAvatar(
-                                                      maxRadius: 17,
-                                                      backgroundImage:
-                                                          AssetImage(
-                                                        'assets/images/profiledummy.png',
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 11,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          value.doctor
-                                                                  ?.fullname ??
-                                                              '-',
-                                                          style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.w700,
-                                                            color: whiteColor,
-                                                            fontSize: 14,
-                                                            fontFamily:
-                                                                'ProximaNova',
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          value.doctorTitle ??
-                                                              '-',
-                                                          style: TextStyle(
-                                                            fontSize: 11,
-                                                            color: whiteColor,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(right: 5),
-                                  padding: const EdgeInsets.only(
-                                      left: 20, right: 20, top: 16, bottom: 17),
-                                  height: 130,
-                                  width: 315,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    image: const DecorationImage(
-                                      image: AssetImage(
-                                        'assets/icons/bg_wekkly.png',
+                          );
+                        },
+                      );
+                    }).toList(),
+                  ),
+                );
+              }
+
+              return snapshot.data!.data!.isEmpty
+                  ? shimmerWidget(
+                      child: CarouselSlider(
+                        options: CarouselOptions(height: 184.0),
+                        items: [1, 2, 3, 4, 5].map((i) {
+                          return Builder(builder: (BuildContext context) {
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  left: 10, top: 5, bottom: 5),
+                              child: SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 100,
+                                      width: 300,
+                                      decoration: BoxDecoration(
+                                        color: greyColor.withOpacity(0.9),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        value.tips ?? '-',
-                                        style: TextStyle(
-                                          fontFamily: 'ProximaNova',
-                                          color: whiteColor,
-                                          fontWeight: regular,
-                                          fontSize: 13,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        softWrap: false,
-                                        maxLines: 3,
-                                        strutStyle: const StrutStyle(
-                                          height: 0.5,
-                                          leading: 0.5,
-                                        ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      height: 100,
+                                      width: 300,
+                                      decoration: BoxDecoration(
+                                        color: greyColor.withOpacity(0.9),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Obx(
-                                            () => Container(
-                                              height: 30,
-                                              width: 30,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: stateProfile.imgNetwork
-                                                              .value !=
-                                                          ""
-                                                      ? NetworkImage(
-                                                              '${Global.FILE}/${stateProfile.imgNetwork.value}')
-                                                          as ImageProvider
-                                                      : AssetImage(
-                                                          'assets/images/profiledummy.png'),
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          });
+                        }).toList(),
+                      ),
+                    )
+                  : CarouselSlider(
+                      options: CarouselOptions(
+                        height: 130,
+                        autoPlay: true,
+                        initialPage: 3,
+                        autoPlayAnimationDuration: const Duration(seconds: 3),
+                      ),
+                      items: snapshot.data!.data!.map<Widget>((value) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 20,
+                                            right: 20,
+                                            top: 15,
+                                            bottom: 17),
+                                        height: 160,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          image: const DecorationImage(
+                                              image: AssetImage(
+                                                'assets/icons/bg_wekkly.png',
                                               ),
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            width: 11,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                              fit: BoxFit.fill),
+                                        ),
+                                        child: Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      Get.back();
+                                                    },
+                                                    child: Image.asset(
+                                                      'assets/icons/danger-icons.png',
+                                                      width: 13,
+                                                      height: 13,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                               Text(
-                                                value.doctor?.fullname ?? '-',
+                                                value.tips ?? '-',
                                                 style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  color: whiteColor,
-                                                  fontSize: 14,
                                                   fontFamily: 'ProximaNova',
-                                                ),
-                                              ),
-                                              Text(
-                                                value.doctorTitle ?? '-',
-                                                style: TextStyle(
-                                                  fontSize: 11,
                                                   color: whiteColor,
+                                                  fontWeight: regular,
+                                                  fontSize: 15,
                                                 ),
                                               ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  CircleAvatar(
+                                                    maxRadius: 17,
+                                                    backgroundImage: value
+                                                                .doctor
+                                                                ?.mediaUserProfilePicture !=
+                                                            null
+                                                        ? NetworkImage(
+                                                            '${Global.FILE}/${value.doctor?.mediaUserProfilePicture?.media?.path}',
+                                                          ) as ImageProvider
+                                                        : AssetImage(
+                                                            'assets/images/profiledummy.png',
+                                                          ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 11,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        value.doctor
+                                                                ?.fullname ??
+                                                            '-',
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          color: whiteColor,
+                                                          fontSize: 14,
+                                                          fontFamily:
+                                                              'ProximaNova',
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        value.doctorTitle ??
+                                                            '-',
+                                                        style: TextStyle(
+                                                          fontSize: 11,
+                                                          color: whiteColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              )
                                             ],
                                           ),
-                                        ],
-                                      )
-                                    ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 5),
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 20, top: 16, bottom: 17),
+                                height: 130,
+                                width: 315,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: const DecorationImage(
+                                    image: AssetImage(
+                                      'assets/icons/bg_wekkly.png',
+                                    ),
                                   ),
                                 ),
-                              );
-                            }).toList(),
-                          );
-                  }),
-            ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      value.tips ?? '-',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: whiteColor,
+                                        fontWeight: regular,
+                                        fontSize: 13,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      softWrap: false,
+                                      maxLines: 3,
+                                      strutStyle: const StrutStyle(
+                                        height: 0.5,
+                                        leading: 0.5,
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: value.doctor
+                                                          ?.mediaUserProfilePicture !=
+                                                      null
+                                                  ? NetworkImage(
+                                                      '${Global.FILE}/${value.doctor?.mediaUserProfilePicture?.media?.path}',
+                                                    ) as ImageProvider
+                                                  : AssetImage(
+                                                      'assets/images/profiledummy.png',
+                                                    ),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 11,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              value.doctor?.fullname ?? '-',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                color: whiteColor,
+                                                fontSize: 14,
+                                                fontFamily: 'ProximaNova',
+                                              ),
+                                            ),
+                                            Text(
+                                              value.doctorTitle ?? '-',
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: whiteColor,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    );
+            },
           ),
+
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(left: 20, top: 8),
+          //     child: FutureBuilder(
+          //         // future: state.getSnipsTips(context),
+          //         builder: (context, AsyncSnapshot<SnipsTipsModel?> snapshot) {
+          //       print(snapshot.data);
+
+          //       if (!snapshot.hasData) {
+          //         return shimmerWidget(
+          //             child: Padding(
+          //           padding: const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+          //           child: SingleChildScrollView(
+          //             scrollDirection: Axis.horizontal,
+          //             child: Row(
+          //               children: [
+          //                 Container(
+          //                   height: 100,
+          //                   width: 300,
+          //                   decoration: BoxDecoration(
+          //                     color: greyColor.withOpacity(0.9),
+          //                     borderRadius: BorderRadius.circular(10),
+          //                   ),
+          //                 ),
+          //                 const SizedBox(
+          //                   width: 10,
+          //                 ),
+          //                 Container(
+          //                   height: 100,
+          //                   width: 300,
+          //                   decoration: BoxDecoration(
+          //                     color: greyColor.withOpacity(0.9),
+          //                     borderRadius: BorderRadius.circular(10),
+          //                   ),
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //         ));
+          //       }
+          //       return snapshot.data!.data!.isEmpty
+          //           ? shimmerWidget(
+          //               child: Padding(
+          //               padding:
+          //                   const EdgeInsets.only(left: 10, top: 5, bottom: 5),
+          //               child: SingleChildScrollView(
+          //                 scrollDirection: Axis.horizontal,
+          //                 child: Row(
+          //                   children: [
+          //                     Container(
+          //                       height: 100,
+          //                       width: 300,
+          //                       decoration: BoxDecoration(
+          //                         color: greyColor.withOpacity(0.9),
+          //                         borderRadius: BorderRadius.circular(10),
+          //                       ),
+          //                     ),
+          //                     const SizedBox(
+          //                       width: 10,
+          //                     ),
+          //                     Container(
+          //                       height: 100,
+          //                       width: 300,
+          //                       decoration: BoxDecoration(
+          //                         color: greyColor.withOpacity(0.9),
+          //                         borderRadius: BorderRadius.circular(10),
+          //                       ),
+          //                     ),
+          //                   ],
+          //                 ),
+          //               ),
+          //             ))
+          //           : Row(
+          //               crossAxisAlignment: CrossAxisAlignment.start,
+          //               children: snapshot.data!.data!.map<Widget>((value) {
+          //                 return InkWell(
+          //                   onTap: () {
+          //                     showDialog(
+          //                       context: context,
+          //                       builder: (context) {
+          //                         return Center(
+          //                           child: Container(
+          //                             padding: const EdgeInsets.only(
+          //                                 left: 20,
+          //                                 right: 20,
+          //                                 top: 15,
+          //                                 bottom: 17),
+          //                             height: 150,
+          //                             width: MediaQuery.of(context).size.width,
+          //                             decoration: BoxDecoration(
+          //                               borderRadius: BorderRadius.circular(10),
+          //                               image: const DecorationImage(
+          //                                   image: AssetImage(
+          //                                     'assets/icons/bg_wekkly.png',
+          //                                   ),
+          //                                   fit: BoxFit.fill),
+          //                             ),
+          //                             child: Center(
+          //                               child: Column(
+          //                                 mainAxisAlignment:
+          //                                     MainAxisAlignment.start,
+          //                                 children: [
+          //                                   Row(
+          //                                     mainAxisAlignment:
+          //                                         MainAxisAlignment.end,
+          //                                     children: [
+          //                                       GestureDetector(
+          //                                         onTap: () {
+          //                                           Get.back();
+          //                                         },
+          //                                         child: Image.asset(
+          //                                           'assets/icons/danger-icons.png',
+          //                                           width: 13,
+          //                                           height: 13,
+          //                                         ),
+          //                                       ),
+          //                                     ],
+          //                                   ),
+          //                                   Text(
+          //                                     value.tips ?? '-',
+          //                                     style: TextStyle(
+          //                                       fontFamily: 'ProximaNova',
+          //                                       color: whiteColor,
+          //                                       fontWeight: regular,
+          //                                       fontSize: 15,
+          //                                     ),
+          //                                   ),
+          //                                   const SizedBox(
+          //                                     height: 10,
+          //                                   ),
+          //                                   Row(
+          //                                     children: [
+          //                                       const CircleAvatar(
+          //                                         maxRadius: 17,
+          //                                         backgroundImage: AssetImage(
+          //                                           'assets/images/profiledummy.png',
+          //                                         ),
+          //                                       ),
+          //                                       const SizedBox(
+          //                                         width: 11,
+          //                                       ),
+          //                                       Column(
+          //                                         crossAxisAlignment:
+          //                                             CrossAxisAlignment.start,
+          //                                         children: [
+          //                                           Text(
+          //                                             value.doctor?.fullname ??
+          //                                                 '-',
+          //                                             style: TextStyle(
+          //                                               fontWeight:
+          //                                                   FontWeight.w700,
+          //                                               color: whiteColor,
+          //                                               fontSize: 14,
+          //                                               fontFamily:
+          //                                                   'ProximaNova',
+          //                                             ),
+          //                                           ),
+          //                                           Text(
+          //                                             value.doctorTitle ?? '-',
+          //                                             style: TextStyle(
+          //                                               fontSize: 11,
+          //                                               color: whiteColor,
+          //                                             ),
+          //                                           ),
+          //                                         ],
+          //                                       ),
+          //                                     ],
+          //                                   )
+          //                                 ],
+          //                               ),
+          //                             ),
+          //                           ),
+          //                         );
+          //                       },
+          //                     );
+          //                   },
+          //                   child: Container(
+          //                     margin: const EdgeInsets.only(right: 5),
+          //                     padding: const EdgeInsets.only(
+          //                         left: 20, right: 20, top: 16, bottom: 17),
+          //                     height: 130,
+          //                     width: 315,
+          //                     decoration: BoxDecoration(
+          //                       borderRadius: BorderRadius.circular(10),
+          //                       image: const DecorationImage(
+          //                         image: AssetImage(
+          //                           'assets/icons/bg_wekkly.png',
+          //                         ),
+          //                       ),
+          //                     ),
+          //                     child: Column(
+          //                       mainAxisAlignment: MainAxisAlignment.start,
+          //                       children: [
+          //                         Text(
+          //                           value.tips ?? '-',
+          //                           style: TextStyle(
+          //                             fontFamily: 'ProximaNova',
+          //                             color: whiteColor,
+          //                             fontWeight: regular,
+          //                             fontSize: 13,
+          //                             overflow: TextOverflow.ellipsis,
+          //                           ),
+          //                           softWrap: false,
+          //                           maxLines: 3,
+          //                           strutStyle: const StrutStyle(
+          //                             height: 0.5,
+          //                             leading: 0.5,
+          //                           ),
+          //                         ),
+          //                         const SizedBox(
+          //                           height: 10,
+          //                         ),
+          //                         Row(
+          //                           children: [
+          //                             Obx(
+          //                               () => Container(
+          //                                 height: 30,
+          //                                 width: 30,
+          //                                 decoration: BoxDecoration(
+          //                                   image: DecorationImage(
+          //                                     fit: BoxFit.cover,
+          //                                     image: stateProfile
+          //                                                 .imgNetwork.value !=
+          //                                             ""
+          //                                         ? NetworkImage(
+          //                                                 '${Global.FILE}/${stateProfile.imgNetwork.value}')
+          //                                             as ImageProvider
+          //                                         : AssetImage(
+          //                                             'assets/images/profiledummy.png'),
+          //                                   ),
+          //                                   borderRadius:
+          //                                       BorderRadius.circular(25),
+          //                                 ),
+          //                               ),
+          //                             ),
+          //                             const SizedBox(
+          //                               width: 11,
+          //                             ),
+          //                             Column(
+          //                               crossAxisAlignment:
+          //                                   CrossAxisAlignment.start,
+          //                               children: [
+          //                                 Text(
+          //                                   value.doctor?.fullname ?? '-',
+          //                                   style: TextStyle(
+          //                                     fontWeight: FontWeight.w700,
+          //                                     color: whiteColor,
+          //                                     fontSize: 14,
+          //                                     fontFamily: 'ProximaNova',
+          //                                   ),
+          //                                 ),
+          //                                 Text(
+          //                                   value.doctorTitle ?? '-',
+          //                                   style: TextStyle(
+          //                                     fontSize: 11,
+          //                                     color: whiteColor,
+          //                                   ),
+          //                                 ),
+          //                               ],
+          //                             ),
+          //                           ],
+          //                         )
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 );
+          //               }).toList(),
+          //             );
+          //     }),
+          //   ),
+          // ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: SizedBox(
@@ -771,7 +1182,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               InkWell(
                                 onTap: () {
                                   Get.to(
-                                    ViewDetailBeutyStreamPage(
+                                    () => ViewDetailBeutyStreamPage(
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),
@@ -1012,7 +1423,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                               InkWell(
                                 onTap: () {
                                   Get.to(
-                                    ViewDetailBeutyStreamPage(
+                                    () => ViewDetailBeutyStreamPage(
                                       categoryId: snapshot
                                           .data!.record![index].newscategoryId
                                           .toString(),

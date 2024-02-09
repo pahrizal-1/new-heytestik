@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/review_controll
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/detail_ulasan_produk_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasam_konsultasi.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/tulis_ulasan_konsultasi.dart';
 import 'package:heystetik_mobileapps/models/customer/waiting_review_model.dart'
     as Waiting;
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
@@ -181,9 +181,9 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                             'CONSULTATION') {
                           return TextUlasanRiwayat(
                             onPressed: () {
-                              Get.to(DetailPageUlasanKonsultasi(
-                                data: finishedReview[index],
-                              ));
+                              Get.to(() => DetailPageUlasanKonsultasi(
+                                    data: finishedReview[index],
+                                  ));
                             },
                             nameBrand: finishedReview[index]
                                     .detail
@@ -192,10 +192,10 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                                     ?.fullname ??
                                 '-',
                             nameProduk: finishedReview[index]
-                                    .detail!
-                                    .consultation
+                                    .detail
                                     ?.medicalHistory
                                     ?.interestCondition
+                                    ?.concern
                                     ?.name ??
                                 '-',
                             waktu: timeago.format(DateTime.parse(
@@ -216,9 +216,9 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                             'TREATMENT') {
                           return TextUlasanRiwayat(
                             onPressed: () {
-                              Get.to(DetailPageUlasanTreatment(
-                                data: finishedReview[index],
-                              ));
+                              Get.to(() => DetailPageUlasanTreatment(
+                                    data: finishedReview[index],
+                                  ));
                             },
                             nameBrand:
                                 finishedReview[index].detail?.treatment?.name ??
@@ -250,9 +250,9 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                             'PRODUCT') {
                           return TextUlasanRiwayat(
                             onPressed: () {
-                              Get.to(DetailSkinUlasanProduk(
-                                data: finishedReview[index],
-                              ));
+                              Get.to(() => DetailSkinUlasanProduk(
+                                    data: finishedReview[index],
+                                  ));
                             },
                             nameBrand:
                                 finishedReview[index].detail?.product?.name ??
@@ -365,29 +365,29 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                               'CONSULTATION') {
                             return UlasanKonsultasi(
                               onPressed: () {
-                                Get.to(TulisUlasanKonsultasi(
-                                  transactionConsultationId:
-                                      waitingReview[index]
-                                          .transactionId
-                                          .toString(),
-                                  img:
-                                      '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                                  doctor: waitingReview[index]
-                                          .detail
-                                          ?.consultation!
-                                          .doctor
-                                          ?.fullname ??
-                                      '-',
-                                  interest: waitingReview[index]
-                                          .detail
-                                          ?.consultation!
-                                          .medicalHistory
-                                          ?.interestCondition
-                                          ?.name ??
-                                      '-',
-                                ));
+                                Get.to(() => TulisUlasanKonsultasi(
+                                      transactionConsultationId:
+                                          waitingReview[index]
+                                              .transactionId
+                                              .toString(),
+                                      img:
+                                          '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                                      doctor: waitingReview[index]
+                                              .detail
+                                              ?.consultation!
+                                              .doctor
+                                              ?.fullname ??
+                                          '-',
+                                      interest: waitingReview[index]
+                                              .detail
+                                              ?.medicalHistory
+                                              ?.interestCondition
+                                              ?.concern
+                                              ?.name ??
+                                          '-',
+                                    ));
                               },
-                              nameProduk: waitingReview[index]
+                              nameDoktor: waitingReview[index]
                                       .detail
                                       ?.consultation!
                                       .doctor
@@ -400,11 +400,11 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                                       null
                                   ? '-'
                                   : '${Global.FILE}/${waitingReview[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                              namabrand: waitingReview[index]
+                              concern: waitingReview[index]
                                       .detail
-                                      ?.consultation!
-                                      .medicalHistory
+                                      ?.medicalHistory
                                       ?.interestCondition
+                                      ?.concern
                                       ?.name ??
                                   '-',
                             );
@@ -414,7 +414,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                             return UlasanTreatment(
                               onPressed: () {
                                 Get.to(
-                                  TulisUlasanTreament(
+                                  () => TulisUlasanTreament(
                                     transactionTreatmentId: waitingReview[index]
                                         .transactionId
                                         .toString(),

@@ -63,118 +63,46 @@ class ChatBottomNavigator extends StatelessWidget {
                       ),
                       fillColor: whiteColor,
                       hintText: 'Messeges',
-                      suffixIcon: Padding(
-                          padding: const EdgeInsets.all(11.0),
-                          child: PopupMenuButton(
-                            icon: Image.asset(
-                              'assets/icons/atement.png',
-                              width: 20,
-                            ),
-                            itemBuilder: (context) => [
-                              PopupMenuItem(
-                                  child: Container(
+                      suffixIcon: PopupMenuButton(
+                        color: Colors.transparent,
+                        elevation: 0,
+                        icon: Image.asset(
+                          'assets/icons/atement.png',
+                          width: 20,
+                        ),
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                              padding: EdgeInsets.only(bottom: 27),
+                              child: Container(
                                 decoration: BoxDecoration(
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.circular(15)),
-                                height: 206,
-                                child: Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const BalasanCepatPage(),
-                                          ),
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Balasan Cepat',
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            height: 44,
-                                            width: 44,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15),
-                                            decoration: BoxDecoration(
-                                                color: greenColor,
-                                                shape: BoxShape.circle),
-                                            child: Image.asset(
-                                              'assets/icons/lighr.png',
-                                              color: whiteColor,
+                                child: Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const BalasanCepatPage(),
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => CatatanDocter(
-                                              name: receiverBy,
-                                              idConstul: id,
-                                              roomCode: roomCode,
-                                              socket: socket,
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Balasan Cepat',
+                                              style: blackRegulerTextStyle
+                                                  .copyWith(fontSize: 13),
                                             ),
-                                          ),
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Catatan Dokter &\nRekomendasi',
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                            height: 44,
-                                            width: 44,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15),
-                                            decoration: BoxDecoration(
-                                                color: greenColor,
-                                                shape: BoxShape.circle),
-                                            child: Image.asset(
-                                              'assets/icons/book1.png',
+                                            const SizedBox(
+                                              width: 10,
                                             ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    InkWell(
-                                      onTap: onCamera,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Camera',
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Spacer(),
-                                          Container(
+                                            const Spacer(),
+                                            Container(
                                               height: 44,
                                               width: 44,
                                               padding:
@@ -183,30 +111,44 @@ class ChatBottomNavigator extends StatelessWidget {
                                               decoration: BoxDecoration(
                                                   color: greenColor,
                                                   shape: BoxShape.circle),
-                                              child: Icon(
-                                                Icons.camera_alt,
-                                                color: Colors.white,
-                                              ))
-                                        ],
+                                              child: Image.asset(
+                                                'assets/icons/lighr.png',
+                                                color: whiteColor,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    InkWell(
-                                      onTap: onGallery,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Gallery',
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Spacer(),
-                                          Container(
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CatatanDocter(
+                                                name: receiverBy,
+                                                idConstul: id,
+                                                roomCode: roomCode,
+                                                socket: socket,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Catatan Dokter &\nRekomendasi',
+                                              style: blackRegulerTextStyle
+                                                  .copyWith(fontSize: 13),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            const Spacer(),
+                                            Container(
                                               height: 44,
                                               width: 44,
                                               padding:
@@ -215,18 +157,85 @@ class ChatBottomNavigator extends StatelessWidget {
                                               decoration: BoxDecoration(
                                                   color: greenColor,
                                                   shape: BoxShape.circle),
-                                              child: Icon(
-                                                Icons.insert_photo,
-                                                color: Colors.white,
-                                              ))
-                                        ],
+                                              child: Image.asset(
+                                                'assets/icons/book1.png',
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      InkWell(
+                                        onTap: onCamera,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Camera',
+                                              style: blackRegulerTextStyle
+                                                  .copyWith(fontSize: 13),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            const Spacer(),
+                                            Center(
+                                              child: Container(
+                                                  height: 44,
+                                                  width: 44,
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
+                                                  decoration: BoxDecoration(
+                                                      color: greenColor,
+                                                      shape: BoxShape.circle),
+                                                  child: Icon(
+                                                    Icons.camera_alt,
+                                                    color: Colors.white,
+                                                  )),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      InkWell(
+                                        onTap: onGallery,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                              'Gallery',
+                                              style: blackRegulerTextStyle
+                                                  .copyWith(fontSize: 13),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                                height: 44,
+                                                width: 44,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                decoration: BoxDecoration(
+                                                    color: greenColor,
+                                                    shape: BoxShape.circle),
+                                                child: Icon(
+                                                  Icons.insert_photo,
+                                                  color: Colors.white,
+                                                ))
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ))
-                            ],
-                          )),
+                        ],
+                      ),
                       hintStyle: subGreyTextStyle,
                     ),
                     onChanged: onChanged
@@ -364,82 +373,90 @@ class ChatBottomCostomer extends StatelessWidget {
                       suffixIcon: Padding(
                           padding: const EdgeInsets.all(11.0),
                           child: PopupMenuButton(
+                            elevation: 0,
+                            color: Colors.transparent,
                             icon: Image.asset(
                               'assets/icons/atement.png',
                               width: 20,
                             ),
                             itemBuilder: (context) => [
                               PopupMenuItem(
+                                  padding: EdgeInsets.only(bottom: 27),
                                   child: Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Column(
-                                  children: [
-                                    InkWell(
-                                      onTap: onCamera,
-                                      child: Row(
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Container(
+                                      padding: EdgeInsets.all(20),
+                                      child: Column(
                                         children: [
-                                          //Ambil Cera
-                                          Text(
-                                            'Camera',
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
+                                          InkWell(
+                                            onTap: onCamera,
+                                            child: Row(
+                                              children: [
+                                                //Ambil Cera
+                                                Text(
+                                                  'Camera',
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(fontSize: 13),
+                                                ),
+                                                const SizedBox(
+                                                  width: 9,
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                    height: 44,
+                                                    width: 44,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15),
+                                                    decoration: BoxDecoration(
+                                                        color: greenColor,
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.camera_alt,
+                                                      color: Colors.white,
+                                                    ))
+                                              ],
+                                            ),
                                           ),
                                           const SizedBox(
-                                            width: 9,
+                                            height: 10,
                                           ),
-                                          const Spacer(),
-                                          Container(
-                                              height: 44,
-                                              width: 44,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 15),
-                                              decoration: BoxDecoration(
-                                                  color: greenColor,
-                                                  shape: BoxShape.circle),
-                                              child: Icon(
-                                                Icons.camera_alt,
-                                                color: Colors.white,
-                                              ))
+                                          InkWell(
+                                            onTap: onGallery,
+                                            child: Row(
+                                              children: [
+                                                Text(
+                                                  'Gallery',
+                                                  style: blackRegulerTextStyle
+                                                      .copyWith(fontSize: 13),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                    height: 44,
+                                                    width: 44,
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15),
+                                                    decoration: BoxDecoration(
+                                                        color: greenColor,
+                                                        shape: BoxShape.circle),
+                                                    child: Icon(
+                                                      Icons.insert_photo,
+                                                      color: Colors.white,
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    InkWell(
-                                      onTap: onGallery,
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            'Gallery',
-                                            style: blackRegulerTextStyle
-                                                .copyWith(fontSize: 13),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          const Spacer(),
-                                          Container(
-                                              height: 44,
-                                              width: 44,
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 15),
-                                              decoration: BoxDecoration(
-                                                  color: greenColor,
-                                                  shape: BoxShape.circle),
-                                              child: Icon(
-                                                Icons.insert_photo,
-                                                color: Colors.white,
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ))
+                                  ))
                             ],
                           )),
                       hintStyle: subGreyTextStyle,
