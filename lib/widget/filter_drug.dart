@@ -35,6 +35,7 @@ class _FilterAllDrugState extends State<FilterAllDrug> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
         height: 60,

@@ -30,91 +30,101 @@ class _FilterConcernState extends State<FilterConcern> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Filter',
-              style: blackHigtTextStyle.copyWith(fontSize: 20),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 165,
+                decoration: BoxDecoration(
+                    border: Border.all(color: greenColor),
+                    borderRadius: BorderRadius.circular(7)),
+                height: 50,
+                child: Center(
+                  child: Text(
+                    'Batal',
+                    style:
+                        grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
-              height: 31,
+              width: 10,
             ),
-            Text(
-              'Pilih Concern',
-              style: blackRegulerTextStyle.copyWith(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ...concern.map((e) {
-              return FilterTapConcern(
-                title: e.name.toString(),
-                function: () {
-                  concernIds.add(e.id.toString());
+            Expanded(
+              child: InkWell(
+                onTap: () async {
+                  Navigator.pop(context, {
+                    "concern_ids": concernIds,
+                  });
                 },
-              );
-            }),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
+                child: Container(
+                  width: 165,
+                  decoration: BoxDecoration(
+                      color: greenColor,
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7)),
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      'Simpan',
+                      style: whiteTextStyle.copyWith(
+                          fontSize: 15, fontWeight: bold),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      Navigator.pop(context, {
-                        "concern_ids": concernIds,
-                      });
-                    },
-                    child: Container(
-                      width: 165,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Simpan',
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+              ),
+            )
           ],
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 25,
+            right: 25,
+            top: 36,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Filter',
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 31,
+              ),
+              Text(
+                'Pilih Concern',
+                style: blackRegulerTextStyle.copyWith(fontSize: 17),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ...concern.map((e) {
+                return FilterTapConcern(
+                  title: e.name.toString(),
+                  function: () {
+                    concernIds.add(e.id.toString());
+                  },
+                );
+              }),
+              const SizedBox(
+                height: 15,
+              ),
+            ],
+          ),
         ),
       ),
     );

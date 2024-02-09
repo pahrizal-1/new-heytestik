@@ -34,110 +34,120 @@ class _FilterAllSkincareState extends State<FilterAllSkincare> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Filter',
-              style: blackHigtTextStyle.copyWith(fontSize: 20),
+            InkWell(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 165,
+                decoration: BoxDecoration(
+                    border: Border.all(color: greenColor),
+                    borderRadius: BorderRadius.circular(7)),
+                height: 50,
+                child: Center(
+                  child: Text(
+                    'Batal',
+                    style:
+                        grenTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                  ),
+                ),
+              ),
             ),
             const SizedBox(
-              height: 31,
+              width: 10,
             ),
-            Text(
-              'Pilih Display',
-              style: blackRegulerTextStyle.copyWith(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ...lookupDisplay.map((e) {
-              return FilterTapSkicanre(
-                title: e.value.toString(),
-                function: () {
-                  display.add(e.value.toString());
+            Expanded(
+              child: InkWell(
+                onTap: () async {
+                  Navigator.pop(context, {
+                    "display": display,
+                    "category": category,
+                  });
                 },
-              );
-            }),
-            const SizedBox(
-              height: 15,
-            ),
-            Text(
-              'Pilih Category',
-              style: blackRegulerTextStyle.copyWith(fontSize: 17),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ...lookupCategory.map((e) {
-              return FilterTapSkicanre(
-                title: e.value.toString(),
-                function: () {
-                  category.add(e.value.toString());
-                },
-              );
-            }),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: 165,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: greenColor),
-                        borderRadius: BorderRadius.circular(7)),
-                    height: 50,
-                    child: Center(
-                      child: Text(
-                        'Batal',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 15, fontWeight: bold),
-                      ),
+                child: Container(
+                  width: 165,
+                  decoration: BoxDecoration(
+                      color: greenColor,
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7)),
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      'Simpan',
+                      style: whiteTextStyle.copyWith(
+                          fontSize: 15, fontWeight: bold),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      Navigator.pop(context, {
-                        "display": display,
-                        "category": category,
-                      });
-                    },
-                    child: Container(
-                      width: 165,
-                      decoration: BoxDecoration(
-                          color: greenColor,
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      height: 50,
-                      child: Center(
-                        child: Text(
-                          'Simpan',
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 15, fontWeight: bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+              ),
+            )
           ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 25,
+            right: 25,
+            top: 36,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Filter',
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
+              ),
+              const SizedBox(
+                height: 31,
+              ),
+              Text(
+                'Pilih Display',
+                style: blackRegulerTextStyle.copyWith(fontSize: 17),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ...lookupDisplay.map((e) {
+                return FilterTapSkicanre(
+                  title: e.value.toString(),
+                  function: () {
+                    display.add(e.value.toString());
+                  },
+                );
+              }),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Pilih Category',
+                style: blackRegulerTextStyle.copyWith(fontSize: 17),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ...lookupCategory.map((e) {
+                return FilterTapSkicanre(
+                  title: e.value.toString(),
+                  function: () {
+                    category.add(e.value.toString());
+                  },
+                );
+              }),
+              const SizedBox(
+                height: 15,
+              ),
+            ],
+          ),
         ),
       ),
     );
