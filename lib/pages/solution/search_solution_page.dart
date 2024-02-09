@@ -143,7 +143,7 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
             )
           : SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.only(left: 15, top: 10),
+                padding: const EdgeInsets.only(left: 10, top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
