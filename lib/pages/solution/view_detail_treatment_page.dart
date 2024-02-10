@@ -385,7 +385,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     TextFromPerawat(
                       title: 'Detail Perawatan',
                       onTap: () {
-                        customeshomodal(
+                        customeModal(
                           context,
                           DetailMoreDialogFilter(
                             treatmentData: stateTreatment.treatmentDetail.value,

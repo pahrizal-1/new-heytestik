@@ -86,7 +86,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await getData();
       await stateProfile.getProfile(context);
-
     });
     // controller.addListener(
     //   () {
@@ -151,7 +150,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
   Future getRequest(String roomCode, int take) async {
     //replace your restFull API here.
-    var response = await FetchMessageByRoom().getFetchMessage(roomCode, take, '');
+    var response =
+        await FetchMessageByRoom().getFetchMessage(roomCode, take, '');
     ListMessageModel result = ListMessageModel.fromJson(response);
     msglist = result.data?.data;
     setState(() {});
@@ -461,7 +461,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
           actions: [
             // TextButton(
             //     onPressed: () {
-            //       customeshomodal(context, AkhiriConsultasi());
+            //       customeModal(context, AkhiriConsultasi());
             //     },
             //     child: Text(
             //       'Selesai',
@@ -670,7 +670,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                     msglist![index].mediaChatMessages!.length ==
                                         0) {
                                   return ChatRight(
-                                    imgUser: stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                    imgUser: stateProfile.imgNetwork.value != ""
+                                        ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
+                                        : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                     nameUser: widget.sendBy,
                                     timetitle: formattedTime,
                                     color: subgreenColor,
@@ -697,8 +699,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 children: [
                                                   Text(
                                                     widget.sendBy.toString(),
-                                                    style: blackTextStyle
-                                                        .copyWith(
+                                                    style:
+                                                        blackTextStyle.copyWith(
                                                             fontSize: 15,
                                                             color: const Color(
                                                                 0xFF616161)),
@@ -707,22 +709,25 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                     width: 10,
                                                   ),
                                                   Image.network(
-                                                    stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                                    stateProfile.imgNetwork
+                                                                .value !=
+                                                            ""
+                                                        ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
+                                                        : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                                     width: 30,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ],
                                               ),
                                               Container(
-                                                margin: const EdgeInsets
-                                                    .symmetric(
-                                                    horizontal: 40),
-                                                padding:
-                                                    const EdgeInsets.only(
-                                                        left: 12,
-                                                        top: 11,
-                                                        right: 12,
-                                                        bottom: 7),
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 40),
+                                                padding: const EdgeInsets.only(
+                                                    left: 12,
+                                                    top: 11,
+                                                    right: 12,
+                                                    bottom: 7),
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
@@ -742,26 +747,22 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 ),
                                                 child: Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     GridView.builder(
                                                       shrinkWrap: true,
-                                                      itemCount: msglist![
-                                                              index]
+                                                      itemCount: msglist![index]
                                                           .mediaChatMessages!
                                                           .length,
                                                       gridDelegate:
                                                           const SliverGridDelegateWithFixedCrossAxisCount(
-                                                              crossAxisCount:
-                                                                  2,
+                                                              crossAxisCount: 2,
                                                               crossAxisSpacing:
                                                                   4.0,
                                                               mainAxisSpacing:
                                                                   4.0),
                                                       itemBuilder:
-                                                          (BuildContext
-                                                                  context,
+                                                          (BuildContext context,
                                                               count) {
                                                         return Image.network(
                                                           '${Global.FILE}/${msglist![index].mediaChatMessages![0].media!.path!}',
@@ -780,8 +781,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                     ),
                                                     Row(
                                                       mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .end,
+                                                          MainAxisAlignment.end,
                                                       children: [
                                                         Image.asset(
                                                           'assets/images/logo_cheac_wa.png',
@@ -832,11 +832,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                   Stack(
                                                     children: [
                                                       Container(
-                                                        margin:
-                                                            const EdgeInsets
-                                                                .symmetric(
-                                                                horizontal:
-                                                                    40),
+                                                        margin: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: 40),
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(
@@ -850,21 +848,22 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                             .width,
                                                         decoration:
                                                             BoxDecoration(
-                                                          color:
-                                                              subgreenColor,
+                                                          color: subgreenColor,
                                                           borderRadius:
                                                               const BorderRadius
                                                                   .only(
-                                                            topLeft: Radius
-                                                                .circular(10),
-                                                            topRight: Radius
-                                                                .circular(0),
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    10),
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    0),
                                                             bottomRight:
-                                                                Radius
-                                                                    .circular(
-                                                                        10),
-                                                            bottomLeft: Radius
-                                                                .circular(10),
+                                                                Radius.circular(
+                                                                    10),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    10),
                                                           ),
                                                         ),
                                                         child: Column(
@@ -873,8 +872,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                                   .start,
                                                           children: [
                                                             GridView.builder(
-                                                              shrinkWrap:
-                                                                  true,
+                                                              shrinkWrap: true,
                                                               itemCount: msglist![
                                                                       index]
                                                                   .mediaChatMessages!
@@ -934,8 +932,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                         left: 80,
                                                         child: Container(
                                                           width: 200,
-                                                          child:
-                                                              ElevatedButton(
+                                                          child: ElevatedButton(
                                                             style:
                                                                 ElevatedButton
                                                                     .styleFrom(
@@ -951,8 +948,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                                   builder:
                                                                       ((context) =>
                                                                           PreviewImage(
-                                                                            path: msglist![index].mediaChatMessages,
-                                                                            senderId: widget.sendBy ?? '',
+                                                                            path:
+                                                                                msglist![index].mediaChatMessages,
+                                                                            senderId:
+                                                                                widget.sendBy ?? '',
                                                                           )),
                                                                 ),
                                                               );
@@ -966,7 +965,11 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 ],
                                               )
                                             : ChatRight(
-                                              imgUser: stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                                imgUser: stateProfile
+                                                            .imgNetwork.value !=
+                                                        ""
+                                                    ? '${Global.FILE}/${stateProfile.imgNetwork.value}'
+                                                    : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                                 // imgUser:
                                                 //     'assets/images/doctor-img.png',
                                                 // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
@@ -1577,7 +1580,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 ],
                                               )
                                             : ChatLeft(
-                                              image: widget.image,
+                                                image: widget.image,
                                                 nameDoctor: widget.receiverBy,
                                                 timetitle: formattedTime,
                                                 color: subwhiteColor,
@@ -1813,7 +1816,7 @@ class AkhiriConsultasi extends StatelessWidget {
                 child: ButtonGreenWidget(
                   title: 'Ya, Akhiri',
                   onPressed: () {
-                    customeshomodal(
+                    customeModal(
                         context,
                         Padding(
                           padding: const EdgeInsets.symmetric(

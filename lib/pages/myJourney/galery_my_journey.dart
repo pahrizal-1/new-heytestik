@@ -264,7 +264,7 @@ class _GaleryMyJourneyState extends State<GaleryMyJourney> {
   }
 
   bottomSheet(Data2 e) {
-    return customeshomodal(
+    return customeModal(
       context,
       Padding(
         padding: lsymetric.copyWith(

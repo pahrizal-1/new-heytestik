@@ -95,7 +95,7 @@ class _RatingPageState extends State<RatingPage> {
                     children: [
                       InkWell(
                         onTap: () {
-                          customeshomodal(context,
+                          customeModal(context,
                               StatefulBuilder(builder: (context, setState) {
                             return Wrap(
                               children: [
@@ -780,7 +780,7 @@ class _RatingPageState extends State<RatingPage> {
                                           ),
                                         );
                                       })));
-                              // customeshomodal(
+                              // customeModal(
                               //     context, const RatingDenganUlasanWidgets());
                             },
                             child: Container(

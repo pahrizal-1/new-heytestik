@@ -231,7 +231,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, FilterStatusTransaksi())
+                            customeModal(context, FilterStatusTransaksi())
                                 .then((value) async {
                               filter['transaction_status[]'] = value;
                               page = 1;
@@ -289,7 +289,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, FilterJenisTransaksi())
+                            customeModal(context, FilterJenisTransaksi())
                                 .then((value) async {
                               filter['transaction_type[]'] = value;
                               page = 1;
@@ -347,7 +347,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, FilterTanggalTransaksi())
+                            customeModal(context, FilterTanggalTransaksi())
                                 .then((value) async {
                               filter['start_date'] = DateTime.now()
                                   .subtract(Duration(days: value));

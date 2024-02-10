@@ -164,7 +164,7 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                   height: 45,
                   child: TextFormField(
                     onTap: () {
-                      customeshomodal(
+                      customeModal(
                         context,
                         StatefulBuilder(
                             builder: (BuildContext context, setState) {
@@ -346,7 +346,7 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                                           a = '0${state.jam.value}';
                                         });
                                         print(a);
-                                      }else {
+                                      } else {
                                         a = '${state.jam.value}';
                                       }
                                       if (state.menit.value < 10) {
@@ -354,7 +354,7 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                                           b = '0${state.menit.value}';
                                         });
                                         print(b);
-                                      }else {
+                                      } else {
                                         b = '${state.menit.value}';
                                       }
                                       String c = '${a}:${b}';

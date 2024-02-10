@@ -133,7 +133,7 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                     child: Center(
                       child: InkWell(
                         onTap: () async {
-                          customeshomodal(
+                          customeModal(
                             context,
                             Padding(
                               padding: lsymetric.copyWith(top: 25),
@@ -316,7 +316,7 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                     child: Center(
                       child: InkWell(
                         onTap: () async {
-                          customeshomodal(
+                          customeModal(
                             context,
                             Padding(
                               padding: lsymetric.copyWith(top: 25),
