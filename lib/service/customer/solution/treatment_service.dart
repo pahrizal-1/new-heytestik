@@ -360,6 +360,7 @@ class TreatmentService extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
+      print('responss ${response}');
       return TreatmentModel.TreatmentModel.fromJson(response);
     } catch (error) {
       print(error);

@@ -573,21 +573,19 @@ class _CatatanDocterState extends State<CatatanDocter> {
                     border: Border.all(color: greenColor),
                     borderRadius: BorderRadius.circular(7)),
                 child: OutlinedButton(
-                  onPressed: () async {
-                    String refresh = await Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const TambahanSkinCare(),
                       ),
-                    );
-
-                    if (refresh == 'refresh') {
-                      setState(() {
+                    ).then(
+                      (value) => setState(() {
                         state.listSkincare;
                         state.notesSkincare;
                         state.listItemCount;
-                      });
-                    }
+                      }),
+                    );
                   },
                   child: Text(
                     '+ Tambah Skincare',

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
@@ -23,6 +24,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
   final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
   final SkincareRecommendationController stateDoctorSkincare = Get.put(SkincareRecommendationController());
   TextEditingController searchController = TextEditingController();
+  ScrollController scrollController = ScrollController();
 
   List img = ['assets/images/penting1.png', 'assets/images/penting2.png', 'assets/images/produk.png', 'assets/images/produk2.png'];
   List name = ['Teenderm gel sensitive 150 ml', 'Teenderm Aqua 200 ml', 'Teenderm Hydra 40 ml', 'Teenderm Hydra 40 ml'];
@@ -35,7 +37,13 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      state.getSkincare(context);
+      context.read<SkincareRecommendationController>().refresh(context);
+    });
+    scrollController.addListener(() async {
+      context.read<SkincareRecommendationController>().loadMore(
+            context,
+            scrollController,
+          );
     });
   }
 
@@ -128,13 +136,19 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                             onFieldSubmitted: (v) {
                               if (searchController.text == '') {
                                 setState(() {
-                                  state.getSkincare(
-                                    context,
-                                  );
+                                  context.read<SkincareRecommendationController>().getSkincare(
+                                        context,
+                                        state.currentPage.value,
+                                        search: '',
+                                      );
                                 });
                               } else {
                                 setState(() {
-                                  state.getSkincare(context, search: searchController.text);
+                                  context.read<SkincareRecommendationController>().getSkincare(
+                                        context,
+                                        state.currentPage.value,
+                                        search: searchController.text,
+                                      );
                                 });
                               }
                             },
@@ -221,6 +235,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                 right: 0,
                 bottom: 0,
                 child: SingleChildScrollView(
+                  controller: scrollController,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 22, right: 22),
                     child: Column(
@@ -230,79 +245,90 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                             ? Center(
                                 child: CircularProgressIndicator(),
                               )
-                            : Container(
-                                // height: 200,
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.solutionSkincare.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: ((context, index) {
-                                    String? img;
-                                    for (var i in state.solutionSkincare[index].mediaProducts!) {
-                                      img = i.media!.path;
-                                    }
-                                    return InkWell(
-                                      onTap: () {
-                                        print(state.solutionSkincare[index].id.toString());
-                                      },
-                                      child: CardSkincarePrice(
-                                        nameTitle: "${state.solutionSkincare[index].name ?? ''}",
-                                        urlImg: "${Global.FILE}/${img}",
-                                        subTitle: "${state.solutionSkincare[index].category}",
-                                        harga: "${state.solutionSkincare[index].price}",
-                                        pengguna: "Pagi&Malam",
-                                        plus: InkWell(
+                            : Consumer<SkincareRecommendationController>(builder: (_, state, __) {
+                                return Container(
+                                  // height: 200,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.hasMore.value ? state.solutionSkincare.length + 1 : state.solutionSkincare.length,
+                                    physics: ClampingScrollPhysics(),
+                                    itemBuilder: ((context, index) {
+                                      if (index < state.solutionSkincare.length) {
+                                        String? img;
+                                        for (var i in state.solutionSkincare[index].mediaProducts!) {
+                                          img = i.media!.path;
+                                        }
+                                        return InkWell(
                                           onTap: () {
-                                            print(index);
-                                            setState(() {
-                                              if (toogle.contains(index)) {
-                                                toogle.remove(index);
-                                                // skincare Treatment
-                                                stateDoctorSkincare.dataSkincare.remove(state.solutionSkincare[index].toJson());
-                                                stateDoctorSkincare.notesController.removeAt(stateDoctorSkincare.notesController.length - 1);
-                                                stateDoctorSkincare.itemCount!.removeAt(stateDoctorSkincare.itemCount!.length - 1);
-                                                // end skincare Treatment
-
-                                                stateDoctor.listSkincare.remove(state.solutionSkincare[index].toJson());
-                                                stateDoctor.notesSkincare.removeAt(stateDoctor.notesSkincare.length - 1);
-                                                stateDoctor.listItemCount!.removeAt(stateDoctor.listItemCount!.length - 1);
-                                                print(stateDoctor.listItemCount!.toString());
-                                              } else {
-                                                toogle.add(index);
-                                                // skincare treatment
-                                                stateDoctorSkincare.dataSkincare.add(state.solutionSkincare[index].toJson());
-                                                stateDoctorSkincare.notesController.add(TextEditingController());
-                                                stateDoctorSkincare.itemCount = List.generate(state.solutionSkincare.length, (_) => 1);
-                                                // end skincare treamtnet
-
-                                                stateDoctor.listSkincare.add(state.solutionSkincare[index].toJson());
-                                                stateDoctor.notesSkincare.add(TextEditingController());
-                                                stateDoctor.listItemCount = List.generate(state.solutionSkincare.length, (_) => 1);
-                                                print(stateDoctor.listItemCount!.toString());
-                                              }
-                                            });
+                                            print(state.solutionSkincare[index].id.toString());
                                           },
-                                          child: Container(
-                                              height: 29,
-                                              width: 40,
-                                              decoration: BoxDecoration(color: toogle.contains(index) ? whiteColor : greenColor, borderRadius: BorderRadius.circular(9), border: Border.all(color: greenColor)),
-                                              child: toogle.contains(index)
-                                                  ? Center(
-                                                      child: Text(
-                                                        '-',
-                                                        style: grenTextStyle.copyWith(fontSize: 20),
-                                                      ),
-                                                    )
-                                                  : Icon(
-                                                      Icons.add,
-                                                      color: whiteColor,
-                                                    )),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                ),
-                              ),
+                                          child: CardSkincarePrice(
+                                            nameTitle: "${state.solutionSkincare[index].name ?? ''}",
+                                            urlImg: "${Global.FILE}/${img}",
+                                            subTitle: "${state.solutionSkincare[index].category}",
+                                            harga: "${state.solutionSkincare[index].price}",
+                                            pengguna: "Pagi&Malam",
+                                            plus: InkWell(
+                                              onTap: () {
+                                                print(index);
+                                                setState(() {
+                                                  if (toogle.contains(index)) {
+                                                    toogle.remove(index);
+                                                    // skincare Treatment
+                                                    stateDoctorSkincare.dataSkincare.remove(state.solutionSkincare[index].toJson());
+                                                    stateDoctorSkincare.notesController.removeAt(stateDoctorSkincare.notesController.length - 1);
+                                                    stateDoctorSkincare.itemCount!.removeAt(stateDoctorSkincare.itemCount!.length - 1);
+                                                    // end skincare Treatment
+
+                                                    stateDoctor.listSkincare.remove(state.solutionSkincare[index].toJson());
+                                                    stateDoctor.notesSkincare.removeAt(stateDoctor.notesSkincare.length - 1);
+                                                    stateDoctor.listItemCount!.removeAt(stateDoctor.listItemCount!.length - 1);
+                                                    print(stateDoctor.listItemCount!.toString());
+                                                  } else {
+                                                    toogle.add(index);
+                                                    // skincare treatment
+                                                    stateDoctorSkincare.dataSkincare.add(state.solutionSkincare[index].toJson());
+                                                    stateDoctorSkincare.notesController.add(TextEditingController());
+                                                    stateDoctorSkincare.itemCount = List.generate(state.solutionSkincare.length, (_) => 1);
+                                                    // end skincare treamtnet
+
+                                                    stateDoctor.listSkincare.add(state.solutionSkincare[index].toJson());
+                                                    stateDoctor.notesSkincare.add(TextEditingController());
+                                                    stateDoctor.listItemCount = List.generate(state.solutionSkincare.length, (_) => 1);
+                                                    print(stateDoctor.listItemCount!.toString());
+                                                  }
+                                                });
+                                              },
+                                              child: Container(
+                                                  height: 29,
+                                                  width: 40,
+                                                  decoration: BoxDecoration(color: toogle.contains(index) ? whiteColor : greenColor, borderRadius: BorderRadius.circular(9), border: Border.all(color: greenColor)),
+                                                  child: toogle.contains(index)
+                                                      ? Center(
+                                                          child: Text(
+                                                            '-',
+                                                            style: grenTextStyle.copyWith(fontSize: 20),
+                                                          ),
+                                                        )
+                                                      : Icon(
+                                                          Icons.add,
+                                                          color: whiteColor,
+                                                        )),
+                                            ),
+                                          ),
+                                        );
+                                      } else {
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(vertical: 10),
+                                          child: Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
+                                        );
+                                      }
+                                    }),
+                                  ),
+                                );
+                              })
                       ],
                     ),
                   ),

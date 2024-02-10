@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/controller/customer/consultation/consultati
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
@@ -63,11 +64,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: stateProfile.imgNetwork.value != ""
-                          ? NetworkImage(
-                                  '${Global.FILE}/${stateProfile.imgNetwork.value}')
-                              as ImageProvider
-                          : AssetImage('assets/images/profiledummy.png'),
+                      image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -201,7 +198,27 @@ class BelumKonsultasiChat extends StatelessWidget {
             child: ButtonGreenWidget(
               title: 'Mulai Konsultasi',
               onPressed: () {
-                Get.to(() => const SelectConditionsPage());
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertConfirmationWidget(
+                        subtitle: 'Konsultasi Ini Berbayar',
+                        action: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SelectConditionsPage(),
+                            ),
+                          ).then((value) => Navigator.pop(context));
+                        },
+                      );
+                    });
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const SelectConditionsPage(),
+                //   ),
+                // );
               },
             ),
           ),
