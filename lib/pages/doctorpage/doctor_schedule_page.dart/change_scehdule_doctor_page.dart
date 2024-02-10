@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/schedule/schedule_doctor_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 import '../../../widget/button_widget.dart';
@@ -24,63 +26,20 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 0,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 16),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(
-                        context,
-                      );
-                    },
-                    child: const Icon(
-                      Icons.arrow_back,
-                      size: 22,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "Ubah Jadwal ${widget.title}",
-                    style: TextStyle(
-                        letterSpacing: 1.5,
-                        fontFamily: 'ProximaNova',
-                        fontWeight: bold,
-                        color: blackColor),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+      appBar: AppBarCustome(
+        title: 'Ubah jadwal Senin',
+        colorIcons: blackColor,
+        colorTitle: blackColor,
+        bgColor: whiteColor,
       ),
       body: ListView(
         children: [
           Padding(
-            padding: const EdgeInsets.all(18.0),
+            padding: const EdgeInsets.only(left: 21, right: 21, top: 48),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Libur",
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: medium,
-                      fontSize: 18,
-                      color: blackColor),
-                ),
+                Text("Libur", style: blackTextStyle.copyWith(fontSize: 14)),
                 Switch(
                   focusColor: greenColor,
                   activeColor: greenColor,
@@ -95,24 +54,13 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
               ],
             ),
           ),
-          Divider(
-            thickness: 2,
-            color: Colors.grey,
-          ),
+          dividergrey(),
           Padding(
             padding: const EdgeInsets.all(18.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Atur Jam",
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: medium,
-                      fontSize: 18,
-                      color: blackColor),
-                ),
+                Text("Atur Jam", style: blackTextStyle.copyWith(fontSize: 14)),
                 Switch(
                   focusColor: greenColor,
                   activeColor: greenColor,
@@ -131,38 +79,23 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
             padding: EdgeInsets.only(left: 18),
             child: Row(
               children: [
-                Text(
-                  "Mulai",
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: medium,
-                      fontSize: 18,
-                      color: blackColor),
-                ),
+                Text("Mulai", style: blackTextStyle.copyWith(fontSize: 12)),
                 SizedBox(
-                  width: 100,
+                  width: 160,
                 ),
-                Text(
-                  "Selesai",
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: medium,
-                      fontSize: 18,
-                      color: blackColor),
-                ),
+                Text("Selesai", style: blackTextStyle.copyWith(fontSize: 12)),
               ],
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 18),
+            padding: EdgeInsets.only(left: 15),
             child: Row(
               children: [
                 SizedBox(
                   width: 100,
                   height: 45,
                   child: TextFormField(
+                    enabled: true,
                     onTap: () {
                       customeshomodal(
                         context,
@@ -196,6 +129,19 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                                 ),
                                 SizedBox(
                                   height: 30,
+                                ),
+                                Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text(
+                                          'Mulai',
+                                          style: blackTextStyle.copyWith(
+                                              fontSize: 12),
+                                        )
+                                      ],
+                                    )
+                                  ],
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -346,7 +292,7 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                                           a = '0${state.jam.value}';
                                         });
                                         print(a);
-                                      }else {
+                                      } else {
                                         a = '${state.jam.value}';
                                       }
                                       if (state.menit.value < 10) {
@@ -354,7 +300,7 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                                           b = '0${state.menit.value}';
                                         });
                                         print(b);
-                                      }else {
+                                      } else {
                                         b = '${state.menit.value}';
                                       }
                                       String c = '${a}:${b}';
@@ -376,12 +322,13 @@ class _ChangeScheduleDoctorPageState extends State<ChangeScheduleDoctorPage> {
                   ),
                 ),
                 SizedBox(
-                  width: 100,
+                  width: 80,
                 ),
                 SizedBox(
                   width: 100,
                   height: 45,
                   child: TextFormField(
+                    enabled: true,
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: '',
