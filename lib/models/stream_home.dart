@@ -77,6 +77,7 @@ class StreamHomeModel {
               .map((e) => "#${e['hashtag']['tag']}")
               .toList(),
       streamPollOptions: dataPolling,
+
       fullname: json['user']['fullname'] ?? "-",
       username: json['user']['username'] ?? "-",
       photoUser: json['user']['media_user_profile_picture'] != null

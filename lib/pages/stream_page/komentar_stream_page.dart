@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -62,7 +63,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   int allVotesCount = 0;
   int? indexVotes;
   List<String> dataRemainingTime = [];
-
+  bool isTimeOver = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -73,6 +74,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           .toString()
           .split('.')[0]
           .split(":");
+      if (int.parse(dataRemainingTime[0]) < 0) {
+        isTimeOver = true;
+      }
       allVotesCount = post?.pollCount ?? 0;
       streamPollOptions = post?.streamPollOptions ?? [];
 
@@ -401,32 +405,34 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        if (votesCount == 0) {
-                                          votesCount = votesCount + 1;
-                                          allVotesCount = allVotesCount + 1;
+                                        if (!isTimeOver) {
+                                          if (votesCount == 0) {
+                                            votesCount = votesCount + 1;
+                                            allVotesCount = allVotesCount + 1;
 
-                                          if (indexVotes != null) {
-                                            streamPollOptions[indexVotes!]
-                                                    ['count'] -
-                                                1;
-                                            postController.deletePolling(
+                                            if (indexVotes != null) {
+                                              streamPollOptions[indexVotes!]
+                                                      ['count'] -
+                                                  1;
+                                              postController.deletePolling(
+                                                  context,
+                                                  widget.postId,
+                                                  streamPollOptions[indexVotes!]
+                                                      ['stream_poll_id'],
+                                                  streamPollOptions[indexVotes!]
+                                                      ['id']);
+                                            }
+
+                                            postController.pickPolling(
                                                 context,
                                                 widget.postId,
-                                                streamPollOptions[indexVotes!]
-                                                    ['stream_poll_id'],
-                                                streamPollOptions[indexVotes!]
-                                                    ['id']);
+                                                option.value['stream_poll_id'],
+                                                option.value['id']);
+                                            indexVotes = option.key;
+                                            option.value['count'] =
+                                                option.value['count'] + 1;
+                                            setState(() {});
                                           }
-
-                                          postController.pickPolling(
-                                              context,
-                                              widget.postId,
-                                              option.value['stream_poll_id'],
-                                              option.value['id']);
-                                          indexVotes = option.key;
-                                          option.value['count'] =
-                                              option.value['count'] + 1;
-                                          setState(() {});
                                         }
                                       },
                                       child: Container(
@@ -484,23 +490,22 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       fontSize: 12.0,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0,
-                                    ),
-                                    child: Text(
-                                      ".",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ),
                                   Text(
-                                    "Polling Berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
+                                    " . ",
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      isTimeOver
+                                          ? "Polling sudah ditutup ${ConvertDate.streamDate(post!.endTime.toString())}"
+                                          : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.0,
+                                      ),
                                     ),
                                   ),
                                 ],
