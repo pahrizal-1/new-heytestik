@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
     as Concern;
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class FilterConcern extends StatefulWidget {
   const FilterConcern({super.key});
@@ -62,9 +63,17 @@ class _FilterConcernState extends State<FilterConcern> {
             Expanded(
               child: InkWell(
                 onTap: () async {
-                  Navigator.pop(context, {
-                    "concern_ids": concernIds,
-                  });
+                  if (concernIds.isNotEmpty) {
+                    Navigator.pop(context, {
+                      "concern_ids": concernIds,
+                    });
+                  } else {
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      'Info',
+                      "Harap pilih concern terlebih dahulu",
+                    );
+                  }
                 },
                 child: Container(
                   width: 165,

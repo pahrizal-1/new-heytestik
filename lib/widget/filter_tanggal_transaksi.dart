@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import '../theme/theme.dart';
 import 'button_widget.dart';
-import 'filter_tap_widget.dart';
 
 class FilterTanggalTransaksi extends StatefulWidget {
   const FilterTanggalTransaksi({
@@ -14,7 +14,8 @@ class FilterTanggalTransaksi extends StatefulWidget {
 }
 
 class _FilterTanggalTransaksiState extends State<FilterTanggalTransaksi> {
-  int tanggal = 0;
+  int? tanggal;
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -44,7 +45,7 @@ class _FilterTanggalTransaksiState extends State<FilterTanggalTransaksi> {
                   width: 22,
                 ),
                 Text(
-                  'Status Transaksi',
+                  'Tanggal Transaksi',
                   style: blackHigtTextStyle.copyWith(fontSize: 20),
                 ),
               ],
@@ -52,22 +53,70 @@ class _FilterTanggalTransaksiState extends State<FilterTanggalTransaksi> {
             const SizedBox(
               height: 39,
             ),
-            ...Iterable<int>.generate(60).toList().map((e) {
-              return FilterTapTreatment(
+            ...Iterable<int>.generate(60).toList().map((val) {
+              String text = val == 0 ? "Hari Ini" : "$val Hari yang lalu";
+              return popup(
                 onTap: () {
-                  tanggal = e;
+                  tanggal = val;
+                  setState(() {});
                 },
-                title: e == 0 ? "Hari Ini" : "$e Hari yang lalu",
+                title: text,
+                isSelected: tanggal == val,
               );
             }).toList(),
             ButtonGreenWidget(
               title: 'Tampilkan',
               onPressed: () {
-                Navigator.pop(context, tanggal);
+                if (tanggal != null) {
+                  Navigator.pop(context, tanggal);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertWidget(
+                      subtitle: "Harap pilih tanggal transaksi terlebih dahulu",
+                    ),
+                  );
+                }
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget popup(
+      {required Function()? onTap,
+      required String title,
+      required bool isSelected}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              onTap == null ? () {} : onTap();
+            },
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style:
+                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+                ),
+                const Spacer(),
+                Icon(
+                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
+                  color: isSelected ? greenColor : blackColor,
+                ),
+              ],
+            ),
+          ),
+          Divider(
+            thickness: 1,
+            color: borderColor,
+          )
+        ],
       ),
     );
   }

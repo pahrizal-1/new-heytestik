@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import '../theme/theme.dart';
 import 'button_widget.dart';
@@ -115,7 +116,16 @@ class _FilterStatusTransaksiState extends State<FilterStatusTransaksi> {
             ButtonGreenWidget(
               title: 'Tampilkan',
               onPressed: () {
-                Navigator.pop(context, status);
+                if (status.isNotEmpty) {
+                  Navigator.pop(context, status);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertWidget(
+                      subtitle: "Harap pilih status transaksi terlebih dahulu",
+                    ),
+                  );
+                }
               },
             ),
           ],
