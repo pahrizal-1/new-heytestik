@@ -74,7 +74,7 @@ class ErrorConfig implements Exception {
           }
         });
       }
-      message = errorMessages.join(',').toString();
+      message = errorMessages.join('\n\n').toString();
     } else if (dioError.response?.data['message'] != null) {
       message = dioError.response?.data['message'].toString();
     } else if (dioError.response?.data['status'] != null) {
