@@ -59,8 +59,22 @@ class ErrorConfig implements Exception {
     if (dioError.response?.data['ket'] != null) {
       message = dioError.response?.data['ket'].toString();
     } else if (dioError.response?.data['errors'] != null) {
-      var cek = (jsonEncode(dioError.response?.data['errors']));
-      message = cek.toString();
+      Map<String, dynamic> data =
+          jsonDecode(jsonEncode(dioError.response?.data));
+      List<String> errorMessages = [];
+      if (data.containsKey('errors')) {
+        Map<String, dynamic> errors = data['errors'];
+        errors.forEach((key, value) {
+          if (value is List<dynamic>) {
+            value.forEach((element) {
+              if (element is String) {
+                errorMessages.add(element);
+              }
+            });
+          }
+        });
+      }
+      message = errorMessages.toString();
     } else if (dioError.response?.data['message'] != null) {
       message = dioError.response?.data['message'].toString();
     } else if (dioError.response?.data['status'] != null) {
