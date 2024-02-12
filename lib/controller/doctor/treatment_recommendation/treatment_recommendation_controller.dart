@@ -12,11 +12,9 @@ import '../consultation/consultation_controller.dart';
 
 class TreatmentRecommendationController extends StateClass {
   TextEditingController searchController = TextEditingController();
-  final DoctorConsultationController stateDoctor =
-      Get.put(DoctorConsultationController());
+  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
 
-  Rx<TreatmentReccommendationModel> treatment =
-      TreatmentReccommendationModel().obs;
+  Rx<TreatmentReccommendationModel> treatment = TreatmentReccommendationModel().obs;
   Rx<Data2> treatmentById = Data2().obs;
   List dataTreatment = [].obs;
   RxBool isLoadingSkincare = false.obs;
@@ -24,7 +22,7 @@ class TreatmentRecommendationController extends StateClass {
   Rx<ClinicForDoctorModel> responseClinic = ClinicForDoctorModel().obs;
   RxList<DataClinic> clinics = List<DataClinic>.empty().obs;
 
-  RxList<Data2> treatmentDatas = List<Data2>.empty().obs;
+  RxList<Data2> treatmentDatas = List<Data2>.empty(growable: true).obs;
   List treatmentDatasById = [].obs;
   List dataTreatmentItems = [].obs;
   int data1 = 0;
@@ -37,15 +35,53 @@ class TreatmentRecommendationController extends StateClass {
   TextEditingController typeController = TextEditingController();
   List dataTreatmentItemsById = [].obs;
   int itemCount = 0;
-  int page = 1;
+  var hasMore = true.obs;
+  RxInt currentPage = 1.obs;
+  RxInt totalPage = 1.obs;
 
-  getRecipeTreatement(BuildContext context) async {
+  Future<List<Data2>> getRecipeTreatement(
+    BuildContext context,
+    int page,
+  ) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      treatment.value = await TreatmentServices().getRecipeTreatment();
-      treatmentDatas.value = treatment.value.data!.data!;
+      treatment.value = await TreatmentServices().getRecipeTreatment(
+        page,
+      );
+      treatmentDatas.addAll(treatment.value.data!.data!);
+      if (page > totalPage.value || treatmentDatas.length < 10) {
+        hasMore.value = false;
+      }
+      currentPage.value++;
+      totalPage.value = treatment.value.data!.meta!.pageCount!.toInt();
+      notifyListeners();
     });
     isLoading.value = false;
+    return treatmentDatas;
+  }
+
+  Future refresh(BuildContext context) async {
+    currentPage.value = 1;
+    hasMore.value = true;
+    treatmentDatas.value = [];
+    totalPage.value = 1;
+
+    await getRecipeTreatement(
+      context,
+      currentPage.value,
+    );
+    notifyListeners();
+  }
+
+  Future loadMore(BuildContext context, ScrollController scrollController) async {
+    // scrollController.hasClients;
+    print('kesini ga ${currentPage.value}');
+    if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
+      await getRecipeTreatement(
+        context,
+        currentPage.value,
+      );
+    }
   }
 
   getRecipeTreatementById(BuildContext context, int id) async {
@@ -74,10 +110,22 @@ class TreatmentRecommendationController extends StateClass {
         "title": titleController.text,
         "subtitle": subtitleController.text,
         for (var i in dataTreatmentItems)
-          "recipe_recomendation_treatment_items": [i]
+          "recipe_recomendation_treatment_items": [
+            {
+              "name": i['name'],
+              "cost": i['cost'],
+              "recovery_time": i['recovery_time'],
+              "type": i['type'],
+              "clinics": [
+                {
+                  "clinic_id": i['clinic_id'],
+                },
+              ]
+            }
+          ]
+        // for (var i in dataTreatmentItems) "recipe_recomendation_treatment_items": [i]
       };
-      var response =
-          await TreatmentServices().postTreatmentRecommendation(data);
+      var response = await TreatmentServices().postTreatmentRecommendation(data);
 
       if (response['success'] != true && response['message'] != 'Success') {
         throw ErrorConfig(
@@ -124,8 +172,7 @@ class TreatmentRecommendationController extends StateClass {
         ]
       };
       log('data' + data.toString());
-      var response =
-          await TreatmentServices().updateTreatmentRecommendation(data, id);
+      var response = await TreatmentServices().updateTreatmentRecommendation(data, id);
 
       if (response['success'] != true && response['message'] != 'Success') {
         throw ErrorConfig(
@@ -146,7 +193,10 @@ class TreatmentRecommendationController extends StateClass {
       isLoading.value = true;
       var res = await TreatmentServices().deleteTreatmentRecommendation(id);
       log(res);
-      getRecipeTreatement(context);
+      getRecipeTreatement(
+        context,
+        currentPage.value,
+      );
       isLoading.value = false;
     });
   }

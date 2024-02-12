@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/doctor/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_doctor_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -22,6 +23,7 @@ class TambahTreatmentCatatanDoktor extends StatefulWidget {
 
 class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDoktor> {
   final TreatmentDoctorController state = Get.put(TreatmentDoctorController());
+  final TreatmentRecommendationController stateTreatment = Get.put(TreatmentRecommendationController());
   final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
@@ -83,7 +85,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
             const Spacer(),
             InkWell(
               onTap: () {
-                if (stateDoctor.listTreatmentNote.isNotEmpty) {
+                if (stateDoctor.listTreatmentNote.isNotEmpty || stateTreatment.dataTreatmentItems.isNotEmpty) {
                   Navigator.pop(
                     context,
                   );
@@ -281,6 +283,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                                   setState(() {
                                                     toogle.remove(i);
                                                     stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
+                                                    stateTreatment.dataTreatmentItems.remove(stateTreatment.dataTreatmentItems[i]);
                                                     print('delete ${stateDoctor.listTreatmentNote}');
                                                   });
                                                 } else {
@@ -291,7 +294,16 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                                       'cost': state.dataTreatment[i].price!.toString(),
                                                       'recovery_time': state.dataTreatment[i].downtime ?? '-',
                                                       'type': state.dataTreatment[i].treatmentType ?? '-',
+                                                      'clinic_id': state.dataTreatment[i].clinicId ?? 1,
                                                     });
+                                                    stateTreatment.dataTreatmentItems.add({
+                                                      'name': state.dataTreatment[i].name ?? '-',
+                                                      'cost': state.dataTreatment[i].price!.toString(),
+                                                      'recovery_time': state.dataTreatment[i].downtime ?? '-',
+                                                      'type': state.dataTreatment[i].treatmentType ?? '-',
+                                                      'clinic_id': state.dataTreatment[i].clinicId ?? 1,
+                                                    });
+
                                                     print('list ${stateDoctor.listTreatmentNote}');
                                                     // stateDoctor.listTreatmentNote.add();
                                                   });

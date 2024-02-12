@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/controller/customer/register/register_contr
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_doctor_controller.dart';
+import 'package:heystetik_mobileapps/controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
@@ -197,6 +198,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<SkincareRecommendationController>(
             create: (context) => SkincareRecommendationController(),
+          ),
+          ChangeNotifierProvider<TreatmentRecommendationController>(
+            create: (context) => TreatmentRecommendationController(),
           ),
         ],
         child: GetMaterialApp(

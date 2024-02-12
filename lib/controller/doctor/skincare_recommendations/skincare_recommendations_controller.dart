@@ -28,9 +28,9 @@ class SkincareRecommendationController extends StateClass {
   bool getLastPagination = false;
   var hasMore = true.obs;
 
-  getSkincareRecommendation(
-    BuildContext context, {
-    int? pages,
+  Future<List<Data2>> getSkincareRecommendation(
+    BuildContext context,
+    int pages, {
     String? search,
   }) async {
     try {
@@ -40,10 +40,10 @@ class SkincareRecommendationController extends StateClass {
         search,
         10,
       );
-      if (pages! > totalPage.value) {
+      filterData.addAll(res.data!.data!);
+      if (pages > totalPage.value || filterData.length < 10) {
         hasMore.value = false;
       }
-      filterData.addAll(res.data!.data!);
       currentPage.value++;
       totalPage.value = res.data!.meta!.pageCount!.toInt();
       notifyListeners();
@@ -52,6 +52,7 @@ class SkincareRecommendationController extends StateClass {
       if (kDebugMode) print(e.toString());
     }
     isLoading.value = false;
+    return filterData;
   }
 
   getSkincareRecomtById(BuildContext context, int id) async {
@@ -125,7 +126,7 @@ class SkincareRecommendationController extends StateClass {
 
     await getSkincareRecommendation(
       context,
-      pages: currentPage.value,
+      currentPage.value,
     );
     notifyListeners();
   }
@@ -145,7 +146,7 @@ class SkincareRecommendationController extends StateClass {
     if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
       await getSkincareRecommendation(
         context,
-        pages: currentPage.value,
+        currentPage.value,
       );
     }
   }
@@ -220,7 +221,10 @@ class SkincareRecommendationController extends StateClass {
       isLoading.value = true;
       var res = await SkincareRecommendationService().deleteSkincareRecommendation(id);
       print(res);
-      getSkincareRecommendation(context);
+      getSkincareRecommendation(
+        context,
+        1,
+      );
       isLoading.value = false;
     });
   }

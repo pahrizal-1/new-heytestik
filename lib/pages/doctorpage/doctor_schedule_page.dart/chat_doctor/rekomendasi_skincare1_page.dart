@@ -24,13 +24,13 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
   @override
   void initState() {
     super.initState();
-    context.read<SkincareRecommendationController>().refresh(context);
+    // context.read<SkincareRecommendationController>().refresh(context);
     context.read<SkincareRecommendationController>().refreshRecommendation(context);
     scrollController.addListener(() async {
-      context.read<SkincareRecommendationController>().loadMore(
-            context,
-            scrollController,
-          );
+      // context.read<SkincareRecommendationController>().loadMore(
+      //       context,
+      //       scrollController,
+      //     );
       context.read<SkincareRecommendationController>().loadMoreRecommendation(
             context,
             scrollController,
@@ -150,12 +150,11 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                     ),
                     Consumer<SkincareRecommendationController>(builder: (_, state, __) {
                       return Container(
-                        height: MediaQuery.of(context).size.height / 1.35,
+                        // height: MediaQuery.of(context).size.height,
                         child: ListView.builder(
                           shrinkWrap: true,
-                          controller: scrollController,
-                          itemCount: state.isLoading.value ? state.filterData.length + 1 : state.filterData.length,
-                          physics: BouncingScrollPhysics(),
+                          itemCount: state.hasMore.value ? state.filterData.length + 1 : state.filterData.length,
+                          physics: ClampingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             print('datalengs ${state.filterData.length}');
                             if (index < state.filterData.length) {
@@ -168,11 +167,14 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                                   }
                                   // Navigator.pop(context, 'refresh');
                                 },
-                                child: tileWidget(index),
+                                child: tileWidget(index, state),
                               );
                             } else {
-                              return Center(
-                                child: CircularProgressIndicator(),
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               );
                             }
                           },
@@ -189,7 +191,7 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
     );
   }
 
-  Widget tileWidget(int index) {
+  Widget tileWidget(int index, SkincareRecommendationController state) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -243,7 +245,10 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                 ),
               ).then(
                 (value) => setState(() {
-                  state.getSkincareRecommendation(context);
+                  state.getSkincareRecommendation(
+                    context,
+                    1,
+                  );
                   state.filterData;
                 }),
               );
