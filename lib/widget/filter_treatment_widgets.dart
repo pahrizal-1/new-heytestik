@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../controller/customer/treatment/treatment_controller.dart';
 import '../models/lookup_treatment.dart';
 
@@ -276,8 +277,20 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
                       "minPrice": minPrice,
                       "maxPrice": maxPrice,
                     };
-
-                    Navigator.pop(context, param);
+                    if (filter.isNotEmpty ||
+                        orderBy.isNotEmpty ||
+                        promo ||
+                        openNow ||
+                        minPrice != null ||
+                        maxPrice != null) {
+                      Navigator.pop(context, param);
+                    } else {
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        "Harap pilih filter terlebih dahulu",
+                      );
+                    }
                   },
                   child: Container(
                     width: 165,
@@ -445,7 +458,7 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Treatment',
+                'Jenis Treatment',
                 style: blackHigtTextStyle.copyWith(
                   fontSize: 20,
                 ),
@@ -506,7 +519,15 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      Navigator.pop(context, filter);
+                      if (filter.isNotEmpty) {
+                        Navigator.pop(context, filter);
+                      } else {
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          'Info',
+                          "Harap pilih jenis treatment terlebih dahulu",
+                        );
+                      }
                     },
                     child: Container(
                       width: 165,

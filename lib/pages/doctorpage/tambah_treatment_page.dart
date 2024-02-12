@@ -12,7 +12,6 @@ import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../widget/filter_treatment_widgets.dart';
-import '../solution/solutions_treatment1_Page.dart';
 
 class TambahTreatmentCatatanDoktor extends StatefulWidget {
   const TambahTreatmentCatatanDoktor({super.key});

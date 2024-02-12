@@ -211,7 +211,7 @@ class _FilterJadwalDoctorState extends State<FilterJadwalDoctor> {
                           ),
                           InkWell(
                             onTap: () {
-                              customeshomodal(
+                              customeModal(
                                 context,
                                 StatefulBuilder(
                                     builder: (BuildContext context, setState) {

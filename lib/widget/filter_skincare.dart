@@ -6,6 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class FilterAllSkincare extends StatefulWidget {
   const FilterAllSkincare({super.key});
@@ -67,10 +68,18 @@ class _FilterAllSkincareState extends State<FilterAllSkincare> {
             Expanded(
               child: InkWell(
                 onTap: () async {
-                  Navigator.pop(context, {
-                    "display": display,
-                    "category": category,
-                  });
+                  if (display.isNotEmpty || category.isNotEmpty) {
+                    Navigator.pop(context, {
+                      "display": display,
+                      "category": category,
+                    });
+                  } else {
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      'Info',
+                      "Harap pilih display atau category terlebih dahulu",
+                    );
+                  }
                 },
                 child: Container(
                   width: 165,

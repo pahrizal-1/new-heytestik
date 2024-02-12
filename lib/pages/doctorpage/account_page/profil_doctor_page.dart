@@ -81,13 +81,12 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                               height: 65,
                               width: 65,
                               child: CircleAvatar(
-                                backgroundImage: state.imgNetwork.value !=
-                                                ""
-                                            ? NetworkImage(
-                                                    '${Global.FILE}/${state.imgNetwork.value}')
-                                                as ImageProvider
-                                            : AssetImage(
-                                                'assets/images/profiledummy.png'),
+                                backgroundImage: state.imgNetwork.value != ""
+                                    ? NetworkImage(
+                                            '${Global.FILE}/${state.imgNetwork.value}')
+                                        as ImageProvider
+                                    : AssetImage(
+                                        'assets/images/profiledummy.png'),
                               ),
                             ),
                           ),
@@ -179,7 +178,7 @@ class _ProfilDoctorPageState extends State<ProfilDoctorPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, BottomSheetProfile());
+                            customeModal(context, BottomSheetProfile());
                           },
                           child: Container(
                             height: 25,

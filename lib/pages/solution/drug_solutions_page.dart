@@ -202,6 +202,7 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
         ),
       ),
       body: SingleChildScrollView(
+        controller: scrollController,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

@@ -107,7 +107,8 @@ class AddressController extends StateClass {
       return element.recipientName!
               .toLowerCase()
               .contains(value.toLowerCase()) ||
-          element.labelAddress!.toLowerCase().contains(value.toLowerCase());
+          element.labelAddress!.toLowerCase().contains(value.toLowerCase()) ||
+          element.completeAddress!.toLowerCase().contains(value.toLowerCase());
     }).toList();
   }
 

@@ -140,7 +140,7 @@ class _UploadPotoStreamState extends State<UploadPotoStream> {
             children: [
               InkWell(
                 onTap: () {
-                  customeshomodal(
+                  customeModal(
                     context,
                     Wrap(
                       children: [

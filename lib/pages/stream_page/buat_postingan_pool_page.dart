@@ -145,7 +145,7 @@
 //                       ),
 //                       InkWell(
 //                         onTap: () {
-//                           customeshomodal(
+//                           customeModal(
 //                             context,
 //                             Wrap(
 //                               children: [

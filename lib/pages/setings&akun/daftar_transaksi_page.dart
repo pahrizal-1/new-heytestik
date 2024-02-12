@@ -231,8 +231,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, FilterStatusTransaksi())
+                            customeModal(context, FilterStatusTransaksi())
                                 .then((value) async {
+                              if (value == null) return;
+
                               filter['transaction_status[]'] = value;
                               page = 1;
                               totalPending = 0;
@@ -289,8 +291,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, FilterJenisTransaksi())
+                            customeModal(context, FilterJenisTransaksi())
                                 .then((value) async {
+                              if (value == null) return;
+
                               filter['transaction_type[]'] = value;
                               page = 1;
                               totalPending = 0;
@@ -347,8 +351,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(context, FilterTanggalTransaksi())
+                            customeModal(context, FilterTanggalTransaksi())
                                 .then((value) async {
+                              if (value == null) return;
+
                               filter['start_date'] = DateTime.now()
                                   .subtract(Duration(days: value));
                               filter['end_date'] = DateTime.now();

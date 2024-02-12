@@ -8,10 +8,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_share/social_share.dart';
@@ -62,7 +64,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   int allVotesCount = 0;
   int? indexVotes;
   List<String> dataRemainingTime = [];
-
+  bool isTimeOver = false;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -73,24 +75,29 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           .toString()
           .split('.')[0]
           .split(":");
+      if (int.parse(dataRemainingTime[0]) < 0) {
+        isTimeOver = true;
+      }
       allVotesCount = post?.pollCount ?? 0;
       streamPollOptions = post?.streamPollOptions ?? [];
 
       comments.addAll(
         await postController.getComment(context, page, widget.postId),
       );
+      print("comments $comments");
       for (var i = 0; i < comments.length; i++) {
         commentLikes.addAll({
           "${comments[i].commentID}": 0,
         });
 
         viewCommentReply.addAll({
-          "${comments[i].commentID}": false,
+          "${comments[i].commentID}":
+              comments[i].commentReplies <= 0 ? false : true,
         });
       }
       postController.isLoading.value = false;
       setState(() {});
-// komen reply masih error
+      print("commentLikes $commentLikes");
       print("viewCommentReply $viewCommentReply");
     });
 
@@ -108,7 +115,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               });
 
               viewCommentReply.addAll({
-                "${comments[i].commentID}": false,
+                "${comments[i].commentID}":
+                    comments[i].commentReplies <= 0 ? false : true,
               });
             }
           });
@@ -401,32 +409,34 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                     ),
                                     InkWell(
                                       onTap: () {
-                                        if (votesCount == 0) {
-                                          votesCount = votesCount + 1;
-                                          allVotesCount = allVotesCount + 1;
+                                        if (!isTimeOver) {
+                                          if (votesCount == 0) {
+                                            votesCount = votesCount + 1;
+                                            allVotesCount = allVotesCount + 1;
 
-                                          if (indexVotes != null) {
-                                            streamPollOptions[indexVotes!]
-                                                    ['count'] -
-                                                1;
-                                            postController.deletePolling(
+                                            if (indexVotes != null) {
+                                              streamPollOptions[indexVotes!]
+                                                      ['count'] -
+                                                  1;
+                                              postController.deletePolling(
+                                                  context,
+                                                  widget.postId,
+                                                  streamPollOptions[indexVotes!]
+                                                      ['stream_poll_id'],
+                                                  streamPollOptions[indexVotes!]
+                                                      ['id']);
+                                            }
+
+                                            postController.pickPolling(
                                                 context,
                                                 widget.postId,
-                                                streamPollOptions[indexVotes!]
-                                                    ['stream_poll_id'],
-                                                streamPollOptions[indexVotes!]
-                                                    ['id']);
+                                                option.value['stream_poll_id'],
+                                                option.value['id']);
+                                            indexVotes = option.key;
+                                            option.value['count'] =
+                                                option.value['count'] + 1;
+                                            setState(() {});
                                           }
-
-                                          postController.pickPolling(
-                                              context,
-                                              widget.postId,
-                                              option.value['stream_poll_id'],
-                                              option.value['id']);
-                                          indexVotes = option.key;
-                                          option.value['count'] =
-                                              option.value['count'] + 1;
-                                          setState(() {});
                                         }
                                       },
                                       child: Container(
@@ -484,23 +494,22 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       fontSize: 12.0,
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8.0,
-                                    ),
-                                    child: Text(
-                                      ".",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 14.0,
-                                      ),
-                                    ),
-                                  ),
                                   Text(
-                                    "Polling Berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
+                                    " . ",
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 12.0,
+                                      fontSize: 14.0,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      isTimeOver
+                                          ? "Polling sudah ditutup ${ConvertDate.streamDate(post!.endTime.toString())}"
+                                          : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12.0,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -786,7 +795,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   ),
                                   if (viewCommentReply[
                                           "${comment.commentID}"] ==
-                                      false)
+                                      true)
                                     InkWell(
                                       onTap: () async {
                                         viewCommentReply.update(
@@ -1275,6 +1284,14 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               ),
               InkWell(
                 onTap: () async {
+                  if (commentController.text.isEmpty) {
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      "Info",
+                      "Komentar tidak boleh kosong",
+                    );
+                    return;
+                  }
                   postController.postComment(
                     context,
                     widget.postId,
@@ -1295,7 +1312,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     });
 
                     viewCommentReply.addAll({
-                      "${comments[i].commentID}": false,
+                      "${comments[i].commentID}":
+                          comments[i].commentReplies <= 0 ? false : true,
                     });
                   }
                   commentController.clear();

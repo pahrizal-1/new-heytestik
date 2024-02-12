@@ -151,7 +151,7 @@
 //                       ),
 //                       InkWell(
 //                         onTap: () {
-//                           customeshomodal(
+//                           customeModal(
 //                             context,
 //                             Wrap(
 //                               children: [
@@ -255,7 +255,7 @@
 //                   children: [
 //                     GestureDetector(
 //                       onTap: () {
-//                         customeshomodal(
+//                         customeModal(
 //                           context,
 //                           Wrap(
 //                             children: [

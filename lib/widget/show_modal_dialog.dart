@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Future<dynamic> customeshomodal(BuildContext context, Widget route) {
+Future<dynamic> customeModal(BuildContext context, Widget route) {
   return showModalBottomSheet(
     context: context,
     backgroundColor: Colors.white,

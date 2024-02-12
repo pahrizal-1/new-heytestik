@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import '../theme/theme.dart';
 import 'button_widget.dart';
@@ -45,7 +46,7 @@ class _FilterJenisTransaksiState extends State<FilterJenisTransaksi> {
                     width: 22,
                   ),
                   Text(
-                    'Status Transaksi',
+                    'Jenis Transaksi',
                     style: blackHigtTextStyle.copyWith(fontSize: 20),
                   ),
                 ],
@@ -74,7 +75,16 @@ class _FilterJenisTransaksiState extends State<FilterJenisTransaksi> {
               ButtonGreenWidget(
                 title: 'Tampilkan',
                 onPressed: () {
-                  Navigator.pop(context, jenis);
+                  if (jenis.isNotEmpty) {
+                    Navigator.pop(context, jenis);
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertWidget(
+                        subtitle: "Harap pilih jenis transaksi terlebih dahulu",
+                      ),
+                    );
+                  }
                 },
               ),
             ],

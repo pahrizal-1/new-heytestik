@@ -158,7 +158,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                       return;
                     }
 
-                    customeshomodal(
+                    customeModal(
                       context,
                       Wrap(
                         children: [
@@ -585,13 +585,11 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                           : state.dataHistoryConsultation[index].status ==
                                                                   'READY'
                                                               ? const Color.fromARGB(
-                                                                  255,
-                                                                  255,
-                                                                  102,
-                                                                  0)
+                                                                  255, 255, 102, 0)
                                                               : state.dataHistoryConsultation[index].status ==
                                                                       'REVIEW'
-                                                                  ? const Color.fromARGB(
+                                                                  ? const Color
+                                                                      .fromARGB(
                                                                       255,
                                                                       255,
                                                                       102,
@@ -599,8 +597,7 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                   : state.dataHistoryConsultation[index].status ==
                                                                           'AKTIF'
                                                                       ? greenColor
-                                                                      : state.dataHistoryConsultation[index].status ==
-                                                                              'SELESAI'
+                                                                      : state.dataHistoryConsultation[index].status == 'SELESAI'
                                                                           ? greenColor
                                                                           : greenColor,
                                                     ),
@@ -972,7 +969,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                                                     ?.status ==
                                                                 'MENUNGGU_KONFIRMASI_KLINIK'
                                                             ? const Color.fromARGB(
-                                                                255, 255, 102, 0)
+                                                                255,
+                                                                255,
+                                                                102,
+                                                                0)
                                                             : state
                                                                         .dataScheduleTreatment
                                                                         .value[

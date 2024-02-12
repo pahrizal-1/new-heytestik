@@ -47,8 +47,17 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   String name = '-';
   final List<TextEditingController> optionController = [];
   final DateTime endDate = DateTime.now();
-  int days = 1;
+  int day = 1;
+  int hour = 0;
+  int minute = 0;
+
+  int dayReq = 1;
+  int hourReq = 0;
+  int minuteReq = 0;
   Map visibility = {'visibility': 'PUBLIC', 'title': 'Semua Orang'};
+  List<int> hari = List<int>.generate(7, (int index) => index + 1);
+  List<int> jam = List<int>.generate(24, (int index) => index);
+  List<int> menit = List<int>.generate(60, (int index) => index);
   bool isSuggestion = false;
   // List suggest = ['Jerawat', 'Kulit Kering'];
   List<Concern.Data2> concern1 = [];
@@ -72,9 +81,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   }
 
   onChangeFilterText(String value) {
-    print("value $value");
     if (value.isEmpty || value == '') {
-      print("kosong kosong");
       setState(() {
         suggestConcern.clear();
         isSuggestion = false;
@@ -129,7 +136,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                 style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
               const Spacer(),
-              GestureDetector(
+              InkWell(
                 onTap: () async {
                   RegExp hashtagRegExp = RegExp(r'\B#\w+');
                   Iterable<Match> matches =
@@ -146,13 +153,17 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertWidget(
-                          subtitle: "Post Description Can't be Empty"),
+                        subtitle: "Post Description Can't be Empty",
+                      ),
                     );
                   } else {
                     StreamPostModel postModel = StreamPostModel(
                       content: postDescController.text,
                       hashtags: hashtags,
-                      endTime: DateTime.now().add(Duration(days: days)),
+                      endTime: DateTime.now()
+                          .add(Duration(days: dayReq))
+                          .add(Duration(hours: hourReq))
+                          .add(Duration(minutes: minuteReq)),
                       options: optionController.map((e) => e.text).toList(),
                       visibility: visibility['visibility'].toString(),
                     );
@@ -222,7 +233,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                       ),
                       InkWell(
                         onTap: () {
-                          customeshomodal(
+                          customeModal(
                             context,
                             Wrap(
                               children: [
@@ -322,28 +333,18 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                   ),
                 ),
               ),
-              // SingleChildScrollView(
-              //   scrollDirection: Axis.horizontal,
-              //   child: Row(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     mainAxisAlignment: MainAxisAlignment.start,
-              // children: imagePath
-              //     .asMap()
-              //     .map((i, element) => MapEntry(i, fotoStream(element, i)))
-              //     .values
-              //     .toList(),
-              //   ),
-              // ),
-              CarouselSlider(
-                options: CarouselOptions(
-                    initialPage: 1, enableInfiniteScroll: false),
-                items: imagePath
-                    .asMap()
-                    .map((i, element) => MapEntry(i, fotoStream(element, i)))
-                    .values
-                    .toList(),
-              ),
-
+              if (imagePath.isNotEmpty)
+                CarouselSlider(
+                  options: CarouselOptions(
+                    initialPage: 1,
+                    enableInfiniteScroll: false,
+                  ),
+                  items: imagePath
+                      .asMap()
+                      .map((i, element) => MapEntry(i, fotoStream(element, i)))
+                      .values
+                      .toList(),
+                ),
               Padding(
                 padding: const EdgeInsets.only(top: 20, bottom: 11),
                 child: Row(
@@ -520,7 +521,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        GestureDetector(
+                                        InkWell(
                                           onTap: () {
                                             optionController
                                                 .add(TextEditingController());
@@ -562,7 +563,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                               SizedBox(
                                                 width: 8,
                                               ),
-                                              GestureDetector(
+                                              InkWell(
                                                 onTap: () {
                                                   optionController.add(
                                                       TextEditingController());
@@ -598,305 +599,19 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: 11,
+                                        width: 8,
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          customeshomodal(
-                                              context,
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 30,
-                                                        vertical: 45),
-                                                child: Wrap(
-                                                  children: [
-                                                    Text(
-                                                      'Polling Berakhir',
-                                                      style: blackTextStyle
-                                                          .copyWith(
-                                                              fontSize: 20),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Column(
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 24,
-                                                            ),
-                                                            Text(
-                                                              'Hari',
-                                                              style: subTitleTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          15),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 14,
-                                                            ),
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          2),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            7),
-                                                                border:
-                                                                    Border.all(
-                                                                  color:
-                                                                      subTitleColor,
-                                                                ),
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    '1',
-                                                                    style: blackTextStyle.copyWith(
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10,
-                                                                  ),
-                                                                  Column(
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons
-                                                                            .keyboard_arrow_up,
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                      Icon(
-                                                                        Icons
-                                                                            .keyboard_arrow_down,
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: 47,
-                                                        ),
-                                                        Column(
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 24,
-                                                            ),
-                                                            Text(
-                                                              'Jam',
-                                                              style: subTitleTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          15),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 14,
-                                                            ),
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          2),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            7),
-                                                                border:
-                                                                    Border.all(
-                                                                  color:
-                                                                      subTitleColor,
-                                                                ),
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    '1',
-                                                                    style: blackTextStyle.copyWith(
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10,
-                                                                  ),
-                                                                  Column(
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons
-                                                                            .keyboard_arrow_up,
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                      Icon(
-                                                                        Icons
-                                                                            .keyboard_arrow_down,
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          width: 47,
-                                                        ),
-                                                        Column(
-                                                          children: [
-                                                            SizedBox(
-                                                              height: 24,
-                                                            ),
-                                                            Text(
-                                                              'Detik',
-                                                              style: subTitleTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          15),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 14,
-                                                            ),
-                                                            Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
-                                                                      horizontal:
-                                                                          10,
-                                                                      vertical:
-                                                                          2),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            7),
-                                                                border:
-                                                                    Border.all(
-                                                                  color:
-                                                                      subTitleColor,
-                                                                ),
-                                                              ),
-                                                              child: Row(
-                                                                children: [
-                                                                  Text(
-                                                                    '1',
-                                                                    style: blackTextStyle.copyWith(
-                                                                        fontSize:
-                                                                            14),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10,
-                                                                  ),
-                                                                  Column(
-                                                                    children: [
-                                                                      Icon(
-                                                                        Icons
-                                                                            .keyboard_arrow_up,
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                      Icon(
-                                                                        Icons
-                                                                            .keyboard_arrow_down,
-                                                                        color:
-                                                                            blackColor,
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              top: 10),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        children: [
-                                                          Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        15,
-                                                                    vertical:
-                                                                        2),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              border: Border.all(
-                                                                  color:
-                                                                      greenColor),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          7),
-                                                            ),
-                                                            child: Text(
-                                                              'batal',
-                                                              style: whiteTextStyle
-                                                                  .copyWith(
-                                                                      color:
-                                                                          borderColor,
-                                                                      fontSize:
-                                                                          15),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                          Container(
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    horizontal:
-                                                                        15,
-                                                                    vertical:
-                                                                        2),
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: greenColor,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          7),
-                                                            ),
-                                                            child: Text(
-                                                              'Simpan',
-                                                              style: whiteTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          15),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  ],
-                                                ),
-                                              ));
+                                          day = dayReq;
+                                          hour = hourReq;
+                                          minute = minuteReq;
+                                          setState(() {});
+                                          polling();
                                         },
                                         child: Container(
                                           padding: EdgeInsets.only(
-                                              left: 11, right: 11, top: 0),
+                                              left: 5, right: 5, top: 0),
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(10),
@@ -915,40 +630,13 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                                 width: 5,
                                               ),
                                               Text(
-                                                '0 hari : 0 jam : 0 Detik',
+                                                '$dayReq Hari : $hourReq Jam : $minuteReq Menit',
                                                 style: subTitleTextStyle,
                                               ),
                                               Icon(
                                                 Icons.keyboard_arrow_down,
                                                 color: subTitleColor,
                                               )
-                                              // DropdownButtonHideUnderline(
-                                              //   child: DropdownButton<int>(
-                                              //     value: days,
-                                              //     icon: Icon(
-                                              //       Icons.keyboard_arrow_down,
-                                              //       color: subTitleColor,
-                                              //     ),
-                                              //     onChanged: (int? value) {
-                                              //       setState(() {
-                                              //         days = value!;
-                                              //       });
-                                              //     },
-                                              //     items: [1, 2, 3, 4, 5, 6, 7]
-                                              //         .map<DropdownMenuItem<int>>(
-                                              //             (int value) {
-                                              //       return DropdownMenuItem<int>(
-                                              //         value: value,
-                                              //         child: Text(
-                                              //           "$value Hari",
-                                              //           style: subTitleTextStyle
-                                              //               .copyWith(
-                                              //                   fontSize: 14),
-                                              //         ),
-                                              //       );
-                                              //     }).toList(),
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                         ),
@@ -958,19 +646,20 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                   SizedBox(
                                     height: 10,
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      optionController.removeLast();
-                                      setState(() {});
-                                    },
-                                    child: Center(
-                                      child: Text(
-                                        'Hapus',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 14, color: redColor),
+                                  if (optionController.length > 1)
+                                    InkWell(
+                                      onTap: () {
+                                        optionController.removeLast();
+                                        setState(() {});
+                                      },
+                                      child: Center(
+                                        child: Text(
+                                          'Hapus',
+                                          style: subTitleTextStyle.copyWith(
+                                              fontSize: 14, color: redColor),
+                                        ),
                                       ),
                                     ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -1018,16 +707,17 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
     return Container(
       margin: EdgeInsets.only(right: 10),
       decoration: BoxDecoration(
-          image: DecorationImage(
-            image: FileImage(File(image)),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(5)),
+        image: DecorationImage(
+          image: FileImage(File(image)),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(5),
+      ),
       child: Stack(
         children: [
           Positioned(
-            top: 5,
-            left: 250,
+            top: 10,
+            left: 220,
             child: InkWell(
               onTap: () {
                 imagePath.removeWhere((item) {
@@ -1040,7 +730,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                 height: 21,
                 width: 21,
                 decoration: BoxDecoration(
-                  color: blackColor.withOpacity(0.8),
+                  color: redColor.withOpacity(0.8),
                   shape: BoxShape.circle,
                 ),
                 child: Image.asset(
@@ -1080,6 +770,252 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
           //   ),
           // ),
         ],
+      ),
+    );
+  }
+
+  Future polling() {
+    return customeModal(
+      context,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 45),
+        child: Wrap(
+          children: [
+            Text(
+              'Durasi Polling',
+              style: blackTextStyle.copyWith(fontSize: 20),
+            ),
+            Row(
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Hari',
+                      style: subTitleTextStyle.copyWith(fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 14,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: subTitleColor,
+                        ),
+                      ),
+                      child: StatefulBuilder(
+                        builder: (BuildContext context, setState) =>
+                            DropdownButtonHideUnderline(
+                          child: DropdownButton<int>(
+                            value: day,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: subTitleColor,
+                            ),
+                            onChanged: (int? value) {
+                              day = value!;
+                              setState(() {});
+                            },
+                            items: hari.map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(
+                                  value.toString(),
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 14),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 47,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Jam',
+                      style: subTitleTextStyle.copyWith(fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 14,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: subTitleColor,
+                        ),
+                      ),
+                      child: StatefulBuilder(
+                        builder: (BuildContext context, setState) =>
+                            DropdownButtonHideUnderline(
+                          child: DropdownButton<int>(
+                            value: hour,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: subTitleColor,
+                            ),
+                            onChanged: (int? value) {
+                              setState(() {
+                                hour = value!;
+                              });
+                            },
+                            items: jam.map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(
+                                  value.toString(),
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 14),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  width: 47,
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Menit',
+                      style: subTitleTextStyle.copyWith(fontSize: 15),
+                    ),
+                    SizedBox(
+                      height: 14,
+                    ),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: subTitleColor,
+                        ),
+                      ),
+                      child: StatefulBuilder(
+                        builder: (BuildContext context, setState) =>
+                            DropdownButtonHideUnderline(
+                          child: DropdownButton<int>(
+                            value: minute,
+                            icon: Icon(
+                              Icons.keyboard_arrow_down,
+                              color: subTitleColor,
+                            ),
+                            onChanged: (int? value) {
+                              setState(() {
+                                minute = value!;
+                              });
+                            },
+                            items:
+                                menit.map<DropdownMenuItem<int>>((int value) {
+                              return DropdownMenuItem<int>(
+                                value: value,
+                                child: Text(
+                                  value.toString(),
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 14),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: greenColor,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          7,
+                        ),
+                      ),
+                      child: Text(
+                        'Batal',
+                        style: whiteTextStyle.copyWith(
+                          color: borderColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 15,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      dayReq = day;
+                      hourReq = hour;
+                      minuteReq = minute;
+                      setState(() {});
+                      Get.back();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        borderRadius: BorderRadius.circular(
+                          7,
+                        ),
+                      ),
+                      child: Text(
+                        'Simpan',
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

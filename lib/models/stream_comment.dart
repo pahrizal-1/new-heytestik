@@ -6,7 +6,7 @@ class StreamCommentModel {
   final String fullName;
   final String createdAt;
   final int like;
-  final int comment;
+  final int commentReplies;
 
   const StreamCommentModel({
     required this.commentID,
@@ -16,7 +16,7 @@ class StreamCommentModel {
     required this.fullName,
     required this.createdAt,
     required this.like,
-    required this.comment,
+    required this.commentReplies,
   });
 
   factory StreamCommentModel.fromJson(Map<String, dynamic> json) {
@@ -30,7 +30,7 @@ class StreamCommentModel {
       userName: json['user']['username'],
       createdAt: json['created_at'],
       like: json['_count']['stream_comment_likes'],
-      comment: json['_count']['stream_comment_replies'],
+      commentReplies: json['_count']['stream_comment_replies'],
     );
   }
 }

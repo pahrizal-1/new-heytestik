@@ -364,7 +364,7 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
   }
 
   bottomSheet(Data2 e) {
-    return customeshomodal(
+    return customeModal(
       context,
       Padding(
         padding: lsymetric.copyWith(top: 25, bottom: 25),

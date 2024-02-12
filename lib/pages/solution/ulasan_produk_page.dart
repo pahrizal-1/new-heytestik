@@ -423,8 +423,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(
-                                    context, RatingDenganUlasanWidgets())
+                            customeModal(context, RatingDenganUlasanWidgets())
                                 .then((value) async {
                               filter['rating[]'] = value ?? [];
                               page = 1;
@@ -464,7 +463,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeshomodal(
+                            customeModal(
                               context,
                               const TopikUlasanProdukWidgets(),
                             ).then((value) async {

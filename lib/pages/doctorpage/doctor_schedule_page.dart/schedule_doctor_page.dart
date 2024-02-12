@@ -15,111 +15,83 @@ class _ScheduleDoctorPageState extends State<ScheduleDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          titleSpacing: 0,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 20),
+          child: Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(
-                          context,
-                        );
-                      },
-                      child: const Icon(
-                        Icons.arrow_back,
-                        size: 22,
-                        color: Colors.black,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Atur Jadwal Konsultasi Doktor",
-                      style: TextStyle(
-                          letterSpacing: 1.5,
-                          fontFamily: 'ProximaNova',
-                          fontWeight: bold,
-                          color: blackColor),
-                    ),
-                  ],
-                ),
+              Icon(
+                Icons.arrow_back,
+                size: 30,
               ),
+              SizedBox(
+                width: 9,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Atur Jadwal Konsultasi Dokter',
+                    style: blackHigtTextStyle.copyWith(fontSize: 20),
+                  ),
+                  Text(
+                    'Atur jadwal biar pasien bisa konsultasi dengan dokter',
+                    style: subTitleTextStyle.copyWith(fontSize: 12),
+                  )
+                ],
+              )
             ],
           ),
         ),
-        body: ListView(
-          children: [
-            Center(
-              child: Text(
-                'Atur jadwal biar pasien bisa konsultasi dengan dokter',
-                style: TextStyle(
-                    letterSpacing: 1.5,
-                    fontFamily: 'ProximaNova',
-                    fontWeight: regular,
-                    fontSize: 12,
-                    color: blackColor),
-              ),
-            ),
-            SizedBox(
-              height: 26,
-            ),
-            CardSchedule(
-              mark: 'S',
-              title: 'Senin',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CardSchedule(
-              mark: 'S',
-              title: 'Selasa',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CardSchedule(
-              mark: 'R',
-              title: 'Rabu',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CardSchedule(
-              mark: 'K',
-              title: 'Kamis',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CardSchedule(
-              mark: 'J',
-              title: 'Jumat',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CardSchedule(
-              mark: 'S',
-              title: 'Sabtu',
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            CardSchedule(
-              mark: 'M',
-              title: 'Minggu',
-            ),
-          ],
-        ));
+        CardSchedule(
+          mark: 'S',
+          title: 'Senin',
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        CardSchedule(
+          mark: 'S',
+          title: 'Selasa',
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        CardSchedule(
+          mark: 'R',
+          title: 'Rabu',
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        CardSchedule(
+          mark: 'K',
+          title: 'Kamis',
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        CardSchedule(
+          mark: 'J',
+          title: 'Jumat',
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        CardSchedule(
+          mark: 'S',
+          title: 'Sabtu',
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        CardSchedule(
+          mark: 'M',
+          title: 'Minggu',
+        ),
+      ],
+    ));
   }
 }
 
@@ -205,18 +177,17 @@ class CardSchedule extends StatelessWidget {
             ),
             Spacer(),
             InkWell(
-              onTap: () {
-                Get.to(ChangeScheduleDoctorPage(title: title,));
-              },
-              child: Text(
-                'Ubah',
-                style: TextStyle(
-                    letterSpacing: 1.5,
-                    fontFamily: 'ProximaNova',
-                    fontWeight: bold,
-                    fontSize: 20,
-                    color: greenColor),
-              ),
+                onTap: () {
+                  Get.to(ChangeScheduleDoctorPage(
+                    title: title,
+                  ));
+                },
+                child: Text(
+                  'Ubah',
+                  style: grenTextStyle.copyWith(fontSize: 14),
+                )),
+            SizedBox(
+              width: 14,
             ),
           ],
         ),
