@@ -13,6 +13,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_share/social_share.dart';
@@ -83,18 +84,20 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       comments.addAll(
         await postController.getComment(context, page, widget.postId),
       );
+      print("comments $comments");
       for (var i = 0; i < comments.length; i++) {
         commentLikes.addAll({
           "${comments[i].commentID}": 0,
         });
 
         viewCommentReply.addAll({
-          "${comments[i].commentID}": false,
+          "${comments[i].commentID}":
+              comments[i].commentReplies <= 0 ? false : true,
         });
       }
       postController.isLoading.value = false;
       setState(() {});
-// komen reply masih error
+      print("commentLikes $commentLikes");
       print("viewCommentReply $viewCommentReply");
     });
 
@@ -112,7 +115,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               });
 
               viewCommentReply.addAll({
-                "${comments[i].commentID}": false,
+                "${comments[i].commentID}":
+                    comments[i].commentReplies <= 0 ? false : true,
               });
             }
           });
@@ -791,7 +795,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   ),
                                   if (viewCommentReply[
                                           "${comment.commentID}"] ==
-                                      false)
+                                      true)
                                     InkWell(
                                       onTap: () async {
                                         viewCommentReply.update(
@@ -1280,6 +1284,14 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               ),
               InkWell(
                 onTap: () async {
+                  if (commentController.text.isEmpty) {
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      "Info",
+                      "Komentar tidak boleh kosong",
+                    );
+                    return;
+                  }
                   postController.postComment(
                     context,
                     widget.postId,
@@ -1300,7 +1312,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     });
 
                     viewCommentReply.addAll({
-                      "${comments[i].commentID}": false,
+                      "${comments[i].commentID}":
+                          comments[i].commentReplies <= 0 ? false : true,
                     });
                   }
                   commentController.clear();
