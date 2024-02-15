@@ -27,10 +27,10 @@ class TreatmentDoctorController extends StateClass {
       );
       print('current ${currentPage.value}');
       print('pages ${currentPage.value}');
-      if (page > totalPage.value) {
+      dataTreatment.addAll(responseTreatment.value.data!.data!);
+      if (page > totalPage.value || dataTreatment.length < 10) {
         hasMore.value = false;
       }
-      dataTreatment.addAll(responseTreatment.value.data!.data!);
       currentPage.value++;
       totalPage.value = responseTreatment.value.data!.meta!.pageCount!.toInt();
 

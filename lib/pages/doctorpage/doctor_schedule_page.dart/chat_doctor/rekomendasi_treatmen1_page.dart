@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatmen_page.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/rekomendasi_treatment3_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
@@ -19,12 +20,23 @@ class RekomendasiTreatmen1Page extends StatefulWidget {
 class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
   final TreatmentRecommendationController state = Get.put(TreatmentRecommendationController());
   final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    state.getRecipeTreatement(context);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<TreatmentRecommendationController>().refresh(
+            context,
+          );
+    });
+    scrollController.addListener(() async {
+      context.read<TreatmentRecommendationController>().loadMore(
+            context,
+            scrollController,
+          );
+    });
   }
 
   @override
@@ -36,17 +48,13 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
             height: 60,
             width: 60,
             child: FloatingActionButton(
-              onPressed: () async {
-                String refresh = await Navigator.push(
+              onPressed: () {
+                Navigator.push(
                   context,
                   MaterialPageRoute(builder: (BuildContext context) => const RekomendasiTreatmen2Page()),
-                );
-
-                if (refresh == 'refresh') {
-                  setState(() {
-                    state.getRecipeTreatement(context);
-                  });
-                }
+                ).then((value) => setState(() {
+                      state.getRecipeTreatement(context, 1);
+                    }));
               },
               backgroundColor: greenColor,
               child: const Icon(
@@ -88,6 +96,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
         body: Obx(() => LoadingWidget(
               isLoading: state.isLoading.value,
               child: SingleChildScrollView(
+                controller: scrollController,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 50),
                   child: Column(
@@ -126,92 +135,105 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                       const SizedBox(
                         height: 15,
                       ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.treatmentDatas.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            onTap: () {
-                              for (var i in state.treatmentDatas[index].recipeRecomendationTreatmentItems!) {
-                                // i.toJson()
-                                stateDoctor.listTreatmentNote.add({'name': i.name, 'cost': i.cost, 'recovery_time': i.recoveryTime, 'type': i.type});
-                                print(i.toJson().toString());
-                              }
-                              Navigator.pop(context, 'refresh');
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      height: 57,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: fromCssColor('#D9D9D9'),
-                                          width: 1,
-                                        ),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              state.treatmentDatas[index].title ?? '',
-                                              style: TextStyle(fontWeight: bold, fontFamily: 'ProximaNova', fontSize: 15, letterSpacing: 0.5),
-                                            ),
-                                            Text(
-                                              state.treatmentDatas[index].subtitle ?? '',
-                                              style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, color: fromCssColor('#A3A3A3'), letterSpacing: 0.5),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      // setState(() {
-                                      //   state.treatmentDatas.removeAt(index);
-                                      // });
-                                      state.deleteTreatment(context, state.treatmentDatas[index].id!);
-                                      setState(() {
-                                        // state.getRecipeTreatement(context);
-                                        state.treatmentDatas;
-                                      });
-                                    },
-                                    icon: Icon(
-                                      Icons.delete,
-                                    ),
-                                  ),
-                                  IconButton(
-                                    onPressed: () async {
-                                      String refresh = await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: ((context) => RekomendasiTreatmen3Page(
-                                                  id: state.treatmentDatas[index].id!,
-                                                )),
-                                          ));
-                                      if (refresh == 'refresh') {
-                                        setState(() {
-                                          state.getRecipeTreatement(context);
-                                        });
+                      Consumer<TreatmentRecommendationController>(
+                        builder: (_, state, __) {
+                          return Container(
+                            // height: MediaQuery.of(context).size.height / 2,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                              physics: const ClampingScrollPhysics(),
+                              itemCount: state.hasMore.value ? state.treatmentDatas.length + 1 : state.treatmentDatas.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                if (index < state.treatmentDatas.length) {
+                                  return InkWell(
+                                    onTap: () {
+                                      for (var i in state.treatmentDatas[index].recipeRecomendationTreatmentItems!) {
+                                        // i.toJson()
+                                        stateDoctor.listTreatmentNote.add({'name': i.name, 'cost': i.cost, 'recovery_time': i.recoveryTime, 'type': i.type});
+                                        print(i.toJson().toString());
                                       }
+                                      Navigator.pop(context, 'refresh');
                                     },
-                                    icon: Icon(Icons.visibility),
-                                  ),
-                                ],
-                              ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 5),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                              height: 60,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: fromCssColor('#D9D9D9'),
+                                                  width: 1,
+                                                ),
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text(
+                                                      state.treatmentDatas[index].title ?? '',
+                                                      style: TextStyle(fontWeight: bold, fontFamily: 'ProximaNova', fontSize: 15, letterSpacing: 0.5),
+                                                    ),
+                                                    Text(
+                                                      state.treatmentDatas[index].subtitle ?? '',
+                                                      style: TextStyle(fontFamily: 'ProximaNova', fontSize: 12, color: fromCssColor('#A3A3A3'), letterSpacing: 0.5),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              // setState(() {
+                                              //   state.treatmentDatas.removeAt(index);
+                                              // });
+                                              state.deleteTreatment(context, state.treatmentDatas[index].id!);
+                                              setState(() {
+                                                // state.getRecipeTreatement(context);
+                                                state.treatmentDatas;
+                                              });
+                                            },
+                                            icon: Icon(
+                                              Icons.delete,
+                                            ),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: ((context) => RekomendasiTreatmen3Page(
+                                                          id: state.treatmentDatas[index].id!,
+                                                        )),
+                                                  )).then((value) => setState(() {
+                                                    state.getRecipeTreatement(context, 1);
+                                                  }));
+                                            },
+                                            icon: Icon(Icons.visibility),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                           );
                         },
-                      ),
+                      )
                     ],
                   ),
                 ),

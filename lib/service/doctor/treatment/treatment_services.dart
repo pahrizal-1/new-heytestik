@@ -9,8 +9,7 @@ import '../../../models/doctor/treatment_recommendation_doctor/clinics_model.dar
 import '../../../models/doctor/treatment_recommendation_doctor/treatment_recommendation_model.dart';
 
 class TreatmentServices extends ProviderClass {
-  TreatmentServices()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  TreatmentServices() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<TreatmentRecommendationModel> getTreatmentRecommendation() async {
     var response = await networkingConfig.doGet(
@@ -24,12 +23,16 @@ class TreatmentServices extends ProviderClass {
     return jsonResponse;
   }
 
-  Future<TreatmentReccommendationModel> getRecipeTreatment() async {
+  Future<TreatmentReccommendationModel> getRecipeTreatment(
+    int page,
+  ) async {
     var response = await networkingConfig.doGet(
       '/recipe/recomendation/treatment',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      params: {
+        'page': page,
+        'take': 10,
       },
+      headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
     );
     return TreatmentReccommendationModel.fromJson(response);
   }
@@ -37,9 +40,7 @@ class TreatmentServices extends ProviderClass {
   Future getRecipeTreatmentById(int id) async {
     var response = await networkingConfig.doGet(
       '/recipe/recomendation/treatment/${id}',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-      },
+      headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
     );
     print('response' + response['data'].toString());
     // var jsonResponse = json.decode(response['data']);
@@ -51,9 +52,7 @@ class TreatmentServices extends ProviderClass {
     var response = await networkingConfig.doPost(
       '/recipe/recomendation/treatment',
       data: data,
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-      },
+      headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
     );
     return response;
   }
@@ -62,9 +61,7 @@ class TreatmentServices extends ProviderClass {
     var response = await networkingConfig.doPatch(
       '/recipe/recomendation/treatment/${id}',
       data: data,
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-      },
+      headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
     );
     return response;
   }
@@ -73,9 +70,7 @@ class TreatmentServices extends ProviderClass {
     var response = await networkingConfig.doDelete(
       '/recipe/recomendation/treatment/${id}',
       // data: data,
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-      },
+      headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
     );
     return response;
   }
@@ -84,9 +79,7 @@ class TreatmentServices extends ProviderClass {
     try {
       var response = await networkingConfig.doGet(
         '/solution/treatment/clinic',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
+        headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
       );
 
       print(response);
