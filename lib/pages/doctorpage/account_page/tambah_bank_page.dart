@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import '../../../widget/button_widget.dart';
@@ -12,6 +9,7 @@ class TambahBankPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.only(
           left: 32,
@@ -26,12 +24,7 @@ class TambahBankPage extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                RekeningBankPage()),
-                      );
+                      Navigator.pop(context);
                     },
                     child: Icon(
                       Icons.arrow_back,
@@ -42,7 +35,7 @@ class TambahBankPage extends StatelessWidget {
                     width: 18,
                   ),
                   Text(
-                    'Tambah Rekening',
+                    'Tambah Rekening saasd',
                     style: blackHigtTextStyle.copyWith(fontSize: 20),
                   ),
                 ],
@@ -67,7 +60,7 @@ class TambahBankPage extends StatelessWidget {
                   children: [
                     Text(
                       'PT BANK RAKYAT INDONESIA (PERSERO) Tbk',
-                      style: blackHigtTextStyle.copyWith(fontSize: 14),
+                      style: blackHigtTextStyle.copyWith(fontSize: 13),
                     ),
                     const Spacer(),
                     InkWell(
@@ -86,6 +79,7 @@ class TambahBankPage extends StatelessWidget {
                 style: subTitleTextStyle.copyWith(fontSize: 12),
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Expanded(
                       child: Container(
@@ -99,13 +93,16 @@ class TambahBankPage extends StatelessWidget {
                       ),
                     ),
                   ))),
+                  const SizedBox(
+                    width: 10,
+                  ),
                   Container(
+                    padding:
+                        EdgeInsets.only(left: 8, right: 8, bottom: 7, top: 7),
                     decoration: BoxDecoration(
                       border: Border.all(color: subgreyColor),
                       borderRadius: BorderRadius.circular(7),
                     ),
-                    width: 58,
-                    height: 28,
                     child: Center(
                       child: Text(
                         'Periksa',
@@ -150,11 +147,11 @@ class TambahBankPage extends StatelessWidget {
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => RekeningBankPage()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (BuildContext context) => RekeningBankPage()),
+                  // );
                 },
               ),
             ],

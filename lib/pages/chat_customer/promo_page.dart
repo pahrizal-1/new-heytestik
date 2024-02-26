@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
+
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
@@ -14,14 +14,13 @@ class PromoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: greenColor,
+        titleSpacing: 0,
         elevation: 0,
-        title: const Text('Pakai Promo'),
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back)),
+        backgroundColor: greenColor,
+        title: Text(
+          'Pakai Promo',
+          style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -43,17 +42,19 @@ class PromoPage extends StatelessWidget {
                   Container(
                     width: 230,
                     height: 40,
+                    padding: EdgeInsets.only(left: 10),
                     // width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: whiteColor,
-                      border: Border.all(color: greyColor),
+                      border: Border.all(color: borderColor),
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(7),
                           bottomLeft: Radius.circular(7)),
                     ),
-                    child: Center(
-                      child: Text('Masukkan kode voucher',
-                          style: subGreyTextStyle),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          focusedBorder: InputBorder.none,
+                          hintText: 'Masukkan kode voucher'),
                     ),
                   ),
                   Expanded(
@@ -68,7 +69,7 @@ class PromoPage extends StatelessWidget {
                       child: Center(
                         child: Text(
                           'Pakai',
-                          style: whiteTextStyle,
+                          style: whiteTextStyle.copyWith(fontSize: 15),
                         ),
                       ),
                     ),
@@ -89,6 +90,7 @@ class PromoPage extends StatelessWidget {
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
               Container(
+                width: MediaQuery.of(context).size.width,
                 padding: const EdgeInsets.only(
                     left: 10, right: 87, top: 18, bottom: 18),
                 margin: const EdgeInsets.only(top: 13, bottom: 10),
@@ -102,7 +104,7 @@ class PromoPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'WELCOMING VOUCHER 25K',
+                      'HEY25K',
                       style: blackTextStyle.copyWith(fontSize: 15),
                     ),
                     SizedBox(
@@ -115,7 +117,7 @@ class PromoPage extends StatelessWidget {
                             fontSize: 13, color: Color(0xff9B9B9B)),
                         children: [
                           TextSpan(
-                              text: 'Lihat detail',
+                              text: ' \nLihat detail',
                               style: grenTextStyle.copyWith(fontSize: 13))
                         ],
                       ),
@@ -133,29 +135,20 @@ class PromoPage extends StatelessWidget {
                 'Voucher yang bisa kamu pakai',
                 style: blackTextStyle.copyWith(fontSize: 15),
               ),
-              const PromoVocer(
+              PromoVocer(
                 title: 'VOUCHER 15K',
                 bgColor: Color(0xffF1F1F1),
                 subTitle: 'Berakhir 2 hari lagi! ',
+                textTitle: borderColor,
               ),
-              const PromoVocer(
+              PromoVocer(
                 title: 'VOUCHER 15K',
                 bgColor: Color(0xffF1F1F1),
                 subTitle: 'Berakhir 4 hari lagi! ',
               ),
-              SizedBox(
-                height: 116,
-              ),
               ButtonGreenWidget(
                 title: 'Pakai Voucher',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RingkasanPembayaranPage(),
-                    ),
-                  );
-                },
+                onPressed: () {},
               )
             ],
           ),

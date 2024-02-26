@@ -1,40 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_page.dart';
-import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/doctor_home_page.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/doctor/profile/bank_doctor_controller.dart';
+import 'package:heystetik_mobileapps/models/doctor/bank_doctor_model.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/account_page/tambah_bank_doctor_page.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog_ulasan.dart';
+
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../../theme/theme.dart';
-import '../../../widget/text_form_widget.dart';
 
-class RekeningBankPage extends StatelessWidget {
+class RekeningBankPage extends StatefulWidget {
   const RekeningBankPage({super.key});
+
+  @override
+  State<RekeningBankPage> createState() => _RekeningBankPageState();
+}
+
+class _RekeningBankPageState extends State<RekeningBankPage> {
+  final BankDoctorController state = Get.put(BankDoctorController());
+  @override
+  void initState() {
+    super.initState();
+    state.selectListBank(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        titleSpacing: 0,
         backgroundColor: greenColor,
-        title: Row(
-          children: [
-            InkWell(
+        title: Padding(
+          padding: const EdgeInsets.only(left: 16),
+          child: Row(
+            children: [
+              InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DoctorHomePage(),
-                    ),
-                  );
+                  Navigator.pop(context, 'refresh');
                 },
-                child: const Icon(Icons.arrow_back)),
-            const SizedBox(
-              width: 7,
-            ),
-            Text(
-              'Rekening Bank',
-              style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
-            ),
-          ],
+                child: Icon(Icons.arrow_back),
+              ),
+              const SizedBox(
+                width: 11,
+              ),
+              Text(
+                'Rekening Bank',
+                style: whiteTextStyle.copyWith(fontWeight: bold, fontSize: 20),
+              ),
+            ],
+          ),
         ),
       ),
       body: Padding(
@@ -42,32 +57,181 @@ class RekeningBankPage extends StatelessWidget {
             const EdgeInsets.only(left: 20, right: 20, top: 19, bottom: 50),
         child: Column(
           children: [
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text('PT. BCA (BANK CENTRAL ASIA) TBK'),
-                    Text('0212871964\na.n Risty Hafinah')
-                  ],
-                ),
-                Spacer(),
-                Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: subgreyColor),
-                    borderRadius: BorderRadius.circular(7),
-                  ),
-                  width: 58,
-                  height: 28,
-                  child: Center(
-                    child: Text(
-                      'Hapus',
-                      style: blackHigtTextStyle.copyWith(
-                          fontSize: 13, color: const Color(0xfF6B6B6B)),
-                    ),
-                  ),
-                )
-              ],
+            Expanded(
+              child: FutureBuilder(
+                future: state.listBank(context),
+                builder: (context, AsyncSnapshot<BankDoctorModel?> snapshot) {
+                  print(snapshot.connectionState);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: CircularProgressIndicator(
+                          color: greenColor,
+                        ),
+                      ),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return Obx(
+                        () => state.filterData.isEmpty
+                            ? Center(
+                                child: Text(
+                                  'Belum ada data',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    fontFamily: 'ProximaNova',
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.filterData.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          constraints: const BoxConstraints(
+                                              maxWidth: 230),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${state.filterData[index].bank?.name}',
+                                                style: blackRegulerTextStyle
+                                                    .copyWith(
+                                                  fontSize: 14,
+                                                  color: blackColor,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 2,
+                                              ),
+                                              Text(
+                                                'a.n ${state.filterData[index].accountNumber}\n${state.filterData[index].name?.toUpperCase()}',
+                                                style:
+                                                    subTitleTextStyle.copyWith(
+                                                  fontSize: 15,
+                                                  color: Color(
+                                                    0xff6B6B6B,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () async {
+                                                Get.to(TambahBankDoctorPage(
+                                                  id: state
+                                                      .filterData[index].id!
+                                                      .toInt(),
+                                                  isUpdate: true,
+                                                ));
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: greenColor,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                ),
+                                                width: 58,
+                                                height: 28,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Ubah',
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(
+                                                      fontSize: 13,
+                                                      color: greenColor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            InkWell(
+                                              onTap: () async {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertInfomasi(
+                                                    function: () async {
+                                                      await state.deleteBank(
+                                                        context,
+                                                        state.filterData[index]
+                                                            .id!
+                                                            .toInt(),
+                                                      );
+                                                    },
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: borderColor,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                ),
+                                                width: 58,
+                                                height: 28,
+                                                child: Center(
+                                                  child: Text(
+                                                    'Hapus',
+                                                    style: blackHigtTextStyle
+                                                        .copyWith(
+                                                            fontSize: 13,
+                                                            color: const Color(
+                                                                0xfF6B6B6B)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                      );
+                    } else {
+                      return Center(
+                        child: Text(
+                          'Belum ada data',
+                          style: TextStyle(
+                            fontWeight: bold,
+                            fontFamily: 'ProximaNova',
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    return Text(
+                        'Connection State: ${snapshot.connectionState}');
+                  }
+                },
+              ),
             ),
             const SizedBox(
               height: 17,
@@ -79,14 +243,14 @@ class RekeningBankPage extends StatelessWidget {
               height: 17,
             ),
             Container(
-              padding:
-                  EdgeInsets.only(left: 18, right: 50, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(
+                  left: 18, right: 50, top: 10, bottom: 10),
               height: 68,
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                 border: Border.all(color: greenColor),
                 borderRadius: BorderRadius.circular(7),
-                color: Color.fromRGBO(36, 167, 160, 0.2),
+                color: const Color.fromRGBO(36, 167, 160, 0.2),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,116 +270,21 @@ class RekeningBankPage extends StatelessWidget {
             const Spacer(),
             ButtonGreenWidget(
               title: 'Tambah Rekening Lain',
-              onPressed: () {
-                showModalBottomSheet(
-                  isScrollControlled: true,
-                  context: context,
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadiusDirectional.only(
-                      topEnd: Radius.circular(25),
-                      topStart: Radius.circular(25),
-                    ),
-                  ),
-                  builder: (context) => SingleChildScrollView(
-                    child: Wrap(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 60, left: 33, right: 33),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Row(
-                                children: [
-                                  InkWell(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: Image.asset(
-                                      'assets/icons/danger-icons.png',
-                                      width: 20,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 17,
-                                  ),
-                                  Text(
-                                    'Pilih Nama Bank',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 20),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 22,
-                              ),
-                              const SearchTextField(
-                                title: 'Cari Kodisi',
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                keyboardDismissBehavior:
-                                    ScrollViewKeyboardDismissBehavior.onDrag,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: 10,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          showModalBottomSheet(
-                                              isScrollControlled: true,
-                                              context: context,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadiusDirectional
-                                                        .only(
-                                                  topEnd: Radius.circular(25),
-                                                  topStart: Radius.circular(25),
-                                                ),
-                                              ),
-                                              builder: (context) =>
-                                                  const TambahBankPage());
-                                        },
-                                        child: Text(
-                                          'PT BANK RAKYAT INDONESIA (PERSERO) Tbk',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 14),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 16,
-                                      ),
-                                      Divider(
-                                        thickness: 2,
-                                      )
-                                    ],
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+              onPressed: () async {
+                // clear search
+                state.clearForm();
+                String refresh = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => TambahBankDoctorPage()));
+                if (refresh == 'refresh') {
+                  setState(() {
+                    state.filterData;
+                  });
+                }
+                // Get.to(TambahBankDoctorPage());
               },
-            )
+            ),
           ],
         ),
       ),

@@ -3,13 +3,14 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class ButtonGreenWidget extends StatelessWidget {
   final String title;
-
+  final Color color;
   final double height;
   final VoidCallback? onPressed;
 
   const ButtonGreenWidget({
     Key? key,
     required this.title,
+    this.color = const Color(0xff24A7A0),
     this.height = 50,
     this.onPressed,
   }) : super(key: key);
@@ -22,7 +23,7 @@ class ButtonGreenWidget extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: greenColor,
+          backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -62,7 +63,7 @@ class ButtonWhiteWidget extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          side: BorderSide(color: greenColor, width: 2),
+          side: BorderSide(color: greenColor, width: 1),
           backgroundColor: whiteColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -72,7 +73,7 @@ class ButtonWhiteWidget extends StatelessWidget {
           title,
           style: TextStyle(
             fontSize: 14,
-            color: blackColor,
+            color: greenColor,
             fontWeight: bold,
           ),
         ),

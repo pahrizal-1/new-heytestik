@@ -1,37 +1,81 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import '../../../../controller/doctor/settings/setting_controller.dart';
 import '../../../../theme/theme.dart';
-import 'balasan_chat_page.dart';
 
-class EditBalasanChat extends StatelessWidget {
-  const EditBalasanChat({super.key});
+class EditBalasanChat extends StatefulWidget {
+  final int id;
+  const EditBalasanChat({
+    super.key,
+    required this.id,
+  });
+
+  @override
+  State<EditBalasanChat> createState() => _EditBalasanChatState();
+}
+
+class _EditBalasanChatState extends State<EditBalasanChat> {
+  final SettingController state = Get.put(SettingController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.finReply(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
+        automaticallyImplyLeading: false,
+        backgroundColor: greenColor,
         title: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Tambah Balasan Cepat'),
-            Spacer(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Icon(
+                    Icons.arrow_back,
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(
+                  width: 9,
+                ),
+                Text(
+                  'Edit Balasan Cepat',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'ProximaNova',
+                    fontWeight: bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => BalasanCepatPage()),
-                );
+                state.updateQuickChat(context, widget.id);
               },
               child: Text(
-                'Simpan',
-                style: whiteTextStyle.copyWith(fontSize: 15),
+                'SIMPAN',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'ProximaNova',
+                  fontWeight: bold,
+                  fontSize: 15,
+                  letterSpacing: 0.5,
+                ),
               ),
-            )
+            ),
           ],
         ),
-        backgroundColor: greenColor,
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 20, top: 19, right: 20),
@@ -42,15 +86,23 @@ class EditBalasanChat extends StatelessWidget {
               'Shortcut',
               style: subTitleTextStyle,
             ),
+            TextFormField(
+              controller: state.shortcutController,
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.only(top: 10, bottom: 10),
+                focusedBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  //<-- SEE HERE
+                  borderSide: BorderSide(width: 1, color: subgreyColor),
+                ),
+              ),
+            ),
             const SizedBox(
               height: 10,
-            ),
-            Text(
-              'Definisi Jerawat',
-              style: blackTextStyle.copyWith(fontSize: 15),
-            ),
-            const Divider(
-              thickness: 2,
             ),
             Text(
               'Kata-kata yang akan mengambil balasan ini',
@@ -68,23 +120,17 @@ class EditBalasanChat extends StatelessWidget {
                 Container(
                   width: 284,
                   child: TextFormField(
+                    controller: state.messageController,
                     maxLines: 6,
                     minLines: 1,
                     decoration: InputDecoration(
-                        focusColor: greenColor,
-                        fillColor: greenColor,
-                        hoverColor: greenColor,
-                        hintStyle: blackTextStyle.copyWith(
-                            fontSize: 15, fontWeight: regular),
-                        hintText:
-                            'Jerawat atau disebut juga dengan acne vulgaris (AV) adalah suatu penyakit peradangan kronis dari kelenjar pilosebasea yang ditandai adanya komedo, papul, kista, dan pustul. Bagian tubuh yang kerap ditumbuhi jerawat antara lain daerah wajah, bahu, lengan atas, dada, dan punggung.'),
-                    style: blackTextStyle.copyWith(
-                        fontSize: 15,
-                        color: Color(0Xff323232),
-                        fontWeight: regular),
+                      focusColor: greenColor,
+                      fillColor: greenColor,
+                      hoverColor: greenColor,
+                    ),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Image.asset(
                   'assets/icons/onlyCamaera.png',
                   width: 22,

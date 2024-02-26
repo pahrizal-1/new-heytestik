@@ -1,18 +1,16 @@
+// ignore_for_file: prefer_null_aware_operators, must_be_immutable, unnecessary_null_comparison, unnecessary_null_in_if_null_operators
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:heystetik_mobileapps/service/geography/geography_service.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/service/customer/geography/geography_service.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:provider/provider.dart';
-
-import '../controller/auth/register_controller.dart';
-import '../controller/interest/interest_controller.dart';
+import '../controller/customer/register/register_controller.dart';
+import '../controller/customer/interest/interest_controller.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 
 class DropDownWiget extends StatefulWidget {
-  const DropDownWiget({
-    super.key,
-    required this.type,
-  });
+  const DropDownWiget({super.key, required this.type});
 
   final int type;
 
@@ -21,50 +19,56 @@ class DropDownWiget extends StatefulWidget {
 }
 
 class _DropDownWigetState extends State<DropDownWiget> {
+  final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
   String? selectedvalue;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      data?.addAll(
+        await state.lookupSkinGoals(context, "SKIN_GOALS_BUDGET"),
+      );
+
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(0XFFCCCCCC),
+          color: const Color(0XFFCCCCCC),
         ),
         borderRadius: BorderRadius.circular(7),
       ),
-      child: DropdownButton<String?>(
+      child: DropdownButton(
         underline: Container(),
         hint: Text(
           'Pilih anggaran per bulan',
-          style: subGreyTextStyle.copyWith(color: Color(0XFFCCCCCC)),
+          style: subGreyTextStyle.copyWith(color: const Color(0XFFCCCCCC)),
         ),
         value: selectedvalue,
         elevation: 0,
         isExpanded: true,
-        items: [
-          'Dibawah Rp500.000',
-          "Rp500.000 - Rp1.000.000",
-          "Rp1.100.000 - Rp5.000.000",
-          "Rp5.100.000 - Rp10.000.000",
-          "Diatas Rp10.000.000",
-        ]
-            .map<DropdownMenuItem<String?>>((e) => DropdownMenuItem(
-          child: Text(e.toString()),
-          value: e,
-        ))
-            .toList(),
+        items: data?.map((items) {
+          return DropdownMenuItem(
+            value: items.value.toString(),
+            child: Text(items.value.toString()),
+          );
+        }).toList(),
         onChanged: ((value) {
           setState(
-                () {
+            () {
               if (widget.type == 1) {
                 state.skincare = value;
               }
-
               if (widget.type == 2) {
                 state.treatment = value;
               }
-
               selectedvalue = value;
             },
           );
@@ -99,33 +103,38 @@ class _DropDownProvinsiWigetState extends State<DropDownProvinsiWiget> {
           builder: (context, AsyncSnapshot snapshot) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(border: Border.all(color: Color(0XFFCCCCCC)), borderRadius: BorderRadius.circular(7)),
+              decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0XFFCCCCCC)),
+                  borderRadius: BorderRadius.circular(7)),
               child: DropdownButton<String?>(
                 underline: Container(),
                 value: selectedvalue,
                 hint: Text(
-                  "Provinsi",
-                  style: blackTextStyle.copyWith(color: Color(0xff323232), fontWeight: medium),
+                  'Provinsi',
+                  style: blackTextStyle.copyWith(
+                      color: const Color(0xff323232), fontWeight: medium),
                 ),
                 elevation: 0,
                 isExpanded: true,
-                items: !snapshot.hasData ? null : snapshot.data
-                    .map<DropdownMenuItem<String>>(
-                      (e) => DropdownMenuItem<String>(
-                    value: e['id'].toString(),
-                    child: Text(
-                      e['name'],
-                      style: blackTextStyle,
-                    ),
-                  ),
-                )
-                    .toList(),
+                items: !snapshot.hasData
+                    ? null
+                    : snapshot.data
+                        .map<DropdownMenuItem<String>>(
+                          (e) => DropdownMenuItem<String>(
+                            value: e['id'].toString(),
+                            child: Text(
+                              e['name'],
+                              style: blackTextStyle,
+                            ),
+                          ),
+                        )
+                        .toList(),
                 onChanged: ((value) {
                   if (value != null) {
                     state.setProvince(int.parse(value));
                     state.setCity(null);
                     setState(
-                          () {
+                      () {
                         selectedvalue = value;
                       },
                     );
@@ -164,34 +173,38 @@ class _DropDownkotaWigetState extends State<DropDownkotaWiget> {
           builder: (context, AsyncSnapshot snapshot) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: BoxDecoration(border: Border.all(color: Color(0XFFCCCCCC)), borderRadius: BorderRadius.circular(7)),
+              decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0XFFCCCCCC)),
+                  borderRadius: BorderRadius.circular(7)),
               child: DropdownButton<String?>(
                 underline: Container(),
                 hint: Text(
-                  "Pilih Kota Tempat Tinggal mu",
+                  'Kota',
                   style: greyTextStyle,
                 ),
                 value: state.city == null ? null : state.city.toString(),
                 elevation: 0,
                 isExpanded: true,
-                items: !snapshot.hasData ? null : snapshot.data
-                    .map<DropdownMenuItem<String>>(
-                      (e) => DropdownMenuItem<String>(
-                    value: e['id'].toString(),
-                    child: Text(
-                      e['name'],
-                      style: blackTextStyle,
-                    ),
-                  ),
-                )
-                    .toList(),
+                items: !snapshot.hasData
+                    ? null
+                    : snapshot.data
+                        .map<DropdownMenuItem<String>>(
+                          (e) => DropdownMenuItem<String>(
+                            value: e['id'].toString(),
+                            child: Text(
+                              e['name'],
+                              style: blackTextStyle,
+                            ),
+                          ),
+                        )
+                        .toList(),
                 onChanged: ((value) {
                   setState(
-                        () {
+                    () {
                       if (value != null) {
                         state.setCity(int.parse(value));
                         setState(
-                              () {
+                          () {
                             selectedvalue = value;
                           },
                         );
@@ -224,11 +237,10 @@ class CircleImgWidget extends StatefulWidget {
 }
 
 class _CircleImgWidgetState extends State<CircleImgWidget> {
+  final InterestController state = Get.put(InterestController());
   bool _isSelected = false;
   @override
   Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
     return Column(
       children: [
         InkWell(
@@ -236,22 +248,22 @@ class _CircleImgWidgetState extends State<CircleImgWidget> {
             setState(() {
               _isSelected = !_isSelected;
               if (widget.type == 1) {
-                state.skinType = widget.title;
+                state.skinType.value = widget.title.toString();
               }
               if (widget.type == 2) {
-                state.skinToneColor = widget.title;
+                state.skinToneColor.value = widget.title.toString();
               }
               if (widget.type == 3) {
-                state.skinUnderToneColor = widget.title;
+                state.skinUnderToneColor.value = widget.title.toString();
               }
               if (widget.type == 4) {
-                state.hairType = widget.title;
+                state.hairType.value = widget.title.toString();
               }
               if (widget.type == 5) {
-                state.hairColor = widget.title;
+                state.hairColor.value = widget.title.toString();
               }
               if (widget.type == 6) {
-                state.hijabers = widget.title == "Hijab";
+                state.hijabers = widget.title == 'Hijab';
               }
             });
           },

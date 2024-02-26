@@ -1,16 +1,20 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
-import 'package:heystetik_mobileapps/controller/auth/register_controller.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../theme/theme.dart';
 import '../../widget/button_widget.dart';
+import '../../widget/snackbar_widget.dart';
 
 class VerificasionEmailPage extends StatelessWidget {
-  const VerificasionEmailPage({super.key});
-
-  get blackColor => null;
+  bool isCompleteProfile = false;
+  VerificasionEmailPage({this.isCompleteProfile = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +54,20 @@ class VerificasionEmailPage extends StatelessWidget {
               height: 18,
             ),
             OtpTextField(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              focusedBorderColor: greenColor,
+              disabledBorderColor: borderColor,
+              enabledBorderColor: borderColor,
               numberOfFields: 5,
-              fieldWidth: 60,
-              borderColor: Color(0xFF512DA8),
+              fieldWidth: 50,
+              borderColor: greenColor,
               showFieldAsBox: true,
-              onCodeChanged: (String code) {},
+              borderRadius: BorderRadius.circular(7),
+              onCodeChanged: (String code) {
+                print('code otp $code');
+              },
               onSubmit: (String verificationCode) {
-                state.code = verificationCode;
+                state.codeEmail = verificationCode;
               }, // end onSubmit
             ),
             const SizedBox(
@@ -71,10 +82,11 @@ class VerificasionEmailPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    await state.resendCodeEmail(context, doInPost: () async {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const TextMoreDialog(),
+                    await state.registerEmail(context, doInPost: () async {
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        'OTP Berhasil Dikirim',
                       );
                     });
                   },
@@ -86,16 +98,30 @@ class VerificasionEmailPage extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            ButtonGreenWidget(
-              title: 'Konfimasi',
-              onPressed: () async {
-                await state.verifyEmail(context, doInPost: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const TextMoreDialog(),
-                  );
-                });
-              },
+            Obx(
+              () => LoadingWidget(
+                isLoading: state.isLoading.value,
+                child: ButtonGreenWidget(
+                  title: 'Konfimasi',
+                  onPressed: () async {
+                    await state.verifyEmail(context, doInPost: () async {
+                      if (isCompleteProfile) {
+                        Get
+                          ..back(result: true)
+                          ..back(result: true);
+                      } else {
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => TextMoreDialog(
+                            email: state.email.text,
+                          ),
+                        );
+                      }
+                    });
+                  },
+                ),
+              ),
             ),
             const SizedBox(
               height: 72,

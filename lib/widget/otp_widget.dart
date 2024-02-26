@@ -31,8 +31,8 @@ class OtpWidget extends StatelessWidget {
                     fillColor: greenColor,
                     hoverColor: greenColor,
                     enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(width: 1, color: Color(0XffCCCCCC)),
+                        borderSide: const BorderSide(
+                            width: 1, color: Color(0XffCCCCCC)),
                         borderRadius: BorderRadius.circular(10)), //< ,
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
@@ -65,7 +65,7 @@ class OtpWidget extends StatelessWidget {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(width: 1, color: Color(0XffCCCCCC)),
+                          const BorderSide(width: 1, color: Color(0XffCCCCCC)),
                       borderRadius: BorderRadius.circular(10)),
                   fillColor: greenColor,
                   hoverColor: greenColor,
@@ -101,7 +101,7 @@ class OtpWidget extends StatelessWidget {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(width: 1, color: Color(0XffCCCCCC)),
+                          const BorderSide(width: 1, color: Color(0XffCCCCCC)),
                       borderRadius: BorderRadius.circular(10)),
                   fillColor: greenColor,
                   hoverColor: greenColor,
@@ -137,7 +137,7 @@ class OtpWidget extends StatelessWidget {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(width: 1, color: Color(0XffCCCCCC)),
+                          const BorderSide(width: 1, color: Color(0XffCCCCCC)),
                       borderRadius: BorderRadius.circular(10)),
                   fillColor: greenColor,
                   hoverColor: greenColor,
@@ -173,7 +173,7 @@ class OtpWidget extends StatelessWidget {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide:
-                          BorderSide(width: 1, color: Color(0XffCCCCCC)),
+                          const BorderSide(width: 1, color: Color(0XffCCCCCC)),
                       borderRadius: BorderRadius.circular(10)),
                   fillColor: greenColor,
                   hoverColor: greenColor,

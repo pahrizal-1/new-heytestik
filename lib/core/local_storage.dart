@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LocalStorage {
@@ -14,15 +15,9 @@ class LocalStorage {
     return prefs.getString('jwtToken') ?? '-';
   }
 
-  // REFRESH TOKEN
-  Future<void> setRefreshToken({required String token}) async {
+  Future removeAccessToken() async {
     SharedPreferences prefs = await getPrefs();
-    prefs.setString('refresh_token', token);
-  }
-
-  Future<String> getRefreshToken() async {
-    SharedPreferences prefs = await getPrefs();
-    return prefs.getString('refresh_token') ?? '-';
+    prefs.remove('jwtToken');
   }
 
   // USER ID
@@ -36,15 +31,15 @@ class LocalStorage {
     return prefs.getInt('user_id');
   }
 
-  // USERNAME
-  Future<void> setUsername({required String username}) async {
+  // FULLNAME
+  Future<void> setFullName({required String fullName}) async {
     SharedPreferences prefs = await getPrefs();
-    prefs.setString('username', username);
+    prefs.setString('full_name', fullName);
   }
 
-  Future<String> getUsername() async {
+  Future<String> getFullName() async {
     SharedPreferences prefs = await getPrefs();
-    return prefs.getString('username') ?? '-';
+    return prefs.getString('full_name') ?? '-';
   }
 
   // ROLE
@@ -56,5 +51,51 @@ class LocalStorage {
   Future<int?> getRoleID() async {
     SharedPreferences prefs = await getPrefs();
     return prefs.getInt('role_id');
+  }
+
+  // USERNAME
+  Future<void> setUsername({required String username}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('username', username);
+  }
+
+  Future<String> getUsername() async {
+    SharedPreferences prefs = await getPrefs();
+    return prefs.getString('username') ?? '-';
+  }
+
+  // DATA USER
+  Future<void> setDataUser({required dynamic dataUser}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('data_user', jsonEncode(dataUser));
+  }
+
+  Future<dynamic> getDataUser() async {
+    SharedPreferences prefs = await getPrefs();
+    var data = prefs.getString('data_user')?.trim() ?? '';
+
+    if (data.isEmpty) {
+      return '';
+    }
+
+    var result = jsonDecode(data);
+    return result;
+  }
+
+  // LOCATION
+  Future<void> setLocation({required dynamic location}) async {
+    SharedPreferences prefs = await getPrefs();
+    prefs.setString('location', jsonEncode(location));
+  }
+
+  Future<dynamic> getLocation() async {
+    SharedPreferences prefs = await getPrefs();
+    var data = prefs.getString('location')?.trim() ?? '';
+
+    if (data.isEmpty) {
+      return '';
+    }
+    var result = jsonDecode(data);
+    return result;
   }
 }

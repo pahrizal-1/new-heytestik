@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/auth/auth_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/text_form_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controller/auth/register_controller.dart';
+import '../../controller/customer/register/register_controller.dart';
 import '../../widget/more_dialog_widget.dart';
 
 class PersonalDataPage extends StatefulWidget {
@@ -62,7 +64,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         onTap: () {
                           setState(() {
                             _isGender = true;
-                            state.gender = "Laki-laki";
+                            state.gender = 'Laki-laki';
                           });
                         },
                         child: Container(
@@ -79,7 +81,10 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                           child: Center(
-                            child: Text('Laki - laki', style: _isGender ? TextStyle(color: whiteColor, fontSize: 12) : blackTextStyle),
+                            child: Text('Laki - laki',
+                                style: _isGender
+                                    ? TextStyle(color: whiteColor, fontSize: 12)
+                                    : blackTextStyle),
                           ),
                         ),
                       ),
@@ -92,7 +97,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         onTap: () {
                           setState(() {
                             _isGender = false;
-                            state.gender = "Perempuan";
+                            state.gender = 'Perempuan';
                           });
                         },
                         child: Container(
@@ -111,7 +116,9 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                           child: Center(
                             child: Text(
                               'Perempuan',
-                              style: _isGender ? blackTextStyle : TextStyle(color: whiteColor, fontSize: 12),
+                              style: _isGender
+                                  ? blackTextStyle
+                                  : TextStyle(color: whiteColor, fontSize: 12),
                             ),
                           ),
                         ),
@@ -124,8 +131,8 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                 ),
                 TextFormWidget(
                   controller: state.fullName,
-                  title: "Nama Lengkap",
-                  hintText: 'Nama Depan',
+                  title: 'Nama Lengkap',
+                  hintText: 'Nama Lengkap',
                 ),
                 const SizedBox(
                   height: 8,
@@ -200,7 +207,9 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                             );
                           },
                           child: Icon(
-                            _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                            _obscureText
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
                             color: greyColor,
                           ),
                         ),
@@ -211,14 +220,14 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         contentPadding: const EdgeInsets.all(12),
                       ),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    TextFormWidget(
-                      controller: state.referralCode,
-                      title: 'Kode Referral',
-                      hintText: "Kode Referral",
-                    ),
+                    // const SizedBox(
+                    //   height: 8,
+                    // ),
+                    // TextFormWidget(
+                    //   controller: state.referralCode,
+                    //   title: 'Kode Referral',
+                    //   hintText: 'Masukkan Kode Referral',
+                    // ),
                     const SizedBox(
                       height: 30,
                     ),
@@ -230,16 +239,17 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                             style: greyTextStyle.copyWith(fontSize: 12),
                             children: [
                               TextSpan(
-                                text: " kebijakan Privasi",
+                                text: ' kebijakan Privasi',
                                 style: grenTextStyle.copyWith(fontSize: 13),
                                 children: [
                                   TextSpan(
-                                    text: " dan",
+                                    text: ' dan',
                                     style: greyTextStyle.copyWith(fontSize: 12),
                                     children: [
                                       TextSpan(
-                                        text: " Syarat dan Ketentuan",
-                                        style: grenTextStyle.copyWith(fontSize: 13),
+                                        text: ' Syarat dan Ketentuan',
+                                        style: grenTextStyle.copyWith(
+                                            fontSize: 13),
                                       ),
                                     ],
                                   ),
@@ -251,16 +261,22 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                         const SizedBox(
                           height: 8,
                         ),
-                        ButtonGreenWidget(
-                          title: "Daftar",
-                          onPressed: () async {
-                            await state.register(context, doInPost: () async {
-                              showDialog(
-                                context: context,
-                                builder: (context) => const MoreDialog(),
-                              );
-                            });
-                          },
+                        Obx(
+                          () => LoadingWidget(
+                            isLoading: state.isLoading.value,
+                            child: ButtonGreenWidget(
+                              title: 'Daftar',
+                              onPressed: () async {
+                                await state.register(context,
+                                    doInPost: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => const MoreDialog(),
+                                  );
+                                });
+                              },
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -273,14 +289,15 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                   children: <Widget>[
                     Expanded(
                       child: Container(
-                          margin: const EdgeInsets.only(left: 10.0, right: 20.0),
+                          margin:
+                              const EdgeInsets.only(left: 10.0, right: 20.0),
                           child: Divider(
                             color: greyColor,
                             height: 36,
                           )),
                     ),
                     Text(
-                      "atau daftar dengan",
+                      'atau daftar dengan',
                       style: greyTextStyle,
                     ),
                     Expanded(
@@ -297,14 +314,6 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ButtonCostumWidget(
-                      img: 'assets/icons/logo-apple.png',
-                      colors: blackColor,
-                      iconsColors: whiteColor,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
                     ButtonCostumWidget(
                       img: 'assets/icons/logo-google.png',
                       colors: redColor,
@@ -330,7 +339,7 @@ class _PersonalDataPageState extends State<PersonalDataPage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const AuthPage(),

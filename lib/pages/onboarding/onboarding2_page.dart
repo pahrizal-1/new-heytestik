@@ -15,11 +15,11 @@ class _OnBoarding2PageState extends State<OnBoarding2Page> {
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        // width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/onboarding2-new.png'),
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
         child: Stack(

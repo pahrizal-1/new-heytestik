@@ -1,26 +1,175 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:provider/provider.dart';
+// ignore_for_file: library_private_types_in_public_api
 
-import '../controller/interest/interest_controller.dart';
+import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import '../theme/theme.dart';
 
 class CardSkinGoals extends StatefulWidget {
   final String title;
   final double width;
-  final int type;
 
+  final bool checked;
   const CardSkinGoals({
     this.width = double.infinity,
     super.key,
+    required this.checked,
     required this.title,
-    required this.type,
   });
 
   @override
   State<CardSkinGoals> createState() => _CardSkinGoalsState();
 }
+
+class _CardSkinGoalsState extends State<CardSkinGoals> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(left: 5, right: 5),
+      decoration: BoxDecoration(
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: widget.checked ? greenColor : greyColor)),
+      height: 40,
+      width: widget.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Icon(
+            widget.checked
+                ? Icons.check_circle_rounded
+                : Icons.add_circle_outline,
+            size: 16,
+            color: widget.checked ? greenColor : greyColor,
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              widget.title,
+              style: TextStyle(
+                  letterSpacing: 0.5,
+                  fontSize: 11,
+                  fontFamily: 'ProximaNova',
+                  color: widget.checked ? greenColor : const Color(0xff323232),
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// class CardSkinGoals extends StatefulWidget {
+//   final String title;
+//   final double width;
+//   final int? type;
+
+//   const CardSkinGoals({
+//     this.width = double.infinity,
+//     super.key,
+//     required this.title,
+//     this.type,
+//   });
+
+//   @override
+//   State<CardSkinGoals> createState() => _CardSkinGoalsState();
+// }
+
+// class _CardSkinGoalsState extends State<CardSkinGoals> {
+//   final InterestController state = Get.put(InterestController());
+//   bool isIconSelected1 = false;
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: () {
+//         setState(() {
+//           isIconSelected1 = !isIconSelected1;
+//         });
+
+//         if (widget.type == 1) {
+//           if (isIconSelected1) {
+//             var adaGak = state.faceCorrective.firstWhereOrNull(
+//               (element) => element == widget.title,
+//             );
+
+//             print("adaGak $adaGak");
+
+//             if (adaGak == null) {
+//               state.faceCorrective.add(widget.title);
+//             }
+//           } else {
+//             state.faceCorrective.remove(widget.title);
+//           }
+//         }
+
+//         if (widget.type == 2) {
+//           if (isIconSelected1) {
+//             var adaGak = state.bodyCorrective.firstWhereOrNull(
+//               (element) => element == widget.title,
+//             );
+
+//             print("adaGak $adaGak");
+//             if (adaGak == null) {
+//               state.bodyCorrective.add(widget.title);
+//             }
+//           } else {
+//             state.bodyCorrective.remove(widget.title);
+//           }
+//         }
+
+//         if (widget.type == 3) {
+//           if (isIconSelected1) {
+//             var adaGak = state.augmentation.firstWhereOrNull(
+//               (element) => element == widget.title,
+//             );
+
+//             print("adaGak $adaGak");
+//             if (adaGak == null) {
+//               state.augmentation.add(widget.title);
+//             }
+//           } else {
+//             state.augmentation.remove(widget.title);
+//           }
+//         }
+//       },
+//       child: Container(
+//         padding: const EdgeInsets.only(left: 5, right: 5),
+//         decoration: BoxDecoration(
+//             color: whiteColor,
+//             borderRadius: BorderRadius.circular(10),
+//             border:
+//                 Border.all(color: isIconSelected1 ? greenColor : greyColor)),
+//         height: 40,
+//         width: widget.width,
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           children: [
+//             Icon(
+//               isIconSelected1
+//                   ? Icons.check_circle_rounded
+//                   : Icons.add_circle_outline,
+//               size: 16,
+//               color: isIconSelected1 ? greenColor : greyColor,
+//             ),
+//             const SizedBox(width: 8),
+//             Expanded(
+//               child: Text(
+//                 widget.title,
+//                 style: TextStyle(
+//                     letterSpacing: 0.5,
+//                     fontSize: 11,
+//                     fontFamily: 'ProximaNova',
+//                     color:
+//                         isIconSelected1 ? greenColor : const Color(0xff323232),
+//                     fontWeight: FontWeight.bold),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class CardSkincare extends StatelessWidget {
   final String title;
@@ -49,9 +198,11 @@ class CardSkincare extends StatelessWidget {
 
 class CardSearch extends StatefulWidget {
   final String title;
+  final Function()? onTap;
   const CardSearch({
     Key? key,
     required this.title,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -66,15 +217,15 @@ class _CardSearchState extends State<CardSearch> {
       children: [
         InkWell(
           onTap: () {
+            widget.onTap == null ? () {} : widget.onTap!();
             setState(
-                  () {
+              () {
                 isSelected = !isSelected;
               },
             );
           },
           child: Container(
-            margin: EdgeInsets.only(left: 8),
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 6),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             height: 30,
             decoration: BoxDecoration(
               color: isSelected
@@ -85,13 +236,26 @@ class _CardSearchState extends State<CardSearch> {
                 color: isSelected ? greenColor : const Color(0xffCCCCCC),
               ),
             ),
-            child: Center(
-              child: Text(
-                widget.title,
-                style: subGreyTextStyle.copyWith(
-                    fontSize: 15,
-                    color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
-              ),
+            child: Row(
+              children: [
+                Text(
+                  widget.title,
+                  style: subGreyTextStyle.copyWith(
+                      fontSize: 15,
+                      color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+                ),
+                SizedBox(
+                  width: 3,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Image.asset(
+                    'assets/icons/danger-icons.png',
+                    width: 8,
+                    height: 8,
+                  ),
+                )
+              ],
             ),
           ),
         ),
@@ -100,174 +264,259 @@ class _CardSearchState extends State<CardSearch> {
   }
 }
 
-class _CardSkinGoalsState extends State<CardSkinGoals> {
-  bool isIconSelected1 = false;
-  @override
-  Widget build(BuildContext context) {
-    var state = Provider.of<InterestController>(context);
-
-    return InkWell(
-      onTap: () {
-        setState(() {
-          isIconSelected1 = !isIconSelected1;
-        });
-
-        if(widget.type == 1) {
-          if(isIconSelected1) {
-            state.faceCorrective.add(widget.title);
-          } else {
-            state.faceCorrective.remove(widget.title);
-          }
-        }
-
-        if(widget.type == 2) {
-          if(isIconSelected1) {
-            state.bodyCorrective.add(widget.title);
-          } else {
-            state.bodyCorrective.remove(widget.title);
-          }
-        }
-
-        if(widget.type == 3) {
-          if(isIconSelected1) {
-            state.augmentation.add(widget.title);
-          } else {
-            state.augmentation.remove(widget.title);
-          }
-        }
-
-        if(widget.type == 4) {
-          if(isIconSelected1) {
-            state.pasTreatment.add(widget.title);
-          } else {
-            state.pasTreatment.remove(widget.title);
-          }
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.only(left: 5, right: 5),
-        decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(10),
-            border:
-            Border.all(color: isIconSelected1 ? greenColor : greyColor)),
-        height: 40,
-        width: widget.width,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Icon(
-              isIconSelected1
-                  ? Icons.check_circle_rounded
-                  : Icons.add_circle_outline,
-              size: 16,
-              color: isIconSelected1 ? greenColor : greyColor,
-            ),
-            const SizedBox(width: 8),
-            Text(
-              widget.title,
-              style: TextStyle(
-                  letterSpacing: 0.5,
-                  fontSize: 11,
-                  fontFamily: 'ProximaNova',
-                  color: isIconSelected1 ? greenColor : const Color(0xff323232),
-                  fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CardBank extends StatefulWidget {
-  final String img;
-
-  const CardBank({
+class CardBankPengriman extends StatefulWidget {
+  const CardBankPengriman({
     super.key,
-    required this.img,
   });
 
   @override
-  State<CardBank> createState() => _CardBankState();
+  State<CardBankPengriman> createState() => _CardBankPengrimanState();
 }
 
-class _CardBankState extends State<CardBank> {
-  List<String> nameBank = [
-    'Transfer Bank BCA',
-    'Transfer Bank BNI',
-    'Transfer Bank BRI',
-  ];
-  List<String> img = [
-    'assets/images/logo-bca.png',
-    'assets/images/logo-bni.png',
-    'assets/images/logo-bri.png',
-  ];
+class _CardBankPengrimanState extends State<CardBankPengriman> {
   int isSelected = 0;
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: List.generate(3, (index) {
-        return InkWell(
-          onTap: () {
-            setState(() {
-              isSelected = index;
-            });
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Column(
-              children: [
-                Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 18),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelected = 0;
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/images/logo-bca.png',
+                            width: 52,
+                          ),
+                          const SizedBox(
+                            width: 19,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'BCA Virtual Account',
+                                style: blackTextStyle.copyWith(fontSize: 15),
+                              ),
+                              Text(
+                                'Biaya Pembayaran Rp3.000',
+                                style: subTitleTextStyle,
+                              )
+                            ],
+                          ),
+                          const Spacer(),
+                          Icon(
+                            isSelected == 0
+                                ? Icons.radio_button_on
+                                : Icons.circle_outlined,
+                            color: isSelected == 0
+                                ? greenColor
+                                : const Color(0xFF323232),
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Divider(
+                      thickness: 2,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isSelected = 1;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/logo-bni.png',
+                          width: 52,
+                        ),
+                        const SizedBox(
+                          width: 19,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'BNI Virtual Account',
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
+                            Text(
+                              'Biaya Pembayaran Rp3.000',
+                              style: subTitleTextStyle,
+                            )
+                          ],
+                        ),
+                        const Spacer(),
+                        Icon(
+                          isSelected == 1
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected == 1
+                              ? greenColor
+                              : const Color(0xFF323232),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Divider(
+                    thickness: 2,
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Column(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isSelected = 2;
+                      });
+                    },
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/logo-bri.png',
+                          width: 52,
+                        ),
+                        const SizedBox(
+                          width: 19,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'BRI Virtual Account',
+                              style: blackTextStyle.copyWith(fontSize: 15),
+                            ),
+                            Text(
+                              'Biaya Pembayaran Rp3.000',
+                              style: subTitleTextStyle,
+                            )
+                          ],
+                        ),
+                        const Spacer(),
+                        Icon(
+                          isSelected == 2
+                              ? Icons.radio_button_on
+                              : Icons.circle_outlined,
+                          color: isSelected == 2
+                              ? greenColor
+                              : const Color(0xFF323232),
+                        )
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        const dividergreen(),
+        const SizedBox(
+          height: 22,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25, bottom: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Transfer Bank (Verifikasi Manual)',
+                style: blackHigtTextStyle.copyWith(fontSize: 18),
+              ),
+              const SizedBox(
+                height: 31,
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    isSelected = 3;
+                  });
+                },
+                child: Row(
                   children: [
                     Image.asset(
-                      img[index],
+                      'assets/icons/mandiri-icons.png',
                       width: 52,
                     ),
                     const SizedBox(
                       width: 19,
                     ),
-                    Text(
-                      nameBank[index],
-                      style: blackTextStyle.copyWith(fontSize: 15),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Transfer Bank MANDIRI',
+                          style: blackTextStyle.copyWith(fontSize: 15),
+                        ),
+                        Text(
+                          'Biaya Pembayaran Rp3.000',
+                          style: subTitleTextStyle,
+                        )
+                      ],
                     ),
                     const Spacer(),
-                    Container(
-                      height: 18,
-                      width: 18,
-                      decoration: isSelected == index
-                          ? BoxDecoration(
-                        color: greenColor,
-                        shape: BoxShape.circle,
-                      )
-                          : BoxDecoration(
-                        color: whiteColor,
-                        shape: BoxShape.circle,
-                        border: Border.all(color: blackColor),
-                      ),
-                    ),
+                    Icon(
+                      isSelected == 3
+                          ? Icons.radio_button_on
+                          : Icons.circle_outlined,
+                      color: isSelected == 3
+                          ? greenColor
+                          : const Color(0xFF323232),
+                    )
                   ],
                 ),
-                SizedBox(
-                  height: 27,
-                ),
-                Divider(
-                  thickness: 2,
-                )
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+            ],
           ),
-        );
-      }),
+        ),
+      ],
     );
   }
 }
+///////////////////////////////////////////////////////////
 
 class CardFilter extends StatefulWidget {
   final String title;
+  final double? width;
   const CardFilter({
     Key? key,
     required this.title,
+    this.width = 90,
   }) : super(key: key);
 
   @override
@@ -278,32 +527,36 @@ class _CardFilterState extends State<CardFilter> {
   bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        setState(
-              () {
-            isSelected = !isSelected;
-          },
-        );
-      },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
-        height: 30,
-        decoration: BoxDecoration(
-          color:
-          isSelected ? const Color.fromRGBO(36, 167, 160, 0.2) : whiteColor,
-          borderRadius: BorderRadius.circular(7),
-          border: Border.all(
-            color: isSelected ? greenColor : const Color(0xffCCCCCC),
+    return Expanded(
+      child: InkWell(
+        onTap: () {
+          setState(
+            () {
+              isSelected = !isSelected;
+            },
+          );
+        },
+        child: Container(
+          margin: EdgeInsets.only(right: 6),
+          padding: EdgeInsets.symmetric(vertical: 6),
+          width: widget.width,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? const Color.fromRGBO(36, 167, 160, 0.2)
+                : whiteColor,
+            borderRadius: BorderRadius.circular(7),
+            border: Border.all(
+              color: isSelected ? greenColor : const Color(0xffCCCCCC),
+            ),
           ),
-        ),
-        child: Center(
-          child: Text(
-            widget.title,
-            style: subGreyTextStyle.copyWith(
-                fontSize: 15,
-                fontWeight: FontWeight.w400,
-                color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+          child: Center(
+            child: Text(
+              widget.title,
+              style: subGreyTextStyle.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+            ),
           ),
         ),
       ),
@@ -313,7 +566,7 @@ class _CardFilterState extends State<CardFilter> {
 
 class CardImage extends StatefulWidget {
   final String imageBrand;
-  CardImage({Key? key, required this.imageBrand}) : super(key: key);
+  const CardImage({Key? key, required this.imageBrand}) : super(key: key);
 
   @override
   _CardImageState createState() => _CardImageState();

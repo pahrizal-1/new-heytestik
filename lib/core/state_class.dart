@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class StateClass with ChangeNotifier {
-  bool isLoading = false;
-  bool isMinorLoading = false;
-
-  loadingTrue() {
-    isLoading = true;
-    notifyListeners();
-  }
-
-  loadingFalse() {
-    isLoading = false;
-    notifyListeners();
-  }
+  RxBool isLoading = false.obs;
+  RxBool isMinorLoading = false.obs;
+  RxBool isLoadingMore = false.obs;
+  RxBool isLoadingCam = false.obs;
 }
