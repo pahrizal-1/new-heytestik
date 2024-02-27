@@ -452,7 +452,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                             color: greenColor,
                           )
                         : Image.asset(
-                            'assets/icons/like.png',
+                            'assets/icons/unlike.png',
                             width: 19,
                             height: 19,
                             color: greyColor,
