@@ -192,6 +192,59 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                     const SizedBox(
                       height: 12,
                     ),
+                    searchController.text == ''
+                        ? SizedBox()
+                        : Container(
+                            height: 35,
+                            // width: 130,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2),
+                              color: greenColor.withOpacity(0.2),
+                              border: Border.all(
+                                color: greenColor,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(searchController.text),
+                                  // SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                  IconButton(
+                                    iconSize: 14,
+                                    onPressed: () {
+                                      if (searchController.text == '') {
+                                        setState(() {
+                                          context.read<SkincareRecommendationController>().getSkincare(
+                                                context,
+                                                state.currentPage.value,
+                                                search: '',
+                                              );
+                                        });
+                                      } else {
+                                        setState(() {
+                                          context.read<SkincareRecommendationController>().getSkincare(
+                                                context,
+                                                state.currentPage.value,
+                                                search: searchController.text,
+                                              );
+                                          searchController.text = '';
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                    ),
+                                  ),
+                                  // Spacer(),
+                                  // Container(),
+                                ],
+                              ),
+                            ),
+                          ),
                     const SizedBox(
                       height: 12,
                     ),
