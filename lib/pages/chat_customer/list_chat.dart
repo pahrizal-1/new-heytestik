@@ -218,6 +218,22 @@ class DoctorChat extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 19, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(9),
+                        color: Color(0xff24A7A0).withOpacity(0.1),
+                      ),
+                      child: Text(
+                        'Aktif',
+                        style: grenTextStyle.copyWith(
+                            fontSize: 12, fontWeight: regular),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
                     Text(
                       doctorName,
                       style: blackTextStyle.copyWith(fontSize: 15),

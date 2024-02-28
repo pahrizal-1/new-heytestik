@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/consultation/consultation_controller.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
@@ -10,6 +11,7 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 
@@ -32,6 +34,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
 
   final TextEditingController searchController = TextEditingController();
   String? search;
+  int isSelected = 0;
   @override
   void initState() {
     super.initState();
@@ -42,6 +45,132 @@ class _OnboardingChatState extends State<OnboardingChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: Container(
+            width: 1000,
+            color: whiteColor,
+            height: 60.0,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelected = 0;
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 9),
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                          top: 4,
+                          bottom: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(
+                              color:
+                                  isSelected == 0 ? greenColor : borderColor),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Semua',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: regular,
+                                color: isSelected == 0
+                                    ? greenColor
+                                    : const Color(0xff6B6B6B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelected = 1;
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 9),
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                          top: 4,
+                          bottom: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(
+                              color:
+                                  isSelected == 1 ? greenColor : borderColor),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Aktif',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: regular,
+                                color: isSelected == 1
+                                    ? greenColor
+                                    : const Color(0xff6B6B6B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          isSelected = 2;
+                        });
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 9),
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                          top: 4,
+                          bottom: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(
+                              color:
+                                  isSelected == 2 ? greenColor : borderColor),
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Selesai',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                fontWeight: regular,
+                                color: isSelected == 2
+                                    ? greenColor
+                                    : const Color(0xff6B6B6B),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
         automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: greenColor,
@@ -64,7 +193,11 @@ class _OnboardingChatState extends State<OnboardingChat> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
+                      image: stateProfile.imgNetwork.value != ""
+                          ? NetworkImage(
+                                  '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                              as ImageProvider
+                          : AssetImage('assets/images/profiledummy.png'),
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -176,6 +309,11 @@ class BelumKonsultasiChat extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text(
+            'Kamu belum memiliki konsultasi\napapun :(',
+            style: blackTextStyle.copyWith(fontSize: 18),
+            textAlign: TextAlign.center,
+          ),
           Container(
             height: 239,
             width: 259,
@@ -185,13 +323,16 @@ class BelumKonsultasiChat extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            'Kamu belum memiliki konsultasi\napapun :(',
-            style: blackTextStyle.copyWith(fontSize: 18),
-            textAlign: TextAlign.center,
-          ),
           const SizedBox(
             height: 16,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: Text(
+              'Yuk, dapatkan solusi terbaik untuk permasalahan kulitmu dari dermatologis terpercaya,\nhanya Rp45K aja!',
+              style: blackRegulerTextStyle,
+              textAlign: TextAlign.center,
+            ),
           ),
           Padding(
             padding: lsymetric,
@@ -207,7 +348,8 @@ class BelumKonsultasiChat extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const SelectConditionsPage(),
+                              builder: (context) =>
+                                  const SelectConditionsPage(),
                             ),
                           ).then((value) => Navigator.pop(context));
                         },
