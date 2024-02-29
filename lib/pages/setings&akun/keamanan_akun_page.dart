@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/metode_veifikasi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_data_setings_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../theme/theme.dart';
 
@@ -68,11 +67,6 @@ class KeamananAkunPage extends StatelessWidget {
               style: blackHigtTextStyle.copyWith(fontSize: 15),
             ),
           ),
-          const Spacer(),
-          const ButtonGreenWidget(title: 'Tambah Rekening Lain'),
-          const SizedBox(
-            height: 36,
-          )
         ]),
       ),
     );

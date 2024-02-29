@@ -1022,112 +1022,114 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
         children: [
           Obx(
             () => Padding(
-                padding: const EdgeInsets.only(
-                    left: 25, right: 25, top: 10, bottom: 10),
-                child: (drugController.drugDetail.value.consultationRecipeDrugs
-                            ?.isEmpty ==
-                        0)
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 6),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Text(
-                          'Harus Dengan Resep Dokter',
-                          textAlign: TextAlign.center,
-                          style: grenTextStyle.copyWith(
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                    : Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                List product = [
-                                  {
-                                    "productId":
-                                        drugController.drugDetail.value.id,
-                                    "productName":
-                                        drugController.drugDetail.value.name,
-                                    "img": drugController.drugDetail.value
-                                        .mediaProducts?[0].media?.path,
-                                    "qty": 1,
-                                    "notes": '',
-                                    "isSelected": true,
-                                    "price":
-                                        drugController.drugDetail.value.price,
-                                    "totalPrice":
-                                        drugController.drugDetail.value.price,
-                                  }
-                                ];
+              padding: const EdgeInsets.only(
+                  left: 25, right: 25, top: 10, bottom: 10),
+              child: (drugController.drugDetail.value.consultationRecipeDrugs
+                          ?.isNotEmpty ??
+                      drugController.drugDetail.value.consultationRecipeDrugs !=
+                          null)
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              List product = [
+                                {
+                                  "productId":
+                                      drugController.drugDetail.value.id,
+                                  "productName":
+                                      drugController.drugDetail.value.name,
+                                  "img": drugController.drugDetail.value
+                                      .mediaProducts?[0].media?.path,
+                                  "qty": 1,
+                                  "notes": '',
+                                  "isSelected": true,
+                                  "price":
+                                      drugController.drugDetail.value.price,
+                                  "totalPrice":
+                                      drugController.drugDetail.value.price,
+                                }
+                              ];
 
-                                Get.to(() => PembayaranProduk(
-                                      pesan: product,
-                                      isCart: false,
-                                    ));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: greenColor),
-                                    borderRadius: BorderRadius.circular(7)),
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    'Beli Langsung',
-                                    style: grenTextStyle.copyWith(
-                                        fontSize: 15, fontWeight: bold),
-                                  ),
+                              Get.to(() => PembayaranProduk(
+                                    pesan: product,
+                                    isCart: false,
+                                  ));
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7)),
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  'Beli Langsung',
+                                  style: grenTextStyle.copyWith(
+                                      fontSize: 15, fontWeight: bold),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                drugController.addDrugToCart(
-                                  context,
-                                  drugController.drugDetail.value.id!,
-                                );
-                                SnackbarWidget.getSuccessSnackbar(
-                                  context,
-                                  'Info',
-                                  'Produk ditambahkan ke keranjang',
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                width: 142,
-                                decoration: BoxDecoration(
-                                    color: greenColor,
-                                    border: Border.all(color: greenColor),
-                                    borderRadius: BorderRadius.circular(7)),
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    '+ Keranjang',
-                                    style: whiteTextStyle.copyWith(
-                                        fontSize: 15, fontWeight: bold),
-                                  ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              drugController.addDrugToCart(
+                                context,
+                                drugController.drugDetail.value.id!,
+                              );
+                              SnackbarWidget.getSuccessSnackbar(
+                                context,
+                                'Info',
+                                'Produk ditambahkan ke keranjang',
+                              );
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              width: 142,
+                              decoration: BoxDecoration(
+                                  color: greenColor,
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7)),
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  '+ Keranjang',
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 15, fontWeight: bold),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                        ],
-                      )),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                      ],
+                    )
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 6),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Text(
+                        'Harus Dengan Resep Dokter',
+                        textAlign: TextAlign.center,
+                        style: grenTextStyle.copyWith(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+            ),
           )
         ],
       ),
