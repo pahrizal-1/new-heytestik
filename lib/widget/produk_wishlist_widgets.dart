@@ -149,12 +149,12 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                                             context: context,
                                             builder: (context) => AlertInfomasi(
                                                 function: () async {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
                                               );
+                                              Get.back();
+                                              Get.back();
                                               widget.onDelete();
                                             }),
                                           );
@@ -175,13 +175,7 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                                 ],
                               ),
                             ),
-                          ).then((value) {
-                            SnackbarWidget.getSuccessSnackbar(
-                              context,
-                              'Info',
-                              'Produk berhasil dihapus dari Wishlist',
-                            );
-                          });
+                          );
                         },
                         child: Image.asset(
                           'assets/icons/more-horizontal.png',
@@ -332,12 +326,12 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                                             context: context,
                                             builder: (context) => AlertInfomasi(
                                                 function: () async {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
                                               );
+                                              Get.back();
+                                              Get.back();
                                               widget.onDelete();
                                             }),
                                           );
@@ -358,13 +352,7 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                                 ],
                               ),
                             ),
-                          ).then((value) {
-                            SnackbarWidget.getSuccessSnackbar(
-                              context,
-                              'Info',
-                              'Produk berhasil dihapus dari Wishlist',
-                            );
-                          });
+                          );
                         },
                         child: Image.asset(
                           'assets/icons/more-horizontal.png',
@@ -376,7 +364,8 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   const SizedBox(
                     width: 4,
                   ),
-                  widget.data.product!.consultationRecipeDrugs!.isNotEmpty
+                  (widget.data.product?.consultationRecipeDrugs?.isNotEmpty ??
+                          widget.data.product?.consultationRecipeDrugs != null)
                       ? Expanded(
                           child: InkWell(
                             onTap: () async {

@@ -217,9 +217,11 @@ class _WishListPageState extends State<WishListPage> {
                             if (wishlist[index].product?.type == 'SKINCARE') {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(DetailSkinCarePage(
-                                    productId: wishlist[index].product!.id!,
-                                  ));
+                                  Get.to(
+                                    () => DetailSkinCarePage(
+                                      productId: wishlist[index].product!.id!,
+                                    ),
+                                  );
                                 },
                                 child: ProdukWishlistSkinCare(
                                   data: wishlist[index],
