@@ -8,7 +8,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/drug_controlle
 import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
@@ -103,8 +103,8 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DrugSearch(
-                        search: searchController.text,
+                      builder: (context) => DrugSearchPage(
+                        searchParam: searchController.text,
                       ),
                     ),
                   );
@@ -331,11 +331,60 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    TitleDetail(
-                      ontap: () {},
-                      title1: 'Concern',
-                      title2: stateDrug.drugDetail.value.display ?? '-',
-                      textColor: greenColor,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 5),
+                      child: Column(
+                        children: [
+                          Table(
+                            children: [
+                              TableRow(
+                                children: [
+                                  Text(
+                                    'Concern',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor),
+                                  ),
+                                  Row(
+                                    children: [
+                                      ...?stateDrug
+                                          .drugDetail.value.productConcerns
+                                          ?.asMap()
+                                          .entries
+                                          .map((item) {
+                                        return InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                              () => DrugSearchPage(
+                                                idConcern:
+                                                    item.value.concernId!,
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            item.key == 0
+                                                ? '${item.value.concern?.name},'
+                                                : ' ${item.value.concern?.name}',
+                                            style: grenTextStyle.copyWith(
+                                              fontSize: 15,
+                                              color: greenColor,
+                                            ),
+                                          ),
+                                        );
+                                      }).toList()
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          const Divider(
+                            thickness: 2,
+                          )
+                        ],
+                      ),
                     ),
                     TitleDetail(
                       title1: 'Bentuk Obat',

@@ -402,7 +402,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     TitleDetail(
                       ontap: () {
                         Get.to(
-                          CategorySkinCare(
+                          () => CategorySkinCare(
                             category: stateSkincare
                                 .skincareDetail.value.category
                                 .toString(),
@@ -416,7 +416,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     TitleDetail(
                       ontap: () {
                         Get.to(
-                          CategorySkinCare(
+                          () => CategorySkinCare(
                             category: stateSkincare.skincareDetail.value.display
                                 .toString(),
                           ),
