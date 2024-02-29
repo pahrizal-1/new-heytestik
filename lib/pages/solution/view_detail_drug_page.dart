@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
@@ -20,7 +21,6 @@ import 'package:social_share/social_share.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../controller/customer/solution/wishlist_controller.dart';
 import '../../theme/theme.dart';
-import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 
@@ -36,10 +36,11 @@ class DetailDrugPage extends StatefulWidget {
 }
 
 class _DetailDrugPageState extends State<DetailDrugPage> {
-  DrugController drugController = Get.put(DrugController());
-  final WishlistController wishlist = Get.put(WishlistController());
+  final DrugController stateDrug = Get.put(DrugController());
+  final WishlistController stateWishlist = Get.put(WishlistController());
+  final CartController stateCart = Get.put(CartController());
+  final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
-  final CartController cart = Get.put(CartController());
   bool isVisibelity = false;
   bool? help;
   bool? isWishlist;
@@ -50,11 +51,11 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      drugController.detailDrug(context, widget.drugId);
-      drugController.getOverviewProduct(context, widget.drugId);
-      drugController.getReviewProduct(context, 1, 3, widget.drugId);
+      stateDrug.detailDrug(context, widget.drugId);
+      stateUlasan.getOverviewProduct(context, widget.drugId);
+      stateUlasan.getReviewProduct(context, 1, 3, widget.drugId);
       drugRecomendation.addAll(
-        await drugController.drugRecomendation(context, 1, widget.drugId),
+        await stateDrug.drugRecomendation(context, 1, widget.drugId),
       );
       setState(() {});
     });
@@ -162,7 +163,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: drugController.isLoadingDetailDrug.value,
+          isLoading: stateDrug.isLoadingDetailDrug.value,
           child: ListView(
             children: [
               Container(
@@ -171,7 +172,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      '${Global.FILE}/${drugController.drugDetail.value.mediaProducts?[0].media?.path}',
+                      '${Global.FILE}/${stateDrug.drugDetail.value.mediaProducts?[0].media?.path}',
                     ),
                   ),
                 ),
@@ -186,29 +187,28 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                       children: [
                         Text(
                           CurrencyFormat.convertToIdr(
-                              drugController.drugDetail.value.price ?? 0, 2),
+                              stateDrug.drugDetail.value.price ?? 0, 2),
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
                         ),
                         const Spacer(),
                         InkWell(
                           onTap: () async {
                             if ((isWishlist ??
-                                    drugController.drugDetail.value.wishlist) ==
+                                    stateDrug.drugDetail.value.wishlist) ==
                                 true) {
                               isWishlist = false;
-                              await wishlist.deleteWistlist(context,
-                                  drugController.drugDetail.value.id ?? 0);
+                              await stateWishlist.deleteWistlist(
+                                  context, stateDrug.drugDetail.value.id ?? 0);
                               setState(() {});
                             } else {
                               isWishlist = true;
-                              await wishlist.addWishlist(context,
-                                  drugController.drugDetail.value.id ?? 0);
+                              await stateWishlist.addWishlist(
+                                  context, stateDrug.drugDetail.value.id ?? 0);
                               setState(() {});
                             }
                           },
                           child: (isWishlist ??
-                                      drugController
-                                          .drugDetail.value.wishlist) ==
+                                      stateDrug.drugDetail.value.wishlist) ==
                                   true
                               ? Icon(
                                   Icons.favorite,
@@ -222,7 +222,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                       height: 15,
                     ),
                     Text(
-                      drugController.drugDetail.value.name ?? '-',
+                      stateDrug.drugDetail.value.name ?? '-',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     const SizedBox(
@@ -255,7 +255,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 width: 5,
                               ),
                               Text(
-                                '${drugController.drugDetail.value.rating}',
+                                '${stateDrug.drugDetail.value.rating}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 13),
                               ),
@@ -334,12 +334,12 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     TitleDetail(
                       ontap: () {},
                       title1: 'Concern',
-                      title2: drugController.drugDetail.value.display ?? '-',
+                      title2: stateDrug.drugDetail.value.display ?? '-',
                       textColor: greenColor,
                     ),
                     TitleDetail(
                       title1: 'Bentuk Obat',
-                      title2: drugController
+                      title2: stateDrug
                               .drugDetail.value.drugDetail?.specificationForm ??
                           '-',
                       textColor: blackColor,
@@ -347,7 +347,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     ),
                     TitleDetail(
                       title1: 'No. BPOM',
-                      title2: drugController
+                      title2: stateDrug
                               .drugDetail.value.drugDetail?.specificationBpom ??
                           '-',
                       textColor: blackColor,
@@ -355,9 +355,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     ),
                     TitleDetail(
                       title1: 'Manufaktur',
-                      title2: drugController
-                              .drugDetail.value.drugDetail?.manufacture ??
-                          '-',
+                      title2:
+                          stateDrug.drugDetail.value.drugDetail?.manufacture ??
+                              '-',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
@@ -366,35 +366,35 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     ),
                     DescripsiText(
                         title1: 'Deskripsi',
-                        subtitle2: drugController
+                        subtitle2: stateDrug
                                 .drugDetail.value.drugDetail?.description ??
                             '-'),
                     DescripsiText(
                       title1: 'Indikasi',
-                      subtitle2: drugController
-                              .drugDetail.value.drugDetail?.indication ??
-                          '-',
+                      subtitle2:
+                          stateDrug.drugDetail.value.drugDetail?.indication ??
+                              '-',
                     ),
                     DescripsiText(
                       title1: 'Komposisi',
-                      subtitle2: drugController.drugDetail.value.drugDetail
+                      subtitle2: stateDrug.drugDetail.value.drugDetail
                               ?.specificationIngredients ??
                           '-',
                     ),
                     DescripsiText(
                         title1: 'Dosis & Aturan Pakai',
-                        subtitle2: drugController.drugDetail.value.drugDetail
+                        subtitle2: stateDrug.drugDetail.value.drugDetail
                                 ?.specificationDose ??
                             '-'),
                     DescripsiText(
                       title1: 'Perhatian',
-                      subtitle2: drugController.drugDetail.value.drugDetail
+                      subtitle2: stateDrug.drugDetail.value.drugDetail
                               ?.specificationSpecialAttention ??
                           '-',
                     ),
                     DescripsiText(
                       title1: 'Kontra indikasi',
-                      subtitle2: drugController
+                      subtitle2: stateDrug
                               .drugDetail.value.drugDetail?.contradiction ??
                           '-',
                       isLast: true,
@@ -427,7 +427,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                         ),
                         Obx(
                           () => Text(
-                            '${drugController.overviewMedicine.value.avgRating ?? 0.0}',
+                            '${stateDrug.overviewMedicine.value.avgRating ?? 0.0}',
                             style: blackHigtTextStyle.copyWith(fontSize: 30),
                           ),
                         ),
@@ -446,7 +446,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${drugController.overviewMedicine.value.satisfiedPercentage ?? 0}% Sobat Hey',
+                                    '${stateDrug.overviewMedicine.value.satisfiedPercentage ?? 0}% Sobat Hey',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 12,
                                         fontStyle: FontStyle.italic),
@@ -464,7 +464,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${drugController.overviewMedicine.value.totalRating ?? 0} rating',
+                                    '${stateDrug.overviewMedicine.value.totalRating ?? 0} rating',
                                     style: blackTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -481,7 +481,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 ),
                                 Obx(
                                   () => Text(
-                                    '${drugController.overviewMedicine.value.totalReview ?? 0} ulasan',
+                                    '${stateDrug.overviewMedicine.value.totalReview ?? 0} ulasan',
                                     style: blackTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -514,7 +514,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${drugController.overviewMedicine.value.avgEffectivenessRating ?? 0}',
+                                    '${stateDrug.overviewMedicine.value.avgEffectivenessRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -532,7 +532,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${drugController.overviewMedicine.value.countEffectivenessRating ?? 0} ulasan',
+                                        '${stateDrug.overviewMedicine.value.countEffectivenessRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -559,7 +559,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${drugController.overviewMedicine.value.avgTextureRating ?? 0}',
+                                    '${stateDrug.overviewMedicine.value.avgTextureRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -577,7 +577,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${drugController.overviewMedicine.value.countTextureRating ?? 0} ulasan',
+                                        '${stateDrug.overviewMedicine.value.countTextureRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -604,7 +604,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${drugController.overviewMedicine.value.avgPackagingRating ?? 0}',
+                                    '${stateDrug.overviewMedicine.value.avgPackagingRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -622,7 +622,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${drugController.overviewMedicine.value.countPackagingRating ?? 0} ulasan',
+                                        '${stateDrug.overviewMedicine.value.countPackagingRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -660,8 +660,8 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UlasanProdukPage(
-                                  productId:
-                                      drugController.drugDetail.value.id!,
+                                  productId: widget.drugId,
+                                  isDrug: true,
                                 ),
                               ),
                             );
@@ -677,7 +677,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                       height: 11,
                     ),
                     Obx(
-                      () => drugController.productReview.isEmpty
+                      () => stateDrug.productReview.isEmpty
                           ? Center(
                               child: Text(
                                 'Belum ada ulasan',
@@ -689,8 +689,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               ),
                             )
                           : Column(
-                              children:
-                                  drugController.productReview.map((element) {
+                              children: stateDrug.productReview.map((element) {
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -837,7 +836,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                         InkWell(
                                           onTap: () async {
                                             if (help ?? element.helped!) {
-                                              drugController.unHelped(
+                                              stateUlasan.unHelped(
                                                   context, element.id!);
                                               setState(() {
                                                 help = false;
@@ -847,7 +846,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                                         1;
                                               });
                                             } else {
-                                              drugController.helped(
+                                              stateUlasan.helped(
                                                   context, element.id!);
                                               setState(() {
                                                 help = true;
@@ -1024,9 +1023,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
             () => Padding(
               padding: const EdgeInsets.only(
                   left: 25, right: 25, top: 10, bottom: 10),
-              child: (drugController.drugDetail.value.consultationRecipeDrugs
+              child: (stateDrug.drugDetail.value.consultationRecipeDrugs
                           ?.isNotEmpty ??
-                      drugController.drugDetail.value.consultationRecipeDrugs !=
+                      stateDrug.drugDetail.value.consultationRecipeDrugs !=
                           null)
                   ? Row(
                       children: [
@@ -1035,19 +1034,17 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             onTap: () {
                               List product = [
                                 {
-                                  "productId":
-                                      drugController.drugDetail.value.id,
+                                  "productId": stateDrug.drugDetail.value.id,
                                   "productName":
-                                      drugController.drugDetail.value.name,
-                                  "img": drugController.drugDetail.value
+                                      stateDrug.drugDetail.value.name,
+                                  "img": stateDrug.drugDetail.value
                                       .mediaProducts?[0].media?.path,
                                   "qty": 1,
                                   "notes": '',
                                   "isSelected": true,
-                                  "price":
-                                      drugController.drugDetail.value.price,
+                                  "price": stateDrug.drugDetail.value.price,
                                   "totalPrice":
-                                      drugController.drugDetail.value.price,
+                                      stateDrug.drugDetail.value.price,
                                 }
                               ];
 
@@ -1079,15 +1076,8 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                         Expanded(
                           child: InkWell(
                             onTap: () async {
-                              drugController.addDrugToCart(
-                                context,
-                                drugController.drugDetail.value.id!,
-                              );
-                              SnackbarWidget.getSuccessSnackbar(
-                                context,
-                                'Info',
-                                'Produk ditambahkan ke keranjang',
-                              );
+                              await stateCart.addCart(
+                                  context, widget.drugId, 1, '');
                             },
                             child: Container(
                               padding: EdgeInsets.symmetric(

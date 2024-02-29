@@ -1,11 +1,10 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../pages/solution/reservasi_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
@@ -75,7 +74,10 @@ class ProdukKeranjang extends StatelessWidget {
                     ),
                     Text(
                       namaProduk,
-                      style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
+                      style: blackHigtTextStyle.copyWith(
+                          fontSize: 13,
+                          fontWeight: regular,
+                          overflow: TextOverflow.ellipsis),
                     ),
                     const SizedBox(
                       height: 6,
@@ -85,11 +87,14 @@ class ProdukKeranjang extends StatelessWidget {
                         Container(
                           width: 28,
                           height: 13,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
                           child: Center(
                             child: Text(
                               diskonProduk,
-                              style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 11),
                             ),
                           ),
                         ),
@@ -123,7 +128,8 @@ class ProdukKeranjang extends StatelessWidget {
                         ),
                         Text(
                           rating,
-                          style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                          style: subGreyTextStyle.copyWith(
+                              fontSize: 11, color: const Color(0xff9B9B9B)),
                         )
                       ],
                     ),
@@ -133,7 +139,8 @@ class ProdukKeranjang extends StatelessWidget {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, bottom: 5, top: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(3),
                           color: greenColor,
@@ -171,7 +178,7 @@ class ProdukObat extends StatelessWidget {
     required this.productId,
   }) : super(key: key);
 
-  DrugController state = Get.put(DrugController());
+  final CartController cart = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +228,8 @@ class ProdukObat extends StatelessWidget {
                   ),
                   Text(
                     'Per Tube',
-                    style: subGreyTextStyle.copyWith(fontSize: 12, color: const Color(0xFF9B9B9B)),
+                    style: subGreyTextStyle.copyWith(
+                        fontSize: 12, color: const Color(0xFF9B9B9B)),
                   ),
                   const SizedBox(
                     height: 4,
@@ -240,16 +248,8 @@ class ProdukObat extends StatelessWidget {
                   Container(
                     height: 30,
                     child: TextButton(
-                      onPressed: () {
-                        state.addDrugToCart(
-                          context,
-                          productId,
-                        );
-                        SnackbarWidget.getSuccessSnackbar(
-                          context,
-                          'Info',
-                          'Produk ditambahkan ke keranjang',
-                        );
+                      onPressed: () async {
+                        await cart.addCart(context, productId, 1, '');
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: greenColor,
@@ -346,7 +346,11 @@ class ProductTreatmentDoctor extends StatelessWidget {
               children: [
                 Text(
                   namaTreatmen,
-                  style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis, color: greenColor),
+                  style: blackHigtTextStyle.copyWith(
+                      fontSize: 13,
+                      fontWeight: regular,
+                      overflow: TextOverflow.ellipsis,
+                      color: greenColor),
                 ),
                 SizedBox(
                   height: 5,
@@ -401,11 +405,14 @@ class ProductTreatmentDoctor extends StatelessWidget {
                     Container(
                       width: 28,
                       height: 13,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(3),
+                          color: const Color.fromRGBO(201, 42, 42, 0.2)),
                       child: Center(
                         child: Text(
                           '$diskonProduk%',
-                          style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                          style: blackHigtTextStyle.copyWith(
+                              color: redColor, fontSize: 11),
                         ),
                       ),
                     ),
@@ -435,11 +442,15 @@ class ProductTreatmentDoctor extends StatelessWidget {
               ),
               Text(
                 recovTime,
-                style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
+                style: blackHigtTextStyle.copyWith(
+                    fontSize: 13, overflow: TextOverflow.ellipsis),
               ),
               Text(
                 typeTreatment,
-                style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
+                style: blackHigtTextStyle.copyWith(
+                    fontSize: 13,
+                    fontWeight: regular,
+                    overflow: TextOverflow.ellipsis),
               ),
             ],
           ),
@@ -528,11 +539,15 @@ class ProdukTreatment extends StatelessWidget {
                 children: [
                   Text(
                     namaKlinik,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13, overflow: TextOverflow.ellipsis),
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13, overflow: TextOverflow.ellipsis),
                   ),
                   Text(
                     namaTreatmen,
-                    style: blackHigtTextStyle.copyWith(fontSize: 13, fontWeight: regular, overflow: TextOverflow.ellipsis),
+                    style: blackHigtTextStyle.copyWith(
+                        fontSize: 13,
+                        fontWeight: regular,
+                        overflow: TextOverflow.ellipsis),
                   ),
                   const SizedBox(
                     height: 6,
@@ -543,11 +558,14 @@ class ProdukTreatment extends StatelessWidget {
                         Container(
                           width: 28,
                           height: 13,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(3),
+                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
                           child: Center(
                             child: Text(
                               '$diskonProduk%',
-                              style: blackHigtTextStyle.copyWith(color: redColor, fontSize: 11),
+                              style: blackHigtTextStyle.copyWith(
+                                  color: redColor, fontSize: 11),
                             ),
                           ),
                         ),
@@ -597,7 +615,8 @@ class ProdukTreatment extends StatelessWidget {
                       ),
                       Text(
                         rating,
-                        style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),
                       const SizedBox(
                         width: 6,
@@ -608,7 +627,8 @@ class ProdukTreatment extends StatelessWidget {
                       ),
                       Text(
                         ' $km',
-                        style: subGreyTextStyle.copyWith(fontSize: 11, color: const Color(0xff9B9B9B)),
+                        style: subGreyTextStyle.copyWith(
+                            fontSize: 11, color: const Color(0xff9B9B9B)),
                       ),
                     ],
                   ),
@@ -628,7 +648,9 @@ class ProdukTreatment extends StatelessWidget {
                     },
                     child: Container(
                       height: 25,
-                      decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(3)),
+                      decoration: BoxDecoration(
+                          color: greenColor,
+                          borderRadius: BorderRadius.circular(3)),
                       child: Center(
                         child: Text(
                           'Reservasi',
