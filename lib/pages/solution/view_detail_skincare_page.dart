@@ -12,9 +12,8 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
+import 'package:heystetik_mobileapps/pages/solution/skincare_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/skincare_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
@@ -114,8 +113,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SkincareSearch(
-                        search: searchController.text,
+                      builder: (context) => SkincareSearchPage(
+                        searchParam: searchController.text,
                       ),
                     ),
                   );
@@ -335,7 +334,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(PromoPage());
+                        Get.to(() => PromoPage());
                       },
                       child: Stack(
                         children: [
@@ -402,7 +401,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     TitleDetail(
                       ontap: () {
                         Get.to(
-                          () => CategorySkinCare(
+                          () => SkincareSearchPage(
                             category: stateSkincare
                                 .skincareDetail.value.category
                                 .toString(),
@@ -416,8 +415,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     TitleDetail(
                       ontap: () {
                         Get.to(
-                          () => CategorySkinCare(
-                            category: stateSkincare.skincareDetail.value.display
+                          () => SkincareSearchPage(
+                            display: stateSkincare.skincareDetail.value.display
                                 .toString(),
                           ),
                         );

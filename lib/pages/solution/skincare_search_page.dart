@@ -15,16 +15,19 @@ import '../../theme/theme.dart';
 import '../../widget/skincare_widget.dart';
 import 'view_detail_skincare_page.dart';
 
-class CategorySkinCare extends StatefulWidget {
-  String category;
-  CategorySkinCare({required this.category, super.key});
+class SkincareSearchPage extends StatefulWidget {
+  String? searchParam;
+  String? category;
+  String? display;
+  SkincareSearchPage(
+      {this.searchParam, this.category, this.display, super.key});
 
   @override
-  State<CategorySkinCare> createState() => _CategorySkinCareState();
+  State<SkincareSearchPage> createState() => _SkincareSearchPageState();
 }
 
-class _CategorySkinCareState extends State<CategorySkinCare> {
-  final TextEditingController searchController = TextEditingController();
+class _SkincareSearchPageState extends State<SkincareSearchPage> {
+  TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   final SkincareController state = Get.put(SkincareController());
   bool isSelecteTampilan = true;
@@ -36,9 +39,15 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
   @override
   void initState() {
     super.initState();
-    filter['category[]'] = [widget.category];
-    setState(() {});
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      searchController = TextEditingController(text: widget.searchParam);
+      search = widget.searchParam;
+      if (widget.category is String) {
+        filter['category[]'] = [widget.category];
+      }
+      if (widget.display is String) {
+        filter['display[]'] = [widget.display];
+      }
       skincare.addAll(await state.getAllSkincare(
         context,
         page,
@@ -96,12 +105,14 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                 ),
                 child: Center(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset(
                         'assets/icons/search1.png',
                         width: 10,
                         color: blackColor,
+                      ),
+                      const SizedBox(
+                        width: 10,
                       ),
                       Container(
                         transform: Matrix4.translationValues(0, -2, 0),
@@ -329,9 +340,9 @@ class _CategorySkinCareState extends State<CategorySkinCare> {
                                 .map(
                                   (e) => InkWell(
                                     onTap: () {
-                                      Get.to(DetailSkinCarePage(
-                                        productId: e.id!.toInt(),
-                                      ));
+                                      Get.to(() => DetailSkinCarePage(
+                                            productId: e.id!.toInt(),
+                                          ));
                                     },
                                     child: SkincareWidget(
                                       produkId: e.id!.toInt(),
