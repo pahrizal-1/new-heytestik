@@ -129,13 +129,16 @@ class _WishListPageState extends State<WishListPage> {
                     constraints: const BoxConstraints(maxWidth: 300),
                     child: TextFormField(
                       controller: state.searchController,
-                      // onChanged: (value) {
-                      //   state.onChangeFilterText(value);
-                      // },
                       onEditingComplete: () async {
+                        page = 1;
                         wishlist.clear();
-                        wishlist.addAll(await state.getWistlist(context, page,
-                            search: state.searchController.text));
+                        wishlist.addAll(
+                          await state.getWistlist(
+                            context,
+                            page,
+                            search: state.searchController.text,
+                          ),
+                        );
                         setState(() {});
                       },
                       style: const TextStyle(
@@ -226,10 +229,15 @@ class _WishListPageState extends State<WishListPage> {
                                 child: ProdukWishlistSkinCare(
                                   data: wishlist[index],
                                   onDelete: () async {
+                                    page = 1;
                                     wishlist.clear();
-                                    wishlist.addAll(await state.getWistlist(
-                                        context, page,
-                                        search: state.searchController.text));
+                                    wishlist.addAll(
+                                      await state.getWistlist(
+                                        context,
+                                        page,
+                                        search: state.searchController.text,
+                                      ),
+                                    );
                                     setState(() {});
                                   },
                                 ),
@@ -247,10 +255,15 @@ class _WishListPageState extends State<WishListPage> {
                                 child: ProdukWishlistObat(
                                   data: wishlist[index],
                                   onDelete: () async {
+                                    page = 1;
                                     wishlist.clear();
-                                    wishlist.addAll(await state.getWistlist(
-                                        context, page,
-                                        search: state.searchController.text));
+                                    wishlist.addAll(
+                                      await state.getWistlist(
+                                        context,
+                                        page,
+                                        search: state.searchController.text,
+                                      ),
+                                    );
                                     setState(() {});
                                   },
                                 ),
