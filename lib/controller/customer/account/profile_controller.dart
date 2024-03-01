@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,10 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
+    as Overview;
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
+    as Reviews;
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_lama_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -19,7 +22,6 @@ import 'package:heystetik_mobileapps/service/auth/change_password_service.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 import 'package:intl/intl.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
-
 import '../../../core/global.dart';
 import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
@@ -29,6 +31,7 @@ import 'package:dio/dio.dart' as dio;
 class ProfileController extends StateClass {
   Rx<InterestModel> interestData = InterestModel().obs;
   Rx<CompletionModel> completionData = CompletionModel().obs;
+  Rx<Overview.Data> userOverview = Overview.Data().obs;
   Rx<int> skinGoalsFaceCorrectiveLength = 0.obs;
   Rx<int> skinGoalsBodyCorrectiveLength = 0.obs;
   Rx<int> skinGoalsAugmentationLength = 0.obs;
@@ -73,8 +76,12 @@ class ProfileController extends StateClass {
   File? facePhoto;
   RxBool isLoadingCam = false.obs;
 
+  RxInt page = 1.obs;
+  RxString postType = "ALL".obs;
+  RxList<StreamHomeModel> activity = List<StreamHomeModel>.empty().obs;
+  RxList<Reviews.Data2> reviews = List<Reviews.Data2>.empty().obs;
+
   startVerifyCountTime() {
-    // await timeCondition();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       resendTime.value = resendTime.value - 1;
       if (resendTime.value <= 0) {
@@ -82,10 +89,6 @@ class ProfileController extends StateClass {
       }
     });
   }
-
-  // timeCondition() {
-  //   timer!.cancel();
-  // }
 
   init() async {
     DateTime currentDate = DateTime.now();
@@ -142,22 +145,6 @@ class ProfileController extends StateClass {
 
       idCardPhoto = null;
       facePhoto = null;
-      doInPost();
-    });
-    isLoading.value = false;
-  }
-
-  closeAccount(BuildContext context, {required Function() doInPost}) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await ProfileService().closedAccount();
-      if (res['success'] != true && res['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res['message'],
-        );
-      }
-
       doInPost();
     });
     isLoading.value = false;
@@ -297,6 +284,28 @@ class ProfileController extends StateClass {
     isLoading.value = false;
   }
 
+  verifyOtp(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        'type': "CHANGE_PASSWORD",
+        'verification_code': otp.value,
+      };
+
+      var loginResponse = await ChangePasswordService().verifyOTP(data);
+      Get.to(() => PinPageLamaCustomer());
+
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: loginResponse['message'],
+        );
+      }
+    });
+    isLoading.value = false;
+  }
+
   updateUsername(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -429,104 +438,6 @@ class ProfileController extends StateClass {
     isLoading.value = false;
   }
 
-  logout(BuildContext context) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      await LocalStorage().removeAccessToken();
-      int userID = await LocalStorage().getUserID() ?? 0;
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-        await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance
-            .unsubscribeFromTopic(userID.toString());
-      });
-
-      Get.offAll(() => const LoginPageNew());
-      print('logout customer');
-    });
-  }
-
-  Future<List<Data2>> getUserActivityReview(
-      BuildContext context, int page) async {
-    try {
-      isLoading.value = true;
-      FinishedReviewModel userProfileReview;
-      List<Data2> data = [];
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        userProfileReview = await ProfileService().getUserActivityReview(page);
-        data = userProfileReview.data!.data!;
-        isLoading.value = false;
-      });
-
-      return data;
-    } catch (error) {
-      print(error.toString());
-      return [];
-    }
-  }
-
-  Future<List<StreamHomeModel>> getUserActivityPost(
-    BuildContext context,
-    int page, {
-    String? search,
-    String? postType,
-  }) async {
-    try {
-      isLoading.value = true;
-      List<StreamHomeModel> data = [];
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService()
-            .getUserActivityPost(page, search: search, postType: postType);
-        isLoading.value = false;
-      });
-
-      return data;
-    } catch (error) {
-      print(error.toString());
-      return [];
-    }
-  }
-
-  Future<Map<String, dynamic>> getUserOverview(BuildContext context) async {
-    try {
-      isLoading.value = true;
-      Map<String, dynamic> data = {};
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserOverview();
-        isLoading.value = false;
-      });
-
-      print("INI DATA");
-      print(data);
-      return data;
-    } catch (error) {
-      print(error.toString());
-      return {};
-    }
-  }
-
-  verifyOtp(
-    BuildContext context,
-  ) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {
-        'type': "CHANGE_PASSWORD",
-        'verification_code': otp.value,
-      };
-
-      var loginResponse = await ChangePasswordService().verifyOTP(data);
-      Get.to(PinPageLamaCustomer());
-
-      if (loginResponse['success'] != true &&
-          loginResponse['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: loginResponse['message'],
-        );
-      }
-    });
-    isLoading.value = false;
-  }
-
   updatePassword(BuildContext context, String oldpin, String newpin) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -541,5 +452,78 @@ class ProfileController extends StateClass {
       print(response);
     });
     isLoading.value = false;
+  }
+
+  closeAccount(BuildContext context, {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await ProfileService().closedAccount();
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+      doInPost();
+    });
+    isLoading.value = false;
+  }
+
+  logout(BuildContext context) async {
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      await LocalStorage().removeAccessToken();
+      int userID = await LocalStorage().getUserID() ?? 0;
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        await FirebaseMessaging.instance.unsubscribeFromTopic('all');
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
+      });
+
+      Get.offAll(() => const LoginPageNew());
+    });
+  }
+
+  Future<void> getUserOverview(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var user = await LocalStorage().getDataUser();
+      var res = await ProfileService().getUserOverview(user['username']);
+      userOverview.value = res.data!;
+    });
+    isLoading.value = false;
+  }
+
+  Future<List<StreamHomeModel>> getUserActivityPost(
+    BuildContext context,
+    int page, {
+    String? search,
+    String? postType,
+  }) async {
+    isLoading.value = true;
+    List<StreamHomeModel> data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      data = await ProfileService().getUserActivityPost(
+        page,
+        search: search,
+        postType: postType,
+      );
+    });
+    isLoading.value = false;
+    return data;
+  }
+
+  Future<List<Data2>> getUserActivityReview(
+      BuildContext context, int page) async {
+    isLoading.value = true;
+    FinishedReviewModel userProfileReview;
+    List<Data2> data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var user = await LocalStorage().getDataUser();
+      userProfileReview =
+          await ProfileService().getUserActivityReview(page, user['username']);
+      data = userProfileReview.data!.data!;
+    });
+    isLoading.value = false;
+    return data;
   }
 }

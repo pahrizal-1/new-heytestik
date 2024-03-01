@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 import '../../../core/local_storage.dart';
@@ -15,16 +16,16 @@ class ProfileService extends ProviderClass {
   ProfileService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<dynamic> timeout() async {
-    var response = await networkingConfig.doGet(
-      '/test-timeout?process_time=60000&timeout=5000',
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-    return response;
-  }
+  // Future<dynamic> timeout() async {
+  //   var response = await networkingConfig.doGet(
+  //     '/test-timeout?process_time=60000&timeout=5000',
+  //     headers: {
+  //       'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+  //       'User-Agent': await userAgent(),
+  //     },
+  //   );
+  //   return response;
+  // }
 
   Future<dynamic> closedAccount() async {
     var response = await networkingConfig.doUpdateFinish(
@@ -110,8 +111,20 @@ class ProfileService extends ProviderClass {
     return response;
   }
 
-  Future<FinishedReviewModel> getUserActivityReview(int page) async {
-    String username = await LocalStorage().getUsername();
+  Future<UserProfileOverviewModel> getUserOverview(String username) async {
+    var response = await networkingConfig.doGet(
+      '/user-profile/$username/overview',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+
+    return UserProfileOverviewModel.fromJson(response);
+  }
+
+  Future<FinishedReviewModel> getUserActivityReview(
+      int page, String username) async {
     var response = await networkingConfig.doGet(
       '/user-profile/$username/reviews',
       params: {
@@ -127,53 +140,27 @@ class ProfileService extends ProviderClass {
     return FinishedReviewModel.fromJson(response);
   }
 
-  Future<Map<String, dynamic>> getUserOverview() async {
-    try {
-      String username = await LocalStorage().getUsername();
-      var response = await networkingConfig.doGet(
-        '/user-profile/$username/overview',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(username);
-      print("ini response overview");
-      print(response['data']);
-      return response['data'];
-    } catch (error) {
-      print(error);
-      return {};
-    }
-  }
-
   Future<List<StreamHomeModel>> getUserActivityPost(
     int page, {
     String? search,
     String? postType,
   }) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/user-profile/customer/posts',
-        params: {
-          "page": page,
-          "take": 10,
-          "post_type": postType,
-          "search": search,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
+    var response = await networkingConfig.doGet(
+      '/user-profile/customer/posts',
+      params: {
+        "page": page,
+        "take": 10,
+        "post_type": postType,
+        "search": search,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
 
-      return (response['data']['data'] as List)
-          .map((e) => StreamHomeModel.fromJson(e))
-          .toList();
-    } catch (error) {
-      print(error);
-      return [];
-    }
+    return (response['data']['data'] as List)
+        .map((e) => StreamHomeModel.fromJson(e))
+        .toList();
   }
 }
