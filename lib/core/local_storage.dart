@@ -53,17 +53,6 @@ class LocalStorage {
     return prefs.getInt('role_id');
   }
 
-  // USERNAME
-  Future<void> setUsername({required String username}) async {
-    SharedPreferences prefs = await getPrefs();
-    prefs.setString('username', username);
-  }
-
-  Future<String> getUsername() async {
-    SharedPreferences prefs = await getPrefs();
-    return prefs.getString('username') ?? '-';
-  }
-
   // DATA USER
   Future<void> setDataUser({required dynamic dataUser}) async {
     SharedPreferences prefs = await getPrefs();

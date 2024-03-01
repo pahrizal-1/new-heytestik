@@ -65,8 +65,6 @@ class LoginController extends StateClass {
 
       // SAVE DATA USER
       await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
-      await LocalStorage().setUsername(
-          username: loginResponse['data']['user']['username'] ?? '');
       await LocalStorage()
           .setAccessToken(token: loginResponse['data']['token']);
       await LocalStorage().setFullName(
@@ -148,8 +146,6 @@ class LoginController extends StateClass {
             // SAVE DATA USER
             await LocalStorage()
                 .setDataUser(dataUser: loginResponse['data']['user']);
-            await LocalStorage().setUsername(
-                username: loginResponse['data']['user']['username'] ?? '');
             await LocalStorage()
                 .setAccessToken(token: loginResponse['data']['token']);
             await LocalStorage().setFullName(
