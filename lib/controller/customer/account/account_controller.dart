@@ -14,7 +14,8 @@ class AccountController extends StateClass {
       TransactionHistoryConsultationModel().obs;
 
   init() async {
-    fullName.value = await LocalStorage().getFullName();
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
   }
 
   Future<TransactionHistoryConsultationModel?> getMyActivity(

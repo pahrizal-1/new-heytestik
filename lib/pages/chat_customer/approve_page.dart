@@ -87,7 +87,9 @@ class _ApprovePageState extends State<ApprovePage> {
                   color: const Color(0xffD9D9D9),
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: state.initiate.value?.data?.doctor?.mediaUserProfilePicture != null
+                    image: state.initiate.value?.data?.doctor
+                                ?.mediaUserProfilePicture !=
+                            null
                         ? NetworkImage(
                                 "${Global.FILE}/${state.initiate.value?.data?.doctor?.mediaUserProfilePicture?.media?.path}")
                             as ImageProvider
@@ -133,7 +135,7 @@ class _ApprovePageState extends State<ApprovePage> {
             ),
             Obx(
               () => Text(
-                'Halo ${state.username.value}, kami sudah memberitahu dokter tentang permintaan kamu',
+                'Halo ${state.fullName.value}, kami sudah memberitahu dokter tentang permintaan kamu',
                 style: blackRegulerTextStyle.copyWith(fontSize: 14),
                 textAlign: TextAlign.center,
               ),

@@ -49,7 +49,6 @@ class SecurityController extends StateClass {
   ];
   RxString gender = ''.obs;
 
-  Map dataUser = {};
   File? image;
   String? fileImg64;
   RxBool isSave = false.obs;
@@ -74,12 +73,8 @@ class SecurityController extends StateClass {
   // }
 
   init() async {
-    fullName.value = await LocalStorage().getFullName();
-    dataUser = await LocalStorage().getDataUser();
-
-    print('fullname ${fullName.value}');
-    print('dataUser $dataUser');
-    print('dataUser ${dataUser['fullname']}');
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
   }
 
   verifyCodeEmail(

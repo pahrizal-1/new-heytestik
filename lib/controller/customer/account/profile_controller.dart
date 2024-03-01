@@ -92,8 +92,8 @@ class ProfileController extends StateClass {
 
   init() async {
     DateTime currentDate = DateTime.now();
-    fullName.value = await LocalStorage().getFullName();
     dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
     if (dataUser['dob'] != null) {
       age.value = currentDate.year - DateTime.parse(dataUser['dob']).year;
     }

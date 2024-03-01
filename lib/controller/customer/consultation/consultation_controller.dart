@@ -18,7 +18,7 @@ import '../../../pages/tabbar/tabbar_customer.dart';
 import '../../../widget/alert_dialog.dart';
 
 class ConsultationController extends StateClass {
-  RxString username = '-'.obs;
+  RxString fullName = '-'.obs;
   Rx<InitiateChatModel?> initiate = InitiateChatModel.fromJson({}).obs;
   // RxString virtualAccount = '-'.obs;
   // RxString expirytime = '-'.obs;
@@ -33,7 +33,8 @@ class ConsultationController extends StateClass {
   RxString status = ''.obs;
 
   getUser() async {
-    username.value = await LocalStorage().getFullName();
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
   }
 
   startVerifyCountTime() {

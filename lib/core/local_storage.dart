@@ -31,17 +31,6 @@ class LocalStorage {
     return prefs.getInt('user_id');
   }
 
-  // FULLNAME
-  Future<void> setFullName({required String fullName}) async {
-    SharedPreferences prefs = await getPrefs();
-    prefs.setString('full_name', fullName);
-  }
-
-  Future<String> getFullName() async {
-    SharedPreferences prefs = await getPrefs();
-    return prefs.getString('full_name') ?? '-';
-  }
-
   // ROLE
   Future<void> setRoleID({required int roleID}) async {
     SharedPreferences prefs = await getPrefs();

@@ -10,13 +10,14 @@ import 'package:heystetik_mobileapps/service/customer/sniptips/sniptips_service.
 import 'package:get/get.dart' hide FormData;
 
 class HomeController extends StateClass {
-  RxString username = '-'.obs;
+  RxString fullName = '-'.obs;
   Rx<BannerModel?> banner = BannerModel.fromJson({}).obs;
   Rx<SnipsTipsModel?> snipsTips = SnipsTipsModel.fromJson({}).obs;
   Rx<ArticleModel?> article = ArticleModel().obs;
 
   init() async {
-    username.value = await LocalStorage().getFullName();
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
   }
 
   Future<BannerModel?> getSlideShow(BuildContext context) async {
