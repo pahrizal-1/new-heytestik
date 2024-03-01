@@ -10,7 +10,7 @@ import 'package:heystetik_mobileapps/service/customer/sniptips/sniptips_service.
 import 'package:get/get.dart' hide FormData;
 
 class HomeController extends StateClass {
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   Rx<BannerModel?> banner = BannerModel.fromJson({}).obs;
   Rx<SnipsTipsModel?> snipsTips = SnipsTipsModel.fromJson({}).obs;
   Rx<ArticleModel?> article = ArticleModel().obs;

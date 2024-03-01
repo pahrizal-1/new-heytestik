@@ -18,7 +18,7 @@ import '../../../pages/tabbar/tabbar_customer.dart';
 import '../../../widget/alert_dialog.dart';
 
 class ConsultationController extends StateClass {
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   Rx<InitiateChatModel?> initiate = InitiateChatModel.fromJson({}).obs;
   // RxString virtualAccount = '-'.obs;
   // RxString expirytime = '-'.obs;

@@ -22,7 +22,7 @@ import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
 import 'package:dio/dio.dart' as dio;
 
 class SecurityController extends StateClass {
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   RxString name = ''.obs;
   RxString username = ''.obs;
   RxString bio = ''.obs;

@@ -25,7 +25,6 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import '../../../core/global.dart';
 import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
-import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
 import 'package:dio/dio.dart' as dio;
 
 class ProfileController extends StateClass {
@@ -38,7 +37,7 @@ class ProfileController extends StateClass {
   Rx<int> skinGoalsSexuallySkinLength = 0.obs;
   Rx<int> skinGoalsHistoryTreatmentLength = 0.obs;
 
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   RxString name = ''.obs;
   RxString username = ''.obs;
   RxString bio = ''.obs;
@@ -228,8 +227,10 @@ class ProfileController extends StateClass {
       };
 
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -312,10 +313,11 @@ class ProfileController extends StateClass {
       var data = {
         "username": usernameController.text,
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -326,12 +328,11 @@ class ProfileController extends StateClass {
       var data = {
         "bio": bioController.text,
       };
-
       var response = await ProfileService().changeProfile(data);
-      // Navigator.pop(context, 'refresh');
-      await Get.to(EditProfilCostomer());
-      Get.back();
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -343,13 +344,12 @@ class ProfileController extends StateClass {
         "email": emailBaruController.text,
         "verification_code": otp.value
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(
-        context,
-      );
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -361,20 +361,18 @@ class ProfileController extends StateClass {
         "no_phone": nomorHpController.text,
         "verification_code": otp.value,
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(
-        context,
-      );
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
 
   updateProfile(BuildContext context) async {
     isLoading.value = true;
-
     try {
       var response = await dio.Dio().patch(
         Uri.encodeFull(Global.BASE_API + '/profile/user'),
@@ -404,7 +402,6 @@ class ProfileController extends StateClass {
     } catch (e) {
       print('err ${e}');
     }
-
     isLoading.value = false;
   }
 
@@ -414,10 +411,11 @@ class ProfileController extends StateClass {
       var data = {
         "gender": gender.value,
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -432,8 +430,8 @@ class ProfileController extends StateClass {
       if (response['success'] || response['message'] == 'Success') {
         await LocalStorage().setDataUser(dataUser: response['data']);
         await init();
+        Navigator.pop(context, 'refresh');
       }
-      Navigator.pop(context, 'refresh');
     });
     isLoading.value = false;
   }
@@ -445,11 +443,11 @@ class ProfileController extends StateClass {
         'old_password': oldpin,
         'new_password': newpin,
       };
-
       var response = await ChangePasswordService().changePassword(data);
-      Get.off(() => TabBarCustomer());
-
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Get.off(() => TabBarCustomer());
+      }
     });
     isLoading.value = false;
   }

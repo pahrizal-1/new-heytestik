@@ -9,7 +9,7 @@ import 'package:heystetik_mobileapps/models/customer/transaction_history_consult
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 
 class AccountController extends StateClass {
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   Rx<TransactionHistoryConsultationModel> data =
       TransactionHistoryConsultationModel().obs;
 
