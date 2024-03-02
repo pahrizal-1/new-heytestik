@@ -125,7 +125,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       if (stateProfile.username.value != widget.stream.username)
                         InkWell(
                           onTap: () {
-                            if (follow ?? widget.stream.follow ?? true) {
+                            if (follow ?? widget.stream.follow) {
                               postController.unFollowPost(
                                 context,
                                 widget.stream.id,
@@ -144,7 +144,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                             }
                           },
                           child: Text(
-                            (follow ?? widget.stream.follow ?? true)
+                            (follow ?? widget.stream.follow)
                                 ? 'Mengikuti'
                                 : 'Ikuti',
                             style: blackRegulerTextStyle.copyWith(
