@@ -489,7 +489,10 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                       width: 250,
                       height: 40,
                       child: TextFormField(
-                        readOnly: true,
+                        onChanged: (value) {
+                          state.listSkincare.value[widget.index]['notes'] =
+                              value;
+                        },
                         decoration: InputDecoration(
                           labelText: 'Catatan',
                           enabledBorder: OutlineInputBorder(
@@ -504,7 +507,7 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          hintText: widget.data.product?.category ?? '',
+                          hintText: widget.data.notes ?? '',
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 12),
                           border: OutlineInputBorder(
@@ -595,6 +598,7 @@ class ContainerProdukObat extends StatefulWidget {
 
 class _ContainerProdukObatState extends State<ContainerProdukObat> {
   final CustomerChatController state = Get.put(CustomerChatController());
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -798,7 +802,9 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                       width: 250,
                       height: 40,
                       child: TextFormField(
-                        readOnly: true,
+                        onChanged: (value) {
+                          state.listObat.value[widget.index]['notes'] = value;
+                        },
                         decoration: InputDecoration(
                           labelText: 'Catatan',
                           enabledBorder: OutlineInputBorder(
@@ -813,7 +819,7 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          hintText: widget.data.notes ?? '-',
+                          hintText: widget.data.notes ?? '',
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 8, horizontal: 12),
                           border: OutlineInputBorder(
