@@ -51,20 +51,22 @@ class PotoKtp extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 340,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                image: DecorationImage(
-                  image: FileImage(
-                    File(state.idCardPhoto!.path),
+            Expanded(
+              child: Container(
+                height: 340,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(7),
+                  image: DecorationImage(
+                    image: FileImage(
+                      File(state.idCardPhoto!.path),
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.cover,
                 ),
               ),
             ),
             const SizedBox(
-              height: 134,
+              height: 100,
             ),
             Text(
               'Pastikan informasi di foto ini sudah terlihat jelas, ya :)',
@@ -73,69 +75,72 @@ class PotoKtp extends StatelessWidget {
             const SizedBox(
               height: 33,
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: TextButton.styleFrom(
-                        side: BorderSide(color: borderColor, width: 0.5),
-                        backgroundColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: Text(
-                        'Foto Ulang',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: whiteColor,
-                          fontWeight: bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                Expanded(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const VerifikasiDataScan(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: TextButton.styleFrom(
+                          side: BorderSide(color: borderColor, width: 0.5),
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        );
-                      },
-                      style: TextButton.styleFrom(
-                        side: BorderSide(color: greenColor, width: 2),
-                        backgroundColor: greenColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ),
-                      child: Text(
-                        'Lanjut',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: whiteColor,
-                          fontWeight: bold,
+                        child: Text(
+                          'Foto Ulang',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: whiteColor,
+                            fontWeight: bold,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const VerifikasiDataScan(),
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          side: BorderSide(color: greenColor, width: 2),
+                          backgroundColor: greenColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          'Lanjut',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: whiteColor,
+                            fontWeight: bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
