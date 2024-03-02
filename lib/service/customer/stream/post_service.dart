@@ -198,6 +198,38 @@ class PostServices extends ProviderClass {
     }
   }
 
+  Future<List<StreamHomeModel>> getSavedStream(int page,
+      {String? search}) async {
+    try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+      };
+
+      if (search != null) {
+        params.addAll({
+          "search": search,
+        });
+      }
+
+      var response = await networkingConfig.doGet(
+        '/stream/saved/my',
+        params: params,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e['stream']))
+          .toList();
+    } catch (error) {
+      print("getSavedStream ${error.toString()}");
+      return [];
+    }
+  }
+
   Future<List<StreamHomeModel>> getStreamByHashtag(int page,
       {String? search, String? hashtag}) async {
     try {

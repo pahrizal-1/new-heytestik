@@ -37,7 +37,7 @@ class _StreamHomePageState extends State<StreamHomePage>
 
   @override
   void initState() {
-    tabController = TabController(vsync: this, length: 4);
+    tabController = TabController(vsync: this, length: 5);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       index = widget.index;
       setState(() {});

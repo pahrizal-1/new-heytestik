@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/folowed_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/home_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/saved_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/trending_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/your_interest_stream_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -52,6 +53,9 @@ class AllInfoStreamPage extends StatelessWidget {
                 Tab(
                   text: 'Followed',
                 ),
+                Tab(
+                  text: 'Saved',
+                ),
               ],
             ),
           ),
@@ -63,6 +67,7 @@ class AllInfoStreamPage extends StatelessWidget {
                 InterestStreamPage(),
                 TrendingStreamPage(),
                 FollowedStreamPage(),
+                SavedStreamPage(),
               ],
             ),
           ),
