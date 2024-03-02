@@ -203,63 +203,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    post?.fullname ?? "",
-                                    style:
-                                        blackTextStyle.copyWith(fontSize: 14),
-                                  ),
-                                  if (stateProfile.username.value !=
-                                      post?.username)
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 5),
-                                      child: Container(
-                                        height: 5,
-                                        width: 5,
-                                        decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                              'assets/icons/dot.png',
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  if (stateProfile.username.value !=
-                                      post?.username)
-                                    InkWell(
-                                      onTap: () {
-                                        if (follow ?? post?.follow ?? true) {
-                                          postController.unFollowPost(
-                                            context,
-                                            post!.id,
-                                          );
-                                          setState(() {
-                                            follow = false;
-                                          });
-                                        } else {
-                                          postController.followPost(
-                                            context,
-                                            post!.id,
-                                          );
-                                          setState(() {
-                                            follow = true;
-                                          });
-                                        }
-                                      },
-                                      child: Text(
-                                        (follow ?? post?.follow ?? true)
-                                            ? 'Mengikuti'
-                                            : 'Ikuti',
-                                        style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 14,
-                                          color: greenColor,
-                                        ),
-                                      ),
-                                    ),
-                                ],
+                              Text(
+                                post?.fullname ?? "",
+                                style: blackTextStyle.copyWith(fontSize: 14),
                               ),
                               const SizedBox(
                                 height: 4,
@@ -288,6 +234,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           post?.username
                                       ? true
                                       : false,
+                                  follow: (follow ?? (post?.follow ?? false)),
                                 ),
                               );
                             },
@@ -1114,6 +1061,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                 comment.userName
                                             ? true
                                             : false,
+                                        follow:
+                                            (follow ?? (post?.follow ?? false)),
                                       ),
                                     );
                                   },

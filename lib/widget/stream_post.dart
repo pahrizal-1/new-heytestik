@@ -101,59 +101,9 @@ class _StreamPostPageState extends State<StreamPostPage> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.stream.fullname,
-                        style: blackTextStyle.copyWith(fontSize: 14),
-                      ),
-                      if (stateProfile.username.value != widget.stream.username)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: Container(
-                            height: 5,
-                            width: 5,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/icons/dot.png',
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      if (stateProfile.username.value != widget.stream.username)
-                        InkWell(
-                          onTap: () {
-                            if (follow ?? widget.stream.follow) {
-                              postController.unFollowPost(
-                                context,
-                                widget.stream.id,
-                              );
-                              setState(() {
-                                follow = false;
-                              });
-                            } else {
-                              postController.followPost(
-                                context,
-                                widget.stream.id,
-                              );
-                              setState(() {
-                                follow = true;
-                              });
-                            }
-                          },
-                          child: Text(
-                            (follow ?? widget.stream.follow)
-                                ? 'Mengikuti'
-                                : 'Ikuti',
-                            style: blackRegulerTextStyle.copyWith(
-                              fontSize: 14,
-                              color: greenColor,
-                            ),
-                          ),
-                        ),
-                    ],
+                  Text(
+                    widget.stream.fullname,
+                    style: blackTextStyle.copyWith(fontSize: 14),
                   ),
                   const SizedBox(
                     height: 4,
@@ -182,6 +132,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                           stateProfile.username.value == widget.stream.username
                               ? true
                               : false,
+                      follow: (follow ?? widget.stream.follow),
                     ),
                   );
                 },

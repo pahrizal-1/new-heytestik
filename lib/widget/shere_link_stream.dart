@@ -9,18 +9,27 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:social_share/social_share.dart';
 
-class ShareLinkStream extends StatelessWidget {
+class ShareLinkStream extends StatefulWidget {
   const ShareLinkStream({
     super.key,
     required this.isMe,
+    required this.follow,
     required this.post,
   });
   final bool isMe;
+  final bool follow;
   final StreamHomeModel post;
 
   @override
+  State<ShareLinkStream> createState() => _ShareLinkStreamState();
+}
+
+class _ShareLinkStreamState extends State<ShareLinkStream> {
+  PostController postController = Get.put(PostController());
+  bool? isFollow;
+
+  @override
   Widget build(BuildContext context) {
-    PostController postController = Get.put(PostController());
     return Wrap(
       children: [
         Padding(
@@ -33,7 +42,7 @@ class ShareLinkStream extends StatelessWidget {
                 'assets/icons/link.png',
                 'Salin Link',
                 () async {
-                  Uri? url = await createDynamicLinkStream(post.id);
+                  Uri? url = await createDynamicLinkStream(widget.post.id);
                   print("url $url");
                   SocialShare.copyToClipboard(
                     text: url.toString(),
@@ -47,38 +56,58 @@ class ShareLinkStream extends StatelessWidget {
                 },
                 blackColor,
               ),
-              if (!isMe)
+              if (!widget.isMe)
                 const SizedBox(
                   height: 33,
                 ),
-              if (!isMe)
+              if (!widget.isMe)
                 text(
                   'assets/icons/notification-logo-blak.png',
-                  'Ikuti postingan ini',
-                  () {},
+                  (isFollow ?? widget.follow)
+                      ? 'Berhenti mengikuti postingan ini'
+                      : 'Ikuti postingan ini',
+                  () async {
+                    if (isFollow ?? widget.follow) {
+                      postController.unFollowPost(
+                        context,
+                        widget.post.id,
+                      );
+                      setState(() {
+                        isFollow = false;
+                      });
+                    } else {
+                      postController.followPost(
+                        context,
+                        widget.post.id,
+                      );
+                      setState(() {
+                        isFollow = true;
+                      });
+                    }
+                  },
                   blackColor,
                 ),
-              if (!isMe)
+              if (!widget.isMe)
                 const SizedBox(
                   height: 33,
                 ),
-              if (!isMe)
+              if (!widget.isMe)
                 text(
                   'assets/icons/alert-new.png',
                   'Laporkan',
                   () {},
                   blackColor,
                 ),
-              if (!isMe)
+              if (!widget.isMe)
                 const SizedBox(
                   height: 33,
                 ),
-              if (!isMe)
+              if (!widget.isMe)
                 text(
                   'assets/icons/slash-icons.png',
-                  'Blokir @${post.username}',
+                  'Blokir @${widget.post.username}',
                   () {
-                    postController.blockUser(context, post.username);
+                    postController.blockUser(context, widget.post.username);
                   },
                   redColor,
                 ),
