@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
@@ -24,8 +25,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
   Duration myDuration = Duration(seconds: 120);
 
   void startTimer() {
-    countdownTimer =
-        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
   }
 
   void stopTimer() {
@@ -128,7 +128,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 height: 9,
               ),
               Text(
-                'Masukkan 6 digit kode yang telah dikirmkan ke Whatsapp',
+                'Masukkan 5 digit kode yang telah dikirmkan ke Whatsapp',
                 style: greyTextStyle,
               ),
               const SizedBox(
@@ -151,6 +151,14 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                onCodeChanged: (verif) {
+                  setState(() {
+                    state.otp.value = verif;
+                  });
+                },
                 onSubmit: (String verifCode) {
                   print(verifCode);
                   setState(() {
@@ -162,26 +170,35 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
               const SizedBox(
                 height: 15,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text('$minutes:$seconds', style: subTitleTextStyle),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    'detik',
-                    style: grenTextStyle.copyWith(fontSize: 12),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Text('$minutes:$seconds', style: subTitleTextStyle),
+              //     SizedBox(
+              //       width: 2,
+              //     ),
+              //     Text(
+              //       'detik',
+              //       style: grenTextStyle.copyWith(fontSize: 12),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(
                 height: 25,
               ),
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  state.verifyOtp(context,);
+                  if (state.otp.value.length < 5) {
+                    showDialog(
+                      context: Get.context!,
+                      builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
+                    );
+                  } else {
+                    state.verifyOtp(
+                      context,
+                    );
+                  }
                   print(state.otp.value);
                 },
               ),
@@ -195,24 +212,39 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                     'Belum mendapatkan kode?',
                     style: greyTextStyle.copyWith(fontSize: 14),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      if (countdownTimer!.isActive) {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertWidget(
-                                  subtitle: 'Coba beberapa saat lagi',
-                                ));
-                      } else {
-                        state.verifyCodeWA(context, widget.noHp);
-                        resetTimer();
-                      }
-                    },
-                    child: Text(
-                      ' Kirim Ulang',
-                      style: grenTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ),
+                  countdownTimer!.isActive
+                      ? Row(
+                          children: [
+                            Text(' $minutes:$seconds', style: subTitleTextStyle),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              ' detik',
+                              style: grenTextStyle.copyWith(fontSize: 12),
+                            ),
+                          ],
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (countdownTimer!.isActive) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertWidget(
+                                        subtitle: 'Coba beberapa saat lagi',
+                                      ));
+                            } else {
+                              state.verifyCodeWA(context, widget.noHp);
+                              resetTimer();
+                            }
+                          },
+                          child: state.isLoading.value
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  ' Kirim Ulang',
+                                  style: grenTextStyle.copyWith(fontSize: 14),
+                                ),
+                        ),
                 ],
               ),
             ],
@@ -228,20 +260,17 @@ class VerifikasiEmailKeamananAkunPage extends StatefulWidget {
   const VerifikasiEmailKeamananAkunPage({super.key, required this.email});
 
   @override
-  State<VerifikasiEmailKeamananAkunPage> createState() =>
-      _VerifikasiEmailKeamananAkunPageState();
+  State<VerifikasiEmailKeamananAkunPage> createState() => _VerifikasiEmailKeamananAkunPageState();
 }
 
-class _VerifikasiEmailKeamananAkunPageState
-    extends State<VerifikasiEmailKeamananAkunPage> {
+class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamananAkunPage> {
   final ProfileController state = Get.put(ProfileController());
 
   Timer? countdownTimer;
   Duration myDuration = Duration(seconds: 120);
 
   void startTimer() {
-    countdownTimer =
-        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
   }
 
   void stopTimer() {
@@ -344,7 +373,7 @@ class _VerifikasiEmailKeamananAkunPageState
                 height: 9,
               ),
               Text(
-                'Masukkan 6 digit kode yang telah dikirmkan ke Email',
+                'Masukkan 5 digit kode yang telah dikirmkan ke Email',
                 style: greyTextStyle,
               ),
               const SizedBox(
@@ -366,6 +395,12 @@ class _VerifikasiEmailKeamananAkunPageState
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onCodeChanged: (verif) {
+                  setState(() {
+                    state.otp.value = verif;
+                  });
+                },
                 onSubmit: (String verifCode) {
                   print(verifCode);
                   setState(() {
@@ -377,26 +412,35 @@ class _VerifikasiEmailKeamananAkunPageState
               const SizedBox(
                 height: 18,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text('$minutes:$seconds', style: subTitleTextStyle),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    'detik',
-                    style: grenTextStyle.copyWith(fontSize: 12),
-                  ),
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     Text('$minutes:$seconds', style: subTitleTextStyle),
+              //     SizedBox(
+              //       width: 2,
+              //     ),
+              //     Text(
+              //       'detik',
+              //       style: grenTextStyle.copyWith(fontSize: 12),
+              //     ),
+              //   ],
+              // ),
               const SizedBox(
                 height: 25,
               ),
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  state.verifyOtp(context);
+                  if (state.otp.value.length < 5) {
+                    showDialog(
+                      context: Get.context!,
+                      builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
+                    );
+                  } else {
+                    state.verifyOtp(
+                      context,
+                    );
+                  }
                   // Get.to(PinPageLamaCustomer());
                 },
               ),
@@ -410,24 +454,40 @@ class _VerifikasiEmailKeamananAkunPageState
                     'Belum mendapatkan kode?',
                     style: greyTextStyle.copyWith(fontSize: 14),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      if (countdownTimer!.isActive) {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertWidget(
-                                  subtitle: 'Coba beberapa saat lagi',
-                                ));
-                      } else {
-                        state.verifyCodeEmail(context, widget.email);
-                        resetTimer();
-                      }
-                    },
-                    child: Text(
-                      ' Kirim Ulang',
-                      style: grenTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ),
+                  countdownTimer!.isActive
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('$minutes:$seconds', style: subTitleTextStyle),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              'detik',
+                              style: grenTextStyle.copyWith(fontSize: 12),
+                            ),
+                          ],
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (countdownTimer!.isActive) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertWidget(
+                                        subtitle: 'Coba beberapa saat lagi',
+                                      ));
+                            } else {
+                              state.verifyCodeEmail(context, widget.email);
+                              resetTimer();
+                            }
+                          },
+                          child: state.isLoading.value
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  ' Kirim Ulang',
+                                  style: grenTextStyle.copyWith(fontSize: 14),
+                                ),
+                        ),
                 ],
               ),
             ],

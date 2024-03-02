@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_keamana_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 class MetodeVerifikasiPage extends StatefulWidget {
   const MetodeVerifikasiPage({super.key});
@@ -72,8 +73,7 @@ class _MetodeVerifikasiPageState extends State<MetodeVerifikasiPage> {
               ),
               Text(
                 'Pilih salah satu metode dibawah ini untuk mendapatkan kode verifikasi',
-                style: blackRegulerTextStyle.copyWith(
-                    fontSize: 15, color: blackColor),
+                style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -81,19 +81,24 @@ class _MetodeVerifikasiPageState extends State<MetodeVerifikasiPage> {
               ),
               InkWell(
                 onTap: () {
-                  state.verifyCodeWA(context, state.noHp.value);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VerifikasiKeamananPage(
-                                noHp: state.noHp.value,
-                              )));
+                  if (state.noHp.value.isNotEmpty) {
+                    state.verifyCodeWA(context, state.noHp.value);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VerifikasiKeamananPage(
+                                  noHp: state.noHp.value,
+                                )));
+                  } else {
+                    showDialog(
+                      context: Get.context!,
+                      builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi No Telepon Anda Terlebih Dahulu'),
+                    );
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.only(top: 18, left: 21, bottom: 17),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor, width: 0.6),
-                      borderRadius: BorderRadius.circular(7)),
+                  decoration: BoxDecoration(border: Border.all(color: borderColor, width: 0.6), borderRadius: BorderRadius.circular(7)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -113,10 +118,7 @@ class _MetodeVerifikasiPageState extends State<MetodeVerifikasiPage> {
                             style: blackHigtTextStyle.copyWith(fontSize: 15),
                           ),
                           Text(
-                            state.noHp.value.isNotEmpty
-                                ? state.noHp.value
-                                    .replaceAll(RegExp(r'.(?=.{10})'), '*')
-                                : '****-****-*645',
+                            state.noHp.value.isNotEmpty ? state.noHp.value.replaceAll(RegExp(r'.(?=.{10})'), '*') : '****-****-*645',
                             style: subTitleTextStyle.copyWith(fontSize: 15),
                           ),
                         ],
@@ -130,19 +132,24 @@ class _MetodeVerifikasiPageState extends State<MetodeVerifikasiPage> {
               ),
               InkWell(
                 onTap: () {
-                  state.verifyCodeEmail(context, state.email.value);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => VerifikasiEmailKeamananAkunPage(
-                                email: state.email.value,
-                              )));
+                  if (state.email.value.isNotEmpty) {
+                    state.verifyCodeEmail(context, state.email.value);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => VerifikasiEmailKeamananAkunPage(
+                                  email: state.email.value,
+                                )));
+                  } else {
+                    showDialog(
+                      context: Get.context!,
+                      builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Email Anda Terlebih Dahulu'),
+                    );
+                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.only(top: 18, left: 21, bottom: 17),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor, width: 0.6),
-                      borderRadius: BorderRadius.circular(7)),
+                  decoration: BoxDecoration(border: Border.all(color: borderColor, width: 0.6), borderRadius: BorderRadius.circular(7)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -162,10 +169,7 @@ class _MetodeVerifikasiPageState extends State<MetodeVerifikasiPage> {
                             style: blackHigtTextStyle.copyWith(fontSize: 15),
                           ),
                           Text(
-                            state.email.value.isNotEmpty
-                                ? state.email.value
-                                    .replaceAll(RegExp(r'.(?=.{10})'), '*')
-                                : 'c*******gmail.com',
+                            state.email.value.isNotEmpty ? state.email.value.replaceAll(RegExp(r'.(?=.{10})'), '*') : 'c*******gmail.com',
                             style: subTitleTextStyle.copyWith(fontSize: 15),
                           ),
                         ],
