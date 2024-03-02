@@ -142,11 +142,12 @@ class ProfileService extends ProviderClass {
 
   Future<List<StreamHomeModel>> getUserActivityPost(
     int page, {
+    required String username,
     String? search,
     String? postType,
   }) async {
     var response = await networkingConfig.doGet(
-      '/user-profile/customer/posts',
+      '/user-profile/$username/posts',
       params: {
         "page": page,
         "take": 10,

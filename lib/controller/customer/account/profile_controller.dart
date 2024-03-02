@@ -500,8 +500,10 @@ class ProfileController extends StateClass {
     isLoading.value = true;
     List<StreamHomeModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var user = await LocalStorage().getDataUser();
       data = await ProfileService().getUserActivityPost(
         page,
+        username: user['username'],
         search: search,
         postType: postType,
       );
