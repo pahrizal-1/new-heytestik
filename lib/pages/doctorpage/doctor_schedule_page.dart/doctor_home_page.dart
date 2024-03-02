@@ -17,7 +17,6 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:intl/intl.dart';
 
-
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/global.dart';
 
