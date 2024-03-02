@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/laporan_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/laporkan_stream_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -97,7 +97,7 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                   'assets/icons/alert-new.png',
                   'Laporkan',
                   () {
-                    Get.to(LaporanStreamPage());
+                    Get.to(() => LaporkanStreamPage());
                   },
                   blackColor,
                 ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/chat_contomer_page.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/filter_publish_widgets.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
-class LaporanStreamPage extends StatelessWidget {
-  const LaporanStreamPage({super.key});
+class LaporkanStreamPage extends StatelessWidget {
+  const LaporkanStreamPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class LaporanStreamPage extends StatelessWidget {
           children: [
             Text(
               'Alasan',
-              style: blackTextStyle.copyWith(fontSize: 20),
+              style: blackTextStyle.copyWith(fontSize: 18),
             ),
             SizedBox(
               height: 18,
@@ -92,7 +92,7 @@ class LaporanStreamPage extends StatelessWidget {
             ),
             Text(
               'Jelaskan lebih detail ya kenapa kamu melaporkan ini',
-              style: blackTextStyle.copyWith(fontSize: 20),
+              style: blackTextStyle.copyWith(fontSize: 18),
             ),
             SizedBox(
               height: 18,
@@ -116,7 +116,8 @@ class LaporanStreamPage extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.pop(context);
+                    Get.back();
+                    Get.back();
                   },
                   child: Container(
                     width: 165,
@@ -166,8 +167,10 @@ class LaporanStreamPage extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: ButtonWhiteWidget(
-                                      title: 'Kemabli',
-                                      onPressed: () {},
+                                      title: 'Kembali',
+                                      onPressed: () {
+                                        Get.back();
+                                      },
                                     ),
                                   ),
                                   SizedBox(
@@ -176,7 +179,7 @@ class LaporanStreamPage extends StatelessWidget {
                                   Expanded(
                                     child: ButtonGreenWidget(
                                       title: 'Laporkan',
-                                      onPressed: () {},
+                                      onPressed: () async {},
                                     ),
                                   ),
                                 ],
@@ -195,7 +198,7 @@ class LaporanStreamPage extends StatelessWidget {
                       height: 50,
                       child: Center(
                         child: Text(
-                          'Komfirmasi',
+                          'Konfirmasi',
                           style: whiteTextStyle.copyWith(
                               fontSize: 15, fontWeight: bold),
                         ),
