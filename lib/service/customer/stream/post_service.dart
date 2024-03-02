@@ -214,6 +214,38 @@ class PostServices extends ProviderClass {
     }
   }
 
+  void followPost(int postID) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/stream/$postID/follow-this-post',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print("followPost ${error.toString()}");
+    }
+  }
+
+  void unFollowPost(int postID) async {
+    try {
+      var response = await networkingConfig.doDelete(
+        '/stream/$postID/unfollow-this-post',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print("unFollowPost ${error.toString()}");
+    }
+  }
+
   void likePost(int postID) async {
     try {
       var response = await networkingConfig.doPost(

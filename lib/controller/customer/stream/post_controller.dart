@@ -179,6 +179,26 @@ class PostController extends StateClass {
     }
   }
 
+  void followPost(BuildContext context, int postID) async {
+    try {
+      // isLoading.value = true;
+      PostServices().followPost(postID);
+      // isLoading.value = false;
+    } catch (error) {
+      print("followPost ${error.toString()}");
+    }
+  }
+
+  void unFollowPost(BuildContext context, int postID) async {
+    try {
+      // isLoading.value = true;
+      PostServices().unFollowPost(postID);
+      // isLoading.value = false;
+    } catch (error) {
+      print("unFollowPost ${error.toString()}");
+    }
+  }
+
   void likePost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
