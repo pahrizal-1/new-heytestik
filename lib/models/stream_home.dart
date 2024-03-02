@@ -17,7 +17,7 @@ class StreamHomeModel {
   final int streamCommentReplies;
   final bool saved;
   final bool liked;
-  final bool follow;
+  final bool? follow;
   final int pollCount;
   final DateTime endTime;
   final List<String> postImage;

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/streams_by_hashtag_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
 import 'package:intl/intl.dart';
@@ -124,7 +125,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       if (stateProfile.username.value != widget.stream.username)
                         InkWell(
                           onTap: () {
-                            if (follow ?? widget.stream.follow) {
+                            if (follow ?? widget.stream.follow ?? true) {
                               postController.unFollowPost(
                                 context,
                                 widget.stream.id,
@@ -143,7 +144,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                             }
                           },
                           child: Text(
-                            (follow ?? widget.stream.follow)
+                            (follow ?? widget.stream.follow ?? true)
                                 ? 'Mengikuti'
                                 : 'Ikuti',
                             style: blackRegulerTextStyle.copyWith(
@@ -452,11 +453,21 @@ class _StreamPostPageState extends State<StreamPostPage> {
             ),
             Wrap(
               children: widget.stream.hashtags.map((hashtag) {
-                return Text(
-                  "#$hashtag",
-                  style: grenTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: regular,
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => StreamsByHashtagPage(
+                                  hashtag: hashtag,
+                                )));
+                  },
+                  child: Text(
+                    "#$hashtag",
+                    style: grenTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: regular,
+                    ),
                   ),
                 );
               }).toList(),

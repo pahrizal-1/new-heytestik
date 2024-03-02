@@ -51,6 +51,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   int page = 1;
   int index = 1;
   bool? like;
+  bool? follow;
   bool? saved;
   int postLike = 0;
   Map<String, int> commentLikes = {};
@@ -202,9 +203,63 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                post?.fullname ?? "",
-                                style: blackTextStyle.copyWith(fontSize: 14),
+                              Row(
+                                children: [
+                                  Text(
+                                    post?.fullname ?? "",
+                                    style:
+                                        blackTextStyle.copyWith(fontSize: 14),
+                                  ),
+                                  if (stateProfile.username.value !=
+                                      post?.username)
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 5),
+                                      child: Container(
+                                        height: 5,
+                                        width: 5,
+                                        decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                              'assets/icons/dot.png',
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  if (stateProfile.username.value !=
+                                      post?.username)
+                                    InkWell(
+                                      onTap: () {
+                                        if (follow ?? post?.follow ?? true) {
+                                          postController.unFollowPost(
+                                            context,
+                                            post!.id,
+                                          );
+                                          setState(() {
+                                            follow = false;
+                                          });
+                                        } else {
+                                          postController.followPost(
+                                            context,
+                                            post!.id,
+                                          );
+                                          setState(() {
+                                            follow = true;
+                                          });
+                                        }
+                                      },
+                                      child: Text(
+                                        (follow ?? post?.follow ?? true)
+                                            ? 'Mengikuti'
+                                            : 'Ikuti',
+                                        style: blackRegulerTextStyle.copyWith(
+                                          fontSize: 14,
+                                          color: greenColor,
+                                        ),
+                                      ),
+                                    ),
+                                ],
                               ),
                               const SizedBox(
                                 height: 4,
