@@ -459,14 +459,14 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                   ],
                 ),
           actions: [
-            // TextButton(
-            //     onPressed: () {
-            //       customeModal(context, AkhiriConsultasi());
-            //     },
-            //     child: Text(
-            //       'Selesai',
-            //       style: whiteTextStyle.copyWith(fontSize: 18),
-            //     )),
+            TextButton(
+                onPressed: () {
+                  customeModal(context, AkhiriConsultasi());
+                },
+                child: Text(
+                  'Selesai',
+                  style: whiteTextStyle.copyWith(fontSize: 18),
+                )),
             InkWell(
               onTap: () {
                 setState(() {
