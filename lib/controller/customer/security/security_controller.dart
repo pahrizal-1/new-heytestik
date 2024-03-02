@@ -22,7 +22,7 @@ import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
 import 'package:dio/dio.dart' as dio;
 
 class SecurityController extends StateClass {
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   RxString name = ''.obs;
   RxString username = ''.obs;
   RxString bio = ''.obs;
@@ -49,7 +49,6 @@ class SecurityController extends StateClass {
   ];
   RxString gender = ''.obs;
 
-  Map dataUser = {};
   File? image;
   String? fileImg64;
   RxBool isSave = false.obs;
@@ -74,12 +73,8 @@ class SecurityController extends StateClass {
   // }
 
   init() async {
-    fullName.value = await LocalStorage().getFullName();
-    dataUser = await LocalStorage().getDataUser();
-
-    print('fullname ${fullName.value}');
-    print('dataUser $dataUser');
-    print('dataUser ${dataUser['fullname']}');
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
   }
 
   verifyCodeEmail(

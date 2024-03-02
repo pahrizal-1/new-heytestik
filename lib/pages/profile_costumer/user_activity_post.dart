@@ -1,10 +1,11 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../core/global.dart';
-import '../../models/stream_home.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
@@ -18,38 +19,27 @@ class UserActivityPost extends StatefulWidget {
 }
 
 class _UserActivityPostState extends State<UserActivityPost> {
-  final ProfileController profileController = Get.put(ProfileController());
+  final ProfileController stateProfile = Get.put(ProfileController());
   final TextEditingController searchController = TextEditingController();
-  final ScrollController scrollController = ScrollController();
 
-  String postType = "ALL";
   bool searchActive = false;
   String? search;
-  int page = 1;
-  List<StreamHomeModel> activity = [];
 
   @override
   void initState() {
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      activity.addAll(await profileController.getUserActivityPost(context, page,
-          search: search, postType: postType));
+      stateProfile.postType.value = "ALL";
+      stateProfile.activity.value.addAll(
+        await stateProfile.getUserActivityPost(
+          context,
+          stateProfile.page.value,
+          search: search,
+          postType: stateProfile.postType.value,
+        ),
+      );
       setState(() {});
     });
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        bool isTop = scrollController.position.pixels == 0;
-        if (!isTop) {
-          page += 1;
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            activity.addAll(await profileController.getUserActivityPost(
-                context, page,
-                search: search, postType: postType));
-            setState(() {});
-          });
-        }
-      }
-    });
-    super.initState();
   }
 
   @override
@@ -74,9 +64,9 @@ class _UserActivityPostState extends State<UserActivityPost> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: profileController.imgNetwork.value != ""
+                          image: stateProfile.imgNetwork.value != ""
                               ? NetworkImage(
-                                      '${Global.FILE}/${profileController.imgNetwork.value}')
+                                      '${Global.FILE}/${stateProfile.imgNetwork.value}')
                                   as ImageProvider
                               : AssetImage('assets/images/profiledummy.png'),
                         ),
@@ -100,16 +90,12 @@ class _UserActivityPostState extends State<UserActivityPost> {
                         transform: Matrix4.translationValues(0, -3, 0),
                         child: TextFormField(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const BuatPostinganStream(),
-                              ),
-                            );
+                            Get.to(() => const BuatPostinganStream());
                           },
                           style: const TextStyle(
-                              fontSize: 15, fontFamily: 'ProximaNova'),
+                            fontSize: 15,
+                            fontFamily: 'ProximaNova',
+                          ),
                           decoration: InputDecoration(
                             hintText:
                                 'Mau share apa hari ini? Tulis disini yuk :)',
@@ -139,6 +125,47 @@ class _UserActivityPostState extends State<UserActivityPost> {
             ),
             child: Row(
               children: [
+                if (searchActive ||
+                    stateProfile.postType.value == 'STREAM' ||
+                    stateProfile.postType.value == 'MY_JOURNEY' ||
+                    stateProfile.postType.value == 'POLLING' ||
+                    stateProfile.postType.value == 'LIKED' ||
+                    stateProfile.postType.value == 'SAVED')
+                  InkWell(
+                    onTap: () async {
+                      searchActive = false;
+                      stateProfile.postType.value = 'ALL';
+                      searchController.clear();
+                      search = '';
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value.addAll(
+                        await stateProfile.getUserActivityPost(
+                          context,
+                          stateProfile.page.value,
+                          search: search,
+                          postType: stateProfile.postType.value,
+                        ),
+                      );
+                      setState(() {});
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                      ),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: greenColor,
+                        ),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        color: greenColor,
+                      ),
+                    ),
+                  ),
                 if (searchActive)
                   Container(
                     width: 300,
@@ -156,11 +183,15 @@ class _UserActivityPostState extends State<UserActivityPost> {
                         controller: searchController,
                         onEditingComplete: () async {
                           search = searchController.text;
-                          page += 1;
-                          activity.clear();
-                          activity = (await profileController
-                              .getUserActivityPost(context, page,
-                                  search: search, postType: postType));
+                          stateProfile.page.value = 1;
+                          stateProfile.activity.value.clear();
+                          stateProfile.activity.value =
+                              await stateProfile.getUserActivityPost(
+                            context,
+                            stateProfile.page.value,
+                            search: search,
+                            postType: stateProfile.postType.value,
+                          );
                           setState(() {});
                         },
                         style: const TextStyle(
@@ -174,7 +205,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                     ),
                   ),
                 if (!searchActive)
-                  GestureDetector(
+                  InkWell(
                     onTap: () {
                       searchActive = true;
                       setState(() {});
@@ -198,93 +229,164 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       ),
                     ),
                   ),
-                FiklterTreatment(
-                  title: 'Semua',
-                  onTap: () async {
-                    postType = "ALL";
-                    page += 1;
-                    activity.clear();
-                    activity = (await profileController.getUserActivityPost(
-                        context, page,
-                        search: search, postType: postType));
-                    setState(() {});
-                  },
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      stateProfile.postType.value = "ALL";
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value =
+                          await stateProfile.getUserActivityPost(
+                        context,
+                        stateProfile.page.value,
+                        search: search,
+                        postType: stateProfile.postType.value,
+                      );
+                      setState(() {});
+                    },
+                    child: FilterOnTap(
+                      title: 'Semua',
+                      isSelected: stateProfile.postType.value == 'ALL',
+                    ),
+                  ),
                 ),
-                FiklterTreatment(
-                  title: 'Stream',
-                  onTap: () async {
-                    postType = "STREAM";
-                    page += 1;
-                    activity.clear();
-                    activity = (await profileController.getUserActivityPost(
-                        context, page,
-                        search: search, postType: postType));
-                    setState(() {});
-                  },
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      stateProfile.postType.value = "STREAM";
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value =
+                          await stateProfile.getUserActivityPost(
+                        context,
+                        stateProfile.page.value,
+                        search: search,
+                        postType: stateProfile.postType.value,
+                      );
+                      setState(() {});
+                    },
+                    child: FilterOnTap(
+                      title: 'Stream',
+                      isSelected: stateProfile.postType.value == 'STREAM',
+                    ),
+                  ),
                 ),
-                FiklterTreatment(
-                  title: 'My Journey',
-                  onTap: () async {
-                    postType = "MY_JOURNEY";
-                    page += 1;
-                    activity.clear();
-                    activity = (await profileController.getUserActivityPost(
-                        context, page,
-                        search: search, postType: postType));
-                    setState(() {});
-                  },
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      stateProfile.postType.value = "MY_JOURNEY";
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value =
+                          await stateProfile.getUserActivityPost(
+                        context,
+                        stateProfile.page.value,
+                        search: search,
+                        postType: stateProfile.postType.value,
+                      );
+                      setState(() {});
+                    },
+                    child: FilterOnTap(
+                      title: 'My Journey',
+                      isSelected: stateProfile.postType.value == 'MY_JOURNEY',
+                    ),
+                  ),
                 ),
-                FiklterTreatment(
-                  title: 'Polling',
-                  onTap: () async {
-                    postType = "POLLING";
-                    page += 1;
-                    activity.clear();
-                    activity = (await profileController.getUserActivityPost(
-                        context, page,
-                        search: search, postType: postType));
-                    setState(() {});
-                  },
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      stateProfile.postType.value = "POLLING";
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value =
+                          await stateProfile.getUserActivityPost(
+                        context,
+                        stateProfile.page.value,
+                        search: search,
+                        postType: stateProfile.postType.value,
+                      );
+                      setState(() {});
+                    },
+                    child: FilterOnTap(
+                      title: 'Polling',
+                      isSelected: stateProfile.postType.value == 'POLLING',
+                    ),
+                  ),
                 ),
-                FiklterTreatment(
-                  title: 'Liked',
-                  onTap: () async {
-                    postType = "LIKED";
-                    page += 1;
-                    activity.clear();
-                    activity = (await profileController.getUserActivityPost(
-                        context, page,
-                        search: search, postType: postType));
-                    setState(() {});
-                  },
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      stateProfile.postType.value = "LIKED";
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value =
+                          await stateProfile.getUserActivityPost(
+                        context,
+                        stateProfile.page.value,
+                        search: search,
+                        postType: stateProfile.postType.value,
+                      );
+                      setState(() {});
+                    },
+                    child: FilterOnTap(
+                      title: 'Liked',
+                      isSelected: stateProfile.postType.value == 'LIKED',
+                    ),
+                  ),
                 ),
-                FiklterTreatment(
-                  title: 'Saved',
-                  onTap: () async {
-                    postType = "SAVED";
-                    page += 1;
-                    activity.clear();
-                    activity = (await profileController.getUserActivityPost(
-                        context, page,
-                        search: search, postType: postType));
-                    setState(() {});
-                  },
+                Obx(
+                  () => InkWell(
+                    onTap: () async {
+                      stateProfile.postType.value = "SAVED";
+                      stateProfile.page.value = 1;
+                      stateProfile.activity.value.clear();
+                      stateProfile.activity.value =
+                          await stateProfile.getUserActivityPost(
+                        context,
+                        stateProfile.page.value,
+                        search: search,
+                        postType: stateProfile.postType.value,
+                      );
+                      setState(() {});
+                    },
+                    child: FilterOnTap(
+                      title: 'Saved',
+                      isSelected: stateProfile.postType.value == 'SAVED',
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
         ),
-        ListView.separated(
-          controller: scrollController,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: activity.length,
-          itemBuilder: (context, index) {
-            return StreamPostPage(stream: activity[index]);
-          },
-          separatorBuilder: (context, index) {
-            return dividergreen();
-          },
+        Obx(
+          () => stateProfile.activity.value.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Center(
+                    child: Text(
+                      'Belum ada data',
+                      style: TextStyle(
+                        fontWeight: bold,
+                        fontFamily: 'ProximaNova',
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                )
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: stateProfile.activity.value.length,
+                  itemBuilder: (context, index) {
+                    return StreamPostPage(
+                      stream: stateProfile.activity.value[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return dividergreen();
+                  },
+                ),
         ),
       ],
     );

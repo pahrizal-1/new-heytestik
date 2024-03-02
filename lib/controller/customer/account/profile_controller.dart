@@ -2,7 +2,6 @@
 
 import 'dart:async';
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +11,10 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
+    as Overview;
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
+    as Reviews;
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_lama_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -19,23 +22,22 @@ import 'package:heystetik_mobileapps/service/auth/change_password_service.dart';
 import 'package:heystetik_mobileapps/service/customer/profile/profile_service.dart';
 import 'package:intl/intl.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
-
 import '../../../core/global.dart';
 import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
-import '../../../pages/profile_costumer/edit_profil_customer_page.dart';
 import 'package:dio/dio.dart' as dio;
 
 class ProfileController extends StateClass {
   Rx<InterestModel> interestData = InterestModel().obs;
   Rx<CompletionModel> completionData = CompletionModel().obs;
+  Rx<Overview.Data> userOverview = Overview.Data().obs;
   Rx<int> skinGoalsFaceCorrectiveLength = 0.obs;
   Rx<int> skinGoalsBodyCorrectiveLength = 0.obs;
   Rx<int> skinGoalsAugmentationLength = 0.obs;
   Rx<int> skinGoalsSexuallySkinLength = 0.obs;
   Rx<int> skinGoalsHistoryTreatmentLength = 0.obs;
 
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   RxString name = ''.obs;
   RxString username = ''.obs;
   RxString bio = ''.obs;
@@ -73,8 +75,12 @@ class ProfileController extends StateClass {
   File? facePhoto;
   RxBool isLoadingCam = false.obs;
 
+  RxInt page = 1.obs;
+  RxString postType = "ALL".obs;
+  RxList<StreamHomeModel> activity = List<StreamHomeModel>.empty().obs;
+  RxList<Reviews.Data2> reviews = List<Reviews.Data2>.empty().obs;
+
   startVerifyCountTime() {
-    // await timeCondition();
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       resendTime.value = resendTime.value - 1;
       if (resendTime.value <= 0) {
@@ -83,14 +89,10 @@ class ProfileController extends StateClass {
     });
   }
 
-  // timeCondition() {
-  //   timer!.cancel();
-  // }
-
   init() async {
     DateTime currentDate = DateTime.now();
-    fullName.value = await LocalStorage().getFullName();
     dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
     if (dataUser['dob'] != null) {
       age.value = currentDate.year - DateTime.parse(dataUser['dob']).year;
     }
@@ -142,22 +144,6 @@ class ProfileController extends StateClass {
 
       idCardPhoto = null;
       facePhoto = null;
-      doInPost();
-    });
-    isLoading.value = false;
-  }
-
-  closeAccount(BuildContext context, {required Function() doInPost}) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await ProfileService().closedAccount();
-      if (res['success'] != true && res['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res['message'],
-        );
-      }
-
       doInPost();
     });
     isLoading.value = false;
@@ -241,8 +227,10 @@ class ProfileController extends StateClass {
       };
 
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -297,16 +285,39 @@ class ProfileController extends StateClass {
     isLoading.value = false;
   }
 
+  verifyOtp(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        'type': "CHANGE_PASSWORD",
+        'verification_code': otp.value,
+      };
+
+      var loginResponse = await ChangePasswordService().verifyOTP(data);
+      Get.to(() => PinPageLamaCustomer());
+
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: loginResponse['message'],
+        );
+      }
+    });
+    isLoading.value = false;
+  }
+
   updateUsername(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var data = {
         "username": usernameController.text,
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -317,12 +328,11 @@ class ProfileController extends StateClass {
       var data = {
         "bio": bioController.text,
       };
-
       var response = await ProfileService().changeProfile(data);
-      // Navigator.pop(context, 'refresh');
-      await Get.to(EditProfilCostomer());
-      Get.back();
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -334,13 +344,12 @@ class ProfileController extends StateClass {
         "email": emailBaruController.text,
         "verification_code": otp.value
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(
-        context,
-      );
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -352,20 +361,18 @@ class ProfileController extends StateClass {
         "no_phone": nomorHpController.text,
         "verification_code": otp.value,
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(
-        context,
-      );
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
 
   updateProfile(BuildContext context) async {
     isLoading.value = true;
-
     try {
       var response = await dio.Dio().patch(
         Uri.encodeFull(Global.BASE_API + '/profile/user'),
@@ -395,7 +402,6 @@ class ProfileController extends StateClass {
     } catch (e) {
       print('err ${e}');
     }
-
     isLoading.value = false;
   }
 
@@ -405,10 +411,11 @@ class ProfileController extends StateClass {
       var data = {
         "gender": gender.value,
       };
-
       var response = await ProfileService().changeProfile(data);
-      Navigator.pop(context, 'refresh');
-      print(response);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Navigator.pop(context, 'refresh');
+      }
     });
     isLoading.value = false;
   }
@@ -423,8 +430,39 @@ class ProfileController extends StateClass {
       if (response['success'] || response['message'] == 'Success') {
         await LocalStorage().setDataUser(dataUser: response['data']);
         await init();
+        Navigator.pop(context, 'refresh');
       }
-      Navigator.pop(context, 'refresh');
+    });
+    isLoading.value = false;
+  }
+
+  updatePassword(BuildContext context, String oldpin, String newpin) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        'old_password': oldpin,
+        'new_password': newpin,
+      };
+      var response = await ChangePasswordService().changePassword(data);
+      if (response['success'] || response['message'] == 'Success') {
+        await LocalStorage().setDataUser(dataUser: response['data']);
+        Get.off(() => TabBarCustomer());
+      }
+    });
+    isLoading.value = false;
+  }
+
+  closeAccount(BuildContext context, {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await ProfileService().closedAccount();
+      if (res['success'] != true && res['message'] != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'],
+        );
+      }
+      doInPost();
     });
     isLoading.value = false;
   }
@@ -440,27 +478,17 @@ class ProfileController extends StateClass {
       });
 
       Get.offAll(() => const LoginPageNew());
-      print('logout customer');
     });
   }
 
-  Future<List<Data2>> getUserActivityReview(
-      BuildContext context, int page) async {
-    try {
-      isLoading.value = true;
-      FinishedReviewModel userProfileReview;
-      List<Data2> data = [];
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        userProfileReview = await ProfileService().getUserActivityReview(page);
-        data = userProfileReview.data!.data!;
-        isLoading.value = false;
-      });
-
-      return data;
-    } catch (error) {
-      print(error.toString());
-      return [];
-    }
+  Future<void> getUserOverview(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var user = await LocalStorage().getDataUser();
+      var res = await ProfileService().getUserOverview(user['username']);
+      userOverview.value = res.data!;
+    });
+    isLoading.value = false;
   }
 
   Future<List<StreamHomeModel>> getUserActivityPost(
@@ -469,77 +497,33 @@ class ProfileController extends StateClass {
     String? search,
     String? postType,
   }) async {
-    try {
-      isLoading.value = true;
-      List<StreamHomeModel> data = [];
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService()
-            .getUserActivityPost(page, search: search, postType: postType);
-        isLoading.value = false;
-      });
-
-      return data;
-    } catch (error) {
-      print(error.toString());
-      return [];
-    }
-  }
-
-  Future<Map<String, dynamic>> getUserOverview(BuildContext context) async {
-    try {
-      isLoading.value = true;
-      Map<String, dynamic> data = {};
-      await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await ProfileService().getUserOverview();
-        isLoading.value = false;
-      });
-
-      print("INI DATA");
-      print(data);
-      return data;
-    } catch (error) {
-      print(error.toString());
-      return {};
-    }
-  }
-
-  verifyOtp(
-    BuildContext context,
-  ) async {
     isLoading.value = true;
+    List<StreamHomeModel> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {
-        'type': "CHANGE_PASSWORD",
-        'verification_code': otp.value,
-      };
-
-      var loginResponse = await ChangePasswordService().verifyOTP(data);
-      Get.to(PinPageLamaCustomer());
-
-      if (loginResponse['success'] != true &&
-          loginResponse['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: loginResponse['message'],
-        );
-      }
+      var user = await LocalStorage().getDataUser();
+      data = await ProfileService().getUserActivityPost(
+        page,
+        username: user['username'],
+        search: search,
+        postType: postType,
+      );
     });
     isLoading.value = false;
+    return data;
   }
 
-  updatePassword(BuildContext context, String oldpin, String newpin) async {
+  Future<List<Data2>> getUserActivityReview(
+      BuildContext context, int page) async {
     isLoading.value = true;
+    FinishedReviewModel userProfileReview;
+    List<Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {
-        'old_password': oldpin,
-        'new_password': newpin,
-      };
-
-      var response = await ChangePasswordService().changePassword(data);
-      Get.off(() => TabBarCustomer());
-
-      print(response);
+      var user = await LocalStorage().getDataUser();
+      userProfileReview =
+          await ProfileService().getUserActivityReview(page, user['username']);
+      data = userProfileReview.data!.data!;
     });
     isLoading.value = false;
+    return data;
   }
 }

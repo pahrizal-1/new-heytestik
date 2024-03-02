@@ -14,7 +14,8 @@ import 'package:heystetik_mobileapps/models/drug_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
-  SolutionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  SolutionService()
+      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<SkincareModel> getAllSkincare(
     int page, {
@@ -116,7 +117,13 @@ class SolutionService extends ProviderClass {
     String category, {
     String? search,
   }) async {
-    Map<String, dynamic> params = {"page": 1, "take": 100, "search": search, "order": "asc", "category[]": category};
+    Map<String, dynamic> params = {
+      "page": 1,
+      "take": 100,
+      "search": search,
+      "order": "asc",
+      "category[]": category
+    };
 
     print("params $params");
 
@@ -149,7 +156,8 @@ class SolutionService extends ProviderClass {
     return OverviewProductModel.fromJson(response);
   }
 
-  Future<ProductReviewModel> getReviewProduct(int page, int take, int productId, {Map<String, dynamic>? filter}) async {
+  Future<ProductReviewModel> getReviewProduct(int page, int take, int productId,
+      {Map<String, dynamic>? filter}) async {
     Map<String, dynamic> params = {
       "page": page,
       "take": take,
@@ -189,7 +197,12 @@ class SolutionService extends ProviderClass {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
-    Map<String, dynamic> params = {"page": page, "take": 10, "search": search, "order": "desc"};
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+      "order": "desc"
+    };
 
     if (filter != null) {
       params.addAll(filter);
@@ -254,23 +267,6 @@ class SolutionService extends ProviderClass {
     );
 
     return DetailDrugModel.fromJson(response);
-  }
-
-  void addDrugToCart(int productID) async {
-    var response = await networkingConfig.doPost(
-      '/user-cart',
-      data: {
-        "product_id": productID,
-        "qty": 1,
-        "notes": null,
-      },
-      headers: {
-        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-        'User-Agent': await userAgent(),
-      },
-    );
-
-    print(response);
   }
 
   Future helped(int reviewId) async {

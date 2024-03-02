@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
 import 'package:heystetik_mobileapps/service/customer/solution/wishlist_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class WishlistController extends StateClass {
   TextEditingController searchController = TextEditingController();
@@ -20,7 +21,6 @@ class WishlistController extends StateClass {
       wishlist.value =
           await WishlistService().getWishlist(page, search: search);
       filterData.value = wishlist.value!.data!.data!;
-      print(filterData);
     });
     isLoading.value = false;
     return filterData.value;
@@ -67,6 +67,12 @@ class WishlistController extends StateClass {
           message: res['message'],
         );
       }
+
+      SnackbarWidget.getSuccessSnackbar(
+        context,
+        'Info',
+        'Produk berhasil dihapus dari Wishlist',
+      );
     });
     isLoading.value = false;
   }

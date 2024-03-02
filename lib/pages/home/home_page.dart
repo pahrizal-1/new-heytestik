@@ -100,7 +100,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 width: 11,
               ),
               Text(
-                'Hai, ',
+                'Hi, ',
                 style: blackRegulerTextStyle.copyWith(fontSize: 18),
               ),
               Expanded(

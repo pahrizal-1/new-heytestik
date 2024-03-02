@@ -2,22 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 
 class DrugWidget extends StatelessWidget {
-  DrugWidget({
-    Key? key,
-    required this.drug,
-  }) : super(key: key);
-
+  DrugWidget({Key? key, required this.drug}) : super(key: key);
   final Drug.Data2 drug;
-  DrugController state = Get.put(DrugController());
+
+  final CartController cart = Get.put(CartController());
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -99,16 +95,8 @@ class DrugWidget extends StatelessWidget {
                     Container(
                       height: 30,
                       child: TextButton(
-                        onPressed: () {
-                          state.addDrugToCart(
-                            context,
-                            drug.id!,
-                          );
-                          SnackbarWidget.getSuccessSnackbar(
-                            context,
-                            'Info',
-                            'Produk ditambahkan ke keranjang',
-                          );
+                        onPressed: () async {
+                          await cart.addCart(context, drug.id!, 1, '');
                         },
                         style: TextButton.styleFrom(
                           backgroundColor: greenColor,

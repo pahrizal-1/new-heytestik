@@ -53,16 +53,17 @@ class PotoWajahPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 300,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: FileImage(
-                    File(state.facePhoto!.path),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(
+                      File(state.facePhoto!.path),
+                    ),
+                    fit: BoxFit.cover,
                   ),
-                  fit: BoxFit.fill,
+                  shape: BoxShape.circle,
                 ),
-                shape: BoxShape.circle,
               ),
             ),
             const SizedBox(

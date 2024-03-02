@@ -5,15 +5,15 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/category_skincare.dart';
+import 'package:heystetik_mobileapps/pages/solution/skincare_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/skincare_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
@@ -37,9 +37,10 @@ class DetailSkinCarePage extends StatefulWidget {
 }
 
 class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
-  final SkincareController state = Get.put(SkincareController());
-  final WishlistController wishlist = Get.put(WishlistController());
-  final CartController cart = Get.put(CartController());
+  final SkincareController stateSkincare = Get.put(SkincareController());
+  final WishlistController stateWishlist = Get.put(WishlistController());
+  final CartController stateCart = Get.put(CartController());
+  final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
   bool isVisibelity = false;
   bool? help;
@@ -52,14 +53,14 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      state.detailSkincare(context, widget.productId);
-      state.getOverviewProduct(context, widget.productId);
-      state.getReviewProduct(context, 1, 3, widget.productId);
+      stateSkincare.detailSkincare(context, widget.productId);
+      stateUlasan.getOverviewProduct(context, widget.productId);
+      stateUlasan.getReviewProduct(context, 1, 3, widget.productId);
       relatedSkincare.addAll(
-        await state.relatedProductSkincare(context, widget.productId),
+        await stateSkincare.relatedProductSkincare(context, widget.productId),
       );
       skincareRecomendation.addAll(
-        await state.skincareRecomendation(context, widget.productId),
+        await stateSkincare.skincareRecomendation(context, widget.productId),
       );
       setState(() {});
     });
@@ -92,7 +93,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
               Expanded(
                 child: Obx(
                   () => Text(
-                    state.skincareDetail.value.skincareDetail?.brand ?? '',
+                    stateSkincare.skincareDetail.value.skincareDetail?.brand ??
+                        '',
                     style: blackTextStyle.copyWith(
                       fontSize: 20,
                       overflow: TextOverflow.ellipsis,
@@ -111,8 +113,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SkincareSearch(
-                        search: searchController.text,
+                      builder: (context) => SkincareSearchPage(
+                        searchParam: searchController.text,
                       ),
                     ),
                   );
@@ -171,7 +173,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoadingDetailSkincare.value,
+          isLoading: stateSkincare.isLoadingDetailSkincare.value,
           child: ListView(
             children: [
               Container(
@@ -180,7 +182,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      '${Global.FILE}/${state.skincareDetail.value.mediaProducts?[0].media?.path}',
+                      '${Global.FILE}/${stateSkincare.skincareDetail.value.mediaProducts?[0].media?.path}',
                     ),
                   ),
                 ),
@@ -215,7 +217,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Text(
                           CurrencyFormat.convertToIdr(
-                            state.skincareDetail.value.price ?? 0,
+                            stateSkincare.skincareDetail.value.price ?? 0,
                             0,
                           ),
                           style: subGreyTextStyle.copyWith(
@@ -231,7 +233,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       children: [
                         Text(
                           CurrencyFormat.convertToIdr(
-                            state.skincareDetail.value.price ?? 0,
+                            stateSkincare.skincareDetail.value.price ?? 0,
                             0,
                           ),
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
@@ -240,21 +242,23 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         InkWell(
                           onTap: () async {
                             if ((isWishlist ??
-                                    state.skincareDetail.value.wishlist) ==
+                                    stateSkincare
+                                        .skincareDetail.value.wishlist) ==
                                 true) {
                               isWishlist = false;
-                              await wishlist.deleteWistlist(
+                              await stateWishlist.deleteWistlist(
                                   context, widget.productId);
                               setState(() {});
                             } else {
                               isWishlist = true;
-                              await wishlist.addWishlist(
+                              await stateWishlist.addWishlist(
                                   context, widget.productId);
                               setState(() {});
                             }
                           },
                           child: isWishlist ??
-                                  state.skincareDetail.value.wishlist == true
+                                  stateSkincare.skincareDetail.value.wishlist ==
+                                      true
                               ? Icon(
                                   Icons.favorite,
                                   color: Colors.red,
@@ -267,15 +271,15 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       height: 15,
                     ),
                     Text(
-                      '${state.skincareDetail.value.skincareDetail?.brand}',
+                      '${stateSkincare.skincareDetail.value.skincareDetail?.brand}',
                       style: blackTextStyle.copyWith(fontSize: 20),
                     ),
                     Text(
-                      '${state.skincareDetail.value.name}',
+                      '${stateSkincare.skincareDetail.value.name}',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     Text(
-                      '${state.skincareDetail.value.skincareDetail?.specificationNetto}${state.skincareDetail.value.skincareDetail?.specificationNettoType}',
+                      '${stateSkincare.skincareDetail.value.skincareDetail?.specificationNetto}${stateSkincare.skincareDetail.value.skincareDetail?.specificationNettoType}',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     const SizedBox(
@@ -308,7 +312,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 width: 5,
                               ),
                               Text(
-                                '${state.skincareDetail.value.rating}',
+                                '${stateSkincare.skincareDetail.value.rating}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 13),
                               ),
@@ -330,7 +334,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     InkWell(
                       onTap: () {
-                        Get.to(PromoPage());
+                        Get.to(() => PromoPage());
                       },
                       child: Stack(
                         children: [
@@ -397,47 +401,48 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     TitleDetail(
                       ontap: () {
                         Get.to(
-                          CategorySkinCare(
-                            category:
-                                state.skincareDetail.value.category.toString(),
+                          () => SkincareSearchPage(
+                            category: stateSkincare
+                                .skincareDetail.value.category
+                                .toString(),
                           ),
                         );
                       },
                       title1: 'Kategori',
-                      title2: '${state.skincareDetail.value.category}',
+                      title2: '${stateSkincare.skincareDetail.value.category}',
                       textColor: greenColor,
                     ),
                     TitleDetail(
                       ontap: () {
                         Get.to(
-                          CategorySkinCare(
-                            category:
-                                state.skincareDetail.value.display.toString(),
+                          () => SkincareSearchPage(
+                            display: stateSkincare.skincareDetail.value.display
+                                .toString(),
                           ),
                         );
                       },
                       title1: 'Etalase Skincare',
-                      title2: '${state.skincareDetail.value.display}',
+                      title2: '${stateSkincare.skincareDetail.value.display}',
                       textColor: greenColor,
                     ),
                     TitleDetail(
                       title1: 'Tekstur',
                       title2:
-                          '${state.skincareDetail.value.skincareDetail?.specificationTexture}',
+                          '${stateSkincare.skincareDetail.value.skincareDetail?.specificationTexture}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
                     TitleDetail(
                       title1: 'Kemasan',
                       title2:
-                          '${state.skincareDetail.value.skincareDetail?.specificationPackagingType} ${state.skincareDetail.value.skincareDetail?.specificationNetto}${state.skincareDetail.value.skincareDetail?.specificationNettoType}',
+                          '${stateSkincare.skincareDetail.value.skincareDetail?.specificationPackagingType} ${stateSkincare.skincareDetail.value.skincareDetail?.specificationNetto}${stateSkincare.skincareDetail.value.skincareDetail?.specificationNettoType}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
                     TitleDetail(
                       title1: 'No. BPOM',
                       title2:
-                          '${state.skincareDetail.value.skincareDetail?.specificationBpom}',
+                          '${stateSkincare.skincareDetail.value.skincareDetail?.specificationBpom}',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
@@ -447,12 +452,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     DescripsiText(
                       title1: 'Deskripsi',
                       subtitle2:
-                          '${state.skincareDetail.value.skincareDetail?.description}',
+                          '${stateSkincare.skincareDetail.value.skincareDetail?.description}',
                     ),
                     DescripsiText(
                       title1: 'Petunjuk Penggunaan',
                       subtitle2:
-                          '${state.skincareDetail.value.skincareDetail?.specificationHowToUse}',
+                          '${stateSkincare.skincareDetail.value.skincareDetail?.specificationHowToUse}',
                     ),
                     InkWell(
                       onTap: () {
@@ -484,7 +489,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     Visibility(
                       visible: isVisibelity,
                       child: Text(
-                        '${state.skincareDetail.value.skincareDetail?.specificationIngredients}',
+                        '${stateSkincare.skincareDetail.value.skincareDetail?.specificationIngredients}',
                         style: blackRegulerTextStyle.copyWith(fontSize: 15),
                       ),
                     ),
@@ -515,7 +520,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         ),
                         Obx(
                           () => Text(
-                            '${state.overviewSkincare.value.avgRating ?? 0.0}',
+                            '${stateSkincare.overviewSkincare.value.avgRating ?? 0.0}',
                             style: blackHigtTextStyle.copyWith(fontSize: 30),
                           ),
                         ),
@@ -534,7 +539,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
+                                    '${stateSkincare.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 12,
                                         fontStyle: FontStyle.italic),
@@ -552,7 +557,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.totalRating ?? 0} rating',
+                                    '${stateSkincare.overviewSkincare.value.totalRating ?? 0} rating',
                                     style: blackTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -569,7 +574,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 ),
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.totalReview ?? 0} ulasan',
+                                    '${stateSkincare.overviewSkincare.value.totalReview ?? 0} ulasan',
                                     style: blackTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -602,7 +607,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.avgEffectivenessRating ?? 0}',
+                                    '${stateSkincare.overviewSkincare.value.avgEffectivenessRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -620,7 +625,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${state.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
+                                        '${stateSkincare.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -647,7 +652,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.avgTextureRating ?? 0}',
+                                    '${stateSkincare.overviewSkincare.value.avgTextureRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -665,7 +670,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${state.overviewSkincare.value.countTextureRating ?? 0} ulasan',
+                                        '${stateSkincare.overviewSkincare.value.countTextureRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -692,7 +697,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               children: [
                                 Obx(
                                   () => Text(
-                                    '${state.overviewSkincare.value.avgPackagingRating ?? 0}',
+                                    '${stateSkincare.overviewSkincare.value.avgPackagingRating ?? 0}',
                                     style: blackHigtTextStyle.copyWith(
                                         fontSize: 18),
                                   ),
@@ -710,7 +715,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        '${state.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
+                                        '${stateSkincare.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
                                         style: subTitleTextStyle.copyWith(
                                             fontSize: 12, fontWeight: regular),
                                       ),
@@ -748,7 +753,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => UlasanProdukPage(
-                                    productId: widget.productId),
+                                  productId: widget.productId,
+                                  isDrug: false,
+                                ),
                               ),
                             );
                           },
@@ -762,7 +769,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     const SizedBox(
                       height: 11,
                     ),
-                    Obx(() => state.productReview.isEmpty
+                    Obx(() => stateSkincare.productReview.isEmpty
                         ? Center(
                             child: Text(
                               'Belum ada ulasan',
@@ -774,7 +781,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                           )
                         : Column(
-                            children: state.productReview.map((element) {
+                            children:
+                                stateSkincare.productReview.map((element) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -919,7 +927,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                       InkWell(
                                         onTap: () async {
                                           if (help ?? element.helped!) {
-                                            state.unHelped(
+                                            stateUlasan.unHelped(
                                                 context, element.id!);
                                             setState(() {
                                               help = false;
@@ -929,7 +937,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                                       1;
                                             });
                                           } else {
-                                            state.helped(context, element.id!);
+                                            stateUlasan.helped(
+                                                context, element.id!);
                                             setState(() {
                                               help = true;
                                               helpReview["${element.id}"] =
@@ -1296,15 +1305,17 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     onTap: () {
                       List product = [
                         {
-                          "productId": state.skincareDetail.value.id,
-                          "productName": state.skincareDetail.value.name,
-                          "img": state.skincareDetail.value.mediaProducts?[0]
-                              .media?.path,
+                          "productId": stateSkincare.skincareDetail.value.id,
+                          "productName":
+                              stateSkincare.skincareDetail.value.name,
+                          "img": stateSkincare.skincareDetail.value
+                              .mediaProducts?[0].media?.path,
                           "qty": 1,
                           "notes": '',
                           "isSelected": true,
-                          "price": state.skincareDetail.value.price,
-                          "totalPrice": state.skincareDetail.value.price! * 1,
+                          "price": stateSkincare.skincareDetail.value.price,
+                          "totalPrice":
+                              stateSkincare.skincareDetail.value.price! * 1,
                         }
                       ];
 
@@ -1333,7 +1344,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 ),
                 InkWell(
                   onTap: () async {
-                    await cart.addCart(context, widget.productId, 1, '');
+                    await stateCart.addCart(context, widget.productId, 1, '');
                   },
                   child: Container(
                     height: 40,

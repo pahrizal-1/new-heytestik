@@ -116,7 +116,9 @@ class _HasilKosultasiPageState extends State<HasilKosultasiPage> {
                                         blackTextStyle.copyWith(fontSize: 15),
                                     children: [
                                       TextSpan(
-                                        text: ' - ${state.age.value} tahun',
+                                        text: state.age.value == 0
+                                            ? ''
+                                            : '${state.age.value} tahun',
                                         style: blackRegulerTextStyle.copyWith(
                                           fontSize: 15,
                                         ),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/streams_by_hashtag_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
   final ProfileController stateProfile = Get.put(ProfileController());
   final PostController postController = Get.put(PostController());
   bool? like;
+  bool? follow;
   bool? saved;
   Map<String, int> postLike = {};
   bool isTimeOver = false;
@@ -130,6 +132,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                           stateProfile.username.value == widget.stream.username
                               ? true
                               : false,
+                      follow: (follow ?? widget.stream.follow),
                     ),
                   );
                 },
@@ -401,11 +404,21 @@ class _StreamPostPageState extends State<StreamPostPage> {
             ),
             Wrap(
               children: widget.stream.hashtags.map((hashtag) {
-                return Text(
-                  "#$hashtag",
-                  style: grenTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: regular,
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => StreamsByHashtagPage(
+                                  hashtag: hashtag,
+                                )));
+                  },
+                  child: Text(
+                    "#$hashtag",
+                    style: grenTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: regular,
+                    ),
                   ),
                 );
               }).toList(),

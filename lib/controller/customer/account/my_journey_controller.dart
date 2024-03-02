@@ -39,7 +39,7 @@ class MyJourneyController extends StateClass {
   Rx<HistoryConsultationDoctorNote.Data> historyConsultationDoctorNote =
       HistoryConsultationDoctorNote.Data.fromJson({}).obs;
   var dataUser;
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   RxString phone = ''.obs;
   RxInt age = 0.obs;
   RxBool doctorNote = false.obs;

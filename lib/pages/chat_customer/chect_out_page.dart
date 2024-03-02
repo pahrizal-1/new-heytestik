@@ -212,6 +212,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               CurrencyFormat.convertToIdr(e['totalPrice'], 0),
                           nameProduk: e['productName'],
                           item: e['qty'].toString(),
+                          note: e['notes'],
                           urlImg: "${Global.FILE}/${e['img']}",
                         );
                       }),
@@ -647,12 +648,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             Obx(
                               () => Text(
                                 CurrencyFormat.convertToIdr(
-                                    state.totalAmount.value, 0),
+                                  state.totalAmount.value,
+                                  0,
+                                ),
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 20),
                               ),
                             ),
-                            const Icon(Icons.keyboard_arrow_up)
+                            const Icon(
+                              Icons.keyboard_arrow_up,
+                            )
                           ],
                         ),
                       ],

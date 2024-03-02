@@ -337,10 +337,19 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                               0,
                                             ),
                                             style: blackTextStyle.copyWith(
-                                                fontSize: 15),
+                                              fontSize: 14,
+                                            ),
                                           ),
                                         ),
                                       ],
+                                    ),
+                                    SizedBox(
+                                      height: 3,
+                                    ),
+                                    Text(
+                                      'Note : ${listProduct[index].note}',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 15),
                                     ),
                                   ],
                                 ),

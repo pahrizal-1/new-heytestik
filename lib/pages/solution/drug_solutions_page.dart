@@ -7,8 +7,8 @@ import 'package:heystetik_mobileapps/controller/customer/solution/etalase_contro
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
+import 'package:heystetik_mobileapps/pages/solution/drug_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/concern_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
 import 'package:heystetik_mobileapps/widget/cirkel_category.dart';
 import 'package:heystetik_mobileapps/widget/drug_widget.dart';
 import 'package:heystetik_mobileapps/widget/filter_drug.dart';
@@ -174,8 +174,8 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DrugSearch(
-                            search: searchController.text,
+                          builder: (context) => DrugSearchPage(
+                            searchParam: searchController.text,
                           ),
                         ),
                       );

@@ -3,8 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/fikter_card_solusions_widget.dart';
@@ -13,14 +17,15 @@ import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/topik_ulasan_widgets.dart';
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
+import 'package:social_share/social_share.dart';
 import '../../widget/filter_tap_widget.dart';
 import '../../widget/rating_dengan_ulasan_widgets.dart';
-import '../../widget/share_solusion_widget_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class UlasanProdukPage extends StatefulWidget {
   int productId;
-  UlasanProdukPage({required this.productId, super.key});
+  bool isDrug = false;
+  UlasanProdukPage({required this.productId, required this.isDrug, super.key});
 
   @override
   State<UlasanProdukPage> createState() => _UlasanProdukPageState();
@@ -28,17 +33,26 @@ class UlasanProdukPage extends StatefulWidget {
 
 class _UlasanProdukPageState extends State<UlasanProdukPage> {
   ScrollController scrollController = ScrollController();
-  final SkincareController state = Get.put(SkincareController());
+  final UlasanProdukController state = Get.put(UlasanProdukController());
+  final DrugController stateDrug = Get.put(DrugController());
+  final SkincareController stateSkincare = Get.put(SkincareController());
+  final WishlistController stateWishlist = Get.put(WishlistController());
   List<ProductReviewModel.Data2> reviews = [];
   bool isVisibelity = false;
   int page = 1;
   int take = 10;
+  bool? isWishlist;
   bool? help;
   Map<String, int> helpReview = {};
   Map<String, dynamic> filter = {};
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (widget.isDrug) {
+        stateDrug.detailDrug(context, widget.productId);
+      } else {
+        stateSkincare.detailSkincare(context, widget.productId);
+      }
       state.getOverviewProduct(context, widget.productId);
       reviews.addAll(await state.getReviewProduct(
           context, page, take, widget.productId,
@@ -90,7 +104,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
               Row(
                 children: [
                   Text(
-                    ' Ulasan',
+                    'Ulasan',
                     style:
                         whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
                   ),
@@ -111,27 +125,79 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset(
-            'assets/icons/love-grey.svg',
-            color: whiteColor,
-          ),
+          // SvgPicture.asset(
+          //   'assets/icons/love-grey.svg',
+          //   color: whiteColor,
+          // ),
+          if (widget.isDrug)
+            InkWell(
+              onTap: () async {
+                if ((isWishlist ?? stateDrug.drugDetail.value.wishlist) ==
+                    true) {
+                  isWishlist = false;
+                  await stateWishlist.deleteWistlist(context, widget.productId);
+                  setState(() {});
+                } else {
+                  isWishlist = true;
+                  await stateWishlist.addWishlist(context, widget.productId);
+                  setState(() {});
+                }
+              },
+              child: isWishlist ?? stateDrug.drugDetail.value.wishlist == true
+                  ? Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    )
+                  : Icon(Icons.favorite_outline),
+            )
+          else
+            InkWell(
+              onTap: () async {
+                if ((isWishlist ??
+                        stateSkincare.skincareDetail.value.wishlist) ==
+                    true) {
+                  isWishlist = false;
+                  await stateWishlist.deleteWistlist(context, widget.productId);
+                  setState(() {});
+                } else {
+                  isWishlist = true;
+                  await stateWishlist.addWishlist(context, widget.productId);
+                  setState(() {});
+                }
+              },
+              child: isWishlist ??
+                      stateSkincare.skincareDetail.value.wishlist == true
+                  ? Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    )
+                  : Icon(Icons.favorite_outline),
+            ),
           const SizedBox(
             width: 21,
           ),
           InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
-                ),
-                builder: (context) => const ShareShowWidget(),
-              );
+            onTap: () async {
+              Uri? url;
+              if (widget.isDrug) {
+                url = await createDynamicLinkDrug(widget.productId);
+              } else {
+                url = await createDynamicLinkSkincare(widget.productId);
+              }
+              print("url $url");
+              await SocialShare.shareOptions(url.toString());
+              // showModalBottomSheet(
+              //   isDismissible: false,
+              //   context: context,
+              //   backgroundColor: Colors.white,
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius: BorderRadiusDirectional.only(
+              //       topEnd: Radius.circular(25),
+              //       topStart: Radius.circular(25),
+              //     ),
+              //   ),
+              //   builder: (context) => const ShareShowWidget(),
+              // );
             },
             child: SvgPicture.asset(
               'assets/icons/share-icons.svg',
@@ -145,9 +211,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: state.isLoadingMore.value
-              ? false
-              : state.isLoadingProductReviewSkincare.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: SingleChildScrollView(
             controller: scrollController,
             child: Column(
@@ -169,7 +233,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           Obx(
                             () => Text(
-                              '${state.overviewSkincare.value.avgRating ?? 0.0}',
+                              '${state.productOverview.value.avgRating ?? 0.0}',
                               style: blackHigtTextStyle.copyWith(fontSize: 30),
                             ),
                           ),
@@ -188,7 +252,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.satisfiedPercentage ?? 0}% Sobat Hey',
+                                      '${state.productOverview.value.satisfiedPercentage ?? 0}% Sobat Hey',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 12,
                                           fontStyle: FontStyle.italic),
@@ -206,7 +270,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.totalRating ?? 0} rating',
+                                      '${state.productOverview.value.totalRating ?? 0} rating',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -223,7 +287,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                   ),
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.totalReview ?? 0} ulasan',
+                                      '${state.productOverview.value.totalReview ?? 0} ulasan',
                                       style: blackTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -256,7 +320,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.avgEffectivenessRating ?? 0}',
+                                      '${state.productOverview.value.avgEffectivenessRating ?? 0}',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 18),
                                     ),
@@ -275,7 +339,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                       ),
                                       Obx(
                                         () => Text(
-                                          '${state.overviewSkincare.value.countEffectivenessRating ?? 0} ulasan',
+                                          '${state.productOverview.value.countEffectivenessRating ?? 0} ulasan',
                                           style: subTitleTextStyle.copyWith(
                                               fontSize: 12,
                                               fontWeight: regular),
@@ -303,7 +367,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.avgTextureRating ?? 0}',
+                                      '${state.productOverview.value.avgTextureRating ?? 0}',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 18),
                                     ),
@@ -322,7 +386,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                       ),
                                       Obx(
                                         () => Text(
-                                          '${state.overviewSkincare.value.countTextureRating ?? 0} ulasan',
+                                          '${state.productOverview.value.countTextureRating ?? 0} ulasan',
                                           style: subTitleTextStyle.copyWith(
                                               fontSize: 12,
                                               fontWeight: regular),
@@ -350,7 +414,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                 children: [
                                   Obx(
                                     () => Text(
-                                      '${state.overviewSkincare.value.avgPackagingRating ?? 0}',
+                                      '${state.productOverview.value.avgPackagingRating ?? 0}',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 18),
                                     ),
@@ -369,7 +433,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                       ),
                                       Obx(
                                         () => Text(
-                                          '${state.overviewSkincare.value.countPackagingRating ?? 0} ulasan',
+                                          '${state.productOverview.value.countPackagingRating ?? 0} ulasan',
                                           style: subTitleTextStyle.copyWith(
                                               fontSize: 12,
                                               fontWeight: regular),
@@ -956,7 +1020,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                         ),
                 ),
                 Obx(
-                  () => state.isLoadingProductReviewSkincare.value
+                  () => state.isLoading.value
                       ? Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: LoadingMore(),
@@ -974,18 +1038,19 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
           height: 50,
           width: 50,
           child: FloatingActionButton(
-              onPressed: () {
-                if (scrollController.hasClients) {
-                  final position = scrollController.position.minScrollExtent;
-                  scrollController.animateTo(
-                    position,
-                    duration: Duration(seconds: 1),
-                    curve: Curves.easeOut,
-                  );
-                }
-              },
-              isExtended: true,
-              child: Image.asset('assets/icons/dowload.png')),
+            onPressed: () {
+              if (scrollController.hasClients) {
+                final position = scrollController.position.minScrollExtent;
+                scrollController.animateTo(
+                  position,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.easeOut,
+                );
+              }
+            },
+            isExtended: true,
+            child: Image.asset('assets/icons/dowload.png'),
+          ),
         ),
       ),
     );

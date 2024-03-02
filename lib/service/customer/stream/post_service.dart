@@ -198,6 +198,70 @@ class PostServices extends ProviderClass {
     }
   }
 
+  Future<List<StreamHomeModel>> getSavedStream(int page,
+      {String? search}) async {
+    try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+      };
+
+      if (search != null) {
+        params.addAll({
+          "search": search,
+        });
+      }
+
+      var response = await networkingConfig.doGet(
+        '/stream/saved/my',
+        params: params,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e['stream']))
+          .toList();
+    } catch (error) {
+      print("getSavedStream ${error.toString()}");
+      return [];
+    }
+  }
+
+  Future<List<StreamHomeModel>> getStreamByHashtag(int page,
+      {String? search, String? hashtag}) async {
+    try {
+      Map<String, dynamic> params = {
+        "page": page,
+        "take": 10,
+      };
+
+      if (search != null) {
+        params.addAll({
+          "search": search,
+        });
+      }
+
+      var response = await networkingConfig.doGet(
+        '/stream/hashtag/$hashtag',
+        params: params,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      return (response['data']['data'] as List)
+          .map((e) => StreamHomeModel.fromJson(e))
+          .toList();
+    } catch (error) {
+      print("getStreamByHashtag ${error.toString()}");
+      return [];
+    }
+  }
+
   Future<StreamHomeModel> getStreamById(int postId) async {
     try {
       var response = await networkingConfig.doGet(
@@ -211,6 +275,38 @@ class PostServices extends ProviderClass {
     } catch (error) {
       print("getStreamById SER ${error.toString()}");
       return StreamHomeModel.fromJson({});
+    }
+  }
+
+  void followPost(int postID) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/stream/$postID/follow-this-post',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print("followPost ${error.toString()}");
+    }
+  }
+
+  void unFollowPost(int postID) async {
+    try {
+      var response = await networkingConfig.doDelete(
+        '/stream/$postID/unfollow-this-post',
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+    } catch (error) {
+      print("unFollowPost ${error.toString()}");
     }
   }
 
@@ -501,6 +597,24 @@ class PostServices extends ProviderClass {
       print(response);
     } catch (error) {
       print("unBlockUser ${error.toString()}");
+    }
+  }
+
+  Future<void> reportUser(dynamic data) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/stream/report',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+      return response;
+    } catch (error) {
+      print("reportUser ${error.toString()}");
     }
   }
 }

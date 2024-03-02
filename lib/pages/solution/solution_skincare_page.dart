@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/controller/customer/solution/skincare_contr
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/skincare_search.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/filter_concern.dart';
@@ -20,7 +19,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
-import 'category_skincare.dart';
+import 'skincare_search_page.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
 
@@ -192,8 +191,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SkincareSearch(
-                            search: searchController.text,
+                          builder: (context) => SkincareSearchPage(
+                            searchParam: searchController.text,
                           ),
                         ),
                       );
@@ -400,7 +399,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                               child: InkWell(
                                 onTap: () {
                                   Get.to(
-                                    () => CategorySkinCare(
+                                    () => SkincareSearchPage(
                                       category: lookupCategory[index]
                                           .value
                                           .toString(),

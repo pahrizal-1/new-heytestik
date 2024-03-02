@@ -16,10 +16,14 @@ class PostController extends StateClass {
   RxList<StreamHomeModel> followedStreams = List<StreamHomeModel>.empty().obs;
   RxList<StreamHomeModel> trendingStreams = List<StreamHomeModel>.empty().obs;
   RxList<StreamHomeModel> interestStreams = List<StreamHomeModel>.empty().obs;
+  RxList<StreamHomeModel> savedStreams = List<StreamHomeModel>.empty().obs;
+  RxList<StreamHomeModel> streamsByHashtag = List<StreamHomeModel>.empty().obs;
   RxInt homeStreamIndex = 1.obs;
   RxInt interestStreamIndex = 1.obs;
   RxInt followedStreamIndex = 1.obs;
   RxInt trendingStreamIndex = 1.obs;
+  RxInt savedStreamIndex = 1.obs;
+  RxInt streamsByHashtagIndex = 1.obs;
   RxList<Data2> recentImage = List<Data2>.empty().obs;
 
   Future<List<Data2>> getRecentImage(BuildContext context, int page) async {
@@ -127,6 +131,45 @@ class PostController extends StateClass {
     }
   }
 
+  Future<List<StreamHomeModel>> getSavedStream(BuildContext context) async {
+    try {
+      isLoading.value = true;
+      List<StreamHomeModel> data = [];
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await PostServices()
+            .getSavedStream(savedStreamIndex.value, search: search.value);
+        isLoading.value = false;
+      });
+
+      savedStreams.addAll(data);
+      return data;
+    } catch (error) {
+      print("getSavedStream ${error.toString()}");
+      return [];
+    }
+  }
+
+  Future<List<StreamHomeModel>> getStreamByHashtag(
+      BuildContext context, String hashtag) async {
+    try {
+      isLoading.value = true;
+      List<StreamHomeModel> data = [];
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        data = await PostServices().getStreamByHashtag(
+            streamsByHashtagIndex.value,
+            search: search.value,
+            hashtag: hashtag);
+        isLoading.value = false;
+      });
+
+      streamsByHashtag.addAll(data);
+      return data;
+    } catch (error) {
+      print("getStreamByHashtag ${error.toString()}");
+      return [];
+    }
+  }
+
   Future<StreamHomeModel?> getStreamById(
       BuildContext context, int postId) async {
     try {
@@ -139,7 +182,7 @@ class PostController extends StateClass {
 
       return data;
     } catch (error) {
-      print("getStreamById CON ${error.toString()}");
+      print("getStreamById ${error.toString()}");
       return StreamHomeModel.fromJson({});
     }
   }
@@ -176,6 +219,26 @@ class PostController extends StateClass {
     } catch (error) {
       print("getCommentReplies ${error.toString()}");
       return [];
+    }
+  }
+
+  void followPost(BuildContext context, int postID) async {
+    try {
+      // isLoading.value = true;
+      PostServices().followPost(postID);
+      // isLoading.value = false;
+    } catch (error) {
+      print("followPost ${error.toString()}");
+    }
+  }
+
+  void unFollowPost(BuildContext context, int postID) async {
+    try {
+      // isLoading.value = true;
+      PostServices().unFollowPost(postID);
+      // isLoading.value = false;
+    } catch (error) {
+      print("unFollowPost ${error.toString()}");
     }
   }
 
@@ -311,5 +374,21 @@ class PostController extends StateClass {
     } catch (error) {
       print("unBlockUser ${error.toString()}");
     }
+  }
+
+  Future<void> reportUser(BuildContext context, int streamId,
+      String reportReason, String reportDetail,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "stream_id": streamId,
+        "report_reason": reportReason,
+        "report_detail": reportDetail
+      };
+      await PostServices().reportUser(data);
+      doInPost();
+    });
+    isLoading.value = false;
   }
 }

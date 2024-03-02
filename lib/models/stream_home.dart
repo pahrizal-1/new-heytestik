@@ -1,5 +1,6 @@
 class StreamHomeModel {
   final int id;
+  final int userId;
   final String content;
   // final String type;
   final String createdAt;
@@ -16,12 +17,14 @@ class StreamHomeModel {
   final int streamCommentReplies;
   final bool saved;
   final bool liked;
+  final bool follow;
   final int pollCount;
   final DateTime endTime;
   final List<String> postImage;
 
   const StreamHomeModel({
     required this.id,
+    required this.userId,
     required this.content,
     // required this.type,
     required this.createdAt,
@@ -36,6 +39,7 @@ class StreamHomeModel {
     required this.streamLikes,
     required this.streamCommentReplies,
     required this.saved,
+    required this.follow,
     required this.liked,
     required this.hashtags,
     required this.pollCount,
@@ -67,6 +71,7 @@ class StreamHomeModel {
 
     return StreamHomeModel(
       id: json['id'],
+      userId: json['user_id'],
       content: json['content'] ?? "",
       // type: json['type'] ?? "",
       createdAt: json['created_at'] ?? "",
@@ -88,6 +93,7 @@ class StreamHomeModel {
       streamLikes: json['_count']['stream_likes'],
       streamCommentReplies: json['_count']['stream_comment_replies'],
       saved: json['saved'],
+      follow: json['follow'],
       liked: json['like'],
       hashtags: json['stream_hastags'] == null
           ? []

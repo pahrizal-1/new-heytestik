@@ -54,7 +54,7 @@ class BeautyProfil extends StatelessWidget {
             ),
             Obx(
               () => Text(
-                '${stateLocation.myCity.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
+                '${stateLocation.myCity.value}${state.age.value == 0 ? '' : ', ${state.age.value} tahun'}',
                 style: blackRegulerTextStyle.copyWith(fontSize: 15),
               ),
             ),

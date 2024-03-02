@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,22 +40,56 @@ class ProfilCustomerPage extends StatefulWidget {
 
 class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
   final LocationController stateLocation = Get.put(LocationController());
-  final ProfileController state = Get.put(ProfileController());
-  int iSelected = 0;
-
-  Map<String, dynamic> userOverview = {};
+  final ProfileController stateProfile = Get.put(ProfileController());
+  final TextEditingController searchController = TextEditingController();
+  final ScrollController scrollController = ScrollController();
+  bool isPost = true;
+  String? search;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      state.init();
-      state.getProfile(context);
-      state.getCompletion(context);
-      state.getInterest(context);
+      stateProfile.postType.value = "ALL";
+      stateProfile.page.value = 1;
+      stateProfile.activity.value.clear();
+      stateProfile.init();
+      stateProfile.getProfile(context);
+      stateProfile.getCompletion(context);
+      stateProfile.getInterest(context);
       stateLocation.getLocation(context);
-      userOverview = await state.getUserOverview(context);
+      stateProfile.getUserOverview(context);
       setState(() {});
+    });
+    scrollController.addListener(() {
+      if (scrollController.position.atEdge) {
+        bool isTop = scrollController.position.pixels == 0;
+        if (!isTop) {
+          stateProfile.page.value += 1;
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            if (isPost) {
+              stateProfile.activity.value.addAll(
+                await stateProfile.getUserActivityPost(
+                  context,
+                  stateProfile.page.value,
+                  search: search,
+                  postType: stateProfile.postType.value,
+                ),
+              );
+            } else {
+              stateProfile.isLoadingMore.value = true;
+              stateProfile.reviews.value.addAll(
+                await stateProfile.getUserActivityReview(
+                  context,
+                  stateProfile.page.value,
+                ),
+              );
+              stateProfile.isLoadingMore.value = false;
+            }
+            setState(() {});
+          });
+        }
+      }
     });
   }
 
@@ -109,449 +143,463 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          Obx(
-            () => state.completionData.value.data?.percentage == 100
-                ? Container()
-                : Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    height: 39,
-                    color: greenColor.withOpacity(0.3),
-                    child: Row(
-                      children: [
-                        Obx(
-                          () => Text(
-                            state.completionData.value.data?.title ?? '-',
-                            style: blackRegulerTextStyle.copyWith(
-                                fontSize: 10, color: blackColor),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 7,
-                            width: 185 *
-                                (int.parse((state.completionData.value.data
-                                                ?.percentage ??
-                                            0)
-                                        .toString()) /
-                                    100),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              color: greenColor,
+      body: SingleChildScrollView(
+        controller: scrollController,
+        child: Column(
+          children: [
+            Obx(
+              () => stateProfile.completionData.value.data?.percentage == 100
+                  ? Container()
+                  : Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      height: 39,
+                      color: greenColor.withOpacity(0.3),
+                      child: Row(
+                        children: [
+                          Obx(
+                            () => Text(
+                              stateProfile.completionData.value.data?.title ??
+                                  '-',
+                              style: blackRegulerTextStyle.copyWith(
+                                  fontSize: 10, color: blackColor),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 7,
-                            decoration: BoxDecoration(
-                              color: whiteColor,
-                              borderRadius: BorderRadius.circular(7),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 7,
+                              width: 185 *
+                                  (int.parse((stateProfile.completionData.value
+                                                  .data?.percentage ??
+                                              0)
+                                          .toString()) /
+                                      100),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                color: greenColor,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Obx(
-                          () => Text(
-                            '${state.completionData.value.data?.percentage ?? 0}%',
-                            style: grenTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        InkWell(
-                          onTap: () async {
-                            print(state.completionData.value.data?.subtitle);
-                            bool check = false;
-                            if (state.completionData.value.data?.subtitle ==
-                                'Anggaran Untuk Skincare & Treatment') {
-                              check = await Get.to(AnggaranTreatment(
-                                isEdit: false,
-                                isCompleteProfile: true,
-                              ));
-                            }
-
-                            if (state.completionData.value.data?.subtitle ==
-                                'Treatment yang pernah dilakukan') {
-                              check = await Get.to(SkinGloalsPilihTreamtmnet(
-                                isEdit: false,
-                                isCompleteProfile: true,
-                              ));
-                            }
-                            if (state.completionData.value.data?.subtitle ==
-                                "Penyakit Menular Seksual dan Masalah Kulit Lainnya") {
-                              check = await Get.to(SkinGoalsPenularan(
-                                isEdit: false,
-                                isCompleteProfile: true,
-                              ));
-                            }
-                            if (state.completionData.value.data?.subtitle ==
-                                'Skin Goals Augmentation Wajah & Tubuh') {
-                              check = await Get.to(SkinGolasWajahTubuh(
-                                isEdit: false,
-                                isCompleteProfile: true,
-                              ));
-                            }
-
-                            if (state.completionData.value.data?.subtitle ==
-                                'Skin Goals Korektif Tubuh') {
-                              check = await Get.to(SkinGoalsTubuh(
-                                isEdit: false,
-                                isCompleteProfile: true,
-                              ));
-                            }
-
-                            if (state.completionData.value.data?.subtitle ==
-                                'Skin Goals Korektif Wajah') {
-                              check = await Get.to(SkinGoalsKorektifWajah(
-                                isEdit: false,
-                                isCompleteProfile: true,
-                              ));
-                            }
-
-                            if (state.completionData.value.data?.subtitle ==
-                                'Beauty Profile') {
-                              check = await Get.to(BeautyProfilPage(
-                                  isEdit: false, isCompleteProfile: true));
-                            }
-                            if (state.completionData.value.data?.subtitle ==
-                                'Verifikasi Email') {
-                              check = await Get.to(VerificationAcooutPage(
-                                  isCompleteProfile: true));
-                            }
-
-                            if (state.completionData.value.data?.subtitle ==
-                                'Verifikasi No. Handphone') {
-                              check = await Get.to(
-                                  PhoneNumberPage(isCompleteProfile: true));
-                            }
-
-                            setState(() {});
-
-                            if (check) {
-                              await state.getCompletion(context);
-                              await state.getInterest(context);
-                            }
-                          },
-                          child: Container(
-                            height: 20,
-                            width: 50,
-                            decoration: BoxDecoration(
-                              color: greenColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              'Lengkapi',
-                              style: whiteTextStyle.copyWith(fontSize: 9),
+                          Expanded(
+                            child: Container(
+                              height: 7,
+                              decoration: BoxDecoration(
+                                color: whiteColor,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
                             ),
                           ),
-                        )
-                      ],
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Obx(
+                            () => Text(
+                              '${stateProfile.completionData.value.data?.percentage ?? 0}%',
+                              style: grenTextStyle.copyWith(fontSize: 13),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              bool check = false;
+                              if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Anggaran Untuk Skincare & Treatment') {
+                                check = await Get.to(() => AnggaranTreatment(
+                                      isEdit: false,
+                                      isCompleteProfile: true,
+                                    ));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Treatment yang pernah dilakukan') {
+                                check = await Get.to(
+                                    () => SkinGloalsPilihTreamtmnet(
+                                          isEdit: false,
+                                          isCompleteProfile: true,
+                                        ));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  "Penyakit Menular Seksual dan Masalah Kulit Lainnya") {
+                                check = await Get.to(() => SkinGoalsPenularan(
+                                      isEdit: false,
+                                      isCompleteProfile: true,
+                                    ));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Skin Goals Augmentation Wajah & Tubuh') {
+                                check = await Get.to(() => SkinGolasWajahTubuh(
+                                      isEdit: false,
+                                      isCompleteProfile: true,
+                                    ));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Skin Goals Korektif Tubuh') {
+                                check = await Get.to(() => SkinGoalsTubuh(
+                                      isEdit: false,
+                                      isCompleteProfile: true,
+                                    ));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Skin Goals Korektif Wajah') {
+                                check =
+                                    await Get.to(() => SkinGoalsKorektifWajah(
+                                          isEdit: false,
+                                          isCompleteProfile: true,
+                                        ));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Beauty Profile') {
+                                check = await Get.to(() => BeautyProfilPage(
+                                    isEdit: false, isCompleteProfile: true));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Verifikasi Email') {
+                                check = await Get.to(() =>
+                                    VerificationAcooutPage(
+                                        isCompleteProfile: true));
+                              } else if (stateProfile
+                                      .completionData.value.data?.subtitle ==
+                                  'Verifikasi No. Handphone') {
+                                check = await Get.to(() =>
+                                    PhoneNumberPage(isCompleteProfile: true));
+                              }
+                              setState(() {});
+                              if (check) {
+                                await stateProfile.getCompletion(context);
+                                await stateProfile.getInterest(context);
+                              }
+                            },
+                            child: Container(
+                              height: 20,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: greenColor,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              padding: EdgeInsets.all(5),
+                              child: Text(
+                                'Lengkapi',
+                                style: whiteTextStyle.copyWith(fontSize: 9),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-          ),
-          Padding(
-            padding:
-                const EdgeInsets.only(top: 23, left: 25, right: 25, bottom: 18),
-            child: Column(
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(
-                      () => Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: state.imgNetwork.value != ""
-                                ? NetworkImage(
-                                        '${Global.FILE}/${state.imgNetwork.value}')
-                                    as ImageProvider
-                                : AssetImage('assets/images/profiledummy.png'),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 10, left: 25, right: 25, bottom: 18),
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Obx(
+                        () => Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: stateProfile.imgNetwork.value != ""
+                                  ? NetworkImage(
+                                          '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                                      as ImageProvider
+                                  : AssetImage(
+                                      'assets/images/profiledummy.png'),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Obx(
-                          () => Text(
-                            state.fullName.value,
-                            style: blackTextStyle.copyWith(fontSize: 18),
+                      const SizedBox(
+                        width: 12,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => Text(
+                              stateProfile.fullName.value,
+                              style: blackTextStyle.copyWith(fontSize: 18),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Obx(
-                          () => Text(
-                            '${stateLocation.myCity.value}, ${state.age.value == 0 ? '-' : state.age.value} tahun',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                          const SizedBox(
+                            height: 2,
                           ),
-                        ),
-                        const SizedBox(
-                          height: 2,
-                        ),
-                        Row(
-                          children: [
-                            Obx(
-                              () => Text(
-                                state.interestData.value.data?.beautyProfile
-                                        ?.skinType ??
-                                    '-',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 13,
+                          Obx(
+                            () => Text(
+                              '${stateLocation.myCity.value}${stateProfile.age.value == 0 ? '' : ', ${stateProfile.age.value} tahun'}',
+                              style:
+                                  blackRegulerTextStyle.copyWith(fontSize: 13),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 2,
+                          ),
+                          Row(
+                            children: [
+                              Obx(
+                                () => Text(
+                                  stateProfile.interestData.value.data
+                                          ?.beautyProfile?.skinType ??
+                                      '-',
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 13,
+                                  ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Get.to(() => BeautyProfil());
-                              },
-                              child: Icon(
-                                Icons.keyboard_arrow_down,
-                                color: greenColor,
-                              ),
-                            )
-                          ],
-                        ),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 13, right: 12, top: 7, bottom: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              15,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                'assets/icons/gelar.png',
-                                height: 14,
-                              ),
-                              const SizedBox(
-                                width: 6.4,
-                              ),
-                              Text(
-                                'Bronze Member',
-                                style: blackRegulerTextStyle.copyWith(
-                                  fontSize: 13,
+                              InkWell(
+                                onTap: () {
+                                  Get.to(() => BeautyProfil());
+                                },
+                                child: Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: greenColor,
                                 ),
                               )
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const EditProfilCostomer(),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 13, right: 12, top: 7, bottom: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                15,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/gelar.png',
+                                  height: 14,
+                                ),
+                                const SizedBox(
+                                  width: 6.4,
+                                ),
+                                Obx(
+                                  () => Text(
+                                    '${stateProfile.userOverview.value.level ?? ''} Member',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 5),
-                        child: Image.asset(
-                          'assets/icons/edit.png',
-                          width: 20,
-                          color: blackColor,
-                        ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: 26,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'Followers',
-                          style: subTitleTextStyle.copyWith(fontSize: 13),
+                      const Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => const EditProfilCostomer());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Image.asset(
+                            'assets/icons/edit.png',
+                            width: 20,
+                            color: blackColor,
+                          ),
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${userOverview['total_follower'] ?? 0}',
-                          style: blackTextStyle.copyWith(fontSize: 13),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      width: 0.4,
-                      height: 30,
-                      color: blackColor,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Following',
-                          style: subTitleTextStyle.copyWith(fontSize: 13),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${userOverview['total_following'] ?? 0}',
-                          style: blackTextStyle.copyWith(fontSize: 13),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      width: 0.4,
-                      height: 30,
-                      color: blackColor,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Posts',
-                          style: subTitleTextStyle.copyWith(fontSize: 13),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${userOverview['total_post'] ?? 0}',
-                          style: blackTextStyle.copyWith(fontSize: 13),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Container(
-                      width: 0.4,
-                      height: 30,
-                      color: blackColor,
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    Column(
-                      children: [
-                        Text(
-                          'Reviews',
-                          style: subTitleTextStyle.copyWith(fontSize: 13),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          '${userOverview['total_review'] ?? 0}',
-                          style: blackTextStyle.copyWith(fontSize: 13),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const dividergreen(),
-          const SizedBox(
-            height: 19,
-          ),
-          Padding(
-            padding: lsymetric,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      iSelected = 0;
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      Text(
-                        'Posts',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 15,
-                            color: iSelected == 0 ? greenColor : subTitleColor,
-                            fontWeight: bold),
-                      ),
-                      const SizedBox(
-                        height: 14,
-                      ),
-                      Container(
-                        height: 2,
-                        width: 150,
-                        decoration: BoxDecoration(
-                            color: iSelected == 0 ? greenColor : subTitleColor),
                       )
                     ],
                   ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      iSelected = 1;
-                    });
-                  },
-                  child: Column(
+                  const SizedBox(
+                    height: 26,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Reviews',
-                        style: subTitleTextStyle.copyWith(
-                            fontSize: 15,
-                            fontWeight: bold,
-                            color: iSelected == 1 ? greenColor : subTitleColor),
+                      Column(
+                        children: [
+                          Text(
+                            'Followers',
+                            style: subTitleTextStyle.copyWith(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(
+                            () => Text(
+                              '${stateProfile.userOverview.value.totalFollower ?? 0}',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            ),
+                          )
+                        ],
                       ),
                       const SizedBox(
-                        height: 14,
+                        width: 15,
                       ),
                       Container(
-                        height: 2,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: iSelected == 1 ? greenColor : subTitleColor,
-                        ),
+                        width: 0.4,
+                        height: 30,
+                        color: blackColor,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Following',
+                            style: subTitleTextStyle.copyWith(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(
+                            () => Text(
+                              '${stateProfile.userOverview.value.totalFollowing ?? 0}',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        width: 0.4,
+                        height: 30,
+                        color: blackColor,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Posts',
+                            style: subTitleTextStyle.copyWith(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(
+                            () => Text(
+                              '${stateProfile.userOverview.value.totalPost ?? 0}',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Container(
+                        width: 0.4,
+                        height: 30,
+                        color: blackColor,
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Reviews',
+                            style: subTitleTextStyle.copyWith(fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Obx(
+                            () => Text(
+                              '${stateProfile.userOverview.value.totalReview ?? 0}',
+                              style: blackTextStyle.copyWith(fontSize: 13),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          iSelected == 0 ? UserActivityPost() : UserActivityReview(),
-        ],
+            const dividergreen(),
+            const SizedBox(
+              height: 19,
+            ),
+            Padding(
+              padding: lsymetric,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPost = true;
+                        stateProfile.activity.value.clear();
+                        stateProfile.page.value = 1;
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Text(
+                          'Posts',
+                          style: subTitleTextStyle.copyWith(
+                            fontSize: 15,
+                            color: isPost ? greenColor : subTitleColor,
+                            fontWeight: bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        Container(
+                          height: 2,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            color: isPost ? greenColor : subTitleColor,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPost = false;
+                        stateProfile.reviews.value.clear();
+                        stateProfile.page.value = 1;
+                      });
+                    },
+                    child: Column(
+                      children: [
+                        Text(
+                          'Reviews',
+                          style: subTitleTextStyle.copyWith(
+                            fontSize: 15,
+                            fontWeight: bold,
+                            color: isPost ? subTitleColor : greenColor,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        Container(
+                          height: 2,
+                          width: 150,
+                          decoration: BoxDecoration(
+                            color: isPost ? subTitleColor : greenColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            isPost ? UserActivityPost() : UserActivityReview(),
+          ],
+        ),
       ),
     );
   }

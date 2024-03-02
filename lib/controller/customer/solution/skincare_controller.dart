@@ -126,74 +126,74 @@ class SkincareController extends StateClass {
     isLoadingDetailSkincare.value = false;
   }
 
-  getOverviewProduct(BuildContext context, int id) async {
-    // isLoadingOverviewSkincare.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getOverviewProduct(id);
+  // getOverviewProduct(BuildContext context, int id) async {
+  //   // isLoadingOverviewSkincare.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().getOverviewProduct(id);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      overviewSkincare.value = res.data!;
-    });
-    // isLoadingOverviewSkincare.value = false;
-  }
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //     overviewSkincare.value = res.data!;
+  //   });
+  //   // isLoadingOverviewSkincare.value = false;
+  // }
 
-  Future<List<ProductReviewModel.Data2>> getReviewProduct(
-    BuildContext context,
-    int page,
-    int take,
-    int id, {
-    Map<String, dynamic>? filter,
-  }) async {
-    isLoadingProductReviewSkincare.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService()
-          .getReviewProduct(page, take, id, filter: filter);
+  // Future<List<ProductReviewModel.Data2>> getReviewProduct(
+  //   BuildContext context,
+  //   int page,
+  //   int take,
+  //   int id, {
+  //   Map<String, dynamic>? filter,
+  // }) async {
+  //   isLoadingProductReviewSkincare.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService()
+  //         .getReviewProduct(page, take, id, filter: filter);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      productReview.value = res.data!.data!;
-    });
-    isLoadingProductReviewSkincare.value = false;
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //     productReview.value = res.data!.data!;
+  //   });
+  //   isLoadingProductReviewSkincare.value = false;
 
-    return productReview.value;
-  }
+  //   return productReview.value;
+  // }
 
-  void helped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().helped(reviewId);
+  // void helped(BuildContext context, int reviewId) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().helped(reviewId);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
-    isLoading.value = false;
-  }
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //   });
+  //   isLoading.value = false;
+  // }
 
-  void unHelped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+  // void unHelped(BuildContext context, int reviewId) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().unHelped(reviewId);
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //   });
 
-    isLoading.value = false;
-  }
+  //   isLoading.value = false;
+  // }
 }

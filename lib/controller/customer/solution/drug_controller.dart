@@ -86,75 +86,75 @@ class DrugController extends StateClass {
     isLoadingDetailDrug.value = false;
   }
 
-  void addDrugToCart(BuildContext context, int productID) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      SolutionService().addDrugToCart(productID);
-    });
-    await state.totalCartFunc();
-    isLoading.value = false;
-  }
+  // void addDrugToCart(BuildContext context, int productID) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     SolutionService().addDrugToCart(productID);
+  //   });
+  //   await state.totalCartFunc();
+  //   isLoading.value = false;
+  // }
 
-  getOverviewProduct(BuildContext context, int id) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getOverviewProduct(id);
+  // getOverviewProduct(BuildContext context, int id) async {
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().getOverviewProduct(id);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      overviewMedicine.value = res.data!;
-    });
-  }
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //     overviewMedicine.value = res.data!;
+  //   });
+  // }
 
-  Future<List<ProductReviewModel.Data2>> getReviewProduct(
-      BuildContext context, int page, int take, int id) async {
-    isLoadingProductReviewMedicine.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getReviewProduct(page, take, id);
+  // Future<List<ProductReviewModel.Data2>> getReviewProduct(
+  //     BuildContext context, int page, int take, int id) async {
+  //   isLoadingProductReviewMedicine.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().getReviewProduct(page, take, id);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      productReview.value = res.data!.data!;
-    });
-    isLoadingProductReviewMedicine.value = false;
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //     productReview.value = res.data!.data!;
+  //   });
+  //   isLoadingProductReviewMedicine.value = false;
 
-    return productReview.value;
-  }
+  //   return productReview.value;
+  // }
 
-  void helped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().helped(reviewId);
+  // void helped(BuildContext context, int reviewId) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().helped(reviewId);
 
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
-    isLoading.value = false;
-  }
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //   });
+  //   isLoading.value = false;
+  // }
 
-  void unHelped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+  // void unHelped(BuildContext context, int reviewId) async {
+  //   isLoading.value = true;
+  //   await ErrorConfig.doAndSolveCatchInContext(context, () async {
+  //     var res = await SolutionService().unHelped(reviewId);
+  //     if (res.success != true && res.message != 'Success') {
+  //       throw ErrorConfig(
+  //         cause: ErrorConfig.anotherUnknow,
+  //         message: res.message.toString(),
+  //       );
+  //     }
+  //   });
 
-    isLoading.value = false;
-  }
+  //   isLoading.value = false;
+  // }
 }

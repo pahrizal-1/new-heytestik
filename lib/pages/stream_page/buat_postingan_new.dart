@@ -44,7 +44,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   final TextEditingController hashTagController = TextEditingController();
   List imagePath = [];
   final PostController streamController = Get.put(PostController());
-  String name = '-';
+  String fullName = '-';
   final List<TextEditingController> optionController = [];
   final DateTime endDate = DateTime.now();
   int day = 1;
@@ -67,7 +67,8 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      name = await LocalStorage().getFullName();
+      var dataUser = await LocalStorage().getDataUser();
+      fullName = dataUser['fullname'];
       stateProfile.getProfile(context);
       concern1.addAll(await etalaseController.getConcern(context));
 
@@ -225,7 +226,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        name,
+                        fullName,
                         style: blackTextStyle.copyWith(fontSize: 14),
                       ),
                       const SizedBox(
