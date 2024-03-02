@@ -681,6 +681,7 @@ class DetailProduk extends StatelessWidget {
   final String price;
   final String? priceDiscon;
   final String? discon;
+  final String? note;
   final String nameProduk;
   final String item;
   final String urlImg;
@@ -691,6 +692,7 @@ class DetailProduk extends StatelessWidget {
     required this.nameProduk,
     required this.item,
     required this.urlImg,
+    this.note = '',
     this.priceDiscon = '',
     this.discon = '',
   }) : super(key: key);
@@ -760,6 +762,13 @@ class DetailProduk extends StatelessWidget {
                       style: blackHigtTextStyle.copyWith(fontSize: 15),
                     ),
                   ],
+                ),
+                Text(
+                  'Note : $note',
+                  style: blackRegulerTextStyle,
+                ),
+                const SizedBox(
+                  width: 3,
                 ),
               ],
             ),

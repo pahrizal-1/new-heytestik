@@ -22,10 +22,9 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.
 
 class SelesaikanPembayaranProdukPage extends StatefulWidget {
   bool isWillPop;
-
-  String bankImage;
-  String orderId;
-  String expireTime;
+  String? bankImage;
+  String? orderId;
+  String? expireTime;
   int paymentMethodId;
   SelesaikanPembayaranProdukPage({
     required this.isWillPop,
@@ -56,7 +55,8 @@ class _SelesaiPembayaranProdukPageState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isLoading.value = true;
       method = await all.getPaymentmethod(context, widget.paymentMethodId);
-      await state.getTransactionStatus(context, widget.orderId);
+      print("widget.orderId ${widget.orderId}");
+      await state.getTransactionStatus(context, widget.orderId.toString());
       state.isLoading.value = false;
       setTime();
       startTimer();
@@ -384,7 +384,7 @@ class _SelesaiPembayaranProdukPageState
                             onTap: () {
                               Get.to(() => CaraPembayaranPage(
                                     id: widget.paymentMethodId,
-                                    orderId: widget.orderId,
+                                    orderId: widget.orderId.toString(),
                                     totalPaid: int.parse(
                                         double.parse(state.grossAmount.value)
                                             .round()
@@ -428,7 +428,7 @@ class _SelesaiPembayaranProdukPageState
                             onPressed: () async {
                               await state.getTransactionStatus(
                                 context,
-                                widget.orderId,
+                                widget.orderId.toString(),
                               );
                             },
                           ),
