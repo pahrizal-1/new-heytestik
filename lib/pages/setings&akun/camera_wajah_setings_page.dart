@@ -25,6 +25,8 @@ class _CameraWajahSettingsPageState extends State<CameraWajahSettingsPage> {
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
   int direction = 0;
+  FlashMode flashMode = FlashMode.off;
+
   @override
   void initState() {
     loadCamera(direction);
@@ -88,32 +90,35 @@ class _CameraWajahSettingsPageState extends State<CameraWajahSettingsPage> {
         padding: const EdgeInsets.only(top: 18),
         child: Column(
           children: [
-            Stack(
-              children: [
-                // ignore: sized_box_for_whitespace
-                Container(
-                  height: 500,
-                  width: 516,
-                  child: controller == null
-                      ? const Center(child: Text('Loading Camera...'))
-                      : !controller!.value.isInitialized
-                          ? const Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : CameraPreview(controller!),
-                ),
-                Center(
-                    child: Container(
-                  height: 500,
-                  width: 516,
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/icons/bingkai-icons.png'))),
-                )),
-              ],
+            Expanded(
+              child: Stack(
+                children: [
+                  // ignore: sized_box_for_whitespace
+                  Container(
+                    height: 500,
+                    width: 516,
+                    child: controller == null
+                        ? const Center(child: Text('Loading Camera...'))
+                        : !controller!.value.isInitialized
+                            ? const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : CameraPreview(controller!),
+                  ),
+                  Center(
+                      child: Container(
+                    height: 600,
+                    width: 516,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image:
+                                AssetImage('assets/icons/bingkai-icons.png'))),
+                  )),
+                ],
+              ),
             ),
             const SizedBox(
-              height: 23,
+              height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -126,60 +131,80 @@ class _CameraWajahSettingsPageState extends State<CameraWajahSettingsPage> {
             const SizedBox(
               height: 23,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Image.asset(
-                  'assets/icons/refresh-icons.png',
-                  width: 24,
-                  color: Colors.transparent,
-                  height: 24,
-                ),
-                Obx(
-                  () => state.isLoadingCam.value
-                      ? LoadingMore()
-                      : InkWell(
-                          onTap: () async {
-                            state.isLoadingCam.value = true;
-                            if (controller != null) {
-                              //check if contrller is not null
-                              if (controller!.value.isInitialized) {
-                                //check if controller is initialized
-                                image = await controller!
-                                    .takePicture(); //capture image
-                                state.facePhoto = File(image!.path);
-                                setState(() {});
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PotoWajahPage(),
-                                  ),
-                                );
+            Padding(
+              padding: const EdgeInsets.only(left: 40, right: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  FloatingActionButton(
+                      elevation: 0,
+                      backgroundColor: Colors.transparent,
+                      onPressed: () {
+                        setState(() {
+                          if (flashMode == FlashMode.off) {
+                            controller?.setFlashMode(FlashMode.always);
+                            flashMode = FlashMode.always;
+                          } else {
+                            controller?.setFlashMode(FlashMode.off);
+                            flashMode = FlashMode.off;
+                          }
+                        });
+                      },
+                      child: flashMode == FlashMode.off
+                          ? const Icon(Icons.flash_off)
+                          : const Icon(Icons.flash_on)),
+                  Obx(
+                    () => state.isLoadingCam.value
+                        ? LoadingMore()
+                        : InkWell(
+                            onTap: () async {
+                              state.isLoadingCam.value = true;
+                              if (controller != null) {
+                                //check if contrller is not null
+                                if (controller!.value.isInitialized) {
+                                  //check if controller is initialized
+                                  image = await controller!
+                                      .takePicture(); //capture image
+                                  state.facePhoto = File(image!.path);
+                                  setState(() {});
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PotoWajahPage(),
+                                    ),
+                                  );
+                                }
                               }
-                            }
-                            state.isLoadingCam.value = false;
-                          },
-                          child: Image.asset(
-                            'assets/icons/button-camera.png',
-                            width: 70,
-                            height: 70,
+                              state.isLoadingCam.value = false;
+                            },
+                            child: Image.asset(
+                              'assets/icons/button-camera.png',
+                              width: 70,
+                              height: 70,
+                            ),
                           ),
-                        ),
-                ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      direction = direction == 0 ? 1 : 0;
-                      loadCamera(direction);
-                    });
-                  },
-                  child: Image.asset(
-                    'assets/icons/refresh-icons.png',
-                    width: 24,
-                    height: 24,
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          direction = direction == 0 ? 1 : 0;
+                          loadCamera(direction);
+                        });
+                      },
+                      child: Image.asset(
+                        'assets/icons/refresh-icons.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 23,
             ),
           ],
         ),
