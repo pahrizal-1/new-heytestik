@@ -599,4 +599,22 @@ class PostServices extends ProviderClass {
       print("unBlockUser ${error.toString()}");
     }
   }
+
+  Future<void> reportUser(dynamic data) async {
+    try {
+      var response = await networkingConfig.doPost(
+        '/stream/report',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+          'User-Agent': await userAgent(),
+        },
+      );
+
+      print(response);
+      return response;
+    } catch (error) {
+      print("reportUser ${error.toString()}");
+    }
+  }
 }

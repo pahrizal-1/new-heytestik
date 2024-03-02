@@ -1,13 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/filter_publish_widgets.dart';
+import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
-class LaporkanStreamPage extends StatelessWidget {
-  const LaporkanStreamPage({super.key});
+class LaporkanStreamPage extends StatefulWidget {
+  final StreamHomeModel post;
+  const LaporkanStreamPage({
+    super.key,
+    required this.post,
+  });
+
+  @override
+  State<LaporkanStreamPage> createState() => _LaporkanStreamPageState();
+}
+
+class _LaporkanStreamPageState extends State<LaporkanStreamPage> {
+  final PostController postController = Get.put(PostController());
+  String reportReason = '';
+  TextEditingController reportDetail = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +73,23 @@ class LaporkanStreamPage extends StatelessWidget {
                                 SizedBox(
                                   height: 30,
                                 ),
-                                FilterSpamStream(),
+                                FilterSpamStream(val: reportReason),
                               ],
                             ),
                           ),
                         ],
                       ),
-                    );
+                    ).then((value) {
+                      if (value == null) return;
+                      reportReason = value.toString();
+                      setState(() {});
+                    });
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Spam',
+                        reportReason.isEmpty ? 'Pilih alasan' : reportReason,
                         style:
                             blackRegulerTextStyle.copyWith(color: blackColor),
                       ),
@@ -100,6 +121,7 @@ class LaporkanStreamPage extends StatelessWidget {
             TextFormField(
               maxLines: 10,
               minLines: 1,
+              controller: reportDetail,
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 fillColor: greenColor,
@@ -140,54 +162,86 @@ class LaporkanStreamPage extends StatelessWidget {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      customeModal(
-                        context,
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 42, horizontal: 27),
-                          child: Wrap(
-                            children: [
-                              Text(
-                                'Laporkan',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'Apakah kamu yakin untuk melaporkan postingan stream ini?',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 15),
-                              ),
-                              SizedBox(
-                                height: 60,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: ButtonWhiteWidget(
-                                      title: 'Kembali',
-                                      onPressed: () {
-                                        Get.back();
-                                      },
+                      if (reportReason.isEmpty || reportDetail.text.isEmpty) {
+                        SnackbarWidget.getErrorSnackbar(
+                          context,
+                          'Info',
+                          "Pilih alasan dan Alasan detail harus diisi",
+                        );
+                      } else {
+                        customeModal(
+                          context,
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 42, horizontal: 27),
+                            child: Wrap(
+                              children: [
+                                Text(
+                                  'Laporkan',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 20),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Text(
+                                  'Apakah kamu yakin untuk melaporkan postingan stream ini?',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15),
+                                ),
+                                SizedBox(
+                                  height: 60,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: ButtonWhiteWidget(
+                                        title: 'Kembali',
+                                        onPressed: () {
+                                          Get.back();
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 14,
-                                  ),
-                                  Expanded(
-                                    child: ButtonGreenWidget(
-                                      title: 'Laporkan',
-                                      onPressed: () async {},
+                                    SizedBox(
+                                      width: 14,
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                    Expanded(
+                                      child: Obx(
+                                        () => LoadingWidget(
+                                          isLoading:
+                                              postController.isLoading.value,
+                                          child: ButtonGreenWidget(
+                                            title: 'Laporkan',
+                                            onPressed: () async {
+                                              await postController.reportUser(
+                                                context,
+                                                widget.post.id,
+                                                reportReason.toString(),
+                                                reportDetail.text,
+                                                doInPost: () {
+                                                  Get.back();
+                                                  Get.back();
+                                                  Get.back();
+                                                  SnackbarWidget
+                                                      .getSuccessSnackbar(
+                                                    context,
+                                                    'Info',
+                                                    'Berhasil melaporkan',
+                                                  );
+                                                },
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
                     },
                     child: Container(
                       width: 165,

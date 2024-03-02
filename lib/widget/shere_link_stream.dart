@@ -97,7 +97,9 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                   'assets/icons/alert-new.png',
                   'Laporkan',
                   () {
-                    Get.to(() => LaporkanStreamPage());
+                    Get.to(() => LaporkanStreamPage(
+                          post: widget.post,
+                        ));
                   },
                   blackColor,
                 ),

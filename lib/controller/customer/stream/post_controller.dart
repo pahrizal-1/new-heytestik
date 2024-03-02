@@ -375,4 +375,20 @@ class PostController extends StateClass {
       print("unBlockUser ${error.toString()}");
     }
   }
+
+  Future<void> reportUser(BuildContext context, int streamId,
+      String reportReason, String reportDetail,
+      {required Function() doInPost}) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var data = {
+        "stream_id": streamId,
+        "report_reason": reportReason,
+        "report_detail": reportDetail
+      };
+      await PostServices().reportUser(data);
+      doInPost();
+    });
+    isLoading.value = false;
+  }
 }
