@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/profile_control
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_alamat_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/keamanan_akun_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/notifikasi_setings_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/rekening_bank_settings_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -129,11 +130,11 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                     ),
                     ListTitleAkun(
                       onTap: () {
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //             const NotifikasionPage()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const NotifikasiSettingsPage()));
                       },
                       iconUrl: 'assets/icons/notification-logo-blak.png',
                       title: 'Notifikasi',
