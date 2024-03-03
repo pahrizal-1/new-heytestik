@@ -353,7 +353,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                     style: blackRegulerTextStyle.copyWith(
                                         color: blackColor),
                                   ),
-                                  Row(
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       ...?stateDrug
                                           .drugDetail.value.productConcerns
@@ -369,13 +371,15 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                               ),
                                             );
                                           },
-                                          child: Text(
-                                            item.key == 0
-                                                ? '${item.value.concern?.name}'
-                                                : ', ${item.value.concern?.name}',
-                                            style: grenTextStyle.copyWith(
-                                              fontSize: 15,
-                                              color: greenColor,
+                                          child: Container(
+                                            child: Text(
+                                              item.key == 0
+                                                  ? '${item.value.concern?.name}'
+                                                  : '${item.value.concern?.name}',
+                                              style: grenTextStyle.copyWith(
+                                                fontSize: 15,
+                                                color: greenColor,
+                                              ),
                                             ),
                                           ),
                                         );
