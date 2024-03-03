@@ -162,7 +162,6 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                 child: Text(
                   'Belum ada data',
                   style: TextStyle(
-                    fontWeight: bold,
                     fontFamily: 'ProximaNova',
                     fontSize: 20,
                   ),
@@ -345,8 +344,7 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
               ? Center(
                   child: Text(
                     'Belum ada data',
-                    style: TextStyle(
-                      fontWeight: bold,
+                     style: TextStyle(
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

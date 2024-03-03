@@ -669,6 +669,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           child: Text(
                             'Belum ada komentar',
                             style: TextStyle(
+                              fontFamily: 'ProximaNova',
                               fontSize: 20,
                             ),
                           ),

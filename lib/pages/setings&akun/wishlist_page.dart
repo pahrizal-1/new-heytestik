@@ -199,9 +199,8 @@ class _WishListPageState extends State<WishListPage> {
                           child: Text(
                             'Belum ada produk',
                             style: TextStyle(
-                              fontWeight: bold,
                               fontFamily: 'ProximaNova',
-                              fontSize: 18,
+                              fontSize: 20,
                             ),
                           ),
                         )

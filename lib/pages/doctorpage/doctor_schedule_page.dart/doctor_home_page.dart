@@ -246,12 +246,10 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                         child: Center(
                           child: state.startTime.value.isEmpty
                               ? Text(
-                                  'Tidak ada jadwal',
+                                  'Belum ada jadwal',
                                   style: TextStyle(
-                                    fontWeight: bold,
-                                    color: fromCssColor('#6B6B6B'),
+                                    fontFamily: 'ProximaNova',
                                     fontSize: 20,
-                                    fontFamily: 'ProximaNova,',
                                   ),
                                 )
                               : Column(
@@ -557,12 +555,10 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Tidak ada jadwal',
+                                  'Belum ada jadwal',
                                   style: TextStyle(
-                                    fontWeight: bold,
-                                    color: fromCssColor('#6B6B6B'),
+                                    fontFamily: 'ProximaNova',
                                     fontSize: 20,
-                                    fontFamily: 'ProximaNova,',
                                   ),
                                 ),
                               ),

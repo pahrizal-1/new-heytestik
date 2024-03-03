@@ -70,7 +70,6 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                   child: Text(
                     'Belum ada data',
                     style: TextStyle(
-                      fontWeight: bold,
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

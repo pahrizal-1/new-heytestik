@@ -865,8 +865,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ? Center(
                       child: Text(
                         'Belum ada treatment',
-                        style: TextStyle(
-                          fontWeight: bold,
+                         style: TextStyle(
                           fontFamily: 'ProximaNova',
                           fontSize: 20,
                         ),

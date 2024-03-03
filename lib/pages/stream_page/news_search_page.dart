@@ -165,6 +165,7 @@ class _NewsSearchPageState extends State<NewsSearchPage> {
                     child: Text(
                       'Belum ada berita',
                       style: TextStyle(
+                        fontFamily: 'ProximaNova',
                         fontSize: 20,
                       ),
                     ),

@@ -133,9 +133,8 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
       body: (drugs.isEmpty && skincare.isEmpty && treatment.isEmpty)
           ? Center(
               child: Text(
-                'Data tidak ditemukan',
+                'Belum ada data',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

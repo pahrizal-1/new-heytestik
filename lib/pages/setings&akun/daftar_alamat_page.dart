@@ -106,7 +106,6 @@ class _DaftarAlamatPageState extends State<DaftarAlamatPage> {
                           child: Text(
                             'Belum ada alamat',
                             style: TextStyle(
-                              fontWeight: bold,
                               fontFamily: 'ProximaNova',
                               fontSize: 20,
                             ),

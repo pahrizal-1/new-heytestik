@@ -151,7 +151,6 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
               child: Text(
                 'Belum ada treatment',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

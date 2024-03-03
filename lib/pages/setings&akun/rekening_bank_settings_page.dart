@@ -74,10 +74,9 @@ class _RekeningBankSettingsState extends State<RekeningBankSettings> {
                 child: state.filterData.isEmpty
                     ? Center(
                         child: Text(
-                          'Belum ada rekening bank',
+                          'Belum ada rekening',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontWeight: bold,
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),

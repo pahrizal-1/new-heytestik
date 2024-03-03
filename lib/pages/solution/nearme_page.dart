@@ -425,7 +425,6 @@ class _NearMePageState extends State<NearMePage> {
               child: Text(
                 'Belum ada treatment',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

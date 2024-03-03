@@ -170,8 +170,7 @@ class _TopRatingTreatmentState extends State<TopRatingTreatment> {
           ? Center(
               child: Text(
                 'Belum ada treatment',
-                style: TextStyle(
-                  fontWeight: bold,
+                 style: TextStyle(
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

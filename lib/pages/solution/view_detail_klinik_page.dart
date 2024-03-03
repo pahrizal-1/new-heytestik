@@ -1108,7 +1108,6 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         child: Text(
                           'Belum ada treatment',
                           style: TextStyle(
-                            fontWeight: bold,
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),

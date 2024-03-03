@@ -402,7 +402,6 @@ class _PencarianKlinikTraetmentPageState
               child: Text(
                 'Belum ada klinik',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

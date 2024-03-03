@@ -35,7 +35,6 @@ class _ListChatPageState extends State<ListChatPage> {
                   child: Text(
                     'Belum ada chat konsultasi',
                     style: TextStyle(
-                      fontWeight: bold,
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

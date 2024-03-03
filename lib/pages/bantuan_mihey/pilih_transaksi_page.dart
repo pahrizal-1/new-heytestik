@@ -182,6 +182,7 @@ class _PilihTranskasiMinheyPageState extends State<PilihTranskasiMinheyPage> {
                     child: Text(
                       'Belum ada transaksi',
                       style: TextStyle(
+                        fontFamily: 'ProximaNova',
                         fontSize: 20,
                       ),
                     ),

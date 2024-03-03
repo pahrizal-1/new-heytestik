@@ -129,6 +129,7 @@ class _ConcernPageState extends State<ConcernPage> {
                           child: Text(
                             'Belum ada data',
                             style: TextStyle(
+                              fontFamily: 'ProximaNova',
                               fontSize: 20,
                             ),
                           ),

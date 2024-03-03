@@ -739,7 +739,6 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                               child: Text(
                                 'Belum ada ulasan',
                                 style: TextStyle(
-                                  fontWeight: bold,
                                   fontFamily: 'ProximaNova',
                                   fontSize: 20,
                                 ),

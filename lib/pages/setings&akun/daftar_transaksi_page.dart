@@ -567,6 +567,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             child: Text(
                               'Belum ada transaksi',
                               style: TextStyle(
+                                fontFamily: 'ProximaNova',
                                 fontSize: 20,
                               ),
                             ),

@@ -170,7 +170,6 @@ class _TrendingTreatmentState extends State<TrendingTreatment> {
               child: Text(
                 'Belum ada treatment',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

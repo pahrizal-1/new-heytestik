@@ -27,8 +27,11 @@ class _CelebrityNewsPageState extends State<CelebrityNewsPage> {
             padding: const EdgeInsets.only(top: 200),
             child: Center(
               child: Text(
-                'Belum Ada News',
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
+                'Belum Ada berita',
+                style: TextStyle(
+                  fontFamily: 'ProximaNova',
+                  fontSize: 20,
+                ),
               ),
             ),
           )

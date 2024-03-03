@@ -430,8 +430,7 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
           ? Center(
               child: Text(
                 'Belum ada klinik',
-                style: TextStyle(
-                  fontWeight: bold,
+                 style: TextStyle(
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

@@ -230,9 +230,7 @@ Container WidgetPhoto = Container(
                     text: 'Belum ada foto dari ‘My Journey’',
                     style: TextStyle(
                       fontFamily: 'ProximaNova',
-                      color: fromCssColor('#9B9B9B'),
-                      letterSpacing: 0.6,
-                      fontSize: 13,
+                      fontSize: 20,
                     ),
                   ),
                 ),
