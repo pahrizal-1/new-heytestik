@@ -375,7 +375,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                             child: Text(
                                               item.key == 0
                                                   ? '${item.value.concern?.name}'
-                                                  : '${item.value.concern?.name}',
+                                                  : ', ${item.value.concern?.name}',
                                               style: grenTextStyle.copyWith(
                                                 fontSize: 15,
                                                 color: greenColor,
