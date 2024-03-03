@@ -19,7 +19,7 @@ import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:social_share/social_share.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../../controller/customer/solution/wishlist_controller.dart';
+import '../../controller/customer/solution/wishlist_produk_controller.dart';
 import '../../theme/theme.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
@@ -39,7 +39,8 @@ class DetailDrugPage extends StatefulWidget {
 
 class _DetailDrugPageState extends State<DetailDrugPage> {
   final DrugController stateDrug = Get.put(DrugController());
-  final WishlistController stateWishlist = Get.put(WishlistController());
+  final WishlistProdukController stateWishlist =
+      Get.put(WishlistProdukController());
   final CartController stateCart = Get.put(CartController());
   final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();

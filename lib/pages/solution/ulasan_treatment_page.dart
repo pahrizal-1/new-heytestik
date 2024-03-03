@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -33,6 +34,8 @@ class UlasanTreatmentPage extends StatefulWidget {
 class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   final ScrollController scrollController = ScrollController();
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final UlasanTreatmentController stateUlasan =
+      Get.put(UlasanTreatmentController());
   bool? isFavourite;
   int page = 1;
   List<TreatmentReview.Data2> reviews = [];
@@ -49,7 +52,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       reviews.addAll(
-        await stateTreatment.getTreatmentReview(
+        await stateUlasan.getTreatmentReview(
           context,
           page,
           10,
@@ -57,7 +60,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           filter: filter,
         ),
       );
-      dataOverview = await stateTreatment.getTreatmentOverview(
+      dataOverview = await stateUlasan.getTreatmentOverview(
         context,
         widget.treatmentID,
       );
@@ -72,7 +75,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             stateTreatment.isLoadingMore.value = true;
             reviews.addAll(
-              await stateTreatment.getTreatmentReview(
+              await stateUlasan.getTreatmentReview(
                 context,
                 page,
                 10,
@@ -393,7 +396,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           reviews.clear();
                           setState(() {});
                           reviews.addAll(
-                            await stateTreatment.getTreatmentReview(
+                            await stateUlasan.getTreatmentReview(
                               context,
                               page,
                               10,
@@ -430,7 +433,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           reviews.clear();
                           setState(() {});
                           reviews.addAll(
-                            await stateTreatment.getTreatmentReview(
+                            await stateUlasan.getTreatmentReview(
                               context,
                               page,
                               10,
@@ -445,7 +448,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           reviews.clear();
                           setState(() {});
                           reviews.addAll(
-                            await stateTreatment.getTreatmentReview(
+                            await stateUlasan.getTreatmentReview(
                               context,
                               page,
                               10,
@@ -474,7 +477,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           reviews.clear();
                           setState(() {});
                           reviews.addAll(
-                            await stateTreatment.getTreatmentReview(
+                            await stateUlasan.getTreatmentReview(
                               context,
                               page,
                               10,
@@ -542,7 +545,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           reviews.clear();
                           setState(() {});
                           reviews.addAll(
-                            await stateTreatment.getTreatmentReview(
+                            await stateUlasan.getTreatmentReview(
                               context,
                               page,
                               10,
@@ -607,7 +610,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           reviews.clear();
                           setState(() {});
                           reviews.addAll(
-                            await stateTreatment.getTreatmentReview(
+                            await stateUlasan.getTreatmentReview(
                               context,
                               page,
                               10,
@@ -789,7 +792,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                         InkWell(
                                           onTap: () async {
                                             if (help ?? element.helped!) {
-                                              stateTreatment.unHelped(
+                                              stateUlasan.unHelped(
                                                   context, element.id!);
                                               setState(() {
                                                 help = false;
@@ -799,7 +802,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                                         1;
                                               });
                                             } else {
-                                              stateTreatment.helped(
+                                              stateUlasan.helped(
                                                   context, element.id!);
                                               setState(() {
                                                 help = true;

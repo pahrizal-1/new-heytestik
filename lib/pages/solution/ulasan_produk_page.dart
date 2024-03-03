@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -36,7 +36,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
   final UlasanProdukController state = Get.put(UlasanProdukController());
   final DrugController stateDrug = Get.put(DrugController());
   final SkincareController stateSkincare = Get.put(SkincareController());
-  final WishlistController stateWishlist = Get.put(WishlistController());
+  final WishlistProdukController stateWishlist = Get.put(WishlistProdukController());
   List<ProductReviewModel.Data2> reviews = [];
   bool isVisibelity = false;
   int page = 1;

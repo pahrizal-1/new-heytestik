@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
-import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../controller/customer/solution/treatment_controller.dart';
 import '../../widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 

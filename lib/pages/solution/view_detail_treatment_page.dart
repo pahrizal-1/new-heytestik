@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable, await_only_futures
 
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
@@ -22,7 +23,7 @@ import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_share/social_share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../controller/customer/solution/treatment_controller.dart';
 import '../../models/treatment_review_model.dart' as TreatmentReview;
 import '../../widget/loading_widget.dart';
 import '../../widget/produk_widget.dart';
@@ -43,6 +44,10 @@ class DetailTreatmentPage extends StatefulWidget {
 
 class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final WishlistTreatmentController stateWishlist =
+      Get.put(WishlistTreatmentController());
+  final UlasanTreatmentController stateUlasan =
+      Get.put(UlasanTreatmentController());
   final ScrollController scrollController = ScrollController();
 
   int activeIndex = 0;
@@ -71,13 +76,13 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
         page,
         stateTreatment.treatmentDetail.value.clinicId!,
       ));
-      reviews.addAll(await stateTreatment.getTreatmentReview(
+      reviews.addAll(await stateUlasan.getTreatmentReview(
         context,
         page,
         3,
         widget.treatmentId,
       ));
-      dataOverview = await stateTreatment.getTreatmentOverview(
+      dataOverview = await stateUlasan.getTreatmentOverview(
         context,
         widget.treatmentId,
       );
@@ -155,7 +160,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
               onTap: () {
                 if (isFavourite ??
                     stateTreatment.treatmentDetail.value.wishlist!) {
-                  stateTreatment.deleteWishlistTreatment(
+                  stateWishlist.deleteWistlist(
                     context,
                     widget.treatmentId,
                   );
@@ -164,7 +169,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     isFavourite = false;
                   });
                 } else {
-                  stateTreatment.addWishlistTreatment(
+                  stateWishlist.addWishlist(
                     context,
                     widget.treatmentId,
                   );
@@ -836,7 +841,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                       print("help");
 
                                       if (help ?? element.helped!) {
-                                        stateTreatment.unHelped(
+                                        stateUlasan.unHelped(
                                             context, element.id!);
                                         setState(() {
                                           help = false;
@@ -846,7 +851,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                                   1;
                                         });
                                       } else {
-                                        stateTreatment.helped(
+                                        stateUlasan.helped(
                                             context, element.id!);
                                         setState(() {
                                           help = true;

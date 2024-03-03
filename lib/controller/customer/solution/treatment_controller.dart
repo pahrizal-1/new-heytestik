@@ -9,9 +9,7 @@ import 'package:heystetik_mobileapps/models/clinic.dart' as Clinic;
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_model.dart';
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
-import 'package:heystetik_mobileapps/models/lookup_treatment.dart';
-import 'package:heystetik_mobileapps/models/treatment_review_model.dart'
-    as TreatmentReview;
+
 import 'package:heystetik_mobileapps/service/customer/solution/treatment_service.dart';
 
 class TreatmentController extends StateClass {
@@ -32,9 +30,6 @@ class TreatmentController extends StateClass {
   RxList<Clinic.Data2> dataClinic =
       List<Clinic.Data2>.empty(growable: true).obs;
   Rx<FindClinicModel> responseClinicDetail = FindClinicModel().obs;
-
-  RxList<TreatmentReview.Data2> treatmentReview =
-      List<TreatmentReview.Data2>.empty().obs;
 
   getDataUser() async {
     dataUser = await LocalStorage().getDataUser();
@@ -75,40 +70,6 @@ class TreatmentController extends StateClass {
     return responseClinicDetail.value;
   }
 
-  void addWishlistTreatment(BuildContext context, int treatmentID) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().addWishlistTreatment(treatmentID);
-      print('res $res');
-      if (res['success'] != true && res['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res['message'],
-        );
-      }
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertSuccessWishlist(),
-      // );
-    });
-  }
-
-  void deleteWishlistTreatment(BuildContext context, int treatmentID) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().deleteWishlistTreatment(treatmentID);
-      print('res $res');
-      if (res['success'] != true && res['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res['message'],
-        );
-      }
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertSuccessWishlist(),
-      // );
-    });
-  }
-
   Future<void> getTreatmentDetail(BuildContext context, int treatmentID) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -129,17 +90,6 @@ class TreatmentController extends StateClass {
     });
     isLoading.value = false;
     return responseTreatment.value.data!.data!;
-  }
-
-  Future<Map<String, dynamic>> getTreatmentOverview(
-      BuildContext context, int treatmentID) async {
-    isLoading.value = true;
-    Map<String, dynamic> data = {};
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data = await TreatmentService().getOverview(treatmentID);
-    });
-    isLoading.value = false;
-    return data;
   }
 
   void getTreatment(BuildContext context) async {
@@ -230,64 +180,5 @@ class TreatmentController extends StateClass {
 
     isLoading.value = false;
     return responseTreatment.value.data!.data!;
-  }
-
-  Future<List<TreatmentReview.Data2>> getTreatmentReview(
-    BuildContext context,
-    int page,
-    int take,
-    int id, {
-    Map<String, dynamic>? filter,
-  }) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService()
-          .getTreatmentReview(page, take, id, filter: filter);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      treatmentReview.value = res.data!.data!;
-    });
-    isLoading.value = false;
-    return treatmentReview.value;
-  }
-
-  Future<List<LookupTreatmentModel>> getLookupTreatment(
-      BuildContext context) async {
-    isLoading.value = true;
-    List<LookupTreatmentModel> data = [];
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data = await TreatmentService().getLookupTreatment();
-    });
-    isLoading.value = false;
-    return data;
-  }
-
-  void helped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().helped(reviewId);
-
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
-  }
-
-  void unHelped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
   }
 }

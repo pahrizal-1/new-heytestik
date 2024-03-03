@@ -8,7 +8,8 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page
 import 'package:heystetik_mobileapps/pages/setings&akun/daftar_transaksi_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/setings_akun_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
@@ -640,23 +641,45 @@ class _AkunHomePageState extends State<AkunHomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const WishListPage(),
+                        builder: (context) => const WishlistProdukPage(),
                       ),
                     );
                   },
                   child: Row(
                     children: [
                       SvgPicture.asset('assets/icons/love-wishlist-icons.svg'),
-                      // Image.asset(
-                      //   'assets/icons/love-grey.png',
-                      //   width: 18,
-                      // ),
-
                       const SizedBox(
                         width: 13,
                       ),
                       Text(
-                        'Wishlist',
+                        'Wishlist Produk',
+                        style: blackRegulerTextStyle.copyWith(
+                            fontSize: 15, color: blackColor),
+                      )
+                    ],
+                  ),
+                ),
+                // get wishlist nya lanjut lagi
+                const SizedBox(
+                  height: 17,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const WishlistTreatmentPage(),
+                      ),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset('assets/icons/love-wishlist-icons.svg'),
+                      const SizedBox(
+                        width: 13,
+                      ),
+                      Text(
+                        'Wishlist Treatment',
                         style: blackRegulerTextStyle.copyWith(
                             fontSize: 15, color: blackColor),
                       )
@@ -698,7 +721,7 @@ class _AkunHomePageState extends State<AkunHomePage> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(HomeMinheyPage());
+                    Get.to(() => HomeMinheyPage());
                   },
                   child: Row(
                     children: [

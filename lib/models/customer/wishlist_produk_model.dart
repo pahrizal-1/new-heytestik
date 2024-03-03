@@ -1,11 +1,11 @@
-class WishlistModel {
+class WishlistProdukModel {
   bool? success;
   String? message;
   Data? data;
 
-  WishlistModel({this.success, this.message, this.data});
+  WishlistProdukModel({this.success, this.message, this.data});
 
-  WishlistModel.fromJson(Map<String, dynamic> json) {
+  WishlistProdukModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;

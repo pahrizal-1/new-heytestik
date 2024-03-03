@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
@@ -40,7 +40,8 @@ class DetailSkinCarePage extends StatefulWidget {
 
 class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final SkincareController stateSkincare = Get.put(SkincareController());
-  final WishlistController stateWishlist = Get.put(WishlistController());
+  final WishlistProdukController stateWishlist =
+      Get.put(WishlistProdukController());
   final CartController stateCart = Get.put(CartController());
   final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
