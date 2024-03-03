@@ -138,7 +138,6 @@ class TreatmentController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       data = await TreatmentService().getOverview(treatmentID);
     });
-
     isLoading.value = false;
     return data;
   }

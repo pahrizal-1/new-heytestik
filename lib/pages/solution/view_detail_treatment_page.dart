@@ -472,14 +472,17 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                 ),
               ),
               const SizedBox(
-                height: 21,
+                height: 15,
               ),
               const dividergreen(),
               const SizedBox(
-                height: 25,
+                height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -686,305 +689,291 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Ulasan',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18),
-                            ),
-                            Text(
-                              ' Sobat Hey',
-                              style: blackHigtTextStyle.copyWith(
-                                  fontSize: 18, fontStyle: FontStyle.italic),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UlasanTreatmentPage(
-                                  treatmentID: widget.treatmentId,
-                                ),
+                    if (reviews.isNotEmpty)
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Ulasan',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
-                            );
-                          },
-                          child: Text(
-                            'Lihat Semua',
-                            style: grenTextStyle.copyWith(fontSize: 12),
+                              Text(
+                                ' Sobat Hey',
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 18, fontStyle: FontStyle.italic),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    reviews.isEmpty
-                        ? Center(
+                          const Spacer(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UlasanTreatmentPage(
+                                    treatmentID: widget.treatmentId,
+                                  ),
+                                ),
+                              );
+                            },
                             child: Text(
-                              'Belum ada ulasan',
-                              style: TextStyle(
-                                fontWeight: bold,
-                                fontFamily: 'ProximaNova',
-                                fontSize: 15,
-                              ),
+                              'Lihat Semua',
+                              style: grenTextStyle.copyWith(fontSize: 12),
                             ),
-                          )
-                        : Column(
-                            children: reviews.map((element) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        ],
+                      ),
+                    if (reviews.isNotEmpty)
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    if (reviews.isNotEmpty)
+                      Column(
+                        children: reviews.map((element) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/doctor1.png',
+                                    width: 40,
+                                  ),
+                                  const SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        element.user?.fullname ?? '-',
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 15),
+                                      ),
+                                      Text(
+                                        element.transactionTreatmentItem
+                                                ?.treatment!.name ??
+                                            '-',
+                                        style: blackHigtTextStyle.copyWith(
+                                            fontSize: 13, fontWeight: regular),
+                                      ),
+                                    ],
+                                  ),
+                                  const Spacer(),
+                                  const Icon(Icons.more_vert)
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 13,
+                              ),
+                              Row(
                                 children: [
                                   Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/doctor1.png',
-                                        width: 40,
-                                      ),
-                                      const SizedBox(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: List.generate(5, (index) {
+                                      return Image.asset(
+                                        'assets/icons/stars-new.png',
                                         width: 12,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            element.user?.fullname ?? '-',
-                                            style: blackHigtTextStyle.copyWith(
-                                                fontSize: 15),
-                                          ),
-                                          Text(
-                                            element.transactionTreatmentItem
-                                                    ?.treatment!.name ??
-                                                '-',
-                                            style: blackHigtTextStyle.copyWith(
-                                                fontSize: 13,
-                                                fontWeight: regular),
-                                          ),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      const Icon(Icons.more_vert)
-                                    ],
+                                        color: element.avgRating! > index
+                                            ? const Color(0xffFFC36A)
+                                            : Color.fromRGBO(
+                                                155, 155, 155, 0.61),
+                                      );
+                                    }),
                                   ),
                                   const SizedBox(
-                                    height: 13,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: List.generate(5, (index) {
-                                          return Image.asset(
-                                            'assets/icons/stars-new.png',
-                                            width: 12,
-                                            color: element.avgRating! > index
-                                                ? const Color(0xffFFC36A)
-                                                : Color.fromRGBO(
-                                                    155, 155, 155, 0.61),
-                                          );
-                                        }),
-                                      ),
-                                      const SizedBox(
-                                        width: 13,
-                                      ),
-                                      Text(
-                                        timeago.format(DateTime.parse(
-                                            element.createdAt.toString())),
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 13,
+                                    width: 13,
                                   ),
                                   Text(
-                                    element.review ?? '-',
-                                    style: greyTextStyle.copyWith(
-                                        fontSize: 13,
-                                        color: const Color(0xff6B6B6B)),
-                                  ),
-                                  const SizedBox(
-                                    height: 13,
-                                  ),
-                                  Wrap(
-                                    spacing: 4,
-                                    runSpacing: 4,
-                                    children:
-                                        element.mediaTreatmentReviews!.map((e) {
-                                      return Container(
-                                        height: 72,
-                                        width: 82,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                        ),
-                                        child: Image.network(
-                                          '${Global.FILE}/${e.media!.path.toString()}',
-                                          width: 72,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                  const SizedBox(
-                                    height: 22,
-                                  ),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          print("help");
+                                    timeago.format(DateTime.parse(
+                                        element.createdAt.toString())),
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 13,
+                              ),
+                              Text(
+                                element.review ?? '-',
+                                style: greyTextStyle.copyWith(
+                                    fontSize: 13,
+                                    color: const Color(0xff6B6B6B)),
+                              ),
+                              const SizedBox(
+                                height: 13,
+                              ),
+                              Wrap(
+                                spacing: 4,
+                                runSpacing: 4,
+                                children:
+                                    element.mediaTreatmentReviews!.map((e) {
+                                  return Container(
+                                    height: 72,
+                                    width: 82,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
+                                    ),
+                                    child: Image.network(
+                                      '${Global.FILE}/${e.media!.path.toString()}',
+                                      width: 72,
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                              const SizedBox(
+                                height: 22,
+                              ),
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      print("help");
 
-                                          if (help ?? element.helped!) {
-                                            stateTreatment.unHelped(
-                                                context, element.id!);
-                                            setState(() {
-                                              help = false;
-                                              helpReview["${element.id}"] =
-                                                  (helpReview["${element.id}"] ??
-                                                          0) -
-                                                      1;
-                                            });
-                                          } else {
-                                            stateTreatment.helped(
-                                                context, element.id!);
-                                            setState(() {
-                                              help = true;
-                                              helpReview["${element.id}"] =
-                                                  (helpReview["${element.id}"] ??
-                                                          0) +
-                                                      1;
-                                            });
-                                          }
-                                        },
-                                        child: Image.asset(
-                                          'assets/icons/like.png',
-                                          width: 15,
-                                          color: help ?? element.helped!
-                                              ? greenColor
-                                              : greyColor,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      Text(
-                                        '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                        style: grenTextStyle.copyWith(
-                                          fontSize: 13,
-                                          fontWeight: regular,
-                                          color: help ?? element.helped!
-                                              ? greenColor
-                                              : greyColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      element.replyReview == null
-                                          ? Container()
-                                          : InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  isVisibelity = !isVisibelity;
-                                                });
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  isVisibelity
-                                                      ? Text(
-                                                          'Lihat Balasan',
-                                                          style:
-                                                              blackRegulerTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13),
-                                                        )
-                                                      : Text(
-                                                          'Tutup Balasan',
-                                                          style:
-                                                              blackRegulerTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13),
-                                                        ),
-                                                  const SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  const Icon(
-                                                    Icons.keyboard_arrow_down,
-                                                    color: Color(0xff6B6B6B),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Visibility(
-                                    visible: isVisibelity,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          width: 2,
-                                          decoration:
-                                              BoxDecoration(color: greenColor),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Penjual ',
-                                                    style: blackHigtTextStyle
-                                                        .copyWith(
-                                                            fontSize: 13,
-                                                            color:
-                                                                subTitleColor),
-                                                  ),
-                                                  Text(
-                                                    timeago.format(
-                                                        DateTime.parse(element
-                                                            .createdAt
-                                                            .toString())),
-                                                    style: blackRegulerTextStyle
-                                                        .copyWith(
-                                                            color:
-                                                                subTitleColor,
-                                                            fontSize: 13),
-                                                  )
-                                                ],
-                                              ),
-                                              Text(
-                                                element.replyReview ?? '',
-                                                style: subTitleTextStyle,
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
+                                      if (help ?? element.helped!) {
+                                        stateTreatment.unHelped(
+                                            context, element.id!);
+                                        setState(() {
+                                          help = false;
+                                          helpReview["${element.id}"] =
+                                              (helpReview["${element.id}"] ??
+                                                      0) -
+                                                  1;
+                                        });
+                                      } else {
+                                        stateTreatment.helped(
+                                            context, element.id!);
+                                        setState(() {
+                                          help = true;
+                                          helpReview["${element.id}"] =
+                                              (helpReview["${element.id}"] ??
+                                                      0) +
+                                                  1;
+                                        });
+                                      }
+                                    },
+                                    child: Image.asset(
+                                      'assets/icons/like.png',
+                                      width: 15,
+                                      color: help ?? element.helped!
+                                          ? greenColor
+                                          : greyColor,
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 20,
+                                    width: 7,
                                   ),
+                                  Text(
+                                    '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                    style: grenTextStyle.copyWith(
+                                      fontSize: 13,
+                                      fontWeight: regular,
+                                      color: help ?? element.helped!
+                                          ? greenColor
+                                          : greyColor,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  element.replyReview == null
+                                      ? Container()
+                                      : InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              isVisibelity = !isVisibelity;
+                                            });
+                                          },
+                                          child: Row(
+                                            children: [
+                                              isVisibelity
+                                                  ? Text(
+                                                      'Lihat Balasan',
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
+                                                                  fontSize: 13),
+                                                    )
+                                                  : Text(
+                                                      'Tutup Balasan',
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
+                                                                  fontSize: 13),
+                                                    ),
+                                              const SizedBox(
+                                                width: 4,
+                                              ),
+                                              const Icon(
+                                                Icons.keyboard_arrow_down,
+                                                color: Color(0xff6B6B6B),
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                 ],
-                              );
-                            }).toList(),
-                          ),
+                              ),
+                              const SizedBox(
+                                height: 16,
+                              ),
+                              Visibility(
+                                visible: isVisibelity,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      height: 60,
+                                      width: 2,
+                                      decoration:
+                                          BoxDecoration(color: greenColor),
+                                    ),
+                                    const SizedBox(
+                                      width: 7,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'Penjual ',
+                                                style:
+                                                    blackHigtTextStyle.copyWith(
+                                                        fontSize: 13,
+                                                        color: subTitleColor),
+                                              ),
+                                              Text(
+                                                timeago.format(DateTime.parse(
+                                                    element.createdAt
+                                                        .toString())),
+                                                style: blackRegulerTextStyle
+                                                    .copyWith(
+                                                        color: subTitleColor,
+                                                        fontSize: 13),
+                                              )
+                                            ],
+                                          ),
+                                          Text(
+                                            element.replyReview ?? '',
+                                            style: subTitleTextStyle,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          );
+                        }).toList(),
+                      ),
                   ],
                 ),
               ),
@@ -993,7 +982,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                 color: Color(0xffF1F1F1),
               ),
               const SizedBox(
-                height: 26,
+                height: 15,
               ),
               Padding(
                 padding: lsymetric,
@@ -1026,7 +1015,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                               ? ""
                               : "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
                           rating: "${treatments[index].rating} (0k)",
-                          km: '${treatments[index].distance ?? '0'} km',
+                          km: '${treatments[index].distance ?? '0'}',
                           lokasiKlinik: treatments[index].clinic!.city!.name!,
                         ));
                   },
