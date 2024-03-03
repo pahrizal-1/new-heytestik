@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 Widget filterRadioButtonWidget(
     {required Function()? onTap,
+    bool isRating = false,
     required String title,
     required bool isSelected}) {
   return Padding(
@@ -15,6 +17,11 @@ Widget filterRadioButtonWidget(
           },
           child: Row(
             children: [
+              if (isRating) SvgPicture.asset('assets/icons/stars.svg'),
+              if (isRating)
+                const SizedBox(
+                  width: 12,
+                ),
               Text(
                 title,
                 style: blackTextStyle.copyWith(color: blackColor, fontSize: 15),
