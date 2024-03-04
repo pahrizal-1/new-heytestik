@@ -148,11 +148,10 @@ class _TulisUlasanKonsultasiState extends State<TulisUlasanKonsultasi> {
                   children: List.generate(5, (index) {
                     return InkWell(
                       onTap: () {
-                        print("index $index");
-
                         state.starRating.value = index + 1;
                         state.ratingTitle.value =
                             state.description[state.starRating.value - 1];
+                        setState(() {});
                       },
                       child: Obx(
                         () => Image.asset(

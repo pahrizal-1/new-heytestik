@@ -321,6 +321,7 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
                   ),
                   child: TextField(
                     controller: state.review,
+                    maxLength: 150,
                     onChanged: (value) {
                       if (state.review.text.length <= 150) {
                         setState(() {});
@@ -470,13 +471,8 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
-
-      print('img camera $imagePath');
       state.listImage.add(imagePath!.path);
       setState(() {});
-      print('img camera ${state.listImage}');
-    } else {
-      print('image not selected');
     }
   }
 
@@ -486,34 +482,23 @@ class _TulisUlasanTreamentState extends State<TulisUlasanTreament> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
-
-      print('img galeri $imagePath');
       state.listImage.add(imagePath!.path);
       setState(() {});
-      print('img galeri ${state.listImage}');
-    } else {
-      print('image not selected');
     }
   }
 
   Future openGalleryMyJourney() async {
-    List hasil = await Get.to(ImageGalleryMyJourney());
-    print("hasil $hasil");
+    List hasil = await Get.to(() => ImageGalleryMyJourney());
     Get.back();
 
-    if (hasil.isEmpty) {
-      print("hasil kosong");
-      return;
-    }
+    if (hasil.isEmpty) return;
 
     state.isMinorLoading.value = true;
     for (int i = 0; i < hasil.length; i++) {
       String path = await downloadFileFromUrl(hasil[i]);
       state.listImage.add(path);
       setState(() {});
-      print('oGalleryMyJourney ${state.listImage}');
     }
     state.isMinorLoading.value = false;
-    print("beres");
   }
 }
