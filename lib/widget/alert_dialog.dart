@@ -2,7 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_produk_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -137,7 +138,8 @@ class AlertConfirmationWidget extends StatelessWidget {
 }
 
 class AlertSuccessWishlist extends StatelessWidget {
-  const AlertSuccessWishlist({super.key});
+  bool isTreatment;
+  AlertSuccessWishlist({super.key, this.isTreatment = false});
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +170,7 @@ class AlertSuccessWishlist extends StatelessWidget {
               height: 10,
             ),
             Text(
-              'Produk berhasil ditambahkan ke daftar wishlist',
+              '${isTreatment ? 'Treatment' : 'Produk'} berhasil ditambahkan ke daftar wishlist',
               textAlign: TextAlign.center,
               style: greyTextStyle.copyWith(fontSize: 15),
             ),
@@ -179,7 +181,11 @@ class AlertSuccessWishlist extends StatelessWidget {
               title: 'Cek Wishlist',
               onPressed: () {
                 Get.back();
-                Get.to(const WishListPage());
+                if (isTreatment) {
+                  Get.to(() => const WishlistTreatmentPage());
+                } else {
+                  Get.to(() => const WishlistProdukPage());
+                }
               },
             ),
           ],

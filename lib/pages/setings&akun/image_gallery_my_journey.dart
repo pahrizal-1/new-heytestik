@@ -135,8 +135,7 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
               ? Center(
                   child: Text(
                     'Belum ada data',
-                    style: TextStyle(
-                      fontWeight: bold,
+                     style: TextStyle(
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

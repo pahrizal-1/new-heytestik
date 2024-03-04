@@ -1,14 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/filter_radio_button_widget.dart';
 
 import '../theme/theme.dart';
 import 'button_widget.dart';
 
 class FilterTanggalTransaksi extends StatefulWidget {
-  const FilterTanggalTransaksi({
-    super.key,
-  });
+  int? val;
+  FilterTanggalTransaksi({super.key, this.val});
 
   @override
   State<FilterTanggalTransaksi> createState() => _FilterTanggalTransaksiState();
@@ -16,6 +17,12 @@ class FilterTanggalTransaksi extends StatefulWidget {
 
 class _FilterTanggalTransaksiState extends State<FilterTanggalTransaksi> {
   int? tanggal;
+  @override
+  void initState() {
+    super.initState();
+    tanggal = widget.val;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +84,7 @@ class _FilterTanggalTransaksiState extends State<FilterTanggalTransaksi> {
               ),
               ...Iterable<int>.generate(60).toList().map((val) {
                 String text = val == 0 ? "Hari Ini" : "$val Hari yang lalu";
-                return popup(
+                return filterRadioButtonWidget(
                   onTap: () {
                     tanggal = val;
                     setState(() {});
@@ -89,42 +96,6 @@ class _FilterTanggalTransaksiState extends State<FilterTanggalTransaksi> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget popup(
-      {required Function()? onTap,
-      required String title,
-      required bool isSelected}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              onTap == null ? () {} : onTap();
-            },
-            child: Row(
-              children: [
-                Text(
-                  title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
       ),
     );
   }

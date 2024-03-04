@@ -23,7 +23,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import '../../controller/customer/solution/etalase_controller.dart';
-import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../controller/customer/solution/treatment_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 
@@ -866,7 +866,6 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                       child: Text(
                         'Belum ada treatment',
                         style: TextStyle(
-                          fontWeight: bold,
                           fontFamily: 'ProximaNova',
                           fontSize: 20,
                         ),

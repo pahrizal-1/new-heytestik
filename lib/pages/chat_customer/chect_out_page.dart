@@ -340,8 +340,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                             state.getPaymentMethod.isEmpty
                                                 ? Center(
                                                     child: Text(
-                                                      'Tidak ada metode pemayaran',
+                                                      'Belum ada motode pembayaran',
                                                       style: TextStyle(
+                                                        fontFamily:
+                                                            'ProximaNova',
                                                         fontSize: 20,
                                                       ),
                                                     ),
@@ -781,7 +783,6 @@ class _SelectAddressState extends State<SelectAddress> {
                       child: Text(
                         'Belum ada alamat',
                         style: TextStyle(
-                          fontWeight: bold,
                           fontFamily: 'ProximaNova',
                           fontSize: 20,
                         ),

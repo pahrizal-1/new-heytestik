@@ -301,7 +301,6 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                       child: Text(
                         'Belum ada obat',
                         style: TextStyle(
-                          fontWeight: bold,
                           fontFamily: 'ProximaNova',
                           fontSize: 20,
                         ),

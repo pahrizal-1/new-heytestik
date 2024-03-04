@@ -582,8 +582,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     ? Center(
                         child: Text(
                           'Belum ada skincare',
-                          style: TextStyle(
-                            fontWeight: bold,
+                           style: TextStyle(
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),

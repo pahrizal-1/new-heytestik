@@ -7,7 +7,7 @@ import 'package:heystetik_mobileapps/pages/solution/view_detail_klinik_page.dart
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_klinik_widget.dart';
 
-import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../controller/customer/solution/treatment_controller.dart';
 import '../../models/clinic.dart';
 import '../../widget/filter_treatment_widgets.dart';
 
@@ -431,7 +431,6 @@ class _TreatmentKlinkState extends State<TreatmentKlink> {
               child: Text(
                 'Belum ada klinik',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

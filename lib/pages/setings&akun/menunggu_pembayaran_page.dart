@@ -111,7 +111,6 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                   child: Text(
                     'Belum ada transaksi',
                     style: TextStyle(
-                      fontWeight: bold,
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

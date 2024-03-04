@@ -1,21 +1,31 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/filter_radio_button_widget.dart';
 
 import '../theme/theme.dart';
 import 'button_widget.dart';
-import 'filter_tap_widget.dart';
 
 class FilterJenisTransaksi extends StatefulWidget {
-  const FilterJenisTransaksi({
-    super.key,
-  });
+  String? val;
+  FilterJenisTransaksi({super.key, this.val});
 
   @override
   State<FilterJenisTransaksi> createState() => _FilterJenisTransaksiState();
 }
 
 class _FilterJenisTransaksiState extends State<FilterJenisTransaksi> {
-  List<String> jenis = [];
+  List data = ['Consultation', 'Product', 'Treatment'];
+  String? jenis;
+
+  @override
+  void initState() {
+    super.initState();
+    jenis = widget.val;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -54,28 +64,20 @@ class _FilterJenisTransaksiState extends State<FilterJenisTransaksi> {
               const SizedBox(
                 height: 39,
               ),
-              FilterTapTreatment(
-                onTap: () {
-                  jenis.add("CONSULTATION");
-                },
-                title: 'Consultation',
-              ),
-              FilterTapTreatment(
-                onTap: () {
-                  jenis.add("PRODUCT");
-                },
-                title: 'Product',
-              ),
-              FilterTapTreatment(
-                onTap: () {
-                  jenis.add("TREATMENT");
-                },
-                title: 'Treatment',
-              ),
+              ...data.map((e) {
+                return filterRadioButtonWidget(
+                  onTap: () {
+                    jenis = e.toString();
+                    setState(() {});
+                  },
+                  title: e.toString(),
+                  isSelected: jenis == e.toString(),
+                );
+              }),
               ButtonGreenWidget(
                 title: 'Tampilkan',
                 onPressed: () {
-                  if (jenis.isNotEmpty) {
+                  if (jenis is String) {
                     Navigator.pop(context, jenis);
                   } else {
                     showDialog(

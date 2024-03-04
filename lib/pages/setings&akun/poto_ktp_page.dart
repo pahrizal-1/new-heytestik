@@ -60,7 +60,7 @@ class PotoKtp extends StatelessWidget {
                     image: FileImage(
                       File(state.idCardPhoto!.path),
                     ),
-                    fit: BoxFit.cover,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),

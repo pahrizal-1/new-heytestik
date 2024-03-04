@@ -9,8 +9,7 @@ import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
 import 'package:heystetik_mobileapps/models/treatment_review_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
-import '../../../models/clinic.dart';
-import '../../../models/lookup_treatment.dart';
+import '../../../models/clinic.dart'; 
 
 class TreatmentService extends ProviderClass {
   TreatmentService()
@@ -208,43 +207,6 @@ class TreatmentService extends ProviderClass {
     }
   }
 
-  Future addWishlistTreatment(int treatmentID) async {
-    try {
-      var response = await networkingConfig.doPost(
-        '/user-wishlist-treatment',
-        data: {
-          "treatment_id": treatmentID,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-      return response;
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future deleteWishlistTreatment(int treatmentID) async {
-    try {
-      var response = await networkingConfig.doDelete(
-        '/user-wishlist-treatment/$treatmentID',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-      return response;
-    } catch (error) {
-      print(error);
-    }
-  }
-
   Future<TreatmentModel.TreatmentModel> getNearTreatment(
     int page, {
     String? search,
@@ -291,7 +253,7 @@ class TreatmentService extends ProviderClass {
     if (filter != null) {
       params.addAll(filter);
     }
-
+    print("params $params");
     var response = await networkingConfig.doGet(
       '/solution/treatment-review',
       params: params,
@@ -365,30 +327,6 @@ class TreatmentService extends ProviderClass {
     } catch (error) {
       print(error);
       return TreatmentModel.TreatmentModel();
-    }
-  }
-
-  Future<List<LookupTreatmentModel>> getLookupTreatment() async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/lookup',
-        params: {
-          "page": 1,
-          "take": 100,
-          "order": "asc",
-          "category[]": "TREATMENT_TYPE",
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return (response['data']['data'] as List)
-          .map((e) => LookupTreatmentModel.fromJson(e))
-          .toList();
-    } catch (error) {
-      print(error);
-      return [];
     }
   }
 }

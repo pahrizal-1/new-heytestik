@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_treatment_controller.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/view_detail_treatment_page.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/treatment_wishlist_widgets.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
 import '../../theme/theme.dart';
-import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
+import 'package:heystetik_mobileapps/models/customer/wishlist_treatment_model.dart';
 import '../../widget/appbar_widget.dart';
-import '../../widget/produk_wishlist_widgets.dart';
 
-class WishListPage extends StatefulWidget {
-  const WishListPage({super.key});
+class WishlistTreatmentPage extends StatefulWidget {
+  const WishlistTreatmentPage({super.key});
 
   @override
-  State<WishListPage> createState() => _WishListPageState();
+  State<WishlistTreatmentPage> createState() => _WishlistTreatmentPageState();
 }
 
-class _WishListPageState extends State<WishListPage> {
-  final WishlistController state = Get.put(WishlistController());
+class _WishlistTreatmentPageState extends State<WishlistTreatmentPage> {
+  final WishlistTreatmentController state =
+      Get.put(WishlistTreatmentController());
   final ScrollController scrollController = ScrollController();
 
   int page = 1;
@@ -66,7 +66,7 @@ class _WishListPageState extends State<WishListPage> {
         iconTheme: iconthemeblack(),
         backgroundColor: Colors.transparent,
         title: Text(
-          'Wishlist',
+          'Wishlist Treatment',
           style: blackTextStyle.copyWith(
               fontSize: 20, overflow: TextOverflow.ellipsis),
         ),
@@ -179,7 +179,7 @@ class _WishListPageState extends State<WishListPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${wishlist.length} Produk',
+                              '${wishlist.length} Treatment',
                               style: blackTextStyle.copyWith(
                                   color: const Color(0xff6B6B6B), fontSize: 15),
                             ),
@@ -197,11 +197,10 @@ class _WishListPageState extends State<WishListPage> {
                   child: wishlist.isEmpty
                       ? Center(
                           child: Text(
-                            'Belum ada produk',
+                            'Belum ada treatment',
                             style: TextStyle(
-                              fontWeight: bold,
                               fontFamily: 'ProximaNova',
-                              fontSize: 18,
+                              fontSize: 20,
                             ),
                           ),
                         )
@@ -213,63 +212,37 @@ class _WishListPageState extends State<WishListPage> {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 20,
-                            childAspectRatio: 0.5,
+                            childAspectRatio: 0.7,
                           ),
                           itemCount: wishlist.length,
                           itemBuilder: (BuildContext context, int index) {
-                            if (wishlist[index].product?.type == 'SKINCARE') {
-                              return InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => DetailSkinCarePage(
-                                      productId: wishlist[index].product!.id!,
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailTreatmentPage(
+                                      treatmentId: wishlist[index].treatmentId!,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: TreatmentWishlistWidget(
+                                data: wishlist[index],
+                                onDelete: () async {
+                                  page = 1;
+                                  wishlist.clear();
+                                  wishlist.addAll(
+                                    await state.getWistlist(
+                                      context,
+                                      page,
+                                      search: state.searchController.text,
                                     ),
                                   );
+                                  setState(() {});
                                 },
-                                child: ProdukWishlistSkinCare(
-                                  data: wishlist[index],
-                                  onDelete: () async {
-                                    page = 1;
-                                    wishlist.clear();
-                                    wishlist.addAll(
-                                      await state.getWistlist(
-                                        context,
-                                        page,
-                                        search: state.searchController.text,
-                                      ),
-                                    );
-                                    setState(() {});
-                                  },
-                                ),
-                              );
-                            }
-                            if (wishlist[index].product?.type == 'DRUGS') {
-                              return InkWell(
-                                onTap: () {
-                                  Get.to(
-                                    () => DetailDrugPage(
-                                      drugId: wishlist[index].product!.id!,
-                                    ),
-                                  );
-                                },
-                                child: ProdukWishlistObat(
-                                  data: wishlist[index],
-                                  onDelete: () async {
-                                    page = 1;
-                                    wishlist.clear();
-                                    wishlist.addAll(
-                                      await state.getWistlist(
-                                        context,
-                                        page,
-                                        search: state.searchController.text,
-                                      ),
-                                    );
-                                    setState(() {});
-                                  },
-                                ),
-                              );
-                            }
-                            return null;
+                              ),
+                            );
                           },
                         ),
                 ),

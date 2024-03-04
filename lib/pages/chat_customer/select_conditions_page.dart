@@ -56,6 +56,7 @@ class _SelectConditionsPageState extends State<SelectConditionsPage> {
                             child: Text(
                               'Belum ada data',
                               style: TextStyle(
+                                fontFamily: 'ProximaNova',
                                 fontSize: 20,
                               ),
                             ),

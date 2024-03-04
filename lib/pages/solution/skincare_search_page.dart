@@ -327,7 +327,6 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                             child: Text(
                               'Belum ada skincare',
                               style: TextStyle(
-                                fontWeight: bold,
                                 fontFamily: 'ProximaNova',
                                 fontSize: 20,
                               ),

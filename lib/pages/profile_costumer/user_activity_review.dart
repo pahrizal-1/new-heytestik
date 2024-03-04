@@ -47,11 +47,10 @@ class _UserActivityReviewState extends State<UserActivityReview> {
               ? Center(
                   child: Text(
                     'Belum ada data',
-                    style: TextStyle(
-                      fontWeight: bold,
-                      fontFamily: 'ProximaNova',
-                      fontSize: 20,
-                    ),
+                     style: TextStyle(
+                                  fontFamily: 'ProximaNova',
+                                  fontSize: 20,
+                                ),
                   ),
                 )
               : SingleChildScrollView(

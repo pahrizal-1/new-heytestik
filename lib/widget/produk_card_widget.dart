@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -23,7 +23,7 @@ class ProdukCardWidget extends StatefulWidget {
 
 class _ProdukCardWidgetState extends State<ProdukCardWidget> {
   final CartController state = Get.put(CartController());
-  final WishlistController wishlist = Get.put(WishlistController());
+  final WishlistProdukController wishlist = Get.put(WishlistProdukController());
 
   @override
   Widget build(BuildContext context) {

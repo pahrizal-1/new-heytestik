@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
-import '../controller/customer/treatment/treatment_controller.dart';
-import '../models/lookup_treatment.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
+    as Lookup;
 
 class FilterAllTreatmentWidget extends StatefulWidget {
   const FilterAllTreatmentWidget({super.key});
@@ -16,12 +17,13 @@ class FilterAllTreatmentWidget extends StatefulWidget {
 }
 
 class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
-  final TreatmentController stateTreatment = Get.put(TreatmentController());
   final TextEditingController minPriceController = TextEditingController();
   final TextEditingController maxPriceController = TextEditingController();
+  final EtalaseController state = Get.put(EtalaseController());
 
+  List<Lookup.Data2> treatments = [];
   List<String> filter = [];
-  List<LookupTreatmentModel> treatments = [];
+
   String orderBy = "";
   bool promo = false;
   bool openNow = false;
@@ -31,7 +33,7 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await stateTreatment.getLookupTreatment(context));
+      treatments.addAll(await state.getLookup(context, "TREATMENT_TYPE"));
       setState(() {});
     });
     super.initState();
@@ -217,9 +219,9 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
               ),
               ...treatments.map((treatment) {
                 return TreatmentType(
-                  title: treatment.name,
+                  title: treatment.value.toString(),
                   function: () {
-                    filter.add(treatment.name);
+                    filter.add(treatment.value.toString());
                   },
                 );
               }).toList(),
@@ -430,15 +432,14 @@ class FilterTreatmentType extends StatefulWidget {
 }
 
 class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
-  final TreatmentController treatmentController =
-      Get.put(TreatmentController());
+  final EtalaseController state = Get.put(EtalaseController());
   List<String> filter = [];
-  List<LookupTreatmentModel> treatments = [];
+  List<Lookup.Data2> treatments = [];
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatments.addAll(await treatmentController.getLookupTreatment(context));
+      treatments.addAll(await state.getLookup(context, "TREATMENT_TYPE"));
       setState(() {});
     });
     super.initState();
@@ -469,9 +470,9 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
               ...treatments.map((treatment) {
                 return FilterTapTreatment(
                   onTap: () {
-                    filter.add(treatment.name);
+                    filter.add(treatment.value.toString());
                   },
-                  title: treatment.name,
+                  title: treatment.value.toString(),
                 );
               }).toList(),
             ],

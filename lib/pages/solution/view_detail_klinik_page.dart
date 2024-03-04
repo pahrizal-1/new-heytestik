@@ -4,7 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
@@ -1108,7 +1108,6 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         child: Text(
                           'Belum ada treatment',
                           style: TextStyle(
-                            fontWeight: bold,
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),
