@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
@@ -11,12 +12,10 @@ class UbahNomorCustomerProfilPage extends StatefulWidget {
   const UbahNomorCustomerProfilPage({super.key});
 
   @override
-  State<UbahNomorCustomerProfilPage> createState() =>
-      _UbahNomorCustomerProfilPageState();
+  State<UbahNomorCustomerProfilPage> createState() => _UbahNomorCustomerProfilPageState();
 }
 
-class _UbahNomorCustomerProfilPageState
-    extends State<UbahNomorCustomerProfilPage> {
+class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPage> {
   final ProfileController state = Get.put(ProfileController());
 
   @override
@@ -83,8 +82,7 @@ class _UbahNomorCustomerProfilPageState
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   suffixIcon: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                     child: Image.asset(
                       'assets/icons/x-circle.png',
                     ),
@@ -106,8 +104,7 @@ class _UbahNomorCustomerProfilPageState
                   hintStyle: blackRegulerTextStyle.copyWith(
                     fontSize: 13,
                   ),
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -125,11 +122,15 @@ class _UbahNomorCustomerProfilPageState
               title: 'Lanjut',
               onPressed: () {
                 // state.verifyCode(context);
-                state.verifyCodeWA(context, state.nomorHpController.text);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const VerifikasiSetingsPage()));
+                if (state.nomorHpController.text.length != 0) {
+                  state.verifyCodeWA(context, state.nomorHpController.text);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifikasiSetingsPage()));
+                } else {
+                  showDialog(
+                    context: Get.context!,
+                    builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi No Telepon Anda Terlebih Dahulu'),
+                  );
+                }
               },
             )
           ],

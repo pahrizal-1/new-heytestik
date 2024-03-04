@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
@@ -55,8 +56,7 @@ class _UbahNamaProfilCustomerState extends State<UbahNamaProfilCustomer> {
           children: [
             Text(
               'Pakai nama asli untuk memudahkan verifikasi. Nama ini akan tampil di beberapa halaman.',
-              style: blackRegulerTextStyle.copyWith(
-                  fontSize: 15, color: blackColor),
+              style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
             ),
             const SizedBox(
               height: 28,
@@ -67,8 +67,7 @@ class _UbahNamaProfilCustomerState extends State<UbahNamaProfilCustomer> {
                 controller: state.fullNameController,
                 decoration: InputDecoration(
                   suffixIcon: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 10, right: 10, top: 10, bottom: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                     child: Image.asset(
                       'assets/icons/x-circle.png',
                     ),
@@ -87,8 +86,7 @@ class _UbahNamaProfilCustomerState extends State<UbahNamaProfilCustomer> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   hintText: 'Rina Rasmalina',
-                  contentPadding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -105,6 +103,15 @@ class _UbahNamaProfilCustomerState extends State<UbahNamaProfilCustomer> {
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
+                if (state.fullNameController.text.length == 0) {
+                  showDialog(
+                    context: Get.context!,
+                    builder: (context) => AlertWidget(subtitle: 'Tolong Isi Terlebih Dahulu'),
+                  );
+                } else {
+                  print('ada');
+                  state.updateUsername(context);
+                }
                 state.updateName(context);
                 // Navigator.push(
                 //   context,
