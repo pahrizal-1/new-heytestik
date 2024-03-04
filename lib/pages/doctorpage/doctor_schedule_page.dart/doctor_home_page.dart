@@ -33,8 +33,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
   final DoctorProfileController stateProfile =
       Get.put(DoctorProfileController());
-  final NotificationCustomerController stateNotif =
-      Get.put(NotificationCustomerController());
+  final NotificationController stateNotif = Get.put(NotificationController());
 
   IO.Socket? _socket;
   Timer? timer;

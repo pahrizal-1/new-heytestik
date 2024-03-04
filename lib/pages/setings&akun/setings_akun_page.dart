@@ -134,7 +134,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    const NotifikasiSettingsPage()));
+                                    const NotifikasiSettingPage()));
                       },
                       iconUrl: 'assets/icons/notification-logo-blak.png',
                       title: 'Notifikasi',

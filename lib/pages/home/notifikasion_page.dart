@@ -17,8 +17,7 @@ class NotifikasionPage extends StatefulWidget {
 }
 
 class _NotifikasionPageState extends State<NotifikasionPage> {
-  final NotificationCustomerController state =
-      Get.put(NotificationCustomerController());
+  final NotificationController state = Get.put(NotificationController());
   final ScrollController controller = ScrollController();
   int page = 1;
   List<DataNotificationCustomerModel> notifications = [];

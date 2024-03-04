@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
 
-class NotifikasiSettingsPage extends StatefulWidget {
-  const NotifikasiSettingsPage({super.key});
+class NotifikasiSettingPage extends StatefulWidget {
+  const NotifikasiSettingPage({super.key});
 
   @override
-  State<NotifikasiSettingsPage> createState() => _NotifikasiSettingsPageState();
+  State<NotifikasiSettingPage> createState() => _NotifikasiSettingPageState();
 }
 
 bool isSelected = false;
 
-class _NotifikasiSettingsPageState extends State<NotifikasiSettingsPage> {
+class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

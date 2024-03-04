@@ -37,8 +37,8 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
   final NewsController stateNews = Get.put(NewsController());
   final ProfileController stateProfile = Get.put(ProfileController());
 
-  final NotificationCustomerController stateNotification =
-      Get.put(NotificationCustomerController());
+  final NotificationController stateNotification =
+      Get.put(NotificationController());
 
   @override
   void initState() {
@@ -401,9 +401,9 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                     child: Text(
                                       'Belum ada riwayat konsultasi',
                                       style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -636,10 +636,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                         return Center(
                           child: Text(
                             'Belum ada riwayat konsultasi',
-                             style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 20,
+                            ),
                           ),
                         );
                       }
@@ -771,10 +771,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                                   Center(
                                     child: Text(
                                       'Belum ada jadwal treatment',
-                                       style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        fontSize: 20,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -1022,10 +1022,10 @@ class _HomeMyjourneyState extends State<HomeMyjourney> {
                         return Center(
                           child: Text(
                             'Belum ada jadwal treatment',
-                             style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 20,
+                            ),
                           ),
                         );
                       }
