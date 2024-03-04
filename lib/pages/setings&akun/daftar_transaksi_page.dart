@@ -198,6 +198,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -251,6 +252,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -325,6 +327,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -403,6 +406,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
