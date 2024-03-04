@@ -36,7 +36,8 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
   final UlasanProdukController state = Get.put(UlasanProdukController());
   final DrugController stateDrug = Get.put(DrugController());
   final SkincareController stateSkincare = Get.put(SkincareController());
-  final WishlistProdukController stateWishlist = Get.put(WishlistProdukController());
+  final WishlistProdukController stateWishlist =
+      Get.put(WishlistProdukController());
   List<ProductReviewModel.Data2> reviews = [];
   bool isVisibelity = false;
   int page = 1;
@@ -751,9 +752,25 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/doctor1.png',
-                                          width: 40,
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: element.user
+                                                          ?.mediaUserProfilePicture !=
+                                                      null
+                                                  ? NetworkImage(
+                                                      '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                                    ) as ImageProvider
+                                                  : AssetImage(
+                                                      'assets/images/profiledummy.png',
+                                                    ),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 12,

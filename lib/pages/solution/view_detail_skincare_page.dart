@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/skincare_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
@@ -45,7 +46,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   final CartController stateCart = Get.put(CartController());
   final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
-  bool isVisibelity = false;
+  bool isVisibility = false;
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
@@ -471,7 +472,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     InkWell(
                       onTap: () {
                         setState(() {
-                          isVisibelity = !isVisibelity;
+                          isVisibility = !isVisibility;
                         });
                       },
                       child: Row(
@@ -484,7 +485,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                           ),
                           const Spacer(),
                           Icon(
-                            isVisibelity
+                            isVisibility
                                 ? Icons.keyboard_arrow_up
                                 : Icons.keyboard_arrow_down,
                             color: greenColor,
@@ -496,7 +497,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                       height: 7,
                     ),
                     Visibility(
-                      visible: isVisibelity,
+                      visible: isVisibility,
                       child: Text(
                         '${stateSkincare.skincareDetail.value.skincareDetail?.specificationIngredients}',
                         style: blackRegulerTextStyle.copyWith(fontSize: 15),
@@ -793,9 +794,24 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/doctor1.png',
-                                    width: 40,
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: element.user
+                                                    ?.mediaUserProfilePicture !=
+                                                null
+                                            ? NetworkImage(
+                                                '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                              ) as ImageProvider
+                                            : AssetImage(
+                                                'assets/images/profiledummy.png',
+                                              ),
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 12,
@@ -977,12 +993,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                       : InkWell(
                                           onTap: () {
                                             setState(() {
-                                              isVisibelity = !isVisibelity;
+                                              isVisibility = !isVisibility;
                                             });
                                           },
                                           child: Row(
                                             children: [
-                                              isVisibelity
+                                              isVisibility
                                                   ? Text(
                                                       'Lihat Balasan',
                                                       style:
@@ -1013,7 +1029,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 height: 16,
                               ),
                               Visibility(
-                                visible: isVisibelity,
+                                visible: isVisibility,
                                 child: Row(
                                   children: [
                                     Container(
@@ -1060,9 +1076,6 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
                             ],
                           );
                         }).toList(),
@@ -1070,7 +1083,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                   ],
                 ),
               ),
-              if (reviews.isNotEmpty)
+              if (reviews.isEmpty)
                 const SizedBox(
                   height: 18,
                 ),
@@ -1106,18 +1119,24 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         width: 11,
                       ),
                       Expanded(
-                        child: Container(
-                          height: 29,
-                          decoration: BoxDecoration(
-                              border: Border.all(color: greenColor, width: 1.5),
-                              borderRadius: BorderRadius.circular(3)),
-                          padding: const EdgeInsets.only(
-                              top: 6, bottom: 6, left: 10, right: 10),
-                          child: Center(
-                            child: Text(
-                              'Beri Ulasan',
-                              style: grenTextStyle.copyWith(
-                                fontSize: 12,
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(() => UlasanSetingsPage());
+                          },
+                          child: Container(
+                            height: 29,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: greenColor, width: 1.5),
+                                borderRadius: BorderRadius.circular(3)),
+                            padding: const EdgeInsets.only(
+                                top: 6, bottom: 6, left: 10, right: 10),
+                            child: Center(
+                              child: Text(
+                                'Beri Ulasan',
+                                style: grenTextStyle.copyWith(
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                           ),

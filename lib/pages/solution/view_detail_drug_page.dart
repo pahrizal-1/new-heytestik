@@ -44,7 +44,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
   final CartController stateCart = Get.put(CartController());
   final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
-  bool isVisibelity = false;
+  bool isVisibility = false;
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
@@ -753,9 +753,24 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/doctor1.png',
-                                    width: 40,
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: element.user
+                                                    ?.mediaUserProfilePicture !=
+                                                null
+                                            ? NetworkImage(
+                                                '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                              ) as ImageProvider
+                                            : AssetImage(
+                                                'assets/images/profiledummy.png',
+                                              ),
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 12,
@@ -937,12 +952,12 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       : InkWell(
                                           onTap: () {
                                             setState(() {
-                                              isVisibelity = !isVisibelity;
+                                              isVisibility = !isVisibility;
                                             });
                                           },
                                           child: Row(
                                             children: [
-                                              isVisibelity
+                                              isVisibility
                                                   ? Text(
                                                       'Lihat Balasan',
                                                       style:
@@ -973,7 +988,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 height: 16,
                               ),
                               Visibility(
-                                visible: isVisibelity,
+                                visible: isVisibility,
                                 child: Row(
                                   children: [
                                     Container(
@@ -1020,9 +1035,6 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
                             ],
                           );
                         }).toList(),
@@ -1030,7 +1042,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                   ],
                 ),
               ),
-              if (reviews.isNotEmpty)
+              if (reviews.isEmpty)
                 const SizedBox(
                   height: 18,
                 ),
