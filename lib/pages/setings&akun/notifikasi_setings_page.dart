@@ -1,6 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
+import 'package:heystetik_mobileapps/models/customer/setting_notif_model.dart'
+    as SettingNotif;
 
 class NotifikasiSettingPage extends StatefulWidget {
   const NotifikasiSettingPage({super.key});
@@ -9,12 +15,17 @@ class NotifikasiSettingPage extends StatefulWidget {
   State<NotifikasiSettingPage> createState() => _NotifikasiSettingPageState();
 }
 
-bool isSelected = false;
-
 class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
+  final NotificationController state = Get.put(NotificationController());
+  List<SettingNotif.Data> data = [];
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      data.addAll(await state.getSettingNotif(context));
+      setState(() {});
+    });
   }
 
   @override
@@ -31,20 +42,22 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
-            child: SwitchNotifikasi(
+            child: switchNotif(
               title: 'Jeda semua notifikasi',
+              selected: false,
+              onTap: () async {},
             ),
           ),
           Container(
             height: 35,
             padding: EdgeInsets.symmetric(horizontal: 25, vertical: 8),
             width: MediaQuery.of(context).size.width,
-            color: Color(0xFFfCCCCCC).withOpacity(0.4),
+            color: Color(0xfffcccccc).withOpacity(0.4),
             child: Text(
               'Stream',
               style: blackTextStyle.copyWith(
                 fontSize: 15,
-                color: Color(0xfffB0B0B0),
+                color: Color(0xfffb0b0b0),
               ),
             ),
           ),
@@ -52,77 +65,79 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
             child: Column(
               children: [
-                SwitchNotifikasi(
-                  title: 'Mention',
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                SwitchNotifikasi(
-                  title: 'Postingan yang disukai',
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                SwitchNotifikasi(
-                  title: 'Balasan',
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                SwitchNotifikasi(
-                  title: 'Followers',
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                SwitchNotifikasi(
-                  title: 'Repost',
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                SwitchNotifikasi(
-                  title: 'Postingan akun yang diikuti',
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Teman di Heystetik',
-                          style: blackRegulerTextStyle.copyWith(
-                              fontSize: 15, color: blackColor),
-                        ),
-                        SizedBox(
-                          height: 2,
-                        ),
-                        Text(
-                          'Laura, salah satu kontak kamu, ada di Heystetik\nsebagai @laurado. Apakah kamu ingin mengikuti?',
-                          style: subTitleTextStyle.copyWith(
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    Switch(
-                      focusColor: greenColor,
-                      activeColor: greenColor,
-                      value: isSelected,
-                      onChanged: (value) {
-                        setState(() {
-                          isSelected = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+                ...data.map((val) {
+                  bool selected = val.isEnabled ?? false;
+                  return val.name == 'Teman di Heystetik'
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Teman di Heystetik',
+                                  style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 15, color: blackColor),
+                                ),
+                                SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  'Laura, salah satu kontak kamu, ada di Heystetik\nsebagai @laurado. Apakah kamu ingin mengikuti?',
+                                  style: subTitleTextStyle.copyWith(
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Switch(
+                              focusColor: greenColor,
+                              activeColor: greenColor,
+                              value: selected,
+                              onChanged: (value) async {
+                                selected = !selected;
+                                setState(() {});
+                                bool cek = await state.postSettingNotif(
+                                  context,
+                                  val.type ?? '',
+                                  val.isEnabled == true ? false : true,
+                                );
+                                if (cek) {
+                                  selected = true;
+                                  data.clear();
+                                  data.addAll(
+                                      await state.getSettingNotif(context));
+                                } else {
+                                  selected = false;
+                                }
+                                setState(() {});
+                              },
+                            ),
+                          ],
+                        )
+                      : switchNotif(
+                          title: val.name ?? '-',
+                          selected: selected,
+                          onTap: () async {
+                            selected = !selected;
+                            setState(() {});
+                            bool cek = await state.postSettingNotif(
+                              context,
+                              val.type ?? '',
+                              val.isEnabled == true ? false : true,
+                            );
+                            if (cek) {
+                              selected = true;
+                              data.clear();
+                              data.addAll(await state.getSettingNotif(context));
+                            } else {
+                              selected = false;
+                            }
+                            setState(() {});
+                          },
+                        );
+                })
               ],
             ),
           )
@@ -130,30 +145,17 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
       ),
     );
   }
-}
 
-class SwitchNotifikasi extends StatefulWidget {
-  final String title;
-  const SwitchNotifikasi({
-    super.key,
-    required this.title,
-  });
-
-  @override
-  State<SwitchNotifikasi> createState() => _SwitchNotifikasiState();
-}
-
-bool isSwitch = false;
-
-class _SwitchNotifikasiState extends State<SwitchNotifikasi> {
-  @override
-  Widget build(BuildContext context) {
+  Widget switchNotif(
+      {required String title,
+      required bool selected,
+      required Function() onTap}) {
     return Column(
       children: [
         Row(
           children: [
             Text(
-              widget.title,
+              title,
               style: blackRegulerTextStyle.copyWith(
                   fontSize: 15, color: Color(0xfff323232)),
             ),
@@ -161,11 +163,9 @@ class _SwitchNotifikasiState extends State<SwitchNotifikasi> {
             Switch(
               focusColor: greenColor,
               activeColor: greenColor,
-              value: isSwitch,
+              value: selected,
               onChanged: (value) {
-                setState(() {
-                  isSwitch = value;
-                });
+                onTap();
               },
             ),
           ],
