@@ -12,8 +12,6 @@ import 'package:heystetik_mobileapps/service/customer/solution/solution_service.
 
 class UlasanProdukController extends StateClass {
   Rx<Overview.Data> productOverview = Overview.Data.fromJson({}).obs;
-  RxList<ProductReviewModel.Data2> productReview =
-      List<ProductReviewModel.Data2>.empty().obs;
 
   Future getOverviewProduct(BuildContext context, int id) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -36,6 +34,7 @@ class UlasanProdukController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
+    List<ProductReviewModel.Data2> productReview = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService()
           .getReviewProduct(page, take, id, filter: filter);
@@ -45,10 +44,10 @@ class UlasanProdukController extends StateClass {
           message: res.message.toString(),
         );
       }
-      productReview.value = res.data!.data!;
+      productReview = res.data!.data!;
     });
     isLoading.value = false;
-    return productReview.value;
+    return productReview;
   }
 
   void helped(BuildContext context, int reviewId) async {
