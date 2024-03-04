@@ -3,6 +3,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 
 import '../../widget/button_widget.dart';
 
@@ -10,12 +11,10 @@ class TamBahanUserNameProfilCustomer extends StatefulWidget {
   const TamBahanUserNameProfilCustomer({super.key});
 
   @override
-  State<TamBahanUserNameProfilCustomer> createState() =>
-      _TamBahanUserNameProfilCustomerState();
+  State<TamBahanUserNameProfilCustomer> createState() => _TamBahanUserNameProfilCustomerState();
 }
 
-class _TamBahanUserNameProfilCustomerState
-    extends State<TamBahanUserNameProfilCustomer> {
+class _TamBahanUserNameProfilCustomerState extends State<TamBahanUserNameProfilCustomer> {
   final ProfileController state = Get.put(ProfileController());
 
   @override
@@ -80,8 +79,7 @@ class _TamBahanUserNameProfilCustomerState
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: '@rinarasmalina',
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -97,7 +95,15 @@ class _TamBahanUserNameProfilCustomerState
             ButtonGreenWidget(
               title: 'Simpan',
               onPressed: () {
-                state.updateUsername(context);
+                if (state.usernameController.text.length == 0) {
+                  showDialog(
+                    context: Get.context!,
+                    builder: (context) => AlertWidget(subtitle: 'Tolong Isi Terlebih Dahulu'),
+                  );
+                } else {
+                  print('ada');
+                  state.updateUsername(context);
+                }
                 // Navigator.push(
                 //   context,
                 //   MaterialPageRoute(

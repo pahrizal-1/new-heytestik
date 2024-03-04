@@ -6,17 +6,16 @@ import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.
 
 import '../../controller/customer/account/profile_controller.dart';
 import '../../theme/theme.dart';
+import '../../widget/alert_dialog.dart';
 
 class UbahEmailCostumerProfilPage extends StatefulWidget {
   const UbahEmailCostumerProfilPage({super.key});
 
   @override
-  State<UbahEmailCostumerProfilPage> createState() =>
-      _UbahEmailCostumerProfilPageState();
+  State<UbahEmailCostumerProfilPage> createState() => _UbahEmailCostumerProfilPageState();
 }
 
-class _UbahEmailCostumerProfilPageState
-    extends State<UbahEmailCostumerProfilPage> {
+class _UbahEmailCostumerProfilPageState extends State<UbahEmailCostumerProfilPage> {
   final ProfileController state = Get.put(ProfileController());
 
   @override
@@ -68,8 +67,7 @@ class _UbahEmailCostumerProfilPageState
           children: [
             Text(
               'Biar akunmu aman, pastikan e-mail kamu aktif.',
-              style: blackRegulerTextStyle.copyWith(
-                  fontSize: 15, color: blackColor),
+              style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
             ),
             const SizedBox(
               height: 16,
@@ -92,10 +90,8 @@ class _UbahEmailCostumerProfilPageState
                   borderRadius: BorderRadius.circular(10),
                 ),
                 hintText: 'rasmalina.rina@gmail.com',
-                hintStyle: blackRegulerTextStyle.copyWith(
-                    fontSize: 13, color: blackColor),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                hintStyle: blackRegulerTextStyle.copyWith(fontSize: 13, color: blackColor),
+                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -110,8 +106,7 @@ class _UbahEmailCostumerProfilPageState
             ),
             TextFormField(
               controller: state.emailBaruController,
-              validator: (input) =>
-                  input!.isValidEmail() ? null : "Check your Email",
+              validator: (input) => input!.isValidEmail() ? null : "Check your Email",
               decoration: InputDecoration(
                 labelText: 'Email Baru',
                 enabledBorder: OutlineInputBorder(
@@ -130,8 +125,7 @@ class _UbahEmailCostumerProfilPageState
                 hintStyle: blackRegulerTextStyle.copyWith(
                   fontSize: 13,
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -146,20 +140,22 @@ class _UbahEmailCostumerProfilPageState
             ),
             Text(
               'Kami akan kirim kode verifikasi ke e-mail ini.',
-              style: blackRegulerTextStyle.copyWith(
-                  color: blackColor, fontSize: 13),
+              style: blackRegulerTextStyle.copyWith(color: blackColor, fontSize: 13),
             ),
             const SizedBox(
               height: 28,
             ),
             GestureDetector(
               onTap: () {
-                state.verifyCodeEmail(context, state.emailBaruController.text);
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const VerifikasiEmailSetingsPage()));
+                if (state.emailBaruController.text.length != 0) {
+                  state.verifyCodeEmail(context, state.emailBaruController.text);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifikasiEmailSetingsPage()));
+                } else {
+                  showDialog(
+                    context: Get.context!,
+                    builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Email Anda Terlebih Dahulu'),
+                  );
+                }
               },
               child: Container(
                 width: MediaQuery.of(context).size.width,
