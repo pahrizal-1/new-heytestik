@@ -75,7 +75,7 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
           child: ListView(
             children: [
               Padding(
-                padding: lsymetric.copyWith(top: 10, bottom: 25),
+                padding: lsymetric.copyWith(top: 10, bottom: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -140,23 +140,25 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                       title: 'Notifikasi',
                       title1: 'Atur segala jenis pesan notifikasi',
                     ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const ListTitleAkun(
-                      iconUrl: 'assets/icons/privasi-akun-logo.png',
-                      title: 'Privasi Akun',
-                      title1: 'Atur penggunaan data & akun yang tersambung',
-                    ),
+                    // const SizedBox(
+                    //   height: 25,
+                    // ),
+                    // const ListTitleAkun(
+                    //   iconUrl: 'assets/icons/privasi-akun-logo.png',
+                    //   title: 'Privasi Akun',
+                    //   title1: 'Atur penggunaan data & akun yang tersambung',
+                    // ),
                   ],
                 ),
               ),
               const dividergreen(),
               const SizedBox(
-                height: 25,
+                height: 10,
               ),
               Padding(
-                padding: lsymetric,
+                padding: lsymetric.copyWith(
+                  bottom: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -166,73 +168,70 @@ class _SetingsAkunPageState extends State<SetingsAkunPage> {
                         fontSize: 20,
                       ),
                     ),
+                    // const SizedBox(
+                    //   height: 24,
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     const ListTitleAkun(
+                    //       iconUrl: 'assets/icons/map_black.png',
+                    //       title: 'Geolokasi',
+                    //       title1: 'Atur rekomendasi berdasarkan lokasi',
+                    //     ),
+                    //     const Spacer(),
+                    //     Obx(
+                    //       () => Switch(
+                    //         focusColor: greenColor,
+                    //         activeColor: greenColor,
+                    //         value: state.isSwitch.value,
+                    //         onChanged: (value) async {
+                    //           state.isSwitch.value = value;
+                    //           if (state.isSwitch.value) {
+                    //             await state.getCurrentPosition(context);
+                    //           }
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 24,
                     ),
-                    Row(
-                      children: [
-                        const ListTitleAkun(
-                          iconUrl: 'assets/icons/map_black.png',
-                          title: 'Geolokasi',
-                          title1: 'Atur rekomendasi berdasarkan lokasi',
+                    LoadingWidget(
+                      isLoading: isLoading,
+                      child: InkWell(
+                        onTap: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await Future.delayed(Duration(seconds: 5));
+                          setState(() {
+                            isLoading = false;
+                          });
+                          showDialog(
+                            context: context,
+                            builder: (context) => AletDialogCache(),
+                          );
+                        },
+                        child: const ListTitleAkun(
+                          iconUrl: 'assets/icons/bersihkan-icons.png',
+                          title: 'Bersihkan Cache',
+                          title1: 'Solusi cepat untuk atasi masalah aplikasi',
                         ),
-                        const Spacer(),
-                        Obx(
-                          () => Switch(
-                            focusColor: greenColor,
-                            activeColor: greenColor,
-                            value: state.isSwitch.value,
-                            onChanged: (value) async {
-                              state.isSwitch.value = value;
-                              if (state.isSwitch.value) {
-                                await state.getCurrentPosition(context);
-                              }
-                            },
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    isLoading
-                        ? Center(
-                            child: SizedBox(
-                              height: 30,
-                              width: 30,
-                              child: CircularProgressIndicator(
-                                color: greenColor,
-                              ),
-                            ),
-                          )
-                        : InkWell(
-                            onTap: () async {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              await Future.delayed(Duration(seconds: 5));
-                              setState(() {
-                                isLoading = false;
-                              });
-                              showDialog(
-                                context: context,
-                                builder: (context) => AletDialogCache(),
-                              );
-                            },
-                            child: const ListTitleAkun(
-                              iconUrl: 'assets/icons/bersihkan-icons.png',
-                              title: 'Bersihkan Cache',
-                              title1:
-                                  'Solusi cepat untuk atasi masalah aplikasi',
-                            ),
-                          ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    const dividergreen(),
-                    const SizedBox(
-                      height: 25,
-                    ),
+                  ],
+                ),
+              ),
+              const dividergreen(),
+              const SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: lsymetric.copyWith(bottom: 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     InkWell(
                       onTap: () {
                         showDialog(
