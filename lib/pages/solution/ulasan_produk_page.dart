@@ -896,9 +896,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     Row(
                                       children: [
                                         InkWell(
-                                          onTap: () async {
-                                            print("help");
-
+                                          onTap: () {
                                             if (help ?? element.helped!) {
                                               state.unHelped(
                                                   context, element.id!);
@@ -921,25 +919,29 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                               });
                                             }
                                           },
-                                          child: Image.asset(
-                                            'assets/icons/like.png',
-                                            width: 15,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Text(
-                                          '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                          style: greyTextStyle.copyWith(
-                                            fontSize: 13,
-                                            fontWeight: regular,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                'assets/icons/like.png',
+                                                width: 15,
+                                                color: help ?? element.helped!
+                                                    ? greenColor
+                                                    : greyColor,
+                                              ),
+                                              const SizedBox(
+                                                width: 7,
+                                              ),
+                                              Text(
+                                                '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                                style: grenTextStyle.copyWith(
+                                                  fontSize: 13,
+                                                  fontWeight: regular,
+                                                  color: help ?? element.helped!
+                                                      ? greenColor
+                                                      : greyColor,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         const Spacer(),
