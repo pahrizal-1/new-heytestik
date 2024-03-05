@@ -295,9 +295,10 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                           child: Row(
                             children: [
                               Container(
-                                width: 65,
-                                height: 65,
+                                width: 70,
+                                height: 70,
                                 decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
                                   image: DecorationImage(
                                     image: NetworkImage(
                                         '${Global.FILE}/${listProduct[index].product?.mediaProducts?[0].media?.path}'),
@@ -330,15 +331,13 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                     ),
                                     Row(
                                       children: [
-                                        Expanded(
-                                          child: Text(
-                                            CurrencyFormat.convertToIdr(
-                                              listProduct[index].subtotal,
-                                              0,
-                                            ),
-                                            style: blackTextStyle.copyWith(
-                                              fontSize: 14,
-                                            ),
+                                        Text(
+                                          CurrencyFormat.convertToIdr(
+                                            listProduct[index].subtotal,
+                                            0,
+                                          ),
+                                          style: blackTextStyle.copyWith(
+                                            fontSize: 14,
                                           ),
                                         ),
                                       ],
@@ -354,7 +353,6 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                   ],
                                 ),
                               ),
-                              Spacer(),
                               InkWell(
                                 onTap: () {
                                   if (listProduct[index].product?.type ==
