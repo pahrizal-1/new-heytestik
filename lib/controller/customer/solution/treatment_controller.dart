@@ -30,6 +30,7 @@ class TreatmentController extends StateClass {
   RxList<Clinic.Data2> dataClinic =
       List<Clinic.Data2>.empty(growable: true).obs;
   Rx<FindClinicModel> responseClinicDetail = FindClinicModel().obs;
+  RxBool isLoadingDetailTreatment = false.obs;
 
   getDataUser() async {
     dataUser = await LocalStorage().getDataUser();
@@ -71,12 +72,12 @@ class TreatmentController extends StateClass {
   }
 
   Future<void> getTreatmentDetail(BuildContext context, int treatmentID) async {
-    isLoading.value = true;
+    isLoadingDetailTreatment.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       treatmentDetail.value =
           await TreatmentService().getTreatmentDetail(treatmentID);
     });
-    isLoading.value = false;
+    isLoadingDetailTreatment.value = false;
   }
 
   Future<List<Data2>> getTreatmentFromSameClinic(

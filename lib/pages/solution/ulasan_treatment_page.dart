@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatment_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -33,7 +32,6 @@ class UlasanTreatmentPage extends StatefulWidget {
 
 class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   final ScrollController scrollController = ScrollController();
-  final TreatmentController stateTreatment = Get.put(TreatmentController());
   final UlasanTreatmentController stateUlasan =
       Get.put(UlasanTreatmentController());
   bool? isFavourite;
@@ -51,6 +49,10 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      dataOverview = await stateUlasan.getTreatmentOverview(
+        context,
+        widget.treatmentID,
+      );
       reviews.addAll(
         await stateUlasan.getTreatmentReview(
           context,
@@ -60,10 +62,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           filter: filter,
         ),
       );
-      dataOverview = await stateUlasan.getTreatmentOverview(
-        context,
-        widget.treatmentID,
-      );
+
       setState(() {});
     });
 
@@ -73,7 +72,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            stateTreatment.isLoadingMore.value = true;
+            stateUlasan.isLoadingMore.value = true;
             reviews.addAll(
               await stateUlasan.getTreatmentReview(
                 context,
@@ -84,7 +83,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
               ),
             );
             setState(() {});
-            stateTreatment.isLoadingMore.value = false;
+            stateUlasan.isLoadingMore.value = false;
           });
         }
       }
@@ -667,9 +666,9 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
             ),
             Obx(
               () => LoadingWidget(
-                isLoading: stateTreatment.isLoadingMore.value
+                isLoading: stateUlasan.isLoadingMore.value
                     ? false
-                    : stateTreatment.isLoading.value,
+                    : stateUlasan.isLoading.value,
                 child: Column(
                   children: [
                     Padding(
@@ -691,9 +690,25 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/doctor1.png',
-                                          width: 40,
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: element.user
+                                                          ?.mediaUserProfilePicture !=
+                                                      null
+                                                  ? NetworkImage(
+                                                      '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                                    ) as ImageProvider
+                                                  : AssetImage(
+                                                      'assets/images/profiledummy.png',
+                                                    ),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 12,
@@ -790,7 +805,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                     Row(
                                       children: [
                                         InkWell(
-                                          onTap: () async {
+                                          onTap: () {
                                             if (help ?? element.helped!) {
                                               stateUlasan.unHelped(
                                                   context, element.id!);
@@ -813,25 +828,29 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                               });
                                             }
                                           },
-                                          child: Image.asset(
-                                            'assets/icons/like.png',
-                                            width: 15,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Text(
-                                          '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                          style: greyTextStyle.copyWith(
-                                            fontSize: 13,
-                                            fontWeight: regular,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                'assets/icons/like.png',
+                                                width: 15,
+                                                color: help ?? element.helped!
+                                                    ? greenColor
+                                                    : greyColor,
+                                              ),
+                                              const SizedBox(
+                                                width: 7,
+                                              ),
+                                              Text(
+                                                '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                                style: grenTextStyle.copyWith(
+                                                  fontSize: 13,
+                                                  fontWeight: regular,
+                                                  color: help ?? element.helped!
+                                                      ? greenColor
+                                                      : greyColor,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         const Spacer(),
@@ -938,7 +957,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                             ),
                     ),
                     Obx(
-                      () => stateTreatment.isLoading.value
+                      () => stateUlasan.isLoading.value
                           ? Padding(
                               padding: const EdgeInsets.only(bottom: 10),
                               child: LoadingMore(),
@@ -975,183 +994,183 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
     );
   }
 
-  Padding comentbalasan() {
-    return Padding(
-      padding: lsymetric.copyWith(bottom: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 11,
-          ),
-          Row(
-            children: [
-              Image.asset(
-                'assets/images/doctor1.png',
-                width: 40,
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Jessy',
-                    style: blackHigtTextStyle.copyWith(fontSize: 15),
-                  ),
-                  Text(
-                    'Perawatan Peeling TCA Ringan',
-                    style: blackHigtTextStyle.copyWith(
-                        fontSize: 13, fontWeight: regular),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              const Icon(Icons.more_vert)
-            ],
-          ),
-          const SizedBox(
-            height: 13,
-          ),
-          Row(
-            children: [
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const Icon(
-                Icons.star,
-                size: 12,
-                color: Color(0xffFFC36A),
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              Text(
-                '1 Bulan Yang lalu',
-                style: blackHigtTextStyle.copyWith(
-                    fontSize: 12, fontWeight: regular),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 13,
-          ),
-          Text(
-            'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-            style: greyTextStyle.copyWith(
-                fontSize: 13, color: const Color(0xff6B6B6B)),
-          ),
-          const SizedBox(
-            height: 13,
-          ),
-          Row(
-            children: [
-              Image.asset(
-                'assets/icons/like.png',
-                width: 15,
-                color: greenColor,
-              ),
-              const SizedBox(
-                width: 7,
-              ),
-              Text(
-                '6 orang terbantu',
-                style:
-                    grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
-              ),
-              const Spacer(),
-              InkWell(
-                onTap: () {
-                  setState(() {
-                    isVisibelity = !isVisibelity;
-                  });
-                },
-                child: Row(
-                  children: [
-                    isVisibelity
-                        ? Text(
-                            'Liat Balesan',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          )
-                        : Text(
-                            'Tutup Balasan',
-                            style: blackRegulerTextStyle.copyWith(fontSize: 13),
-                          ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Color(0xff6B6B6B),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Visibility(
-            visible: isVisibelity,
-            child: Row(
-              children: [
-                Container(
-                  height: 60,
-                  width: 2,
-                  decoration: BoxDecoration(color: greenColor),
-                ),
-                const SizedBox(
-                  width: 7,
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Klinik Utama Lithea',
-                            style: blackHigtTextStyle.copyWith(
-                                fontSize: 13, color: subTitleColor),
-                          ),
-                          Text(
-                            ' 1 bulan lalu',
-                            style: blackRegulerTextStyle.copyWith(
-                                color: subTitleColor, fontSize: 13),
-                          )
-                        ],
-                      ),
-                      Text(
-                        'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
-                        style: subTitleTextStyle,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Padding comentbalasan() {
+  //   return Padding(
+  //     padding: lsymetric.copyWith(bottom: 10),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         const SizedBox(
+  //           height: 11,
+  //         ),
+  //         Row(
+  //           children: [
+  //             Image.asset(
+  //               'assets/images/doctor1.png',
+  //               width: 40,
+  //             ),
+  //             const SizedBox(
+  //               width: 12,
+  //             ),
+  //             Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Text(
+  //                   'Jessy',
+  //                   style: blackHigtTextStyle.copyWith(fontSize: 15),
+  //                 ),
+  //                 Text(
+  //                   'Perawatan Peeling TCA Ringan',
+  //                   style: blackHigtTextStyle.copyWith(
+  //                       fontSize: 13, fontWeight: regular),
+  //                 ),
+  //               ],
+  //             ),
+  //             const Spacer(),
+  //             const Icon(Icons.more_vert)
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 13,
+  //         ),
+  //         Row(
+  //           children: [
+  //             const Icon(
+  //               Icons.star,
+  //               size: 12,
+  //               color: Color(0xffFFC36A),
+  //             ),
+  //             const Icon(
+  //               Icons.star,
+  //               size: 12,
+  //               color: Color(0xffFFC36A),
+  //             ),
+  //             const Icon(
+  //               Icons.star,
+  //               size: 12,
+  //               color: Color(0xffFFC36A),
+  //             ),
+  //             const Icon(
+  //               Icons.star,
+  //               size: 12,
+  //               color: Color(0xffFFC36A),
+  //             ),
+  //             const Icon(
+  //               Icons.star,
+  //               size: 12,
+  //               color: Color(0xffFFC36A),
+  //             ),
+  //             const SizedBox(
+  //               width: 12,
+  //             ),
+  //             Text(
+  //               '1 Bulan Yang lalu',
+  //               style: blackHigtTextStyle.copyWith(
+  //                   fontSize: 12, fontWeight: regular),
+  //             )
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 13,
+  //         ),
+  //         Text(
+  //           'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
+  //           style: greyTextStyle.copyWith(
+  //               fontSize: 13, color: const Color(0xff6B6B6B)),
+  //         ),
+  //         const SizedBox(
+  //           height: 13,
+  //         ),
+  //         Row(
+  //           children: [
+  //             Image.asset(
+  //               'assets/icons/like.png',
+  //               width: 15,
+  //               color: greenColor,
+  //             ),
+  //             const SizedBox(
+  //               width: 7,
+  //             ),
+  //             Text(
+  //               '6 orang terbantu',
+  //               style:
+  //                   grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
+  //             ),
+  //             const Spacer(),
+  //             InkWell(
+  //               onTap: () {
+  //                 setState(() {
+  //                   isVisibelity = !isVisibelity;
+  //                 });
+  //               },
+  //               child: Row(
+  //                 children: [
+  //                   isVisibelity
+  //                       ? Text(
+  //                           'Liat Balesan',
+  //                           style: blackRegulerTextStyle.copyWith(fontSize: 13),
+  //                         )
+  //                       : Text(
+  //                           'Tutup Balasan',
+  //                           style: blackRegulerTextStyle.copyWith(fontSize: 13),
+  //                         ),
+  //                   const SizedBox(
+  //                     width: 4,
+  //                   ),
+  //                   const Icon(
+  //                     Icons.keyboard_arrow_down,
+  //                     color: Color(0xff6B6B6B),
+  //                   )
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //         const SizedBox(
+  //           height: 16,
+  //         ),
+  //         Visibility(
+  //           visible: isVisibelity,
+  //           child: Row(
+  //             children: [
+  //               Container(
+  //                 height: 60,
+  //                 width: 2,
+  //                 decoration: BoxDecoration(color: greenColor),
+  //               ),
+  //               const SizedBox(
+  //                 width: 7,
+  //               ),
+  //               Expanded(
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     Row(
+  //                       children: [
+  //                         Text(
+  //                           'Klinik Utama Lithea',
+  //                           style: blackHigtTextStyle.copyWith(
+  //                               fontSize: 13, color: subTitleColor),
+  //                         ),
+  //                         Text(
+  //                           ' 1 bulan lalu',
+  //                           style: blackRegulerTextStyle.copyWith(
+  //                               color: subTitleColor, fontSize: 13),
+  //                         )
+  //                       ],
+  //                     ),
+  //                     Text(
+  //                       'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
+  //                       style: subTitleTextStyle,
+  //                     )
+  //                   ],
+  //                 ),
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
