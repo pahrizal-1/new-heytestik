@@ -18,14 +18,38 @@ class NotifikasiSettingPage extends StatefulWidget {
 class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
   final NotificationController state = Get.put(NotificationController());
   List<SettingNotif.Data> data = [];
+  List datum = [];
+  bool isSelectedJeda = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      data.addAll(await state.getSettingNotif(context));
-      setState(() {});
+      get();
     });
+  }
+
+  get() async {
+    data.clear();
+    data.addAll(await state.getSettingNotif(context));
+    var adaGak = data.firstWhereOrNull(
+      (item) => item.isEnabled == false,
+    );
+    if (adaGak == null) {
+      isSelectedJeda = true;
+    } else {
+      isSelectedJeda = false;
+    }
+    datum.clear();
+    for (int index = 0; index < data.length; index++) {
+      if (data[index].name != 'Teman di Heystetik') {
+        datum.add({
+          "type": data[index].type,
+          "is_enabled": isSelectedJeda ? false : true
+        });
+      }
+    }
+    setState(() {});
   }
 
   @override
@@ -44,8 +68,24 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
             padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 10),
             child: switchNotif(
               title: 'Jeda semua notifikasi',
-              selected: false,
-              onTap: () async {},
+              selected: isSelectedJeda,
+              onTap: () async {
+                isSelectedJeda = !isSelectedJeda;
+                setState(() {});
+                bool cek = await state.postSettingNotif(
+                  context,
+                  data: datum,
+                  isJeda: true,
+                  isEnabled: isSelectedJeda ? false : true,
+                );
+                if (cek) {
+                  isSelectedJeda = true;
+                  get();
+                } else {
+                  isSelectedJeda = false;
+                }
+                setState(() {});
+              },
             ),
           ),
           Container(
@@ -66,7 +106,7 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
             child: Column(
               children: [
                 ...data.map((val) {
-                  bool selected = val.isEnabled ?? false;
+                  bool selected = val.isEnabled!;
                   return val.name == 'Teman di Heystetik'
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,18 +136,24 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
                               activeColor: greenColor,
                               value: selected,
                               onChanged: (value) async {
+                                List data = [
+                                  {
+                                    "type": val.type,
+                                    "is_enabled":
+                                        val.isEnabled == true ? false : true
+                                  }
+                                ];
                                 selected = !selected;
                                 setState(() {});
                                 bool cek = await state.postSettingNotif(
                                   context,
-                                  val.type ?? '',
-                                  val.isEnabled == true ? false : true,
+                                  data: data,
+                                  isEnabled:
+                                      val.isEnabled == true ? false : true,
                                 );
                                 if (cek) {
                                   selected = true;
-                                  data.clear();
-                                  data.addAll(
-                                      await state.getSettingNotif(context));
+                                  get();
                                 } else {
                                   selected = false;
                                 }
@@ -120,19 +166,22 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
                           title: val.name ?? '-',
                           selected: selected,
                           onTap: () async {
+                            List data = [
+                              {
+                                "type": val.type,
+                                "is_enabled":
+                                    val.isEnabled == true ? false : true
+                              }
+                            ];
                             selected = !selected;
-                            setState(() {});
                             bool cek = await state.postSettingNotif(
                               context,
-                              val.type ?? '',
-                              val.isEnabled == true ? false : true,
+                              data: data,
+                              isEnabled: val.isEnabled == true ? false : true,
                             );
                             if (cek) {
-                              selected = true;
-                              data.clear();
-                              data.addAll(await state.getSettingNotif(context));
-                            } else {
-                              selected = false;
+                              selected ? selected = true : selected = false;
+                              get();
                             }
                             setState(() {});
                           },

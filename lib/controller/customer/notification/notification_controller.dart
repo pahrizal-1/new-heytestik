@@ -40,17 +40,13 @@ class NotificationController extends StateClass {
     return data ?? [];
   }
 
-  Future<bool> postSettingNotif(
-      BuildContext context, String type, bool isEnabled) async {
+  Future<bool> postSettingNotif(BuildContext context,
+      {required List data, bool? isEnabled, bool isJeda = false}) async {
     isLoading.value = true;
     bool isSuccess = false;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {
-        "data": [
-          {"type": type, "is_enabled": isEnabled}
-        ]
-      };
-      var res = await NotificationService().postSettingNotif(data);
+      var req = {"data": data};
+      var res = await NotificationService().postSettingNotif(req);
       if (res['success'] != true && res['message'].toString() != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -58,11 +54,21 @@ class NotificationController extends StateClass {
         );
       }
       isSuccess = res['success'];
-      SnackbarWidget.getSuccessSnackbar(
-        context,
-        'Berhasil',
-        'Notif berhasil di ${isEnabled ? 'aktifkan' : 'non aktifkan'}',
-      );
+      if (isJeda) {
+        SnackbarWidget.getSuccessSnackbar(
+          context,
+          'Berhasil',
+          isEnabled == true
+              ? 'Jeda semua notifikasi dimatikan'
+              : 'Jeda semua notifikasi berhasil',
+        );
+      } else {
+        SnackbarWidget.getSuccessSnackbar(
+          context,
+          'Berhasil',
+          'Notifikasi berhasil di ${isEnabled == true ? 'aktifkan' : 'non aktifkan'}',
+        );
+      }
     });
     isLoading.value = false;
     return isSuccess;
