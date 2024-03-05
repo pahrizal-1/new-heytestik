@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +21,8 @@ import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
 import 'package:social_share/social_share.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
+    as Overview;
 
 class UlasanProdukPage extends StatefulWidget {
   int productId;
@@ -44,6 +46,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
   int take = 10;
   bool? isWishlist;
   bool? help;
+  Overview.Data? productOverview;
   Map<String, int> helpReview = {};
   Map<String, dynamic> filter = {};
   int? filterRating;
@@ -58,10 +61,17 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
       } else {
         stateSkincare.detailSkincare(context, widget.productId);
       }
-      state.getOverviewProduct(context, widget.productId);
-      reviews.addAll(await state.getReviewProduct(
-          context, page, take, widget.productId,
-          filter: filter));
+      productOverview =
+          await state.getOverviewProduct(context, widget.productId);
+      reviews.addAll(
+        await state.getReviewProduct(
+          context,
+          page,
+          take,
+          widget.productId,
+          filter: filter,
+        ),
+      );
       setState(() {});
     });
 
@@ -229,11 +239,9 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                       const SizedBox(
                         width: 6,
                       ),
-                      Obx(
-                        () => Text(
-                          '${state.productOverview.value.avgRating ?? 0.0}',
-                          style: blackHigtTextStyle.copyWith(fontSize: 30),
-                        ),
+                      Text(
+                        '${productOverview?.avgRating ?? 0.0}',
+                        style: blackHigtTextStyle.copyWith(fontSize: 30),
                       ),
                       Text(
                         '/5.0',
@@ -248,13 +256,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                         children: [
                           Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                  style: blackHigtTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic),
-                                ),
+                              Text(
+                                '${productOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 12, fontStyle: FontStyle.italic),
                               ),
                               Text(
                                 ' merasa puas',
@@ -266,12 +271,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.totalRating ?? 0} rating',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
-                                ),
+                              Text(
+                                '${productOverview?.totalRating ?? 0} rating',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
                               ),
                               const SizedBox(
                                 width: 5,
@@ -283,12 +286,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.totalReview ?? 0} ulasan',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
-                                ),
+                              Text(
+                                '${productOverview?.totalReview ?? 0} ulasan',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
                               ),
                             ],
                           ),
@@ -315,12 +316,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           child: Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.avgEffectivenessRating ?? 0}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
-                                ),
+                              Text(
+                                '${productOverview?.avgEffectivenessRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 width: 4,
@@ -333,12 +332,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     style: blackTextStyle.copyWith(
                                         fontSize: 10, fontWeight: regular),
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      '${state.productOverview.value.countEffectivenessRating ?? 0} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
-                                    ),
+                                  Text(
+                                    '${productOverview?.countEffectivenessRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ],
                               )
@@ -359,12 +356,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           child: Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.avgTextureRating ?? 0}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
-                                ),
+                              Text(
+                                '${productOverview?.avgTextureRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 width: 4,
@@ -377,12 +372,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     style: blackTextStyle.copyWith(
                                         fontSize: 10, fontWeight: regular),
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      '${state.productOverview.value.countTextureRating ?? 0} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
-                                    ),
+                                  Text(
+                                    '${productOverview?.countTextureRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ],
                               )
@@ -403,12 +396,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           child: Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.avgPackagingRating ?? 0}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
-                                ),
+                              Text(
+                                '${productOverview?.avgPackagingRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 width: 4,
@@ -421,12 +412,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     style: blackTextStyle.copyWith(
                                         fontSize: 10, fontWeight: regular),
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      '${state.productOverview.value.countPackagingRating ?? 0} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
-                                    ),
+                                  Text(
+                                    '${productOverview?.countPackagingRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ],
                               )

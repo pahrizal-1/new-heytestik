@@ -29,6 +29,8 @@ import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
     as Skincare;
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
+    as Overview;
 
 class DetailSkinCarePage extends StatefulWidget {
   int productId;
@@ -50,6 +52,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
+  Overview.Data? productOverview;
   List<Skincare.Data2> skincareRecomendation = [];
   List<Skincare.Data2> relatedSkincare = [];
   List<ProductReviewModel.Data2> reviews = [];
@@ -58,7 +61,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateSkincare.detailSkincare(context, widget.productId);
-      stateUlasan.getOverviewProduct(context, widget.productId);
+      productOverview =
+          await stateUlasan.getOverviewProduct(context, widget.productId);
       reviews.addAll(
         await stateUlasan.getReviewProduct(context, 1, 3, widget.productId),
       );
@@ -530,11 +534,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                         const SizedBox(
                           width: 6,
                         ),
-                        Obx(
-                          () => Text(
-                            '${stateUlasan.productOverview.value.avgRating ?? 0.0}',
-                            style: blackHigtTextStyle.copyWith(fontSize: 30),
-                          ),
+                        Text(
+                          '${productOverview?.avgRating ?? 0.0}',
+                          style: blackHigtTextStyle.copyWith(fontSize: 30),
                         ),
                         Text(
                           '/5.0',
@@ -549,13 +551,11 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                           children: [
                             Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                    style: blackHigtTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic,
-                                    ),
+                                Text(
+                                  '${productOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
+                                  style: blackHigtTextStyle.copyWith(
+                                    fontSize: 12,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
                                 Text(
@@ -568,12 +568,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.totalRating ?? 0} rating',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 12, fontWeight: regular),
-                                  ),
+                                Text(
+                                  '${productOverview?.totalRating ?? 0} rating',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -585,12 +583,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.totalReview ?? 0} ulasan',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 12, fontWeight: regular),
-                                  ),
+                                Text(
+                                  '${productOverview?.totalReview ?? 0} ulasan',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             ),
@@ -618,12 +614,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.avgEffectivenessRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgEffectivenessRating ?? 0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -636,12 +630,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${stateUlasan.productOverview.value.countEffectivenessRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countEffectivenessRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -663,12 +655,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.avgTextureRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgTextureRating ?? 0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -681,12 +671,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${stateUlasan.productOverview.value.countTextureRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countTextureRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -708,12 +696,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.avgPackagingRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgPackagingRating ?? 0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -726,12 +712,10 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${stateUlasan.productOverview.value.countPackagingRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countPackagingRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )

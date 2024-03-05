@@ -143,7 +143,7 @@ class SolutionService extends ProviderClass {
     }
   }
 
-  Future<OverviewProductModel> getOverviewProduct(int id) async {
+  Future<OverviewUlasanProductModel> getOverviewProduct(int id) async {
     print("id $id");
     var response = await networkingConfig.doGet(
       '/solution/product-review/$id/overview',
@@ -153,7 +153,7 @@ class SolutionService extends ProviderClass {
       },
     );
 
-    return OverviewProductModel.fromJson(response);
+    return OverviewUlasanProductModel.fromJson(response);
   }
 
   Future<ProductReviewModel> getReviewProduct(int page, int take, int productId,

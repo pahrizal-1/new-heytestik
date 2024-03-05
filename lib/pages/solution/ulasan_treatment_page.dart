@@ -17,6 +17,8 @@ import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:social_share/social_share.dart';
 import '../../models/treatment_review_model.dart' as TreatmentReview;
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:heystetik_mobileapps/models/customer/overview_treatment_model.dart'
+    as Overview;
 
 class UlasanTreatmentPage extends StatefulWidget {
   const UlasanTreatmentPage({
@@ -38,9 +40,9 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   int page = 1;
   List<TreatmentReview.Data2> reviews = [];
   bool isVisibelity = false;
-  Map<String, dynamic> dataOverview = {};
   Map<String, dynamic> filter = {};
   bool? help;
+  Overview.Data? treatmentOverview;
   Map<String, int> helpReview = {};
   int? filterRating;
   String? filterTopik;
@@ -49,7 +51,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      dataOverview = await stateUlasan.getTreatmentOverview(
+      treatmentOverview = await stateUlasan.getTreatmentOverview(
         context,
         widget.treatmentID,
       );
@@ -62,7 +64,6 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           filter: filter,
         ),
       );
-
       setState(() {});
     });
 
@@ -186,7 +187,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                         width: 6,
                       ),
                       Text(
-                        '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_rating']}',
+                        '${treatmentOverview?.avgRating ?? 0.0}',
                         style: blackHigtTextStyle.copyWith(fontSize: 30),
                       ),
                       Text(
@@ -203,7 +204,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           Row(
                             children: [
                               Text(
-                                '${dataOverview['data'] == null ? 0 : dataOverview['data']['satisfied_percentage']}% Sobat Hey',
+                                '${treatmentOverview?.satisfiedPercentage}% Sobat Hey',
                                 style: blackHigtTextStyle.copyWith(
                                     fontSize: 12, fontStyle: FontStyle.italic),
                               ),
@@ -218,7 +219,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           Row(
                             children: [
                               Text(
-                                '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_rating']} rating',
+                                '${treatmentOverview?.totalRating ?? 0} rating',
                                 style: blackTextStyle.copyWith(
                                     fontSize: 12, fontWeight: regular),
                               ),
@@ -233,7 +234,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                 width: 5,
                               ),
                               Text(
-                                '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_review']} ulasan',
+                                '${treatmentOverview?.totalReview ?? 0} ulasan',
                                 style: blackTextStyle.copyWith(
                                     fontSize: 12, fontWeight: regular),
                               ),
@@ -263,7 +264,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_care_rating']}',
+                                '${treatmentOverview?.avgCareRating ?? 0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -279,7 +280,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                         fontSize: 10, fontWeight: regular),
                                   ),
                                   Text(
-                                    '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_care_rating']} ulasan',
+                                    '${treatmentOverview?.countCareRating ?? 0} ulasan',
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -303,7 +304,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_service_rating']}',
+                                '${treatmentOverview?.avgServiceRating ?? 0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -319,7 +320,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                         fontSize: 10, fontWeight: regular),
                                   ),
                                   Text(
-                                    '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_service_rating']} ulasan',
+                                    '${treatmentOverview?.countServiceRating ?? 0} ulasan',
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),
@@ -343,7 +344,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_management_rating']}',
+                                '${treatmentOverview?.avgManagementRating ?? 0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -359,7 +360,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                         fontSize: 10, fontWeight: regular),
                                   ),
                                   Text(
-                                    '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_management_rating']} ulasan',
+                                    '${treatmentOverview?.countManagementRating ?? 0} ulasan',
                                     style: subTitleTextStyle.copyWith(
                                         fontSize: 12, fontWeight: regular),
                                   ),

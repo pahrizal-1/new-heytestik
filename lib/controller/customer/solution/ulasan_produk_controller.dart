@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
@@ -11,9 +10,9 @@ import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 
 class UlasanProdukController extends StateClass {
-  Rx<Overview.Data> productOverview = Overview.Data.fromJson({}).obs;
-
-  Future getOverviewProduct(BuildContext context, int id) async {
+  Future<Overview.Data?> getOverviewProduct(
+      BuildContext context, int id) async {
+    Overview.Data? productOverview;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().getOverviewProduct(id);
       if (res.success != true && res.message != 'Success') {
@@ -22,8 +21,9 @@ class UlasanProdukController extends StateClass {
           message: res.message.toString(),
         );
       }
-      productOverview.value = res.data!;
+      productOverview = res.data!;
     });
+    return productOverview;
   }
 
   Future<List<ProductReviewModel.Data2>> getReviewProduct(
