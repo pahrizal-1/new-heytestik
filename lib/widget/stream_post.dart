@@ -385,7 +385,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       Expanded(
                         child: Text(
                           isTimeOver
-                              ? "Polling sudah ditutup ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
+                              ? "Polling telah berakhir ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
                               : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
                           style: TextStyle(
                             color: Colors.grey,
