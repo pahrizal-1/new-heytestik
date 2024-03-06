@@ -783,7 +783,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     width: 30,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.fill,
                                         image: element.user
                                                     ?.mediaUserProfilePicture !=
                                                 null
@@ -882,11 +882,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     height: 72,
                                     width: 82,
                                     decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            '${Global.FILE}/${e.media!.path.toString()}'),
+                                        fit: BoxFit.cover,
+                                      ),
                                       borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Image.network(
-                                      '${Global.FILE}/${e.media!.path.toString()}',
-                                      width: 72,
                                     ),
                                   );
                                 }).toList(),
@@ -912,11 +913,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                     height: 72,
                                     width: 82,
                                     decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            '${Global.FILE}/${e.media!.path.toString()}'),
+                                        fit: BoxFit.cover,
+                                      ),
                                       borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Image.network(
-                                      '${Global.FILE}/${e.media!.path.toString()}',
-                                      width: 72,
                                     ),
                                   );
                                 }).toList(),
