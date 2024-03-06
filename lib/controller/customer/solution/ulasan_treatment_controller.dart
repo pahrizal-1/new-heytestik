@@ -15,6 +15,12 @@ class UlasanTreatmentController extends StateClass {
     Overview.Data? productOverview;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await TreatmentService().getOverview(treatmentID);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
+      }
       productOverview = res.data;
     });
     return productOverview;

@@ -51,10 +51,6 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      treatmentOverview = await stateUlasan.getTreatmentOverview(
-        context,
-        widget.treatmentID,
-      );
       reviews.addAll(
         await stateUlasan.getTreatmentReview(
           context,
@@ -63,6 +59,10 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
           widget.treatmentID,
           filter: filter,
         ),
+      );
+      treatmentOverview = await stateUlasan.getTreatmentOverview(
+        context,
+        widget.treatmentID,
       );
       setState(() {});
     });
@@ -868,7 +868,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                                   children: [
                                                     isVisibelity
                                                         ? Text(
-                                                            'Lihat Balasan',
+                                                            'Tutup Balasan',
                                                             style:
                                                                 blackRegulerTextStyle
                                                                     .copyWith(
@@ -876,7 +876,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                                                                             13),
                                                           )
                                                         : Text(
-                                                            'Tutup Balasan',
+                                                            'Lihat Balasan',
                                                             style:
                                                                 blackRegulerTextStyle
                                                                     .copyWith(

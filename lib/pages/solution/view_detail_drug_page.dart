@@ -949,14 +949,14 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                             children: [
                                               isVisibility
                                                   ? Text(
-                                                      'Lihat Balasan',
+                                                      'Tutup Balasan',
                                                       style:
                                                           blackRegulerTextStyle
                                                               .copyWith(
                                                                   fontSize: 13),
                                                     )
                                                   : Text(
-                                                      'Tutup Balasan',
+                                                      'Lihat Balasan',
                                                       style:
                                                           blackRegulerTextStyle
                                                               .copyWith(

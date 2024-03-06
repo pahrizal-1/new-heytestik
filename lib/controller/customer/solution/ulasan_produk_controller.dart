@@ -51,7 +51,6 @@ class UlasanProdukController extends StateClass {
   }
 
   void helped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().helped(reviewId);
       if (res.success != true && res.message != 'Success') {
@@ -61,11 +60,9 @@ class UlasanProdukController extends StateClass {
         );
       }
     });
-    isLoading.value = false;
   }
 
   void unHelped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().unHelped(reviewId);
       if (res.success != true && res.message != 'Success') {
@@ -75,6 +72,5 @@ class UlasanProdukController extends StateClass {
         );
       }
     });
-    isLoading.value = false;
   }
 }

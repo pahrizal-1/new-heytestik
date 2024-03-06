@@ -61,8 +61,6 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
       } else {
         stateSkincare.detailSkincare(context, widget.productId);
       }
-      productOverview =
-          await state.getOverviewProduct(context, widget.productId);
       reviews.addAll(
         await state.getReviewProduct(
           context,
@@ -72,6 +70,8 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
           filter: filter,
         ),
       );
+      productOverview =
+          await state.getOverviewProduct(context, widget.productId);
       setState(() {});
     });
 
@@ -960,7 +960,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                                   children: [
                                                     isVisibelity
                                                         ? Text(
-                                                            'Lihat Balasan',
+                                                            'Tutup Balasan',
                                                             style:
                                                                 blackRegulerTextStyle
                                                                     .copyWith(
@@ -968,7 +968,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                                                             13),
                                                           )
                                                         : Text(
-                                                            'Tutup Balasan',
+                                                            'Lihat Balasan',
                                                             style:
                                                                 blackRegulerTextStyle
                                                                     .copyWith(
