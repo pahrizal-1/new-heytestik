@@ -287,6 +287,16 @@ class _UploadPotoStreamState extends State<UploadPotoStream> {
               SizedBox(
                 height: 11,
               ),
+              if (recentImage.isEmpty)
+                Center(
+                  child: Text(
+                    'Belum ada foto',
+                    style: TextStyle(
+                      fontFamily: 'ProximaNova',
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
               Wrap(spacing: 3, runSpacing: 5, children: [
                 ...List.generate(
                   recentImage.length,
