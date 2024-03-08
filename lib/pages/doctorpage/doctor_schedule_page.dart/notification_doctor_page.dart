@@ -22,8 +22,7 @@ class NotificationDoctorPage extends StatefulWidget {
 }
 
 class _NotificationDoctorPageState extends State<NotificationDoctorPage> {
-  final NotificationCustomerController state =
-      Get.put(NotificationCustomerController());
+  final NotificationController state = Get.put(NotificationController());
   final ScrollController controller = ScrollController();
   final DoctorHomeController stateHome = Get.put(DoctorHomeController());
 

@@ -25,6 +25,8 @@ import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
+    as Overview;
 
 class DetailDrugPage extends StatefulWidget {
   int drugId;
@@ -44,10 +46,11 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
   final CartController stateCart = Get.put(CartController());
   final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
-  bool isVisibelity = false;
+  bool isVisibility = false;
   bool? help;
   bool? isWishlist;
   Map<String, int> helpReview = {};
+  Overview.Data? productOverview;
   List<Drug.Data2> drugRecomendation = [];
   List<ProductReviewModel.Data2> reviews = [];
 
@@ -56,7 +59,8 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateDrug.detailDrug(context, widget.drugId);
-      stateUlasan.getOverviewProduct(context, widget.drugId);
+      productOverview =
+          await stateUlasan.getOverviewProduct(context, widget.drugId);
       reviews.addAll(
         await stateUlasan.getReviewProduct(context, 1, 3, widget.drugId),
       );
@@ -490,11 +494,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                         const SizedBox(
                           width: 6,
                         ),
-                        Obx(
-                          () => Text(
-                            '${stateUlasan.productOverview.value.avgRating ?? 0.0}',
-                            style: blackHigtTextStyle.copyWith(fontSize: 30),
-                          ),
+                        Text(
+                          '${productOverview?.avgRating ?? 0.0}',
+                          style: blackHigtTextStyle.copyWith(fontSize: 30),
                         ),
                         Text(
                           '/5.0',
@@ -509,13 +511,11 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                           children: [
                             Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.italic),
-                                  ),
+                                Text(
+                                  '${productOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
+                                  style: blackHigtTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic),
                                 ),
                                 Text(
                                   ' merasa puas',
@@ -527,12 +527,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.totalRating ?? 0} rating',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 12, fontWeight: regular),
-                                  ),
+                                Text(
+                                  '${productOverview?.totalRating ?? 0} rating',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -544,12 +542,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.totalReview ?? 0} ulasan',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 12, fontWeight: regular),
-                                  ),
+                                Text(
+                                  '${productOverview?.totalReview ?? 0} ulasan',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             ),
@@ -577,12 +573,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.avgEffectivenessRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgEffectivenessRating ?? 0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -595,12 +589,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${stateUlasan.productOverview.value.countEffectivenessRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countEffectivenessRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -622,12 +614,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.avgTextureRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgTextureRating ?? 0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -640,12 +630,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${stateUlasan.productOverview.value.countTextureRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countTextureRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -667,12 +655,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${stateUlasan.productOverview.value.avgPackagingRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgPackagingRating ?? 0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -685,12 +671,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${stateUlasan.productOverview.value.countPackagingRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countPackagingRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -753,9 +737,24 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/doctor1.png',
-                                    width: 40,
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: element.user
+                                                    ?.mediaUserProfilePicture !=
+                                                null
+                                            ? NetworkImage(
+                                                '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                              ) as ImageProvider
+                                            : AssetImage(
+                                                'assets/images/profiledummy.png',
+                                              ),
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 12,
@@ -842,11 +841,12 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                     height: 72,
                                     width: 82,
                                     decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            '${Global.FILE}/${e.media!.path.toString()}'),
+                                        fit: BoxFit.cover,
+                                      ),
                                       borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Image.network(
-                                      '${Global.FILE}/${e.media!.path.toString()}',
-                                      width: 72,
                                     ),
                                   );
                                 }).toList(),
@@ -872,11 +872,12 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                     height: 72,
                                     width: 82,
                                     decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                            '${Global.FILE}/${e.media!.path.toString()}'),
+                                        fit: BoxFit.cover,
+                                      ),
                                       borderRadius: BorderRadius.circular(7),
-                                    ),
-                                    child: Image.network(
-                                      '${Global.FILE}/${e.media!.path.toString()}',
-                                      width: 72,
                                     ),
                                   );
                                 }).toList(),
@@ -887,7 +888,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                               Row(
                                 children: [
                                   InkWell(
-                                    onTap: () async {
+                                    onTap: () {
                                       if (help ?? element.helped!) {
                                         stateUlasan.unHelped(
                                             context, element.id!);
@@ -910,25 +911,29 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                         });
                                       }
                                     },
-                                    child: Image.asset(
-                                      'assets/icons/like.png',
-                                      width: 15,
-                                      color: help ?? element.helped!
-                                          ? greenColor
-                                          : greyColor,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                    style: grenTextStyle.copyWith(
-                                      fontSize: 13,
-                                      fontWeight: regular,
-                                      color: help ?? element.helped!
-                                          ? greenColor
-                                          : greyColor,
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/like.png',
+                                          width: 15,
+                                          color: help ?? element.helped!
+                                              ? greenColor
+                                              : greyColor,
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        Text(
+                                          '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                          style: grenTextStyle.copyWith(
+                                            fontSize: 13,
+                                            fontWeight: regular,
+                                            color: help ?? element.helped!
+                                                ? greenColor
+                                                : greyColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   const Spacer(),
@@ -937,21 +942,21 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       : InkWell(
                                           onTap: () {
                                             setState(() {
-                                              isVisibelity = !isVisibelity;
+                                              isVisibility = !isVisibility;
                                             });
                                           },
                                           child: Row(
                                             children: [
-                                              isVisibelity
+                                              isVisibility
                                                   ? Text(
-                                                      'Lihat Balasan',
+                                                      'Tutup Balasan',
                                                       style:
                                                           blackRegulerTextStyle
                                                               .copyWith(
                                                                   fontSize: 13),
                                                     )
                                                   : Text(
-                                                      'Tutup Balasan',
+                                                      'Lihat Balasan',
                                                       style:
                                                           blackRegulerTextStyle
                                                               .copyWith(
@@ -973,7 +978,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 height: 16,
                               ),
                               Visibility(
-                                visible: isVisibelity,
+                                visible: isVisibility,
                                 child: Row(
                                   children: [
                                     Container(
@@ -1020,9 +1025,6 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
                             ],
                           );
                         }).toList(),
@@ -1030,7 +1032,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                   ],
                 ),
               ),
-              if (reviews.isNotEmpty)
+              if (reviews.isEmpty)
                 const SizedBox(
                   height: 18,
                 ),

@@ -30,6 +30,8 @@ import '../../widget/produk_widget.dart';
 import '../../widget/text_form_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:heystetik_mobileapps/models/customer/overview_treatment_model.dart'
+    as Overview;
 
 class DetailTreatmentPage extends StatefulWidget {
   int treatmentId;
@@ -58,34 +60,36 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
   int currentIndex = 0;
   bool? isFavourite;
   int page = 1;
-  bool isVisibelity = false;
-  Map<String, dynamic> dataOverview = {};
+  bool isVisibility = false;
   List<Data2> treatments = [];
   List<TreatmentReview.Data2> reviews = [];
   bool? help;
   Map<String, int> helpReview = {};
+  Overview.Data? treatmentOverview;
+  // lanjut ini ya
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await stateTreatment.getTreatmentDetail(
+      stateTreatment.getTreatmentDetail(
         context,
         widget.treatmentId,
       );
-      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
+      treatmentOverview = await stateUlasan.getTreatmentOverview(
         context,
-        page,
-        stateTreatment.treatmentDetail.value.clinicId!,
-      ));
+        widget.treatmentId,
+      );
       reviews.addAll(await stateUlasan.getTreatmentReview(
         context,
         page,
         3,
         widget.treatmentId,
       ));
-      dataOverview = await stateUlasan.getTreatmentOverview(
+      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
         context,
-        widget.treatmentId,
-      );
+        page,
+        stateTreatment.treatmentDetail.value.clinicId!,
+      ));
       setState(() {});
     });
 
@@ -221,7 +225,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: stateTreatment.isLoading.value,
+          isLoading: stateTreatment.isLoadingDetailTreatment.value,
           child: ListView(
             children: [
               Stack(
@@ -502,7 +506,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                           width: 6,
                         ),
                         Text(
-                          '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_rating']}',
+                          '${treatmentOverview?.avgRating ?? 0.0}',
                           style: blackHigtTextStyle.copyWith(fontSize: 30),
                         ),
                         Text(
@@ -519,7 +523,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['satisfied_percentage']}% Sobat Hey',
+                                  '${treatmentOverview?.satisfiedPercentage}% Sobat Hey',
                                   style: blackHigtTextStyle.copyWith(
                                       fontSize: 12,
                                       fontStyle: FontStyle.italic),
@@ -535,7 +539,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_rating']} rating',
+                                  '${treatmentOverview?.totalRating ?? 0} rating',
                                   style: blackTextStyle.copyWith(
                                       fontSize: 12, fontWeight: regular),
                                 ),
@@ -550,7 +554,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_review']} ulasan',
+                                  '${treatmentOverview?.totalReview} ulasan',
                                   style: blackTextStyle.copyWith(
                                       fontSize: 12, fontWeight: regular),
                                 ),
@@ -581,7 +585,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_care_rating']}',
+                                  '${treatmentOverview?.avgCareRating ?? 0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -597,7 +601,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                           fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_care_rating']} ulasan',
+                                      '${treatmentOverview?.countCareRating ?? 0} ulasan',
                                       style: subTitleTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -622,7 +626,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_service_rating']}',
+                                  '${treatmentOverview?.avgServiceRating ?? 0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -638,7 +642,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                           fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_service_rating']} ulasan',
+                                      '${treatmentOverview?.countServiceRating ?? 0} ulasan',
                                       style: subTitleTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -663,7 +667,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_management_rating']}',
+                                  '${treatmentOverview?.avgManagementRating ?? 0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -679,7 +683,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                           fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_management_rating']} ulasan',
+                                      '${treatmentOverview?.countManagementRating ?? 0} ulasan',
                                       style: subTitleTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -742,9 +746,24 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/images/doctor1.png',
-                                    width: 40,
+                                  Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: element.user
+                                                    ?.mediaUserProfilePicture !=
+                                                null
+                                            ? NetworkImage(
+                                                '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                              ) as ImageProvider
+                                            : AssetImage(
+                                                'assets/images/profiledummy.png',
+                                              ),
+                                      ),
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
                                   ),
                                   const SizedBox(
                                     width: 12,
@@ -837,9 +856,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                               Row(
                                 children: [
                                   InkWell(
-                                    onTap: () async {
-                                      print("help");
-
+                                    onTap: () {
                                       if (help ?? element.helped!) {
                                         stateUlasan.unHelped(
                                             context, element.id!);
@@ -862,25 +879,29 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                         });
                                       }
                                     },
-                                    child: Image.asset(
-                                      'assets/icons/like.png',
-                                      width: 15,
-                                      color: help ?? element.helped!
-                                          ? greenColor
-                                          : greyColor,
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 7,
-                                  ),
-                                  Text(
-                                    '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                    style: grenTextStyle.copyWith(
-                                      fontSize: 13,
-                                      fontWeight: regular,
-                                      color: help ?? element.helped!
-                                          ? greenColor
-                                          : greyColor,
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/like.png',
+                                          width: 15,
+                                          color: help ?? element.helped!
+                                              ? greenColor
+                                              : greyColor,
+                                        ),
+                                        const SizedBox(
+                                          width: 7,
+                                        ),
+                                        Text(
+                                          '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                          style: grenTextStyle.copyWith(
+                                            fontSize: 13,
+                                            fontWeight: regular,
+                                            color: help ?? element.helped!
+                                                ? greenColor
+                                                : greyColor,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   const Spacer(),
@@ -889,21 +910,21 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                       : InkWell(
                                           onTap: () {
                                             setState(() {
-                                              isVisibelity = !isVisibelity;
+                                              isVisibility = !isVisibility;
                                             });
                                           },
                                           child: Row(
                                             children: [
-                                              isVisibelity
+                                              isVisibility
                                                   ? Text(
-                                                      'Lihat Balasan',
+                                                      'Tutup Balasan',
                                                       style:
                                                           blackRegulerTextStyle
                                                               .copyWith(
                                                                   fontSize: 13),
                                                     )
                                                   : Text(
-                                                      'Tutup Balasan',
+                                                      'Lihat Balasan',
                                                       style:
                                                           blackRegulerTextStyle
                                                               .copyWith(
@@ -925,7 +946,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                 height: 16,
                               ),
                               Visibility(
-                                visible: isVisibelity,
+                                visible: isVisibility,
                                 child: Row(
                                   children: [
                                     Container(

@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +21,8 @@ import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
     as ProductReviewModel;
 import 'package:social_share/social_share.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
+    as Overview;
 
 class UlasanProdukPage extends StatefulWidget {
   int productId;
@@ -36,13 +38,15 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
   final UlasanProdukController state = Get.put(UlasanProdukController());
   final DrugController stateDrug = Get.put(DrugController());
   final SkincareController stateSkincare = Get.put(SkincareController());
-  final WishlistProdukController stateWishlist = Get.put(WishlistProdukController());
+  final WishlistProdukController stateWishlist =
+      Get.put(WishlistProdukController());
   List<ProductReviewModel.Data2> reviews = [];
   bool isVisibelity = false;
   int page = 1;
   int take = 10;
   bool? isWishlist;
   bool? help;
+  Overview.Data? productOverview;
   Map<String, int> helpReview = {};
   Map<String, dynamic> filter = {};
   int? filterRating;
@@ -57,10 +61,17 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
       } else {
         stateSkincare.detailSkincare(context, widget.productId);
       }
-      state.getOverviewProduct(context, widget.productId);
-      reviews.addAll(await state.getReviewProduct(
-          context, page, take, widget.productId,
-          filter: filter));
+      reviews.addAll(
+        await state.getReviewProduct(
+          context,
+          page,
+          take,
+          widget.productId,
+          filter: filter,
+        ),
+      );
+      productOverview =
+          await state.getOverviewProduct(context, widget.productId);
       setState(() {});
     });
 
@@ -228,11 +239,9 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                       const SizedBox(
                         width: 6,
                       ),
-                      Obx(
-                        () => Text(
-                          '${state.productOverview.value.avgRating ?? 0.0}',
-                          style: blackHigtTextStyle.copyWith(fontSize: 30),
-                        ),
+                      Text(
+                        '${productOverview?.avgRating ?? 0.0}',
+                        style: blackHigtTextStyle.copyWith(fontSize: 30),
                       ),
                       Text(
                         '/5.0',
@@ -247,13 +256,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                         children: [
                           Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                  style: blackHigtTextStyle.copyWith(
-                                      fontSize: 12,
-                                      fontStyle: FontStyle.italic),
-                                ),
+                              Text(
+                                '${productOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 12, fontStyle: FontStyle.italic),
                               ),
                               Text(
                                 ' merasa puas',
@@ -265,12 +271,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.totalRating ?? 0} rating',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
-                                ),
+                              Text(
+                                '${productOverview?.totalRating ?? 0} rating',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
                               ),
                               const SizedBox(
                                 width: 5,
@@ -282,12 +286,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                               const SizedBox(
                                 width: 5,
                               ),
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.totalReview ?? 0} ulasan',
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 12, fontWeight: regular),
-                                ),
+                              Text(
+                                '${productOverview?.totalReview ?? 0} ulasan',
+                                style: blackTextStyle.copyWith(
+                                    fontSize: 12, fontWeight: regular),
                               ),
                             ],
                           ),
@@ -314,12 +316,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           child: Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.avgEffectivenessRating ?? 0}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
-                                ),
+                              Text(
+                                '${productOverview?.avgEffectivenessRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 width: 4,
@@ -332,12 +332,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     style: blackTextStyle.copyWith(
                                         fontSize: 10, fontWeight: regular),
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      '${state.productOverview.value.countEffectivenessRating ?? 0} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
-                                    ),
+                                  Text(
+                                    '${productOverview?.countEffectivenessRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ],
                               )
@@ -358,12 +356,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           child: Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.avgTextureRating ?? 0}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
-                                ),
+                              Text(
+                                '${productOverview?.avgTextureRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 width: 4,
@@ -376,12 +372,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     style: blackTextStyle.copyWith(
                                         fontSize: 10, fontWeight: regular),
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      '${state.productOverview.value.countTextureRating ?? 0} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
-                                    ),
+                                  Text(
+                                    '${productOverview?.countTextureRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ],
                               )
@@ -402,12 +396,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                           ),
                           child: Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  '${state.productOverview.value.avgPackagingRating ?? 0}',
-                                  style:
-                                      blackHigtTextStyle.copyWith(fontSize: 18),
-                                ),
+                              Text(
+                                '${productOverview?.avgPackagingRating ?? 0}',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
                               const SizedBox(
                                 width: 4,
@@ -420,12 +412,10 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     style: blackTextStyle.copyWith(
                                         fontSize: 10, fontWeight: regular),
                                   ),
-                                  Obx(
-                                    () => Text(
-                                      '${state.productOverview.value.countPackagingRating ?? 0} ulasan',
-                                      style: subTitleTextStyle.copyWith(
-                                          fontSize: 12, fontWeight: regular),
-                                    ),
+                                  Text(
+                                    '${productOverview?.countPackagingRating ?? 0} ulasan',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 12, fontWeight: regular),
                                   ),
                                 ],
                               )
@@ -751,9 +741,25 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                   children: [
                                     Row(
                                       children: [
-                                        Image.asset(
-                                          'assets/images/doctor1.png',
-                                          width: 40,
+                                        Container(
+                                          height: 30,
+                                          width: 30,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: element.user
+                                                          ?.mediaUserProfilePicture !=
+                                                      null
+                                                  ? NetworkImage(
+                                                      '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
+                                                    ) as ImageProvider
+                                                  : AssetImage(
+                                                      'assets/images/profiledummy.png',
+                                                    ),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                          ),
                                         ),
                                         const SizedBox(
                                           width: 12,
@@ -843,12 +849,13 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                           height: 72,
                                           width: 82,
                                           decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  '${Global.FILE}/${e.media!.path.toString()}'),
+                                              fit: BoxFit.cover,
+                                            ),
                                             borderRadius:
                                                 BorderRadius.circular(7),
-                                          ),
-                                          child: Image.network(
-                                            '${Global.FILE}/${e.media!.path.toString()}',
-                                            width: 72,
                                           ),
                                         );
                                       }).toList(),
@@ -874,12 +881,13 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                           height: 72,
                                           width: 82,
                                           decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image: NetworkImage(
+                                                  '${Global.FILE}/${e.media!.path.toString()}'),
+                                              fit: BoxFit.cover,
+                                            ),
                                             borderRadius:
                                                 BorderRadius.circular(7),
-                                          ),
-                                          child: Image.network(
-                                            '${Global.FILE}/${e.media!.path.toString()}',
-                                            width: 72,
                                           ),
                                         );
                                       }).toList(),
@@ -890,9 +898,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                     Row(
                                       children: [
                                         InkWell(
-                                          onTap: () async {
-                                            print("help");
-
+                                          onTap: () {
                                             if (help ?? element.helped!) {
                                               state.unHelped(
                                                   context, element.id!);
@@ -915,25 +921,29 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                               });
                                             }
                                           },
-                                          child: Image.asset(
-                                            'assets/icons/like.png',
-                                            width: 15,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Text(
-                                          '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                          style: greyTextStyle.copyWith(
-                                            fontSize: 13,
-                                            fontWeight: regular,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
+                                          child: Row(
+                                            children: [
+                                              Image.asset(
+                                                'assets/icons/like.png',
+                                                width: 15,
+                                                color: help ?? element.helped!
+                                                    ? greenColor
+                                                    : greyColor,
+                                              ),
+                                              const SizedBox(
+                                                width: 7,
+                                              ),
+                                              Text(
+                                                '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
+                                                style: grenTextStyle.copyWith(
+                                                  fontSize: 13,
+                                                  fontWeight: regular,
+                                                  color: help ?? element.helped!
+                                                      ? greenColor
+                                                      : greyColor,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
                                         const Spacer(),
@@ -950,7 +960,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                                   children: [
                                                     isVisibelity
                                                         ? Text(
-                                                            'Lihat Balasan',
+                                                            'Tutup Balasan',
                                                             style:
                                                                 blackRegulerTextStyle
                                                                     .copyWith(
@@ -958,7 +968,7 @@ class _UlasanProdukPageState extends State<UlasanProdukPage> {
                                                                             13),
                                                           )
                                                         : Text(
-                                                            'Tutup Balasan',
+                                                            'Lihat Balasan',
                                                             style:
                                                                 blackRegulerTextStyle
                                                                     .copyWith(

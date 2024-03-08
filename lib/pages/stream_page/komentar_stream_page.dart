@@ -506,7 +506,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   Expanded(
                                     child: Text(
                                       isTimeOver
-                                          ? "Polling sudah ditutup ${ConvertDate.streamDate(post!.endTime.toString())}"
+                                          ? "Polling telah berakhir ${ConvertDate.streamDate(post!.endTime.toString())}"
                                           : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
                                       style: TextStyle(
                                         color: Colors.grey,

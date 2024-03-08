@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
@@ -11,11 +10,9 @@ import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 
 class UlasanProdukController extends StateClass {
-  Rx<Overview.Data> productOverview = Overview.Data.fromJson({}).obs;
-  RxList<ProductReviewModel.Data2> productReview =
-      List<ProductReviewModel.Data2>.empty().obs;
-
-  Future getOverviewProduct(BuildContext context, int id) async {
+  Future<Overview.Data?> getOverviewProduct(
+      BuildContext context, int id) async {
+    Overview.Data? productOverview;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().getOverviewProduct(id);
       if (res.success != true && res.message != 'Success') {
@@ -24,8 +21,9 @@ class UlasanProdukController extends StateClass {
           message: res.message.toString(),
         );
       }
-      productOverview.value = res.data!;
+      productOverview = res.data!;
     });
+    return productOverview;
   }
 
   Future<List<ProductReviewModel.Data2>> getReviewProduct(
@@ -36,6 +34,7 @@ class UlasanProdukController extends StateClass {
     Map<String, dynamic>? filter,
   }) async {
     isLoading.value = true;
+    List<ProductReviewModel.Data2> productReview = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService()
           .getReviewProduct(page, take, id, filter: filter);
@@ -45,14 +44,13 @@ class UlasanProdukController extends StateClass {
           message: res.message.toString(),
         );
       }
-      productReview.value = res.data!.data!;
+      productReview = res.data!.data!;
     });
     isLoading.value = false;
-    return productReview.value;
+    return productReview;
   }
 
   void helped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().helped(reviewId);
       if (res.success != true && res.message != 'Success') {
@@ -62,11 +60,9 @@ class UlasanProdukController extends StateClass {
         );
       }
     });
-    isLoading.value = false;
   }
 
   void unHelped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SolutionService().unHelped(reviewId);
       if (res.success != true && res.message != 'Success') {
@@ -76,6 +72,5 @@ class UlasanProdukController extends StateClass {
         );
       }
     });
-    isLoading.value = false;
   }
 }

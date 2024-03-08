@@ -1,11 +1,11 @@
-class OverviewProductModel {
+class OverviewUlasanProductModel {
   bool? success;
   String? message;
   Data? data;
 
-  OverviewProductModel({this.success, this.message, this.data});
+  OverviewUlasanProductModel({this.success, this.message, this.data});
 
-  OverviewProductModel.fromJson(Map<String, dynamic> json) {
+  OverviewUlasanProductModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
@@ -45,7 +45,7 @@ class Data {
       this.totalRating,
       this.totalReview,
       this.avgRating});
-// model OverviewProductModel
+
   Data.fromJson(Map<String, dynamic> json) {
     satisfiedPercentage = json['satisfied_percentage'];
     avgEffectivenessRating = json['avg_effectiveness_rating'];

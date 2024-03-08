@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/streams_by_hashtag_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
@@ -77,21 +78,26 @@ class _StreamPostPageState extends State<StreamPostPage> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: widget.stream.photoUser == "" ||
-                            widget.stream.photoUser == "photo_profile"
-                        ? AssetImage(
-                            'assets/images/profiledummy.png',
-                          )
-                        : NetworkImage(
-                            '${Global.FILE}/${widget.stream.photoUser}',
-                          ) as ImageProvider,
+              InkWell(
+                onTap: () {
+                  Get.to(FolowedStreamPage());
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: widget.stream.photoUser == "" ||
+                              widget.stream.photoUser == "photo_profile"
+                          ? AssetImage(
+                              'assets/images/profiledummy.png',
+                            )
+                          : NetworkImage(
+                              '${Global.FILE}/${widget.stream.photoUser}',
+                            ) as ImageProvider,
+                    ),
                   ),
                 ),
               ),
@@ -385,7 +391,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       Expanded(
                         child: Text(
                           isTimeOver
-                              ? "Polling sudah ditutup ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
+                              ? "Polling telah berakhir ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
                               : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
                           style: TextStyle(
                             color: Colors.grey,

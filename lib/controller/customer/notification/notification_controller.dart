@@ -1,15 +1,18 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/notification.dart';
+import 'package:heystetik_mobileapps/models/customer/setting_notif_model.dart'
+    as SettingNotif;
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/detail_pasien_page.dart';
-import '../../../service/customer/notification/notification_services.dart';
+import '../../../service/customer/notification/notification_service.dart';
 import '../../../service/doctor/consultation/consultation_service.dart';
 
-class NotificationCustomerController extends StateClass {
+class NotificationController extends StateClass {
   Rx<NotificationCustomerModel> data = NotificationCustomerModel().obs;
   RxList<DataNotificationCustomerModel> notifications =
       List<DataNotificationCustomerModel>.empty(growable: true).obs;
@@ -19,24 +22,67 @@ class NotificationCustomerController extends StateClass {
       BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data.value = await NotificationCustomerServices().listNotification(page);
+      data.value = await NotificationService().listNotification(page);
       notifications.value.addAll(data.value.data!.data);
     });
     isLoading.value = false;
     return data.value.data!.data;
   }
 
+  Future<List<SettingNotif.Data>> getSettingNotif(BuildContext context) async {
+    isLoading.value = true;
+    List<SettingNotif.Data>? data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await NotificationService().getSettingNotif();
+      data = res.data;
+    });
+    isLoading.value = false;
+    return data ?? [];
+  }
+
+  Future<bool> postSettingNotif(BuildContext context,
+      {required List data, bool? isEnabled, bool isJeda = false}) async {
+    isLoading.value = true;
+    bool isSuccess = false;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var req = {"data": data};
+      var res = await NotificationService().postSettingNotif(req);
+      if (res['success'] != true && res['message'].toString() != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res['message'].toString(),
+        );
+      }
+      isSuccess = res['success'];
+      if (isJeda) {
+        SnackbarWidget.getSuccessSnackbar(
+          context,
+          'Berhasil',
+          isEnabled == true
+              ? 'Jeda semua notifikasi dimatikan'
+              : 'Jeda semua notifikasi berhasil',
+        );
+      } else {
+        SnackbarWidget.getSuccessSnackbar(
+          context,
+          'Berhasil',
+          'Notifikasi berhasil di ${isEnabled == true ? 'aktifkan' : 'non aktifkan'}',
+        );
+      }
+    });
+    isLoading.value = false;
+    return isSuccess;
+  }
+
   Future getNotificationDoctor(BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       print('masuk sini');
-      var dataD =
-          await NotificationCustomerServices().listNotificationDoctor(page);
+      var dataD = await NotificationService().listNotificationDoctor(page);
       notif.value = [];
       notif.value = dataD;
     });
     isLoading.value = false;
-    // return data.value.data!.data;
   }
 
   postApprove(BuildContext context, int id) async {
@@ -44,7 +90,7 @@ class NotificationCustomerController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await ConsultationDoctorScheduleServices().postApprove(id);
       print('res' + res.toString());
-      // Navigator.pop(context);
+
       Navigator.push(
         context,
         MaterialPageRoute(

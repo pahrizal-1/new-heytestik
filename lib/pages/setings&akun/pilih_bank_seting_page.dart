@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/account_page/rekening_bank_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
