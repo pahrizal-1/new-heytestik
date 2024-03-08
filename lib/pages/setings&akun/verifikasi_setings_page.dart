@@ -162,22 +162,6 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                   print(state.otp.value);
                 },
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Text(
-              //       '$minutes:$seconds',
-              //       style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
-              //     ),
-              //     SizedBox(
-              //       width: 2,
-              //     ),
-              //     Text(
-              //       'detik',
-              //       style: grenTextStyle.copyWith(fontSize: 18),
-              //     ),
-              //   ],
-              // ),
               const SizedBox(
                 height: 25,
               ),
@@ -190,7 +174,7 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                       builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
                     );
                   } else {
-                    state.updatePhone(context);
+                    state.verifyOtpPassword(context);
                   }
                   // state.verifyCode(context);
                 },
@@ -402,19 +386,6 @@ class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage>
                   print(state.otp.value);
                 },
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Text('$minutes:$seconds', style: subTitleTextStyle),
-              //     SizedBox(
-              //       width: 2,
-              //     ),
-              //     Text(
-              //       'detik',
-              //       style: grenTextStyle.copyWith(fontSize: 12),
-              //     ),
-              //   ],
-              // ),
               const SizedBox(
                 height: 25,
               ),
@@ -427,7 +398,7 @@ class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage>
                       builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
                     );
                   } else {
-                    state.updateEmail(context);
+                    state.verifyOtpPassword(context);
                   }
                   // state.verifyCode(context);
                 },

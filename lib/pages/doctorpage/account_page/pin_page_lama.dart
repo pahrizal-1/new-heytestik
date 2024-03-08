@@ -51,6 +51,14 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.pinOldController.clear();
+    state.pinNewController.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff24A7A0),

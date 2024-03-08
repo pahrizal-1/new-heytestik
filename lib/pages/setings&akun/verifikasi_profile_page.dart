@@ -4,21 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
-import '../../theme/theme.dart';
-import '../../widget/button_widget.dart';
 
-class VerifikasiKeamananPage extends StatefulWidget {
-  final String noHp;
-  const VerifikasiKeamananPage({super.key, required this.noHp});
+class VerifikasiSetingsProfilePage extends StatefulWidget {
+  const VerifikasiSetingsProfilePage({super.key});
 
   @override
-  State<VerifikasiKeamananPage> createState() => _VerifikasiKeamananPageState();
+  State<VerifikasiSetingsProfilePage> createState() => _VerifikasiSetingsProfilePageState();
 }
 
-class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
+class _VerifikasiSetingsProfilePageState extends State<VerifikasiSetingsProfilePage> {
   final ProfileController state = Get.put(ProfileController());
 
   Timer? countdownTimer;
@@ -57,11 +56,11 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
     startTimer();
   }
 
-  @override
-  void dispose() {
-    // state.timeCondition();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // state.timeCondition();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +78,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
             children: [
               InkWell(
                 onTap: () {
-                  state.resendTime.value = 0;
+                  // state.resendTime.value = 0;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -135,15 +134,13 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 height: 4,
               ),
               Text(
-                widget.noHp.replaceAll(RegExp(r'.(?=.{3})'), '*'),
-                style: blackTextStyle.copyWith(fontSize: 14),
+                state.nomorHpController.text.replaceAll(RegExp(r'.(?=.{3})'), '*'),
+                style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
                 height: 18,
               ),
               OtpTextField(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                borderRadius: BorderRadius.circular(7),
                 focusedBorderColor: greenColor,
                 disabledBorderColor: borderColor,
                 enabledBorderColor: borderColor,
@@ -151,9 +148,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 onCodeChanged: (verif) {
                   setState(() {
                     state.otp.value = verif;
@@ -168,22 +163,6 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                 },
               ),
               const SizedBox(
-                height: 15,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.end,
-              //   children: [
-              //     Text('$minutes:$seconds', style: subTitleTextStyle),
-              //     SizedBox(
-              //       width: 2,
-              //     ),
-              //     Text(
-              //       'detik',
-              //       style: grenTextStyle.copyWith(fontSize: 12),
-              //     ),
-              //   ],
-              // ),
-              const SizedBox(
                 height: 25,
               ),
               ButtonGreenWidget(
@@ -195,11 +174,9 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                       builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
                     );
                   } else {
-                    state.verifyOtpPassword(
-                      context,
-                    );
+                    state.updatePhone(context);
                   }
-                  print(state.otp.value);
+                  // state.verifyCode(context);
                 },
               ),
               const SizedBox(
@@ -215,13 +192,16 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                   countdownTimer!.isActive
                       ? Row(
                           children: [
-                            Text(' $minutes:$seconds', style: subTitleTextStyle),
+                            Text(
+                              '$minutes:$seconds',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                            ),
                             SizedBox(
                               width: 2,
                             ),
                             Text(
-                              ' detik',
-                              style: grenTextStyle.copyWith(fontSize: 12),
+                              'detik',
+                              style: grenTextStyle.copyWith(fontSize: 18),
                             ),
                           ],
                         )
@@ -234,7 +214,7 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
                                         subtitle: 'Coba beberapa saat lagi',
                                       ));
                             } else {
-                              state.verifyCodeWA(context, widget.noHp);
+                              state.verifyCodeWA(context, state.nomorHpController.text);
                               resetTimer();
                             }
                           },
@@ -255,15 +235,14 @@ class _VerifikasiKeamananPageState extends State<VerifikasiKeamananPage> {
   }
 }
 
-class VerifikasiEmailKeamananAkunPage extends StatefulWidget {
-  final String email;
-  const VerifikasiEmailKeamananAkunPage({super.key, required this.email});
+class VerifikasiEmailSetingsProfilePage extends StatefulWidget {
+  const VerifikasiEmailSetingsProfilePage({super.key});
 
   @override
-  State<VerifikasiEmailKeamananAkunPage> createState() => _VerifikasiEmailKeamananAkunPageState();
+  State<VerifikasiEmailSetingsProfilePage> createState() => _VerifikasiEmailSetingsProfilePageState();
 }
 
-class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamananAkunPage> {
+class _VerifikasiEmailSetingsProfilePageState extends State<VerifikasiEmailSetingsProfilePage> {
   final ProfileController state = Get.put(ProfileController());
 
   Timer? countdownTimer;
@@ -324,7 +303,6 @@ class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamana
             children: [
               InkWell(
                 onTap: () {
-                  state.resendTime.value = 0;
                   Navigator.pop(context);
                 },
                 child: Icon(
@@ -380,14 +358,13 @@ class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamana
                 height: 4,
               ),
               Text(
-                widget.email.replaceAll(RegExp(r'.(?=.{10})'), '*'),
+                state.emailBaruController.text.replaceAll(RegExp(r'.(?=.{10})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
                 height: 18,
               ),
               OtpTextField(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 focusedBorderColor: greenColor,
                 disabledBorderColor: borderColor,
                 enabledBorderColor: borderColor,
@@ -408,9 +385,6 @@ class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamana
                   });
                   print(state.otp.value);
                 },
-              ),
-              const SizedBox(
-                height: 18,
               ),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
@@ -437,11 +411,9 @@ class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamana
                       builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
                     );
                   } else {
-                    state.verifyOtpPassword(
-                      context,
-                    );
+                    state.updateEmail(context);
                   }
-                  // Get.to(PinPageLamaCustomer());
+                  // state.verifyCode(context);
                 },
               ),
               const SizedBox(
@@ -456,7 +428,6 @@ class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamana
                   ),
                   countdownTimer!.isActive
                       ? Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text('$minutes:$seconds', style: subTitleTextStyle),
                             SizedBox(
@@ -477,16 +448,14 @@ class _VerifikasiEmailKeamananAkunPageState extends State<VerifikasiEmailKeamana
                                         subtitle: 'Coba beberapa saat lagi',
                                       ));
                             } else {
-                              state.verifyCodeEmail(context, widget.email);
+                              state.verifyCodeEmail(context, state.emailBaruController.text);
                               resetTimer();
                             }
                           },
-                          child: state.isLoading.value
-                              ? CircularProgressIndicator()
-                              : Text(
-                                  ' Kirim Ulang',
-                                  style: grenTextStyle.copyWith(fontSize: 14),
-                                ),
+                          child: Text(
+                            ' Kirim Ulang',
+                            style: grenTextStyle.copyWith(fontSize: 14),
+                          ),
                         ),
                 ],
               ),

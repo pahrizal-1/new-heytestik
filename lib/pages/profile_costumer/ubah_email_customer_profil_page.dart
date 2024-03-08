@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/email_validation.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_setings_page.dart';
 
 import '../../controller/customer/account/profile_controller.dart';
@@ -149,7 +150,7 @@ class _UbahEmailCostumerProfilPageState extends State<UbahEmailCostumerProfilPag
               onTap: () {
                 if (state.emailBaruController.text.length != 0) {
                   state.verifyCodeEmail(context, state.emailBaruController.text);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifikasiEmailSetingsPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifikasiEmailSetingsProfilePage()));
                 } else {
                   showDialog(
                     context: Get.context!,
