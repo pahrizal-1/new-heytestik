@@ -7,8 +7,12 @@ import 'package:heystetik_mobileapps/controller/customer/account/location_contro
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/beuty_folower_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/user_followed_post.dart';
+import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 
 import '../../theme/theme.dart';
 
@@ -35,6 +39,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
   bool isPost = true;
   String? search;
   bool followed = false;
+  bool block = false;
 
   @override
   void initState() {
@@ -397,7 +402,19 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Colors.white,
+                        isScrollControlled: true,
+                        showDragHandle: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(25),
+                            topStart: Radius.circular(25),
+                          ),
+                        ),
+                        builder: (context) => BeautyFollower(),
+                      );
                     },
                     child: Container(
                       width: 165,
@@ -417,11 +434,107 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+              child: ButtonGreenWidget(
+                title: 'Unblock',
+                onPressed: () {
+                  customeModal(
+                    context,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 25, vertical: 30),
+                      child: Wrap(
+                        children: [
+                          Center(
+                            child: RichText(
+                              text: TextSpan(
+                                  text: 'Unblock ',
+                                  style: blackTextStyle.copyWith(fontSize: 17),
+                                  children: [
+                                    TextSpan(
+                                        text: '@lauranabilah',
+                                        style: blackTextStyle.copyWith(
+                                          fontSize: 17,
+                                          color: redColor,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: ' ?',
+                                            style: blackTextStyle.copyWith(
+                                              fontSize: 17,
+                                              color: blackColor,
+                                            ),
+                                          ),
+                                        ])
+                                  ]),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Text(
+                            '@lauranabilah dapat melihat post kamu, follow dan mengirimkan pesan. @lauranabilah tidak akan diberi tahu bahwa kamu telah membuka memblokirnya.',
+                            style: blackRegulerTextStyle.copyWith(
+                              color: blackColor,
+                              fontSize: 15,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: ButtonGreenWidget(
+                              onPressed: () {
+                                setState(() {
+                                  block = !block;
+                                  Navigator.pop(context);
+                                });
+                              },
+                              title: 'Unblock',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: ButtonWhiteWidget(
+                              title: 'Batal',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                height: 35,
+              ),
+            ),
             const dividergreen(),
             const SizedBox(
               height: 20,
             ),
-            UserFollowedPost()
+            block
+                ? UserFollowedPost()
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(top: 70, left: 32, right: 32),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset('assets/icons/lock-blokir.svg'),
+                        Text(
+                          '@lauranabilah is Blocked',
+                          style: blackHigtTextStyle.copyWith(fontSize: 18),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Text(
+                          'Kamu tidak bisa melihat postingan ini maupun mengirimkan pesan. Buka untuk melihat postingan ini.',
+                          style: blackRegulerTextStyle,
+                          textAlign: TextAlign.center,
+                        )
+                      ],
+                    ),
+                  )
           ],
         ),
       ),
