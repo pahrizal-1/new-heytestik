@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/verifikasi_profile_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 
@@ -80,6 +82,9 @@ class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPag
               child: TextFormField(
                 controller: state.nomorHpController,
                 keyboardType: TextInputType.phone,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 decoration: InputDecoration(
                   suffixIcon: Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -123,8 +128,8 @@ class _UbahNomorCustomerProfilPageState extends State<UbahNomorCustomerProfilPag
               onPressed: () {
                 // state.verifyCode(context);
                 if (state.nomorHpController.text.length != 0) {
-                  state.verifyCodeWA(context, state.nomorHpController.text);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifikasiSetingsPage()));
+                  state.verifyCodePhone(context, state.nomorHpController.text);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const VerifikasiSetingsProfilePage()));
                 } else {
                   showDialog(
                     context: Get.context!,
