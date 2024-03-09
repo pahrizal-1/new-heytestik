@@ -111,8 +111,14 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                 text(
                   'assets/icons/slash-icons.png',
                   'Blokir @${widget.post.username}',
-                  () {
+                  () async {
                     postController.blockUser(context, widget.post.username);
+                    Get.back();
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      'Info',
+                      'Berhasil memblokir @${widget.post.username}',
+                    );
                   },
                   redColor,
                 ),
