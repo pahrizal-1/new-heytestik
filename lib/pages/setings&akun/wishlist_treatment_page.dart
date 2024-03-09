@@ -212,7 +212,7 @@ class _WishlistTreatmentPageState extends State<WishlistTreatmentPage> {
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             mainAxisSpacing: 20,
-                            childAspectRatio: 0.7,
+                            childAspectRatio: 0.6,
                           ),
                           itemCount: wishlist.length,
                           itemBuilder: (BuildContext context, int index) {
