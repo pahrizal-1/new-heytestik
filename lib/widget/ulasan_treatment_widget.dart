@@ -2,26 +2,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/models/customer/product_review_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import '../../models/treatment_review_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class UlasanProdukWidget extends StatefulWidget {
+class UlasanTreatmentWidget extends StatefulWidget {
   Data2 element;
   bool isEnd;
-  UlasanProdukWidget({super.key, required this.element, required this.isEnd});
+  UlasanTreatmentWidget(
+      {super.key, required this.element, required this.isEnd});
 
   @override
-  State<UlasanProdukWidget> createState() => _MyWidgetState();
+  State<UlasanTreatmentWidget> createState() => _MyWidgetState();
 }
 
-class _MyWidgetState extends State<UlasanProdukWidget> {
-  final UlasanProdukController state = Get.put(UlasanProdukController());
-  bool? help;
+class _MyWidgetState extends State<UlasanTreatmentWidget> {
+  final UlasanTreatmentController stateUlasan =
+      Get.put(UlasanTreatmentController());
   bool isVisibility = false;
+  bool? help;
   Map<String, int> helpReview = {};
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,8 @@ class _MyWidgetState extends State<UlasanProdukWidget> {
                   style: blackHigtTextStyle.copyWith(fontSize: 15),
                 ),
                 Text(
-                  widget.element.transactionProductItem?.product?.type ?? '-',
+                  widget.element.transactionTreatmentItem?.treatment?.name ??
+                      '-',
                   style: blackHigtTextStyle.copyWith(
                       fontSize: 13, fontWeight: regular),
                 ),
@@ -106,55 +109,19 @@ class _MyWidgetState extends State<UlasanProdukWidget> {
         const SizedBox(
           height: 13,
         ),
-        Text(
-          'Before',
-          style: blackHigtTextStyle.copyWith(fontSize: 12),
-        ),
-        const SizedBox(
-          height: 13,
-        ),
         Wrap(
           spacing: 4,
           runSpacing: 4,
-          children: widget.element.mediaBeforeConditionProductReviews!.map((e) {
+          children: widget.element.mediaTreatmentReviews!.map((e) {
             return Container(
               height: 72,
               width: 82,
               decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      '${Global.FILE}/${e.media!.path.toString()}'),
-                  fit: BoxFit.cover,
-                ),
                 borderRadius: BorderRadius.circular(7),
               ),
-            );
-          }).toList(),
-        ),
-        const SizedBox(
-          height: 13,
-        ),
-        Text(
-          'After',
-          style: blackHigtTextStyle.copyWith(fontSize: 12),
-        ),
-        const SizedBox(
-          height: 13,
-        ),
-        Wrap(
-          spacing: 4,
-          runSpacing: 4,
-          children: widget.element.mediaAfterConditionProductReviews!.map((e) {
-            return Container(
-              height: 72,
-              width: 82,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      '${Global.FILE}/${e.media!.path.toString()}'),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(7),
+              child: Image.network(
+                '${Global.FILE}/${e.media!.path.toString()}',
+                width: 72,
               ),
             );
           }).toList(),
@@ -167,14 +134,14 @@ class _MyWidgetState extends State<UlasanProdukWidget> {
             InkWell(
               onTap: () {
                 if (help ?? widget.element.helped!) {
-                  state.unHelped(context, widget.element.id!);
+                  stateUlasan.unHelped(context, widget.element.id!);
                   setState(() {
                     help = false;
                     helpReview["${widget.element.id}"] =
                         (helpReview["${widget.element.id}"] ?? 0) - 1;
                   });
                 } else {
-                  state.helped(context, widget.element.id!);
+                  stateUlasan.helped(context, widget.element.id!);
                   setState(() {
                     help = true;
                     helpReview["${widget.element.id}"] =
@@ -195,7 +162,7 @@ class _MyWidgetState extends State<UlasanProdukWidget> {
                   ),
                   if (help ?? widget.element.helped!)
                     Text(
-                      '${widget.element.cCount!.productReviewHelpfuls! + (helpReview["${widget.element.id}"] ?? 0)} orang terbantu',
+                      '${widget.element.cCount!.treatmentReviewHelpfuls! + (helpReview["${widget.element.id}"] ?? 0)} orang terbantu',
                       style: grenTextStyle.copyWith(
                         fontSize: 13,
                         fontWeight: regular,
