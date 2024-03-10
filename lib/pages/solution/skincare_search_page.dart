@@ -31,11 +31,13 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
   final ScrollController scrollController = ScrollController();
   final SkincareController state = Get.put(SkincareController());
   bool isSelecteTampilan = true;
-
   int page = 1;
   List<Skincare.Data2> skincare = [];
   String? search;
   Map<String, dynamic> filter = {};
+  Map? concern;
+  String? display;
+  String? category;
   @override
   void initState() {
     super.initState();
@@ -176,9 +178,13 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                             if (filter.isNotEmpty)
                               InkWell(
                                 onTap: () async {
+                                  display = null;
+                                  category = null;
+                                  concern = null;
                                   filter.clear();
                                   skincare.clear();
                                   page = 1;
+                                  setState(() {});
                                   skincare.addAll(
                                     await state.getAllSkincare(
                                       context,
@@ -218,14 +224,22 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterAllSkincare(),
+                                  builder: (context) => FilterAllSkincare(
+                                      display: display, category: category),
                                 ).then((value) async {
                                   if (value == null) return;
 
-                                  filter['display[]'] = value['display'];
-                                  filter['category[]'] = value['category'];
+                                  if (value['display'] != null) {
+                                    filter['display[]'] = value['display'];
+                                    display = value['display'];
+                                  }
+                                  if (value['category'] != null) {
+                                    filter['category[]'] = value['category'];
+                                    category = value['category'];
+                                  }
                                   skincare.clear();
                                   page = 1;
+                                  setState(() {});
                                   skincare.addAll(
                                     await state.getAllSkincare(
                                       context,
@@ -237,9 +251,49 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                   setState(() {});
                                 });
                               },
-                              child: Image.asset(
-                                'assets/icons/filters.png',
-                                width: 78,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 6, bottom: 6),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: (filter.containsKey('display[]') ||
+                                            filter.containsKey('category[]'))
+                                        ? greenColor
+                                        : borderColor,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/filter-icon.png',
+                                      color: (filter.containsKey('display[]') ||
+                                              filter.containsKey('category[]'))
+                                          ? greenColor
+                                          : null,
+                                    ),
+                                    SizedBox(
+                                      width: 9,
+                                    ),
+                                    Text(
+                                      (filter.containsKey('display[]') ||
+                                              filter.containsKey('category[]'))
+                                          ? "${filter.containsKey('concern_ids[]') ? (filter.length - 1) : filter.length} Filter"
+                                          : 'Filter',
+                                      style: TextStyle(
+                                        color: (filter
+                                                    .containsKey('display[]') ||
+                                                filter
+                                                    .containsKey('category[]'))
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             InkWell(
@@ -254,14 +308,16 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterConcern(),
+                                  builder: (context) =>
+                                      FilterConcern(val: concern),
                                 ).then((value) async {
                                   if (value == null) return;
 
-                                  filter['concern_ids[]'] =
-                                      value['concern_ids'];
+                                  concern = value;
+                                  filter['concern_ids[]'] = value['id'];
                                   skincare.clear();
                                   page = 1;
+                                  setState(() {});
                                   skincare.addAll(
                                     await state.getAllSkincare(
                                       context,
@@ -280,19 +336,34 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                 height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
-                                  border: Border.all(color: borderColor),
+                                  border: Border.all(
+                                    color: (concern is Map)
+                                        ? greenColor
+                                        : borderColor,
+                                  ),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text('Etalase Skincare'),
+                                    Text(
+                                      (concern is Map)
+                                          ? (concern?['text'])
+                                          : 'Etalase Skincare',
+                                      style: TextStyle(
+                                        color: (concern is Map)
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                    ),
                                     SizedBox(
                                       width: 9,
                                     ),
                                     Icon(
                                       Icons.keyboard_arrow_down,
                                       size: 15,
+                                      color:
+                                          (concern is Map) ? greenColor : null,
                                     )
                                   ],
                                 ),

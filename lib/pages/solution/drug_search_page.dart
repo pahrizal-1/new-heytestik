@@ -174,6 +174,7 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                                 filter.clear();
                                 drugs.clear();
                                 page = 1;
+                                setState(() {});
                                 drugs.addAll(
                                   await state.getDrug(
                                     context,

@@ -400,6 +400,7 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                       concernName = "Semua";
                                       drugs.clear();
                                       page = 1;
+                                      setState(() {});
                                       drugs.addAll(
                                         await state.getDrug(
                                           context,
