@@ -43,6 +43,8 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
   String? search;
   Map<String, dynamic> filter = {};
   String? concernName = "Semua";
+  String? display;
+  String? category;
 
   @override
   void initState() {
@@ -392,6 +394,8 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                 if (filter.isNotEmpty)
                                   InkWell(
                                     onTap: () async {
+                                      display = null;
+                                      category = null;
                                       filter.clear();
                                       concernName = "Semua";
                                       drugs.clear();
@@ -436,21 +440,23 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                           topStart: Radius.circular(25),
                                         ),
                                       ),
-                                      builder: (context) => FilterAllDrug(),
+                                      builder: (context) => FilterAllDrug(
+                                          display: display, category: category),
                                     ).then((value) async {
                                       if (value == null) return;
 
-                                      if ((value['display'] as List)
-                                          .isNotEmpty) {
+                                      if (value['display'] != null) {
                                         filter['display[]'] = value['display'];
+                                        display = value['display'];
                                       }
-                                      if ((value['category'] as List)
-                                          .isNotEmpty) {
+                                      if (value['category'] != null) {
                                         filter['category[]'] =
                                             value['category'];
+                                        category = value['category'];
                                       }
                                       drugs.clear();
                                       page = 1;
+                                      setState(() {});
                                       drugs.addAll(
                                         await state.getDrug(
                                           context,
@@ -462,15 +468,56 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                       setState(() {});
                                     });
                                   },
-                                  child: Row(
-                                    children: [
-                                      if (filter.isNotEmpty)
-                                        Text(filter.length.toString()),
-                                      Image.asset(
-                                        'assets/icons/filters.png',
-                                        width: 78,
+                                  child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10, top: 6, bottom: 6),
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(7),
+                                      border: Border.all(
+                                        color: (filter
+                                                    .containsKey('display[]') ||
+                                                filter
+                                                    .containsKey('category[]'))
+                                            ? greenColor
+                                            : borderColor,
                                       ),
-                                    ],
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          'assets/icons/filter-icon.png',
+                                          color: (filter.containsKey(
+                                                      'display[]') ||
+                                                  filter.containsKey(
+                                                      'category[]'))
+                                              ? greenColor
+                                              : null,
+                                        ),
+                                        SizedBox(
+                                          width: 9,
+                                        ),
+                                        Text(
+                                          (filter.containsKey('display[]') ||
+                                                  filter.containsKey(
+                                                      'category[]'))
+                                              ? "${filter.containsKey('concern_ids[]') ? (filter.length - 1) : filter.length} Filter"
+                                              : 'Filter',
+                                          style: TextStyle(
+                                            color: (filter.containsKey(
+                                                        'display[]') ||
+                                                    filter.containsKey(
+                                                        'category[]'))
+                                                ? greenColor
+                                                : null,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
