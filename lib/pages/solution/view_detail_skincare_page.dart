@@ -613,7 +613,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${productOverview?.avgEffectivenessRating ?? 0}',
+                                  '${productOverview?.avgEffectivenessRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -654,7 +654,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${productOverview?.avgTextureRating ?? 0}',
+                                  '${productOverview?.avgTextureRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -695,7 +695,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${productOverview?.avgPackagingRating ?? 0}',
+                                  '${productOverview?.avgPackagingRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
