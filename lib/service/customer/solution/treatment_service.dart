@@ -95,7 +95,7 @@ class TreatmentService extends ProviderClass {
       },
     );
     print("response getTopRatingTreatment $response");
-    return TreatmentModel.TreatmentModel();
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<OverviewUlasanTreatmentModel> getOverview(int treatmentID) async {
