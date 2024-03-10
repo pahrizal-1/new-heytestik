@@ -80,7 +80,7 @@ class TreatmentService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-    print('response getTopTreatment $response');
+    print('response getTrendingTreatment $response');
     return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
