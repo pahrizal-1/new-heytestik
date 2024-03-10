@@ -58,9 +58,15 @@ class TreatmentService extends ProviderClass {
 
   Future<TreatmentModel.TreatmentModel> getTopTreatment(int page,
       {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTopTreatment $params');
     var response = await networkingConfig.doGet(
       '/solution/treatment/top',
-      params: {"page": page, "take": 10, "search": search},
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -72,9 +78,15 @@ class TreatmentService extends ProviderClass {
 
   Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page,
       {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTrendingTreatment $params');
     var response = await networkingConfig.doGet(
       '/solution/treatment/trending',
-      params: {"page": page, "take": 10, "search": search},
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -86,9 +98,15 @@ class TreatmentService extends ProviderClass {
 
   Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page,
       {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTopRatingTreatment $params');
     var response = await networkingConfig.doGet(
       '/solution/treatment/top-rating',
-      params: {"page": page, "take": 10, "search": search},
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -112,6 +130,11 @@ class TreatmentService extends ProviderClass {
 
   Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(
       int page, int clinicID) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+    };
+    print("params getTreatmentFromSameClinic $params");
     var response = await networkingConfig.doGet(
       '/solution/treatment/clinic/$clinicID/treatment',
       params: {
