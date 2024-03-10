@@ -440,8 +440,15 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                     ).then((value) async {
                                       if (value == null) return;
 
-                                      filter['display[]'] = value['display'];
-                                      filter['category[]'] = value['category'];
+                                      if ((value['display'] as List)
+                                          .isNotEmpty) {
+                                        filter['display[]'] = value['display'];
+                                      }
+                                      if ((value['category'] as List)
+                                          .isNotEmpty) {
+                                        filter['category[]'] =
+                                            value['category'];
+                                      }
                                       drugs.clear();
                                       page = 1;
                                       drugs.addAll(
@@ -455,9 +462,15 @@ class _DrugSolutionsPageState extends State<DrugSolutionsPage> {
                                       setState(() {});
                                     });
                                   },
-                                  child: Image.asset(
-                                    'assets/icons/filters.png',
-                                    width: 78,
+                                  child: Row(
+                                    children: [
+                                      if (filter.isNotEmpty)
+                                        Text(filter.length.toString()),
+                                      Image.asset(
+                                        'assets/icons/filters.png',
+                                        width: 78,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

@@ -29,6 +29,7 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
   List<Drug.Data2> drugs = [];
   String? search;
   Map<String, dynamic> filter = {};
+  Map? concern;
 
   @override
   void initState() {
@@ -166,6 +167,7 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                           if (filter.isNotEmpty)
                             InkWell(
                               onTap: () async {
+                                concern = null;
                                 filter.clear();
                                 drugs.clear();
                                 page = 1;
@@ -244,13 +246,16 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                                     topStart: Radius.circular(25),
                                   ),
                                 ),
-                                builder: (context) => FilterConcern(),
+                                builder: (context) =>
+                                    FilterConcern(val: concern),
                               ).then((value) async {
                                 if (value == null) return;
 
-                                filter['concern_ids[]'] = value['concern_ids'];
+                                concern = value;
+                                filter['concern_ids[]'] = value['id'];
                                 drugs.clear();
                                 page = 1;
+                                setState(() {});
                                 drugs.addAll(
                                   await state.getDrug(
                                     context,
@@ -269,19 +274,32 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                               height: 30,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
-                                border: Border.all(color: borderColor),
+                                border: Border.all(
+                                  color: (concern is Map)
+                                      ? greenColor
+                                      : borderColor,
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('Etalase Treatment'),
+                                  Text(
+                                    (concern is Map)
+                                        ? (concern?['text'])
+                                        : 'Etalase Treatment',
+                                    style: TextStyle(
+                                      color:
+                                          (concern is Map) ? greenColor : null,
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 9,
                                   ),
                                   Icon(
                                     Icons.keyboard_arrow_down,
                                     size: 15,
+                                    color: (concern is Map) ? greenColor : null,
                                   )
                                 ],
                               ),
