@@ -36,15 +36,19 @@ class UlasanTreatmentController extends StateClass {
     isLoading.value = true;
     List<TreatmentReview.Data2> treatmentReview = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService()
-          .getTreatmentReview(page, take, id, filter: filter);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
+      try {
+        var res = await TreatmentService()
+            .getTreatmentReview(page, take, id, filter: filter);
+        if (res.success != true && res.message != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: res.message.toString(),
+          );
+        }
+        treatmentReview = res.data!.data!;
+      } catch (e) {
+        print("ERROR $e");
       }
-      treatmentReview = res.data!.data!;
     });
     isLoading.value = false;
     return treatmentReview;
