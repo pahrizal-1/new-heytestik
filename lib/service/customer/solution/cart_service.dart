@@ -24,7 +24,6 @@ class CartService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return CartModel.fromJson(response);
   }
 
@@ -41,7 +40,6 @@ class CartService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return RecentlyProductViewedModel.fromJson(response);
   }
 
@@ -54,7 +52,6 @@ class CartService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -66,7 +63,6 @@ class CartService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -79,7 +75,6 @@ class CartService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 }

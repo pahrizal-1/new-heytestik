@@ -18,12 +18,10 @@ class ConsultationService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return InitiateChatModel.fromJson(response);
   }
 
   Future<RecentChatModel> recentChat({String? search}) async {
-
     var response = await networkingConfig.doGet(
       '/chat/recent',
       params: {
@@ -34,7 +32,6 @@ class ConsultationService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return RecentChatModel.fromJson(response);
   }
 }

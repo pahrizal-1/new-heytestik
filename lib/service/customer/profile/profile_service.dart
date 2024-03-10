@@ -31,7 +31,6 @@ class ProfileService extends ProviderClass {
     var response = await networkingConfig.doUpdateFinish(
       '/profile/close-account',
     );
-
     return response;
   }
 
@@ -40,7 +39,6 @@ class ProfileService extends ProviderClass {
       "id_card_photo": await MultipartFile.fromFile(data['idCardPhoto']),
       "face_photo": await MultipartFile.fromFile(data['facePhoto']),
     });
-
     var response = await networkingConfig.doPost(
       '/account-verification',
       data: formData,
@@ -70,7 +68,6 @@ class ProfileService extends ProviderClass {
       '/profile/user',
       data,
     );
-
     return response;
   }
 
@@ -107,7 +104,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -119,7 +115,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return UserProfileOverviewModel.fromJson(response);
   }
 
@@ -136,7 +131,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return FinishedReviewModel.fromJson(response);
   }
 
@@ -159,7 +153,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return (response['data']['data'] as List)
         .map((e) => StreamHomeModel.fromJson(e))
         .toList();

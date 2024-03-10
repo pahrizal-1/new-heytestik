@@ -14,25 +14,16 @@ class GeographyService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
-    print(response);
-
     return response['data'];
   }
 
   Future<dynamic> getCity(int provinceID) async {
-
-    print(provinceID);
-
     var response = await networkingConfig.doGet(
       '/geography/kota-kabupatens?order=asc&page=1&take=50&provinceId=$provinceID',
       headers: {
         'User-Agent': await userAgent(),
       },
     );
-
-    print(response);
-
     return response['data'];
   }
 }

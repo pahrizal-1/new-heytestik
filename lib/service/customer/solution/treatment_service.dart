@@ -56,13 +56,11 @@ class TreatmentService extends ProviderClass {
         .toList();
   }
 
-  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page,
+      {String? search}) async {
     var response = await networkingConfig.doGet(
       '/solution/treatment/top',
-      params: {
-        "page": page,
-        "take": 10,
-      },
+      params: {"page": page, "take": 10, "search": search},
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

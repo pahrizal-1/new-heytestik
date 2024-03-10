@@ -15,7 +15,6 @@ class RegisterService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -27,7 +26,6 @@ class RegisterService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -39,7 +37,6 @@ class RegisterService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -51,7 +48,6 @@ class RegisterService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -63,7 +59,6 @@ class RegisterService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -75,7 +70,6 @@ class RegisterService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 }
