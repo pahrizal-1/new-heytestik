@@ -518,7 +518,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             Row(
                               children: [
                                 Text(
-                                  '${treatmentOverview?.satisfiedPercentage}% Sobat Hey',
+                                  '${treatmentOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
                                   style: blackHigtTextStyle.copyWith(
                                       fontSize: 12,
                                       fontStyle: FontStyle.italic),
@@ -549,7 +549,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  '${treatmentOverview?.totalReview} ulasan',
+                                  '${treatmentOverview?.totalReview ?? 0} ulasan',
                                   style: blackTextStyle.copyWith(
                                       fontSize: 12, fontWeight: regular),
                                 ),
@@ -580,7 +580,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${treatmentOverview?.avgCareRating ?? 0}',
+                                  '${treatmentOverview?.avgCareRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -621,7 +621,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${treatmentOverview?.avgServiceRating ?? 0}',
+                                  '${treatmentOverview?.avgServiceRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -662,7 +662,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${treatmentOverview?.avgManagementRating ?? 0}',
+                                  '${treatmentOverview?.avgManagementRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),

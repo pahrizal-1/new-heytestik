@@ -200,7 +200,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.satisfiedPercentage}% Sobat Hey',
+                                '${treatmentOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
                                 style: blackHigtTextStyle.copyWith(
                                     fontSize: 12, fontStyle: FontStyle.italic),
                               ),
@@ -260,7 +260,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.avgCareRating ?? 0}',
+                                '${treatmentOverview?.avgCareRating ?? 0.0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -300,7 +300,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.avgServiceRating ?? 0}',
+                                '${treatmentOverview?.avgServiceRating ?? 0.0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -340,7 +340,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.avgManagementRating ?? 0}',
+                                '${treatmentOverview?.avgManagementRating ?? 0.0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
