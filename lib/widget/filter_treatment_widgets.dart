@@ -4,35 +4,76 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/card_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
 
 class FilterAllTreatmentWidget extends StatefulWidget {
-  const FilterAllTreatmentWidget({super.key});
+  Map<String, dynamic>? param;
+  FilterAllTreatmentWidget({super.key, this.param});
 
   @override
   State<FilterAllTreatmentWidget> createState() => _FilterAllWidgetState();
 }
 
 class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
-  final TextEditingController minPriceController = TextEditingController();
-  final TextEditingController maxPriceController = TextEditingController();
+  TextEditingController minPriceController = TextEditingController();
+  TextEditingController maxPriceController = TextEditingController();
   final EtalaseController state = Get.put(EtalaseController());
-
+  List daraRating = [
+    {
+      'title': 'Rating',
+      'value': 'RATING',
+      'img': 'assets/icons/stars-icons.png',
+    },
+    {
+      'title': 'Popularitas',
+      'value': 'POPULARITY',
+      'img': 'assets/icons/popularity.png',
+    },
+    {
+      'title': 'Jarak',
+      'value': 'DISTANCE',
+      'img': 'assets/icons/mapgrey.png',
+    }
+  ];
   List<Lookup.Data2> treatments = [];
-  List<String> filter = [];
-
-  String orderBy = "";
+  Map<String, dynamic>? param = {};
+  String? orderBy;
   bool promo = false;
   bool openNow = false;
+  bool rating = false;
   int? minPrice;
   int? maxPrice;
+  String? treatmentType;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      param = widget.param;
+
+      if (param!.containsKey('order_by')) {
+        orderBy = param?['order_by'];
+      }
+      if (param!.containsKey('treatment_type[]')) {
+        treatmentType = param?['treatment_type[]'];
+      }
+      if (param!.containsKey('min_price')) {
+        minPriceController.text = param?['min_price'].toString() ?? '';
+      }
+      if (param!.containsKey('max_price')) {
+        maxPriceController.text = param?['max_price'].toString() ?? '';
+      }
+      if (param!.containsKey('open_now')) {
+        openNow = param?['open_now'];
+      }
+      if (param!.containsKey('promo')) {
+        promo = param?['promo'];
+      }
+      if (param!.containsKey('rating[]')) {
+        rating = true;
+      }
+      setState(() {});
       treatments.addAll(await state.getLookup(context, "TREATMENT_TYPE"));
       setState(() {});
     });
@@ -63,48 +104,17 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
               const SizedBox(
                 height: 15,
               ),
-              filterOrder(
-                title: 'Rating',
-                img: 'assets/icons/stars-icons.png',
-                onTap: () {
-                  if (orderBy == "RATING") {
-                    orderBy = "";
-                  } else {
-                    orderBy = "RATING";
-                  }
-                  print("RATING " + orderBy);
-                  setState(() {});
-                },
-                isSelected: orderBy == "RATING",
-              ),
-              filterOrder(
-                title: 'Popularitas',
-                img: 'assets/icons/popularity.png',
-                onTap: () {
-                  if (orderBy == "POPULARITY") {
-                    orderBy = "";
-                  } else {
-                    orderBy = "POPULARITY";
-                  }
-                  print("POPULARITY " + orderBy);
-                  setState(() {});
-                },
-                isSelected: orderBy == "POPULARITY",
-              ),
-              filterOrder(
-                title: 'Jarak',
-                img: 'assets/icons/mapgrey.png',
-                onTap: () {
-                  if (orderBy == "DISTANCE") {
-                    orderBy = "";
-                  } else {
-                    orderBy = "DISTANCE";
-                  }
-                  print("DISTANCE " + orderBy);
-                  setState(() {});
-                },
-                isSelected: orderBy == "DISTANCE",
-              ),
+              ...daraRating.map((el) {
+                return filterOrder(
+                  title: el['title'],
+                  img: el['img'],
+                  onTap: () {
+                    orderBy = el['value'];
+                    setState(() {});
+                  },
+                  isSelected: orderBy == el['value'],
+                );
+              }).toList(),
               SizedBox(
                 height: 25,
               ),
@@ -115,24 +125,42 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                children: [
-                  CardSearch(
-                    title: 'Promo',
-                    onTap: () {
-                      promo = !promo;
-                    },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  CardSearch(
-                    title: 'Buka Sekarang',
-                    onTap: () {
-                      openNow = !openNow;
-                    },
-                  ),
-                ],
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    filterOnTap(
+                      title: 'Promo',
+                      isSelected: promo,
+                      onTap: () {
+                        promo = !promo;
+                        setState(() {});
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    filterOnTap(
+                      title: 'Buka Sekarang',
+                      isSelected: openNow,
+                      onTap: () {
+                        openNow = !openNow;
+                        setState(() {});
+                      },
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    filterOnTap(
+                      title: 'Bintang 4.5+',
+                      isSelected: rating,
+                      onTap: () {
+                        rating = !rating;
+                        setState(() {});
+                      },
+                    )
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 28,
@@ -217,11 +245,13 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
               const SizedBox(
                 height: 20,
               ),
-              ...treatments.map((treatment) {
-                return TreatmentType(
-                  title: treatment.value.toString(),
-                  function: () {
-                    filter.add(treatment.value.toString());
+              ...treatments.map((el) {
+                return filterTapTreatment(
+                  title: el.value.toString(),
+                  isSelected: treatmentType == el.value.toString(),
+                  onTap: () {
+                    treatmentType = el.value.toString();
+                    setState(() {});
                   },
                 );
               }).toList(),
@@ -271,20 +301,42 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
                     maxPrice = maxPriceController.text == ""
                         ? null
                         : int.parse(maxPriceController.text);
-                    var param = {
-                      "treatment": filter,
-                      "orderBy": orderBy,
-                      "openNow": openNow,
-                      "promo": promo,
-                      "minPrice": minPrice,
-                      "maxPrice": maxPrice,
-                    };
-                    if (filter.isNotEmpty ||
-                        orderBy.isNotEmpty ||
-                        promo ||
-                        openNow ||
-                        minPrice != null ||
-                        maxPrice != null) {
+                    if (treatmentType is String) {
+                      param?.addAll({"treatment_type[]": treatmentType});
+                    } else {
+                      param?.remove('treatment_type[]');
+                    }
+                    if (orderBy is String) {
+                      param?.addAll({"order_by": orderBy});
+                    } else {
+                      param?.remove('order_by');
+                    }
+                    if (minPrice != null) {
+                      param?.addAll({"min_price": minPrice});
+                    } else {
+                      param?.remove('min_price');
+                    }
+                    if (maxPrice != null) {
+                      param?.addAll({"max_price": maxPrice});
+                    } else {
+                      param?.remove('max_price');
+                    }
+                    if (openNow) {
+                      param?.addAll({"open_now": openNow});
+                    } else {
+                      param?.remove('open_now');
+                    }
+                    if (promo) {
+                      param?.addAll({"promo": promo});
+                    } else {
+                      param?.remove('promo');
+                    }
+                    if (rating) {
+                      param?.addAll({"rating[]": rating});
+                    } else {
+                      param?.remove('rating[]');
+                    }
+                    if (param!.isNotEmpty) {
                       Navigator.pop(context, param);
                     } else {
                       SnackbarWidget.getSuccessSnackbar(
@@ -318,6 +370,39 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget filterOnTap({
+    required Function() onTap,
+    required bool isSelected,
+    required String title,
+  }) {
+    return Row(
+      children: [
+        InkWell(
+          onTap: () => onTap(),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+            height: 30,
+            decoration: BoxDecoration(
+              color: isSelected
+                  ? const Color.fromRGBO(36, 167, 160, 0.2)
+                  : whiteColor,
+              borderRadius: BorderRadius.circular(7),
+              border: Border.all(
+                color: isSelected ? greenColor : const Color(0xffCCCCCC),
+              ),
+            ),
+            child: Text(
+              title,
+              style: subGreyTextStyle.copyWith(
+                  fontSize: 15,
+                  color: isSelected ? greenColor : const Color(0Xff9B9B9B)),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -423,9 +508,8 @@ class _TreatmentTypeState extends State<TreatmentType> {
 }
 
 class FilterTreatmentType extends StatefulWidget {
-  const FilterTreatmentType({
-    super.key,
-  });
+  String? val;
+  FilterTreatmentType({super.key, this.val});
 
   @override
   State<FilterTreatmentType> createState() => _FilterTreatmentTypeState();
@@ -435,10 +519,12 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
   final EtalaseController state = Get.put(EtalaseController());
   List<String> filter = [];
   List<Lookup.Data2> treatments = [];
+  String? treatmentType;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      treatmentType = widget.val;
       treatments.addAll(await state.getLookup(context, "TREATMENT_TYPE"));
       setState(() {});
     });
@@ -467,12 +553,14 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
               const SizedBox(
                 height: 20,
               ),
-              ...treatments.map((treatment) {
-                return FilterTapTreatment(
+              ...treatments.map((el) {
+                return filterTapTreatment(
+                  title: el.value.toString(),
+                  isSelected: treatmentType == el.value.toString(),
                   onTap: () {
-                    filter.add(treatment.value.toString());
+                    treatmentType = el.value.toString();
+                    setState(() {});
                   },
-                  title: treatment.value.toString(),
                 );
               }).toList(),
             ],
@@ -520,8 +608,8 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
                 Expanded(
                   child: InkWell(
                     onTap: () {
-                      if (filter.isNotEmpty) {
-                        Navigator.pop(context, filter);
+                      if (treatmentType is String) {
+                        Navigator.pop(context, treatmentType);
                       } else {
                         SnackbarWidget.getSuccessSnackbar(
                           context,
@@ -557,6 +645,40 @@ class _FilterTreatmentTypeState extends State<FilterTreatmentType> {
       ),
     );
   }
+}
+
+Widget filterTapTreatment({
+  required Function() onTap,
+  required String title,
+  required bool isSelected,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 14),
+    child: Column(
+      children: [
+        InkWell(
+          onTap: () => onTap(),
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+              ),
+              const Spacer(),
+              Icon(
+                isSelected ? Icons.radio_button_on : Icons.circle_outlined,
+                color: isSelected ? greenColor : blackColor,
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          color: borderColor,
+        )
+      ],
+    ),
+  );
 }
 
 class FilterTapTreatment extends StatefulWidget {
