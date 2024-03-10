@@ -437,7 +437,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Semua Produk',
+                        filter.isNotEmpty ? 'Filter' : 'Semua Produk',
                         style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
                       const SizedBox(
