@@ -256,7 +256,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                                       SizedBox(
                                         height: 30,
                                       ),
-                                      FilterPublis(),
+                                      FilterPublis(val: visibility),
                                     ],
                                   ),
                                 ),
@@ -671,7 +671,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
               Divider(height: 0.2),
               InkWell(
                 onTap: () async {
-                  imagePath.addAll(await Get.to(()=>UploadPotoStream()));
+                  imagePath.addAll(await Get.to(() => UploadPotoStream()));
                   setState(() {});
                 },
                 child: Padding(

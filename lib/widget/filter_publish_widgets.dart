@@ -8,9 +8,8 @@ import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
     as Lookup;
 
 class FilterPublis extends StatefulWidget {
-  const FilterPublis({
-    super.key,
-  });
+  Map? val;
+  FilterPublis({super.key, this.val});
 
   @override
   State<FilterPublis> createState() => _FilterPublisState();
@@ -18,7 +17,13 @@ class FilterPublis extends StatefulWidget {
 
 class _FilterPublisState extends State<FilterPublis> {
   int isSelected = 0;
-  Map value = {};
+  Map? value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.val;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +54,11 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 0 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 0 ? greenColor : blackColor,
+                value?['title'] == 'Semua Orang'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color:
+                    value?['title'] == 'Semua Orang' ? greenColor : blackColor,
               ),
             ],
           ),
@@ -86,8 +94,12 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 1 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 1 ? greenColor : blackColor,
+                value?['title'] == 'Hanya orang yang mengikuti'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color: value?['title'] == 'Hanya orang yang mengikuti'
+                    ? greenColor
+                    : blackColor,
               ),
             ],
           ),
@@ -123,8 +135,12 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 2 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 2 ? greenColor : blackColor,
+                value?['title'] == 'Hanya orang yang disebutkan'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color: value?['title'] == 'Hanya orang yang disebutkan'
+                    ? greenColor
+                    : blackColor,
               ),
             ],
           ),
@@ -157,8 +173,11 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 3 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 3 ? greenColor : blackColor,
+                value?['title'] == 'Hanya saya'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color:
+                    value?['title'] == 'Hanya saya' ? greenColor : blackColor,
               ),
             ],
           ),
