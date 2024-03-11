@@ -435,12 +435,13 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                           children: [
                                             for (int i = 0;
                                                 i <
-                                                    state
-                                                        .responseClinicDetail
-                                                        .value
-                                                        .data!
-                                                        .clinicOperationHours!
-                                                        .length;
+                                                    (state
+                                                            .responseClinicDetail
+                                                            .value
+                                                            .data
+                                                            ?.clinicOperationHours
+                                                            ?.length ??
+                                                        0);
                                                 i++)
                                               TetxtInfomasi(
                                                 title: state
