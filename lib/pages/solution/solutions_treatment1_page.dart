@@ -10,7 +10,6 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/nearme_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/top_rating_treatment.dart';
 import 'package:heystetik_mobileapps/pages/solution/treatment_search.dart';
@@ -419,7 +418,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                     padding: const EdgeInsets.only(left: 25),
                     child: InkWell(
                       onTap: () {
-                        Get.to(() => PencarianKlinikTraetmentPage(
+                        Get.to(() => TreatmentKlinikPage(
                               treatmentType:
                                   stateTreatment.treatment[index].treatmentType,
                             ));
@@ -562,7 +561,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                   ),
                   InkWell(
                     onTap: () {
-                      Get.to(() => TreatmentKlink());
+                      Get.to(() => TreatmentKlinikPage());
                     },
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,

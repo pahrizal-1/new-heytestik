@@ -11,10 +11,10 @@ import 'package:heystetik_mobileapps/controller/customer/solution/treatment_cont
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
-import 'package:heystetik_mobileapps/pages/solution/pencarian_klinik_treatment_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/search_solution_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/skincare_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/solution_treatment_klinik_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
@@ -552,7 +552,7 @@ class _SolutionPageState extends State<SolutionPage> {
                         padding: const EdgeInsets.only(left: 25),
                         child: InkWell(
                           onTap: () {
-                            Get.to(() => PencarianKlinikTraetmentPage(
+                            Get.to(() => TreatmentKlinikPage(
                                   treatmentType: stateTreatment
                                       .treatment[index].treatmentType,
                                 ));

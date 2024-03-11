@@ -151,6 +151,7 @@ class _NearMePageState extends State<NearMePage> {
                                     return;
                                   }
                                   treatments.clear();
+                                  setState(() {});
                                   treatments.addAll(
                                       await stateTreatment.getNearTreatment(
                                     context,
