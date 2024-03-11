@@ -453,56 +453,194 @@ class _FilterAllWidgetState extends State<FilterAllTreatmentWidget> {
   }
 }
 
-class TreatmentType extends StatefulWidget {
-  final String title;
-  Function()? function;
+class FilterUrutkanRating extends StatefulWidget {
+  String? val;
 
-  TreatmentType({
-    Key? key,
-    required this.title,
-    this.function,
-  }) : super(key: key);
+  FilterUrutkanRating({Key? key, this.val}) : super(key: key);
 
   @override
-  State<TreatmentType> createState() => _TreatmentTypeState();
+  State<FilterUrutkanRating> createState() => _FilterUrutkanRatingState();
 }
 
-class _TreatmentTypeState extends State<TreatmentType> {
-  bool isSelected = false;
+class _FilterUrutkanRatingState extends State<FilterUrutkanRating> {
+  List daraRating = [
+    {
+      'title': 'Rating',
+      'value': 'RATING',
+      'img': 'assets/icons/stars-icons.png',
+    },
+    {
+      'title': 'Popularitas',
+      'value': 'POPULARITY',
+      'img': 'assets/icons/popularity.png',
+    },
+    {
+      'title': 'Jarak',
+      'value': 'DISTANCE',
+      'img': 'assets/icons/mapgrey.png',
+    }
+  ];
+  String? orderBy;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.val == "Rating") {
+      orderBy = "RATING";
+    } else if (widget.val == "Popularitas") {
+      orderBy = "POPULARITY";
+    } else if (widget.val == "Jarak") {
+      orderBy = "DISTANCE";
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.function == null ? () {} : widget.function!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25, top: 30),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Urutkan',
+              style: blackTextStyle.copyWith(fontSize: 20),
             ),
-          ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
+            const SizedBox(
+              height: 15,
+            ),
+            ...daraRating.map((el) {
+              return filterOrder(
+                title: el['title'],
+                img: el['img'],
+                onTap: () {
+                  orderBy = el['value'].toString();
+                  setState(() {});
+                },
+                isSelected: orderBy == el['value'].toString(),
+              );
+            }).toList(),
+          ],
+        ),
       ),
+      bottomNavigationBar: Container(
+        height: 90,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25, right: 25),
+          child: Row(
+            children: [
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: 165,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Batal',
+                        style: grenTextStyle.copyWith(
+                          fontSize: 15,
+                          fontWeight: bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: InkWell(
+                  onTap: () {
+                    if (orderBy is String) {
+                      Navigator.pop(context, orderBy);
+                    } else {
+                      SnackbarWidget.getSuccessSnackbar(
+                        context,
+                        'Info',
+                        "Harap pilih filter terlebih dahulu",
+                      );
+                    }
+                  },
+                  child: Container(
+                    width: 165,
+                    decoration: BoxDecoration(
+                      color: greenColor,
+                      border: Border.all(color: greenColor),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        'Simpan',
+                        style: whiteTextStyle.copyWith(
+                          fontSize: 15,
+                          fontWeight: bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget filterOrder({
+    required String title,
+    required String img,
+    required bool isSelected,
+    required Function() onTap,
+  }) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            onTap();
+            setState(() {
+              isSelected = !isSelected;
+            });
+          },
+          child: Row(
+            children: [
+              Container(
+                width: 17,
+                height: 17,
+                decoration: BoxDecoration(
+                    image: DecorationImage(image: AssetImage(img))),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                title,
+                style: blackRegulerTextStyle.copyWith(color: blackColor),
+              ),
+              const Spacer(),
+              Icon(
+                isSelected ? Icons.radio_button_on : Icons.circle_outlined,
+                color: isSelected ? greenColor : blackColor,
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          thickness: 1,
+          color: borderColor,
+        )
+      ],
     );
   }
 }
@@ -679,60 +817,6 @@ Widget filterTapTreatment({
       ],
     ),
   );
-}
-
-class FilterTapTreatment extends StatefulWidget {
-  final String title;
-  final Function()? onTap;
-
-  const FilterTapTreatment({
-    Key? key,
-    required this.title,
-    this.onTap,
-  }) : super(key: key);
-
-  @override
-  State<FilterTapTreatment> createState() => _FilterTapTreatmentState();
-}
-
-class _FilterTapTreatmentState extends State<FilterTapTreatment> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.onTap == null ? () {} : widget.onTap!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
-      ),
-    );
-  }
 }
 
 class FilterTreatment extends StatelessWidget {
