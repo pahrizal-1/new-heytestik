@@ -656,11 +656,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   var res = await Get.to(
                                       () => EtalaseTreatMentPage());
                                   if (res == 'semua') {
-                                    print("SEMUA");
                                     filter.clear();
                                     concernName = "Semua Treatment";
                                     page = 1;
                                     treatments.clear();
+                                    setState(() {});
                                     treatments.addAll(
                                       await stateTreatment.getAllTreatment(
                                         context,
@@ -671,7 +671,6 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     );
                                     setState(() {});
                                   } else if (res == 'diskon') {
-                                    print("diskon");
                                     page = 1;
                                     treatments.clear();
                                     setState(() {});
@@ -680,6 +679,13 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     concernName = res[1];
                                     page = 1;
                                     treatments.clear();
+                                    setState(() {});
+                                    if (filter['promo'] == true) {
+                                      treatments.clear();
+                                      page = 1;
+                                      setState(() {});
+                                      return;
+                                    }
                                     treatments.addAll(
                                       await stateTreatment.getAllTreatment(
                                         context,
@@ -695,6 +701,13 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                   concernName = element.value.name;
                                   page = 1;
                                   treatments.clear();
+                                  setState(() {});
+                                  if (filter['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                    return;
+                                  }
                                   treatments.addAll(
                                     await stateTreatment.getAllTreatment(
                                       context,
@@ -759,7 +772,11 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            concernName.toString(),
+                            filter.isNotEmpty
+                                ? concernName == "Semua Treatment"
+                                    ? "Filter"
+                                    : concernName.toString()
+                                : concernName.toString(),
                             style: blackHigtTextStyle.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
@@ -774,6 +791,7 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     concernName = "Semua Treatment";
                                     page = 1;
                                     treatments.clear();
+                                    setState(() {});
                                     treatments.addAll(
                                       await stateTreatment.getAllTreatment(
                                         context,
@@ -815,24 +833,23 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                       ),
                                     ),
                                     builder: (context) =>
-                                        FilterAllTreatmentWidget(),
+                                        FilterAllTreatmentWidget(param: filter),
                                   ).then((value) async {
                                     if (value == null) return;
 
-                                    if (value['promo'] == true) {
+                                    filter = value;
+                                    if (filter['rating[]'] != null &&
+                                        filter['rating[]']) {
+                                      filter['rating[]'] = ['4', '5'];
+                                    }
+                                    if (filter['promo'] == true) {
                                       treatments.clear();
                                       page = 1;
                                       setState(() {});
                                     } else {
-                                      filter['treatment_type[]'] =
-                                          value['treatment'];
-                                      filter['order_by'] = value['orderBy'];
-                                      filter['open_now'] = value['openNow'];
-                                      filter['min_price'] = value['minPrice'];
-                                      filter['max_price'] = value['maxPrice'];
-
                                       page = 1;
                                       treatments.clear();
+                                      setState(() {});
                                       treatments.addAll(
                                         await stateTreatment.getAllTreatment(
                                           context,
@@ -845,9 +862,44 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
                                     setState(() {});
                                   });
                                 },
-                                child: Image.asset(
-                                  'assets/icons/filters.png',
-                                  width: 78,
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 10, top: 6, bottom: 6),
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    border: Border.all(
+                                      color: (filter.isNotEmpty)
+                                          ? greenColor
+                                          : borderColor,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        'assets/icons/filter-icon.png',
+                                        color: (filter.isNotEmpty)
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                      SizedBox(
+                                        width: 9,
+                                      ),
+                                      Text(
+                                        filter.isNotEmpty
+                                            ? "${filter.length} Filter"
+                                            : "Filter",
+                                        style: TextStyle(
+                                          color: filter.isNotEmpty
+                                              ? greenColor
+                                              : null,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

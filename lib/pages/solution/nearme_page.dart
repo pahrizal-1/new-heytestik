@@ -144,10 +144,20 @@ class _NearMePageState extends State<NearMePage> {
                                 onEditingComplete: () async {
                                   page = 1;
                                   search = searchController.text;
+                                  if (filter['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                    return;
+                                  }
                                   treatments.clear();
-                                  treatments.addAll(await stateTreatment
-                                      .getNearTreatment(context, page,
-                                          search: search));
+                                  treatments.addAll(
+                                      await stateTreatment.getNearTreatment(
+                                    context,
+                                    page,
+                                    search: search,
+                                    filter: filter,
+                                  ));
                                   setState(() {});
                                 },
                                 style: const TextStyle(
@@ -232,17 +242,16 @@ class _NearMePageState extends State<NearMePage> {
                         ).then((value) async {
                           if (value == null) return;
 
-                          if (value['promo'] == true) {
+                          filter = value;
+                          if (filter['rating[]'] != null &&
+                              filter['rating[]']) {
+                            filter['rating[]'] = ['4', '5'];
+                          }
+                          if (filter['promo'] == true) {
                             treatments.clear();
                             page = 1;
                             setState(() {});
                           } else {
-                            filter = value;
-                            if (filter['rating[]'] != null &&
-                                filter['rating[]']) {
-                              filter['rating[]'] = ['4', '5'];
-                            }
-
                             treatments.clear();
                             page = 1;
                             setState(() {});
@@ -468,7 +477,7 @@ class _NearMePageState extends State<NearMePage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        if (promo) {
+                        if (filter['promo'] == true) {
                           promo = false;
                           filter.remove('promo');
                           treatments.clear();
