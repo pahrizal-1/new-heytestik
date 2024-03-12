@@ -68,7 +68,9 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postDescController.text = "@${widget.username} ";
+      if (widget.username is String) {
+        postDescController.text = "@${widget.username} ";
+      }
       var dataUser = await LocalStorage().getDataUser();
       fullName = dataUser['fullname'];
       stateProfile.getProfile(context);

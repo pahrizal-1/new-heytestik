@@ -412,7 +412,7 @@ class StreamService extends ProviderClass {
     print(userMentions);
     Map<String, dynamic> data = {
       "content": content,
-      // "mentions": userMentions,
+      "mentions": userMentions,
     };
     var response = await networkingConfig.doPost(
       '/stream/$postID/comment',
