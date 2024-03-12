@@ -277,6 +277,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       ),
                       if (streamPollOptions.isEmpty)
                         buildRichTextWithMentions(
+                          isMe: stateProfile.username.value,
                           post?.content ?? "",
                         ),
                       if (streamPollOptions.isEmpty)
