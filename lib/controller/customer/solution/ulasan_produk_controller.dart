@@ -51,26 +51,18 @@ class UlasanProdukController extends StateClass {
   }
 
   void helped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().helped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+    try {
+      SolutionService().helped(reviewId);
+    } catch (e) {
+      print("ERROR helped produk $e");
+    }
   }
 
   void unHelped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+    try {
+      SolutionService().unHelped(reviewId);
+    } catch (e) {
+      print("ERROR unHelped produk $e");
+    }
   }
 }

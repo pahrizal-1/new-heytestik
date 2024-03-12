@@ -36,45 +36,33 @@ class UlasanTreatmentController extends StateClass {
     isLoading.value = true;
     List<TreatmentReview.Data2> treatmentReview = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      try {
-        var res = await TreatmentService()
-            .getTreatmentReview(page, take, id, filter: filter);
-        if (res.success != true && res.message != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res.message.toString(),
-          );
-        }
-        treatmentReview = res.data!.data!;
-      } catch (e) {
-        print("ERROR $e");
+      var res = await TreatmentService()
+          .getTreatmentReview(page, take, id, filter: filter);
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
       }
+      treatmentReview = res.data!.data!;
     });
     isLoading.value = false;
     return treatmentReview;
   }
 
   void helped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().helped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+    try {
+      TreatmentService().helped(reviewId);
+    } catch (e) {
+      print("ERROR helped treatment $e");
+    }
   }
 
   void unHelped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+    try {
+      TreatmentService().unHelped(reviewId);
+    } catch (e) {
+      print("ERROR unHelped treatment $e");
+    }
   }
 }

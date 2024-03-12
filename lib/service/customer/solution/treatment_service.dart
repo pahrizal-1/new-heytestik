@@ -253,7 +253,7 @@ class TreatmentService extends ProviderClass {
     return TreatmentReviewModel.fromJson(response);
   }
 
-  Future helped(int reviewId) async {
+  void helped(int reviewId) async {
     var response = await networkingConfig.doPost(
       '/solution/treatment-review/helpful',
       data: {
@@ -265,10 +265,9 @@ class TreatmentService extends ProviderClass {
       },
     );
     print(response);
-    return response;
   }
 
-  Future unHelped(int reviewId) async {
+  void unHelped(int reviewId) async {
     var response = await networkingConfig.doDelete(
       '/solution/treatment-review/helpful',
       data: {
@@ -280,6 +279,5 @@ class TreatmentService extends ProviderClass {
       },
     );
     print(response);
-    return response;
   }
 }

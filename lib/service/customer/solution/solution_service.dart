@@ -241,7 +241,7 @@ class SolutionService extends ProviderClass {
     return DetailDrugModel.fromJson(response);
   }
 
-  Future helped(int reviewId) async {
+  void helped(int reviewId) async {
     var response = await networkingConfig.doPost(
       '/solution/product-review/helpful',
       data: {
@@ -253,10 +253,9 @@ class SolutionService extends ProviderClass {
       },
     );
     print(response);
-    return response;
   }
 
-  Future unHelped(int reviewId) async {
+  void unHelped(int reviewId) async {
     var response = await networkingConfig.doDelete(
       '/solution/product-review/helpful',
       data: {
@@ -268,6 +267,5 @@ class SolutionService extends ProviderClass {
       },
     );
     print(response);
-    return response;
   }
 }
