@@ -414,6 +414,7 @@ class StreamService extends ProviderClass {
       "content": content,
       "mentions": userMentions,
     };
+    print(data);
     var response = await networkingConfig.doPost(
       '/stream/$postID/comment',
       data: data,
