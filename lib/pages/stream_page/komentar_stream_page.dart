@@ -187,8 +187,12 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   post?.username) {
                                 Get.to(() => const ProfilCustomerPage());
                               } else {
-                                Get.to(() => FolowedStreamPage(
-                                    username: post!.username));
+                                Get.to(
+                                  () => FolowedStreamPage(
+                                    username: post!.username,
+                                    fullname: post!.fullname,
+                                  ),
+                                );
                               }
                             },
                             child: Container(
@@ -221,6 +225,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               } else {
                                 Get.to(() => FolowedStreamPage(
                                       username: post!.username,
+                                      fullname: post!.fullname,
                                     ));
                               }
                             },
@@ -278,8 +283,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       if (streamPollOptions.isEmpty)
                         buildRichTextWithMentions(
                           context,
-                          isMe: stateProfile.username.value,
                           post?.content ?? "",
+                          isMe: stateProfile.username.value,
+                          fullname: post?.fullname ?? "",
                         ),
                       if (streamPollOptions.isEmpty)
                         const SizedBox(
@@ -378,6 +384,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               buildRichTextWithMentions(
                                 context,
                                 post?.content ?? "",
+                                fullname: post?.fullname ?? "",
                                 textStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -712,6 +719,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       Get.to(
                                         () => FolowedStreamPage(
                                           username: comment.userName,
+                                          fullname: comment.fullName,
                                         ),
                                       );
                                     }
@@ -755,6 +763,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                               Get.to(
                                                 () => FolowedStreamPage(
                                                   username: comment.userName,
+                                                  fullname: comment.fullName,
                                                 ),
                                               );
                                             }
@@ -784,7 +793,10 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           height: 6,
                                         ),
                                         buildRichTextWithMentions(
-                                            context, comment.content),
+                                          context,
+                                          comment.content,
+                                          fullname: comment.fullName,
+                                        ),
                                         const SizedBox(
                                           height: 11,
                                         ),
@@ -958,6 +970,10 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                               "${comment.commentID}"]![
                                                                           index]
                                                                       .userName,
+                                                                  fullname: commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .fullName,
                                                                 ),
                                                               );
                                                             }
@@ -1010,6 +1026,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                       username:
                                                                           commentReplies["${comment.commentID}"]![index]
                                                                               .userName,
+                                                                      fullname:
+                                                                          commentReplies["${comment.commentID}"]![index]
+                                                                              .fullName,
                                                                     ),
                                                                   );
                                                                 }
@@ -1049,12 +1068,18 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                   const BoxConstraints(
                                                                       maxWidth:
                                                                           220),
-                                                              child: buildRichTextWithMentions(
-                                                                  context,
-                                                                  commentReplies[
-                                                                              "${comment.commentID}"]![
-                                                                          index]
-                                                                      .content),
+                                                              child:
+                                                                  buildRichTextWithMentions(
+                                                                context,
+                                                                commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .content,
+                                                                fullname: commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .fullName,
+                                                              ),
                                                             ),
                                                             const SizedBox(
                                                               height: 11,

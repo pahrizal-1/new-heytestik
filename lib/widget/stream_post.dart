@@ -86,6 +86,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   } else {
                     Get.to(() => FolowedStreamPage(
                           username: widget.stream.username,
+                          fullname: widget.stream.fullname,
                         ));
                   }
                 },
@@ -118,6 +119,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   } else {
                     Get.to(() => FolowedStreamPage(
                           username: widget.stream.username,
+                          fullname: widget.stream.fullname,
                         ));
                   }
                 },
@@ -174,8 +176,9 @@ class _StreamPostPageState extends State<StreamPostPage> {
           if (streamPollOptions.isEmpty)
             buildRichTextWithMentions(
               context,
-              isMe: stateProfile.username.value,
               widget.stream.content,
+              isMe: stateProfile.username.value,
+              fullname: widget.stream.fullname,
             ),
           if (streamPollOptions.isEmpty)
             const SizedBox(
@@ -276,6 +279,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   buildRichTextWithMentions(
                     context,
                     widget.stream.content,
+                    fullname: widget.stream.fullname,
                     textStyle: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,

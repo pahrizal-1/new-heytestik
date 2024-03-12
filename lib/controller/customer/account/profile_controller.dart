@@ -30,7 +30,6 @@ import 'package:dio/dio.dart' as dio;
 class ProfileController extends StateClass {
   Rx<InterestModel> interestData = InterestModel().obs;
   Rx<CompletionModel> completionData = CompletionModel().obs;
-  Rx<Overview.Data> userOverview = Overview.Data().obs;
   Rx<int> skinGoalsFaceCorrectiveLength = 0.obs;
   Rx<int> skinGoalsBodyCorrectiveLength = 0.obs;
   Rx<int> skinGoalsAugmentationLength = 0.obs;
@@ -507,15 +506,18 @@ class ProfileController extends StateClass {
     });
   }
 
-  Future<void> getUserOverview(BuildContext context, {String? username}) async {
+  Future<Overview.Data?> getUserOverview(BuildContext context,
+      {String? username}) async {
     isLoading.value = true;
+    Overview.Data? userOverview;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var user = await LocalStorage().getDataUser();
       var res =
           await ProfileService().getUserOverview(username ?? user['username']);
-      userOverview.value = res.data!;
+      userOverview = res.data!;
     });
     isLoading.value = false;
+    return userOverview;
   }
 
   Future<List<StreamHomeModel>> getUserActivityPost(

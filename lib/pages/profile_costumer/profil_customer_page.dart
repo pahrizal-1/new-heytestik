@@ -18,7 +18,8 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/beauty_profil_page.d
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_post.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/user_activity_review.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
+    as Overview;
 import '../../core/global.dart';
 import '../../theme/theme.dart';
 
@@ -45,6 +46,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
   final ScrollController scrollController = ScrollController();
   bool isPost = true;
   String? search;
+  Overview.Data? userOverview;
 
   @override
   void initState() {
@@ -58,7 +60,7 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
       stateProfile.getCompletion(context);
       stateProfile.getInterest(context);
       stateLocation.getLocation(context);
-      stateProfile.getUserOverview(context);
+      userOverview = await stateProfile.getUserOverview(context);
       setState(() {});
     });
     scrollController.addListener(() {
@@ -382,12 +384,10 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                                 const SizedBox(
                                   width: 6.4,
                                 ),
-                                Obx(
-                                  () => Text(
-                                    '${stateProfile.userOverview.value.level ?? ''} Member',
-                                    style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 13,
-                                    ),
+                                Text(
+                                  '${userOverview?.level ?? ''} Member',
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 13,
                                   ),
                                 )
                               ],
@@ -426,11 +426,9 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalFollower ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalFollower ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),
@@ -454,11 +452,9 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalFollowing ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalFollowing ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),
@@ -482,12 +478,10 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalPost ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
-                          )
+                          Text(
+                            '${userOverview?.totalPost ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -510,11 +504,9 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalReview ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalReview ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),

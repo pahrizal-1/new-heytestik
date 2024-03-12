@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/beuty_folower_page.dart';
@@ -13,10 +14,20 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import '../../theme/theme.dart';
 import '../setings&akun/akun_home_page.dart';
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
+    as Overview;
+import 'package:heystetik_mobileapps/models/customer/setting_notif_model.dart'
+    as SettingNotif;
 
 class FolowedStreamPage extends StatefulWidget {
   String username;
-  FolowedStreamPage({super.key, required this.username});
+  String fullname;
+
+  FolowedStreamPage({
+    super.key,
+    required this.username,
+    required this.fullname,
+  });
 
   @override
   State<FolowedStreamPage> createState() => _FolowedStreamPageState();
@@ -25,10 +36,14 @@ class FolowedStreamPage extends StatefulWidget {
 class _FolowedStreamPageState extends State<FolowedStreamPage> {
   final ProfileController stateProfile = Get.put(ProfileController());
   final StreamController stateStream = Get.put(StreamController());
+  final NotificationController stateNotif = Get.put(NotificationController());
   final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
+  Overview.Data? userOverview;
+  List<SettingNotif.Data> settingNotif = [];
   String? search;
-  bool followed = false;
+  bool? follow;
+  bool? notif;
   bool block = false;
 
   @override
@@ -38,8 +53,22 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
       stateProfile.postType.value = "ALL";
       stateProfile.page.value = 1;
       stateProfile.activity.value.clear();
-      stateProfile.getUserOverview(context, username: widget.username);
       stateProfile.getInterest(context);
+      await stateProfile
+          .getUserOverview(
+        context,
+        username: widget.username,
+      )
+          .then((value) async {
+        userOverview = value;
+        if (follow ?? (userOverview?.follow ?? false)) {
+          settingNotif = await stateNotif.getNotifAcitivityPosts(
+            context,
+            userOverview!.userLocation!.userId!,
+          );
+        }
+        return null;
+      });
       setState(() {});
     });
     scrollController.addListener(() {
@@ -78,7 +107,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
             children: [
               InkWell(
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                 },
                 child: Icon(
                   Icons.arrow_back,
@@ -88,24 +117,36 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
               const SizedBox(
                 width: 11,
               ),
-              Obx(
-                () => Text(
-                  stateProfile.userOverview.value.fullname ?? '',
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
-                ),
+              Text(
+                userOverview?.fullname ?? '',
+                style: blackHigtTextStyle.copyWith(fontSize: 20),
               ),
             ],
           ),
         ),
         actions: [
-          followed
-              ? Container()
-              : InkWell(
-                  onTap: () {},
-                  child: SvgPicture.asset(
-                    'assets/icons/notif-icons.svg',
-                  ),
-                ),
+          if (follow ?? (userOverview?.follow ?? false))
+            InkWell(
+              onTap: () async {
+                if (notif ?? (settingNotif[0].isEnabled ?? false)) {
+                  stateNotif.postNotifAcitivityPosts(
+                      context, userOverview!.userLocation!.userId!, false);
+                  notif = false;
+                } else {
+                  stateNotif.postNotifAcitivityPosts(
+                      context, userOverview!.userLocation!.userId!, true);
+                  notif = true;
+                }
+                setState(() {});
+              },
+              child: (notif ?? (settingNotif[0].isEnabled ?? false))
+                  ? SvgPicture.asset(
+                      'assets/icons/notifikasi-green.svg',
+                    )
+                  : SvgPicture.asset(
+                      'assets/icons/notif-icons.svg',
+                    ),
+            ),
           const SizedBox(
             width: 26,
           ),
@@ -142,23 +183,18 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Obx(
-                        () => Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: stateProfile.userOverview.value
-                                          .mediaUserProfilePicture !=
-                                      null
-                                  ? NetworkImage(
-                                          '${Global.FILE}/${stateProfile.userOverview.value.mediaUserProfilePicture?.media?.path}')
-                                      as ImageProvider
-                                  : AssetImage(
-                                      'assets/images/profiledummy.png'),
-                            ),
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: userOverview?.mediaUserProfilePicture != null
+                                ? NetworkImage(
+                                        '${Global.FILE}/${userOverview?.mediaUserProfilePicture?.media?.path}')
+                                    as ImageProvider
+                                : AssetImage('assets/images/profiledummy.png'),
                           ),
                         ),
                       ),
@@ -168,11 +204,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Obx(
-                            () => Text(
-                              stateProfile.userOverview.value.fullname ?? '',
-                              style: blackTextStyle.copyWith(fontSize: 18),
-                            ),
+                          Text(
+                            userOverview?.fullname ?? '',
+                            style: blackTextStyle.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
                             height: 4,
@@ -207,12 +241,10 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                                 const SizedBox(
                                   width: 6.4,
                                 ),
-                                Obx(
-                                  () => Text(
-                                    '${stateProfile.userOverview.value.level ?? ''} Member',
-                                    style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 13,
-                                    ),
+                                Text(
+                                  '${userOverview?.level ?? ''} Member',
+                                  style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 13,
                                   ),
                                 )
                               ],
@@ -237,11 +269,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalFollower ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalFollower ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),
@@ -265,11 +295,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalFollowing ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalFollowing ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),
@@ -293,11 +321,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalPost ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalPost ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),
@@ -321,11 +347,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Obx(
-                            () => Text(
-                              '${stateProfile.userOverview.value.totalReview ?? 0}',
-                              style: blackTextStyle.copyWith(fontSize: 13),
-                            ),
+                          Text(
+                            '${userOverview?.totalReview ?? 0}',
+                            style: blackTextStyle.copyWith(fontSize: 13),
                           )
                         ],
                       ),
@@ -344,20 +368,40 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                 children: [
                   Expanded(
                     child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          followed = !followed;
-                        });
+                      onTap: () async {
+                        if ((follow ?? (userOverview?.follow ?? false))) {
+                          follow = false;
+                          setState(() {});
+                          stateStream.unFollowUser(context, widget.username);
+                          settingNotif =
+                              await stateNotif.getNotifAcitivityPosts(
+                            context,
+                            userOverview!.userLocation!.userId!,
+                          );
+                          setState(() {});
+                        } else {
+                          follow = true;
+                          setState(() {});
+                          stateStream.followUser(context, widget.username);
+                          settingNotif =
+                              await stateNotif.getNotifAcitivityPosts(
+                            context,
+                            userOverview!.userLocation!.userId!,
+                          );
+                          setState(() {});
+                        }
                       },
                       child: Container(
                         width: 165,
                         decoration: BoxDecoration(
-                            color: followed ? whiteColor : greenColor,
+                            color: (follow ?? (userOverview?.follow ?? false))
+                                ? whiteColor
+                                : greenColor,
                             border: Border.all(color: greenColor),
                             borderRadius: BorderRadius.circular(7)),
                         height: 30,
                         child: Center(
-                          child: followed
+                          child: (follow ?? (userOverview?.follow ?? false))
                               ? Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Row(
@@ -542,6 +586,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                   )
                 : UserFollowedPost(
                     username: widget.username,
+                    fullname: widget.fullname,
                   )
           ],
         ),

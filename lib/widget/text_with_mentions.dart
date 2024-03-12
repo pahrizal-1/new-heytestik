@@ -1,13 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
 
 import '../theme/theme.dart';
 
 Widget buildRichTextWithMentions(BuildContext context, String text,
-    {String? isMe, TextStyle? textStyle}) {
+    {String? isMe, required String fullname, TextStyle? textStyle}) {
   final RegExp mentionRegex = RegExp(r'@\w+');
 
   List<TextSpan> textSpans = [];
@@ -34,15 +33,11 @@ Widget buildRichTextWithMentions(BuildContext context, String text,
         recognizer: TapGestureRecognizer()
           ..onTap = () {
             if (isMe == text.substring(start, end).replaceRange(0, 1, "")) {
-              Get.to(() => const ProfilCustomerPage());
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (_) => const ProfilCustomerPage()));
             } else {
-              Get.to(() => FolowedStreamPage(
-                    username: text.substring(start, end).replaceRange(0, 1, ""),
-                  ));
               Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -50,6 +45,7 @@ Widget buildRichTextWithMentions(BuildContext context, String text,
                             username: text
                                 .substring(start, end)
                                 .replaceRange(0, 1, ""),
+                            fullname: fullname.toString(),
                           )));
             }
           },

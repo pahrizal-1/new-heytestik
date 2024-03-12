@@ -13,7 +13,8 @@ import '../../widget/stream_post.dart';
 
 class UserFollowedPost extends StatefulWidget {
   String? username;
-  UserFollowedPost({super.key, this.username});
+  String? fullname;
+  UserFollowedPost({super.key, this.username, this.fullname});
 
   @override
   State<UserFollowedPost> createState() => _UserFollowedPostState();
@@ -101,7 +102,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                           ),
                           decoration: InputDecoration(
                             hintText:
-                                'Mention ${stateProfile.userOverview.value.fullname} di postingan kamu',
+                                'Mention ${widget.fullname} di postingan kamu',
                             border: InputBorder.none,
                             hintStyle: subTitleTextStyle.copyWith(fontSize: 13),
                           ),
