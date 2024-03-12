@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatme
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import 'package:heystetik_mobileapps/widget/showimage_fullscreen.dart';
+import 'package:heystetik_mobileapps/widget/show_image_fullscreen_ulasan.dart';
 import '../../models/treatment_review_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -113,16 +113,22 @@ class _MyWidgetState extends State<UlasanTreatmentWidget> {
         Wrap(
           spacing: 4,
           runSpacing: 4,
-          children: widget.element.mediaTreatmentReviews!.map((e) {
+          children:
+              widget.element.mediaTreatmentReviews!.asMap().entries.map((e) {
             return InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => ShowImageFullScreenUlasan(
+                      listImagesModel: widget.element.mediaTreatmentReviews!,
+                      current: e.key,
+                    ));
+              },
               child: Container(
                   height: 72,
                   width: 82,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                          '${Global.FILE}/${e.media!.path.toString()}'),
+                          '${Global.FILE}/${e.value.media!.path.toString()}'),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.circular(7),

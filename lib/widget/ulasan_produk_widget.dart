@@ -7,6 +7,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/customer/product_review_model.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/show_image_fullscreen_ulasan.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class UlasanProdukWidget extends StatefulWidget {
@@ -116,17 +117,29 @@ class _MyWidgetState extends State<UlasanProdukWidget> {
         Wrap(
           spacing: 4,
           runSpacing: 4,
-          children: widget.element.mediaBeforeConditionProductReviews!.map((e) {
-            return Container(
-              height: 72,
-              width: 82,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      '${Global.FILE}/${e.media!.path.toString()}'),
-                  fit: BoxFit.cover,
+          children: widget.element.mediaBeforeConditionProductReviews!
+              .asMap()
+              .entries
+              .map((e) {
+            return InkWell(
+              onTap: () {
+                Get.to(() => ShowImageFullScreenUlasan(
+                      listImagesModel:
+                          widget.element.mediaBeforeConditionProductReviews!,
+                      current: e.key,
+                    ));
+              },
+              child: Container(
+                height: 72,
+                width: 82,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        '${Global.FILE}/${e.value.media!.path.toString()}'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(7),
                 ),
-                borderRadius: BorderRadius.circular(7),
               ),
             );
           }).toList(),
@@ -144,17 +157,29 @@ class _MyWidgetState extends State<UlasanProdukWidget> {
         Wrap(
           spacing: 4,
           runSpacing: 4,
-          children: widget.element.mediaAfterConditionProductReviews!.map((e) {
-            return Container(
-              height: 72,
-              width: 82,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(
-                      '${Global.FILE}/${e.media!.path.toString()}'),
-                  fit: BoxFit.cover,
+          children: widget.element.mediaAfterConditionProductReviews!
+              .asMap()
+              .entries
+              .map((e) {
+            return InkWell(
+              onTap: () {
+                Get.to(() => ShowImageFullScreenUlasan(
+                      listImagesModel:
+                          widget.element.mediaAfterConditionProductReviews!,
+                      current: e.key,
+                    ));
+              },
+              child: Container(
+                height: 72,
+                width: 82,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                        '${Global.FILE}/${e.value.media!.path.toString()}'),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(7),
                 ),
-                borderRadius: BorderRadius.circular(7),
               ),
             );
           }).toList(),

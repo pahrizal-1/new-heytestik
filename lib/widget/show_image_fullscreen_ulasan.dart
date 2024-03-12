@@ -2,17 +2,18 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 
-class ShowImageFullScreen extends StatefulWidget {
+class ShowImageFullScreenUlasan extends StatefulWidget {
   final List listImagesModel;
   final int current;
-  const ShowImageFullScreen(
+  const ShowImageFullScreenUlasan(
       {super.key, required this.listImagesModel, required this.current});
 
   @override
-  State<ShowImageFullScreen> createState() => _ShowImageFullScreenState();
+  State<ShowImageFullScreenUlasan> createState() =>
+      _ShowImageFullScreenUlasanState();
 }
 
-class _ShowImageFullScreenState extends State<ShowImageFullScreen> {
+class _ShowImageFullScreenUlasanState extends State<ShowImageFullScreenUlasan> {
   int current = 0;
   bool stateChange = false;
 
@@ -70,8 +71,7 @@ class _ShowImageFullScreenState extends State<ShowImageFullScreen> {
                                     BorderRadius.all(Radius.circular(0.0)),
                                 child: Image.network(
                                   '${Global.FILE}/' +
-                                      widget.listImagesModel[index]['media']
-                                          ['path'],
+                                      widget.listImagesModel[index].media.path,
                                   fit: BoxFit.fill,
                                   height: 400.0,
                                 ),
