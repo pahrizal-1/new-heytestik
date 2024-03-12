@@ -36,6 +36,7 @@ class Data {
   int? totalReview;
   UserLocation? userLocation;
   MediaUserProfilePicture? mediaUserProfilePicture;
+  bool? follow;
 
   Data(
       {this.fullname,
@@ -50,7 +51,8 @@ class Data {
       this.totalPost,
       this.totalReview,
       this.userLocation,
-      this.mediaUserProfilePicture});
+      this.mediaUserProfilePicture,
+      this.follow});
 
   Data.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
@@ -68,8 +70,10 @@ class Data {
         ? UserLocation.fromJson(json['user_location'])
         : null;
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
-        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
+        ? MediaUserProfilePicture.fromJson(
+            json['media_user_profile_picture'])
         : null;
+    follow = json['follow'];
   }
 
   Map<String, dynamic> toJson() {
@@ -92,6 +96,7 @@ class Data {
       data['media_user_profile_picture'] =
           this.mediaUserProfilePicture!.toJson();
     }
+    data['follow'] = this.follow;
     return data;
   }
 }

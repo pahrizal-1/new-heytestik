@@ -38,8 +38,8 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
       stateProfile.postType.value = "ALL";
       stateProfile.page.value = 1;
       stateProfile.activity.value.clear();
-      stateProfile.getInterest(context);
       stateProfile.getUserOverview(context, username: widget.username);
+      stateProfile.getInterest(context);
       setState(() {});
     });
     scrollController.addListener(() {
