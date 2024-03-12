@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart
 
 import '../theme/theme.dart';
 
-Widget buildRichTextWithMentions(String text,
+Widget buildRichTextWithMentions(BuildContext context, String text,
     {String? isMe, TextStyle? textStyle}) {
   final RegExp mentionRegex = RegExp(r'@\w+');
 
@@ -35,10 +35,22 @@ Widget buildRichTextWithMentions(String text,
           ..onTap = () {
             if (isMe == text.substring(start, end).replaceRange(0, 1, "")) {
               Get.to(() => const ProfilCustomerPage());
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => const ProfilCustomerPage()));
             } else {
               Get.to(() => FolowedStreamPage(
                     username: text.substring(start, end).replaceRange(0, 1, ""),
                   ));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => FolowedStreamPage(
+                            username: text
+                                .substring(start, end)
+                                .replaceRange(0, 1, ""),
+                          )));
             }
           },
         style: grenTextStyle.copyWith(

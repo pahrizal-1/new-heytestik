@@ -173,6 +173,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
           ),
           if (streamPollOptions.isEmpty)
             buildRichTextWithMentions(
+              context,
               isMe: stateProfile.username.value,
               widget.stream.content,
             ),
@@ -273,6 +274,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     height: 16.0,
                   ),
                   buildRichTextWithMentions(
+                    context,
                     widget.stream.content,
                     textStyle: TextStyle(
                       color: Colors.black,

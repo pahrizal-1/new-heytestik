@@ -277,6 +277,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       ),
                       if (streamPollOptions.isEmpty)
                         buildRichTextWithMentions(
+                          context,
                           isMe: stateProfile.username.value,
                           post?.content ?? "",
                         ),
@@ -381,6 +382,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                 height: 16.0,
                               ),
                               buildRichTextWithMentions(
+                                context,
                                 post?.content ?? "",
                                 textStyle: TextStyle(
                                   color: Colors.black,
@@ -759,7 +761,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           height: 6,
                                         ),
                                         buildRichTextWithMentions(
-                                            comment.content),
+                                            context, comment.content),
                                         const SizedBox(
                                           height: 11,
                                         ),
@@ -985,6 +987,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                       maxWidth:
                                                                           220),
                                                               child: buildRichTextWithMentions(
+                                                                  context,
                                                                   commentReplies[
                                                                               "${comment.commentID}"]![
                                                                           index]
