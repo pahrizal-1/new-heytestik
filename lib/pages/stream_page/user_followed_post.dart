@@ -12,7 +12,8 @@ import '../../widget/fikter_card_solusions_widget.dart';
 import '../../widget/stream_post.dart';
 
 class UserFollowedPost extends StatefulWidget {
-  const UserFollowedPost({super.key});
+  String? username;
+  UserFollowedPost({super.key, this.username});
 
   @override
   State<UserFollowedPost> createState() => _UserFollowedPostState();
@@ -34,7 +35,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
         await stateProfile.getUserActivityPost(
           context,
           stateProfile.page.value,
-          username: stateProfile.userOverview.value.username,
+          username: widget.username,
           search: search,
           postType: stateProfile.postType.value,
         ),
@@ -91,8 +92,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                         child: TextFormField(
                           onTap: () {
                             Get.to(() => BuatPostinganStream(
-                                  username:
-                                      stateProfile.userOverview.value.username,
+                                  username: widget.username,
                                 ));
                           },
                           style: const TextStyle(

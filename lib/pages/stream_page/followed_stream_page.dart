@@ -16,7 +16,6 @@ import '../setings&akun/akun_home_page.dart';
 
 class FolowedStreamPage extends StatefulWidget {
   String username;
-
   FolowedStreamPage({super.key, required this.username});
 
   @override
@@ -151,13 +150,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: stateProfile
-                                          .userOverview
-                                          .value
-                                          .mediaUserProfilePicture
-                                          ?.media
-                                          ?.path !=
-                                      ""
+                              image: stateProfile.userOverview.value
+                                          .mediaUserProfilePicture !=
+                                      null
                                   ? NetworkImage(
                                           '${Global.FILE}/${stateProfile.userOverview.value.mediaUserProfilePicture?.media?.path}')
                                       as ImageProvider
@@ -545,7 +540,9 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                       ],
                     ),
                   )
-                : UserFollowedPost()
+                : UserFollowedPost(
+                    username: widget.username,
+                  )
           ],
         ),
       ),

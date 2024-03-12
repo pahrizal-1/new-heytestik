@@ -121,6 +121,7 @@ class ProfileService extends ProviderClass {
 
   Future<FinishedReviewModel> getUserActivityReview(
       int page, String username) async {
+    print("username getUserActivityReview $username");
     var response = await networkingConfig.doGet(
       '/user-profile/$username/reviews',
       params: {
@@ -142,14 +143,16 @@ class ProfileService extends ProviderClass {
     String? postType,
   }) async {
     print("username getUserActivityPost $username");
+    Map<String, dynamic> data = {
+      "page": page,
+      "take": 10,
+      "post_type": postType,
+      "search": search,
+    };
+    print("param getUserActivityPost $data");
     var response = await networkingConfig.doGet(
       '/user-profile/$username/posts',
-      params: {
-        "page": page,
-        "take": 10,
-        "post_type": postType,
-        "search": search,
-      },
+      params: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
