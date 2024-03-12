@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import '../../controller/customer/stream/post_controller.dart';
+import '../../controller/customer/stream/stream_controller.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/stream_post.dart';
 
@@ -17,25 +17,25 @@ class HomeStreamPage extends StatefulWidget {
 
 class _HomeStreamPageState extends State<HomeStreamPage> {
   final ScrollController scrollController = ScrollController();
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postController.homeStreamIndex.value = 1;
-      postController.search.value = "";
-      postController.homeStreams.value = [];
-      await postController.getStreamHome(context);
+      stateStream.homeStreamIndex.value = 1;
+      stateStream.search.value = "";
+      stateStream.homeStreams.value = [];
+      await stateStream.getStreamHome(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.homeStreamIndex.value =
-              postController.homeStreamIndex.value + 1;
+          stateStream.homeStreamIndex.value =
+              stateStream.homeStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            await postController.getStreamHome(context);
+            await stateStream.getStreamHome(context);
           });
           setState(() {});
         }
@@ -48,7 +48,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (postController.homeStreams.isEmpty) {
+        if (stateStream.homeStreams.isEmpty) {
           return Center(child: Text("No Home Post"));
         } else {
           return SingleChildScrollView(
@@ -59,10 +59,10 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
                   () => ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: postController.homeStreams.length,
+                    itemCount: stateStream.homeStreams.length,
                     itemBuilder: (context, index) {
                       return StreamPostPage(
-                        stream: postController.homeStreams[index],
+                        stream: stateStream.homeStreams[index],
                       );
                     },
                     separatorBuilder: (context, index) {
@@ -83,7 +83,7 @@ class _HomeStreamPageState extends State<HomeStreamPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BuatPostinganStream(),
+              builder: (context) => BuatPostinganStream(),
             ),
           );
         },

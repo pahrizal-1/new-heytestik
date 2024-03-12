@@ -108,6 +108,7 @@ class ProfileService extends ProviderClass {
   }
 
   Future<UserProfileOverviewModel> getUserOverview(String username) async {
+    print("username getUserOverview $username");
     var response = await networkingConfig.doGet(
       '/user-profile/$username/overview',
       headers: {
@@ -140,6 +141,7 @@ class ProfileService extends ProviderClass {
     String? search,
     String? postType,
   }) async {
+    print("username getUserActivityPost $username");
     var response = await networkingConfig.doGet(
       '/user-profile/$username/posts',
       params: {

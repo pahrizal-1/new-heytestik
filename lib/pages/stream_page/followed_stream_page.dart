@@ -1,39 +1,34 @@
-// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
+// ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/location_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/beuty_folower_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/user_followed_post.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-
 import '../../theme/theme.dart';
-
 import '../setings&akun/akun_home_page.dart';
 
 class FolowedStreamPage extends StatefulWidget {
-  final double? height;
-  final Color? color;
-  const FolowedStreamPage({
-    super.key,
-    this.height = 1,
-    this.color = Colors.white,
-  });
+  String username;
+
+  FolowedStreamPage({super.key, required this.username});
 
   @override
   State<FolowedStreamPage> createState() => _FolowedStreamPageState();
 }
 
 class _FolowedStreamPageState extends State<FolowedStreamPage> {
-  final LocationController stateLocation = Get.put(LocationController());
   final ProfileController stateProfile = Get.put(ProfileController());
+  final StreamController stateStream = Get.put(StreamController());
   final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-  bool isPost = true;
   String? search;
   bool followed = false;
   bool block = false;
@@ -45,12 +40,8 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
       stateProfile.postType.value = "ALL";
       stateProfile.page.value = 1;
       stateProfile.activity.value.clear();
-      stateProfile.init();
-      stateProfile.getProfile(context);
-      stateProfile.getCompletion(context);
       stateProfile.getInterest(context);
-      stateLocation.getLocation(context);
-      stateProfile.getUserOverview(context);
+      stateProfile.getUserOverview(context, username: widget.username);
       setState(() {});
     });
     scrollController.addListener(() {
@@ -59,25 +50,15 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
         if (!isTop) {
           stateProfile.page.value += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            if (isPost) {
-              stateProfile.activity.value.addAll(
-                await stateProfile.getUserActivityPost(
-                  context,
-                  stateProfile.page.value,
-                  search: search,
-                  postType: stateProfile.postType.value,
-                ),
-              );
-            } else {
-              stateProfile.isLoadingMore.value = true;
-              stateProfile.reviews.value.addAll(
-                await stateProfile.getUserActivityReview(
-                  context,
-                  stateProfile.page.value,
-                ),
-              );
-              stateProfile.isLoadingMore.value = false;
-            }
+            stateProfile.activity.value.addAll(
+              await stateProfile.getUserActivityPost(
+                context,
+                stateProfile.page.value,
+                username: widget.username,
+                search: search,
+                postType: stateProfile.postType.value,
+              ),
+            );
             setState(() {});
           });
         }
@@ -109,9 +90,11 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
               const SizedBox(
                 width: 11,
               ),
-              Text(
-                "Laura Nabilah",
-                style: blackHigtTextStyle.copyWith(fontSize: 20),
+              Obx(
+                () => Text(
+                  stateProfile.userOverview.value.fullname ?? '',
+                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                ),
               ),
             ],
           ),
@@ -152,20 +135,36 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  top: 10, left: 25, right: 25, bottom: 18),
+                top: 10,
+                left: 25,
+                right: 25,
+              ),
               child: Column(
                 children: [
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: AssetImage('assets/images/profiledummy.png'),
+                      Obx(
+                        () => Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: stateProfile
+                                          .userOverview
+                                          .value
+                                          .mediaUserProfilePicture
+                                          ?.media
+                                          ?.path !=
+                                      ""
+                                  ? NetworkImage(
+                                          '${Global.FILE}/${stateProfile.userOverview.value.mediaUserProfilePicture?.media?.path}')
+                                      as ImageProvider
+                                  : AssetImage(
+                                      'assets/images/profiledummy.png'),
+                            ),
                           ),
                         ),
                       ),
@@ -175,9 +174,11 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Laura Nabilah',
-                            style: blackTextStyle.copyWith(fontSize: 18),
+                          Obx(
+                            () => Text(
+                              stateProfile.userOverview.value.fullname ?? '',
+                              style: blackTextStyle.copyWith(fontSize: 18),
+                            ),
                           ),
                           const SizedBox(
                             height: 4,
@@ -185,7 +186,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                           Container(
                             constraints: const BoxConstraints(maxWidth: 200),
                             child: Text(
-                              'Beauty Enthusiast! Love travelling, food, and fashion. ',
+                              '-',
                               style:
                                   blackRegulerTextStyle.copyWith(fontSize: 13),
                             ),
@@ -340,90 +341,92 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
               ),
             ),
             const SizedBox(
-              height: 19,
+              height: 20,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        followed = !followed;
-                      });
-                    },
-                    child: Expanded(
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          followed = !followed;
+                        });
+                      },
                       child: Container(
                         width: 165,
                         decoration: BoxDecoration(
-                            color: followed ? greenColor : whiteColor,
+                            color: followed ? whiteColor : greenColor,
                             border: Border.all(color: greenColor),
                             borderRadius: BorderRadius.circular(7)),
                         height: 30,
                         child: Center(
-                            child: followed
-                                ? Text(
-                                    'Follow',
-                                    style: whiteTextStyle.copyWith(
-                                        fontSize: 13, fontWeight: bold),
-                                  )
-                                : Padding(
-                                    padding: const EdgeInsets.only(left: 10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Following',
-                                          style: whiteTextStyle.copyWith(
-                                              fontSize: 13,
-                                              fontWeight: bold,
-                                              color: greenColor),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_down,
-                                          color: greenColor,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
+                          child: followed
+                              ? Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Following',
+                                        style: whiteTextStyle.copyWith(
+                                            fontSize: 13,
+                                            fontWeight: bold,
+                                            color: greenColor),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: greenColor,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Text(
+                                  'Follow',
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 13, fontWeight: bold),
+                                ),
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: Colors.white,
-                        isScrollControlled: true,
-                        showDragHandle: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadiusDirectional.only(
-                            topEnd: Radius.circular(25),
-                            topStart: Radius.circular(25),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Colors.white,
+                          isScrollControlled: true,
+                          showDragHandle: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadiusDirectional.only(
+                              topEnd: Radius.circular(25),
+                              topStart: Radius.circular(25),
+                            ),
                           ),
-                        ),
-                        builder: (context) => BeautyFollower(),
-                      );
-                    },
-                    child: Container(
-                      width: 165,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7)),
-                      height: 30,
-                      child: Center(
-                        child: Text(
-                          'Beauty Profile',
-                          style: grenTextStyle.copyWith(
-                              fontSize: 13, fontWeight: bold),
+                          builder: (context) => BeautyFollower(),
+                        );
+                      },
+                      child: Container(
+                        width: 165,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: greenColor),
+                            borderRadius: BorderRadius.circular(7)),
+                        height: 30,
+                        child: Center(
+                          child: Text(
+                            'Beauty Profile',
+                            style: grenTextStyle.copyWith(
+                                fontSize: 13, fontWeight: bold),
+                          ),
                         ),
                       ),
                     ),
@@ -431,86 +434,97 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
-              child: ButtonGreenWidget(
-                title: 'Unblock',
-                onPressed: () {
-                  customeModal(
-                    context,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 25, vertical: 30),
-                      child: Wrap(
-                        children: [
-                          Center(
-                            child: RichText(
-                              text: TextSpan(
-                                  text: 'Unblock ',
-                                  style: blackTextStyle.copyWith(fontSize: 17),
-                                  children: [
-                                    TextSpan(
-                                        text: '@lauranabilah',
-                                        style: blackTextStyle.copyWith(
-                                          fontSize: 17,
-                                          color: redColor,
-                                        ),
-                                        children: [
-                                          TextSpan(
-                                            text: ' ?',
-                                            style: blackTextStyle.copyWith(
-                                              fontSize: 17,
-                                              color: blackColor,
-                                            ),
-                                          ),
-                                        ])
-                                  ]),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 40,
-                          ),
-                          Text(
-                            '@lauranabilah dapat melihat post kamu, follow dan mengirimkan pesan. @lauranabilah tidak akan diberi tahu bahwa kamu telah membuka memblokirnya.',
-                            style: blackRegulerTextStyle.copyWith(
-                              color: blackColor,
-                              fontSize: 15,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: ButtonGreenWidget(
-                              onPressed: () {
-                                setState(() {
-                                  block = !block;
-                                  Navigator.pop(context);
-                                });
-                              },
-                              title: 'Unblock',
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: ButtonWhiteWidget(
-                              title: 'Batal',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                height: 35,
-              ),
+            const SizedBox(
+              height: 20,
             ),
+            if (block)
+              Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: ButtonGreenWidget(
+                  title: 'Unblock',
+                  onPressed: () {
+                    customeModal(
+                      context,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 30),
+                        child: Wrap(
+                          children: [
+                            Center(
+                              child: RichText(
+                                text: TextSpan(
+                                    text: 'Unblock ',
+                                    style:
+                                        blackTextStyle.copyWith(fontSize: 17),
+                                    children: [
+                                      TextSpan(
+                                          text: '@${widget.username}',
+                                          style: blackTextStyle.copyWith(
+                                            fontSize: 17,
+                                            color: redColor,
+                                          ),
+                                          children: [
+                                            TextSpan(
+                                              text: ' ?',
+                                              style: blackTextStyle.copyWith(
+                                                fontSize: 17,
+                                                color: blackColor,
+                                              ),
+                                            ),
+                                          ])
+                                    ]),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 40,
+                            ),
+                            Text(
+                              '@${widget.username} dapat melihat post kamu, follow dan mengirimkan pesan. @${widget.username} tidak akan diberi tahu bahwa kamu telah membuka memblokirnya.',
+                              style: blackRegulerTextStyle.copyWith(
+                                color: blackColor,
+                                fontSize: 15,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 50),
+                              child: ButtonGreenWidget(
+                                onPressed: () {
+                                  setState(() {
+                                    block = !block;
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                title: 'Unblock',
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: ButtonWhiteWidget(
+                                title: 'Batal',
+                                onPressed: () {
+                                  Get.back();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  height: 35,
+                ),
+              ),
+            if (block)
+              const SizedBox(
+                height: 20,
+              ),
             const dividergreen(),
             const SizedBox(
               height: 20,
             ),
             block
-                ? UserFollowedPost()
-                : Padding(
+                ? Padding(
                     padding:
                         const EdgeInsets.only(top: 70, left: 32, right: 32),
                     child: Column(
@@ -518,7 +532,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                       children: [
                         SvgPicture.asset('assets/icons/lock-blokir.svg'),
                         Text(
-                          '@lauranabilah is Blocked',
+                          '@${widget.username} is Blocked',
                           style: blackHigtTextStyle.copyWith(fontSize: 18),
                         ),
                         SizedBox(
@@ -532,6 +546,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                       ],
                     ),
                   )
+                : UserFollowedPost()
           ],
         ),
       ),

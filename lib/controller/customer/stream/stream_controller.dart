@@ -4,13 +4,13 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/stream_post_model.dart';
 import 'package:heystetik_mobileapps/models/stream_image_recent_model.dart';
-import 'package:heystetik_mobileapps/service/customer/stream/post_service.dart';
+import 'package:heystetik_mobileapps/service/customer/stream/stream_service.dart';
 
 import '../../../models/stream_comment.dart';
 import '../../../models/stream_comment_reply.dart';
 import '../../../models/stream_home.dart';
 
-class PostController extends StateClass {
+class StreamController extends StateClass {
   RxString search = "".obs;
   RxList<StreamHomeModel> homeStreams = List<StreamHomeModel>.empty().obs;
   RxList<StreamHomeModel> followedStreams = List<StreamHomeModel>.empty().obs;
@@ -29,7 +29,7 @@ class PostController extends StateClass {
   Future<List<Data2>> getRecentImage(BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var get = await PostServices().getRecentImage(page);
+      var get = await StreamService().getRecentImage(page);
       recentImage.value = get.data!.data!;
     });
     isLoading.value = false;
@@ -45,7 +45,7 @@ class PostController extends StateClass {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       try {
-        var data = await PostServices().postStream(postModel, files: files);
+        var data = await StreamService().postStream(postModel, files: files);
         print("data $data");
         doInPost();
       } catch (e) {
@@ -64,7 +64,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices()
+        data = await StreamService()
             .getStreamFollowed(followedStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
@@ -82,7 +82,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices()
+        data = await StreamService()
             .getStreamInterest(interestStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
@@ -100,7 +100,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices()
+        data = await StreamService()
             .getTrendingStream(trendingStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
@@ -118,7 +118,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices()
+        data = await StreamService()
             .getStreamHome(homeStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
@@ -136,7 +136,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices()
+        data = await StreamService()
             .getSavedStream(savedStreamIndex.value, search: search.value);
         isLoading.value = false;
       });
@@ -155,7 +155,7 @@ class PostController extends StateClass {
       isLoading.value = true;
       List<StreamHomeModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamByHashtag(
+        data = await StreamService().getStreamByHashtag(
             streamsByHashtagIndex.value,
             search: search.value,
             hashtag: hashtag);
@@ -176,7 +176,7 @@ class PostController extends StateClass {
       // isLoading.value = true;
       StreamHomeModel? data;
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getStreamById(postId);
+        data = await StreamService().getStreamById(postId);
         // isLoading.value = false;
       });
 
@@ -194,7 +194,7 @@ class PostController extends StateClass {
       List<StreamCommentModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
         await Future.delayed(Duration(seconds: 1));
-        data = await PostServices().getComment(page, postID);
+        data = await StreamService().getComment(page, postID);
         // isLoading.value = false;
       });
 
@@ -211,7 +211,7 @@ class PostController extends StateClass {
       // isLoading.value = true;
       List<StreamCommentReplyModel> data = [];
       await ErrorConfig.doAndSolveCatchInContext(context, () async {
-        data = await PostServices().getCommentReplies(page, postID, commentID);
+        data = await StreamService().getCommentReplies(page, postID, commentID);
         // isLoading.value = false;
       });
 
@@ -225,7 +225,7 @@ class PostController extends StateClass {
   void followPost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
-      PostServices().followPost(postID);
+      StreamService().followPost(postID);
       // isLoading.value = false;
     } catch (error) {
       print("followPost ${error.toString()}");
@@ -235,7 +235,7 @@ class PostController extends StateClass {
   void unFollowPost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
-      PostServices().unFollowPost(postID);
+      StreamService().unFollowPost(postID);
       // isLoading.value = false;
     } catch (error) {
       print("unFollowPost ${error.toString()}");
@@ -245,7 +245,7 @@ class PostController extends StateClass {
   void likePost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
-      PostServices().likePost(postID);
+      StreamService().likePost(postID);
       // isLoading.value = false;
     } catch (error) {
       print("likePost ${error.toString()}");
@@ -255,7 +255,7 @@ class PostController extends StateClass {
   void unlikePost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
-      PostServices().unlikePost(postID);
+      StreamService().unlikePost(postID);
       // isLoading.value = false;
     } catch (error) {
       print("unlikePost ${error.toString()}");
@@ -266,7 +266,7 @@ class PostController extends StateClass {
       BuildContext context, int streamID, int pollingID, int optionID) async {
     try {
       // isLoading.value = true;
-      PostServices().pickPolling(streamID, pollingID, optionID);
+      StreamService().pickPolling(streamID, pollingID, optionID);
       // isLoading.value = false;
     } catch (error) {
       print("pickPolling ${error.toString()}");
@@ -277,7 +277,7 @@ class PostController extends StateClass {
       BuildContext context, int streamID, int pollingID, int optionID) async {
     try {
       // isLoading.value = true;
-      PostServices().deletePolling(streamID, pollingID, optionID);
+      StreamService().deletePolling(streamID, pollingID, optionID);
       // isLoading.value = false;
     } catch (error) {
       print("deletePolling ${error.toString()}");
@@ -287,7 +287,7 @@ class PostController extends StateClass {
   void savePost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
-      PostServices().savePost(postID);
+      StreamService().savePost(postID);
       // isLoading.value = false;
     } catch (error) {
       print("savePost ${error.toString()}");
@@ -297,7 +297,7 @@ class PostController extends StateClass {
   void unSavePost(BuildContext context, int postID) async {
     try {
       // isLoading.value = true;
-      PostServices().unSavePost(postID);
+      StreamService().unSavePost(postID);
       // isLoading.value = false;
     } catch (error) {
       print("unSavePost ${error.toString()}");
@@ -307,7 +307,7 @@ class PostController extends StateClass {
   void likeComment(BuildContext context, int postID, int commentID) async {
     try {
       // isLoading.value = true;
-      PostServices().likeComment(postID, commentID);
+      StreamService().likeComment(postID, commentID);
       // isLoading.value = false;
     } catch (error) {
       print("likeComment ${error.toString()}");
@@ -317,7 +317,7 @@ class PostController extends StateClass {
   void unlikeComment(BuildContext context, int postID, int commentID) async {
     try {
       // isLoading.value = true;
-      PostServices().unlikeComment(postID, commentID);
+      StreamService().unlikeComment(postID, commentID);
       // isLoading.value = false;
     } catch (error) {
       print("unlikeComment ${error.toString()}");
@@ -328,7 +328,7 @@ class PostController extends StateClass {
       BuildContext context, int postID, int commentID, int replyID) async {
     try {
       // isLoading.value = true;
-      PostServices().likeCommentReply(postID, commentID, replyID);
+      StreamService().likeCommentReply(postID, commentID, replyID);
       // isLoading.value = false;
     } catch (error) {
       print("likeCommentReply ${error.toString()}");
@@ -339,7 +339,7 @@ class PostController extends StateClass {
       BuildContext context, int postID, int commentID, int replyID) async {
     try {
       // isLoading.value = true;
-      PostServices().unlikeCommentReply(postID, commentID, replyID);
+      StreamService().unlikeCommentReply(postID, commentID, replyID);
       // isLoading.value = false;
     } catch (error) {
       print("unlikeCommentReply ${error.toString()}");
@@ -349,7 +349,7 @@ class PostController extends StateClass {
   void postComment(BuildContext context, int postID, String comment) async {
     try {
       // isLoading.value = true;
-      PostServices().postComment(postID, comment);
+      StreamService().postComment(postID, comment);
       // isLoading.value = false;
     } catch (error) {
       print("postComment ${error.toString()}");
@@ -359,7 +359,7 @@ class PostController extends StateClass {
   void blockUser(BuildContext context, String username) async {
     try {
       // isLoading.value = true;
-      PostServices().blockUser(username);
+      StreamService().blockUser(username);
       // isLoading.value = false;
     } catch (error) {
       print("blockUser ${error.toString()}");
@@ -369,10 +369,30 @@ class PostController extends StateClass {
   void unBlockUser(BuildContext context, String username) async {
     try {
       // isLoading.value = true;
-      PostServices().unBlockUser(username);
+      StreamService().unBlockUser(username);
       // isLoading.value = false;
     } catch (error) {
       print("unBlockUser ${error.toString()}");
+    }
+  }
+
+  void followUser(BuildContext context, String username) async {
+    try {
+      // isLoading.value = true;
+      StreamService().followUser(username);
+      // isLoading.value = false;
+    } catch (error) {
+      print("followUser ${error.toString()}");
+    }
+  }
+
+  void unFollowUser(BuildContext context, String username) async {
+    try {
+      // isLoading.value = true;
+      StreamService().unFollowUser(username);
+      // isLoading.value = false;
+    } catch (error) {
+      print("unFollowUser ${error.toString()}");
     }
   }
 
@@ -386,7 +406,7 @@ class PostController extends StateClass {
         "report_reason": reportReason,
         "report_detail": reportDetail
       };
-      await PostServices().reportUser(data);
+      await StreamService().reportUser(data);
       doInPost();
     });
     isLoading.value = false;

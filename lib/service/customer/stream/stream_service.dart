@@ -12,8 +12,8 @@ import '../../../core/local_storage.dart';
 import '../../../models/stream_comment_reply.dart';
 import '../../../models/stream_home.dart';
 
-class PostServices extends ProviderClass {
-  PostServices()
+class StreamService extends ProviderClass {
+  StreamService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<StreamRecentImageModel> getRecentImage(int page) async {
@@ -439,6 +439,28 @@ class PostServices extends ProviderClass {
   void unBlockUser(String username) async {
     var response = await networkingConfig.doPost(
       '/user-block/$username/unblock',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print(response);
+  }
+
+  void followUser(String username) async {
+    var response = await networkingConfig.doPost(
+      '/user-profile/$username/follow',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print(response);
+  }
+
+  void unFollowUser(String username) async {
+    var response = await networkingConfig.doPost(
+      '/user-profile/$username/unfollow',
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),

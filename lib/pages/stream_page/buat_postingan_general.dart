@@ -19,7 +19,7 @@
 // }
 
 // class _BuatPostinganGeneralState extends State<BuatPostinganGeneral> {
-//   final PostController streamController = Get.put(PostController());
+//   final StreamController streamController = Get.put(StreamController());
 //   final TextEditingController hashTagController = TextEditingController();
 //   final TextEditingController postDescController = TextEditingController();
 //   String name = "-";

@@ -11,8 +11,10 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
-import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart' as Overview;
-import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart' as Reviews;
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
+    as Overview;
+import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
+    as Reviews;
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/auth/pin_lama_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -110,7 +112,8 @@ class ProfileController extends StateClass {
   //   isLoading.value = false;
   // }
 
-  Future accountVerification(BuildContext context, {required Function() doInPost}) async {
+  Future accountVerification(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (idCardPhoto!.path.isEmpty) {
@@ -125,7 +128,10 @@ class ProfileController extends StateClass {
           message: 'Foto wajah harus diisi',
         );
       }
-      var data = {"idCardPhoto": idCardPhoto?.path, "facePhoto": facePhoto?.path};
+      var data = {
+        "idCardPhoto": idCardPhoto?.path,
+        "facePhoto": facePhoto?.path
+      };
       print("data $data");
       var res = await ProfileService().accountVerification(data);
       print("res $res");
@@ -149,15 +155,20 @@ class ProfileController extends StateClass {
       var response = await ProfileService().getInterest();
       interestData.value = response;
 
-      skinGoalsFaceCorrectiveLength.value = interestData.value.data!.skinGoalsFaceCorrective!.length;
+      skinGoalsFaceCorrectiveLength.value =
+          interestData.value.data!.skinGoalsFaceCorrective!.length;
 
-      skinGoalsBodyCorrectiveLength.value = interestData.value.data!.skinGoalsBodyCorrective!.length;
+      skinGoalsBodyCorrectiveLength.value =
+          interestData.value.data!.skinGoalsBodyCorrective!.length;
 
-      skinGoalsAugmentationLength.value = interestData.value.data!.skinGoalsAugmentation!.length;
+      skinGoalsAugmentationLength.value =
+          interestData.value.data!.skinGoalsAugmentation!.length;
 
-      skinGoalsSexuallySkinLength.value = interestData.value.data!.skinGoalsSexuallyAndSkinDiseases!.length;
+      skinGoalsSexuallySkinLength.value =
+          interestData.value.data!.skinGoalsSexuallyAndSkinDiseases!.length;
 
-      skinGoalsHistoryTreatmentLength.value = interestData.value.data!.skinGoalsHistoryTreatment!.length;
+      skinGoalsHistoryTreatmentLength.value =
+          interestData.value.data!.skinGoalsHistoryTreatment!.length;
     });
     isLoading.value = false;
   }
@@ -193,7 +204,10 @@ class ProfileController extends StateClass {
       noHp.value = profileData.value.data!.noPhone ?? '-';
       gender.value = profileData.value.data!.gender ?? 'Pilih jenis kelamin';
       dob.value = (tdata != null ? formatter.format(tdata) : '');
-      imgNetwork.value = (profileData.value.data!.mediaUserProfilePicture != null ? profileData.value.data!.mediaUserProfilePicture!.media!.path : "")!;
+      imgNetwork.value =
+          (profileData.value.data!.mediaUserProfilePicture != null
+              ? profileData.value.data!.mediaUserProfilePicture!.media!.path
+              : "")!;
       // data text editing
       fullNameController.text = profileData.value.data!.fullname ?? '-';
       usernameController.text = profileData.value.data!.username ?? '-';
@@ -308,7 +322,8 @@ class ProfileController extends StateClass {
       var loginResponse = await ChangePasswordService().verifyOTP(data);
       Get.to(() => PinPageLamaCustomer());
 
-      if (loginResponse['success'] != true && loginResponse['message'] != 'Success') {
+      if (loginResponse['success'] != true &&
+          loginResponse['message'] != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: loginResponse['message'],
@@ -351,7 +366,10 @@ class ProfileController extends StateClass {
   updateEmail(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var data = {"email": emailBaruController.text, "verification_code": otp.value};
+      var data = {
+        "email": emailBaruController.text,
+        "verification_code": otp.value
+      };
       var response = await ProfileService().changeProfile(data);
       if (response['success'] || response['message'] == 'Success') {
         await LocalStorage().setDataUser(dataUser: response['data']);
@@ -481,18 +499,20 @@ class ProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
       });
 
       Get.offAll(() => const LoginPageNew());
     });
   }
 
-  Future<void> getUserOverview(BuildContext context) async {
+  Future<void> getUserOverview(BuildContext context, {String? username}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var user = await LocalStorage().getDataUser();
-      var res = await ProfileService().getUserOverview(user['username']);
+      var res =
+          await ProfileService().getUserOverview(username ?? user['username']);
       userOverview.value = res.data!;
     });
     isLoading.value = false;
@@ -501,6 +521,7 @@ class ProfileController extends StateClass {
   Future<List<StreamHomeModel>> getUserActivityPost(
     BuildContext context,
     int page, {
+    String? username,
     String? search,
     String? postType,
   }) async {
@@ -510,7 +531,7 @@ class ProfileController extends StateClass {
       var user = await LocalStorage().getDataUser();
       data = await ProfileService().getUserActivityPost(
         page,
-        username: user['username'],
+        username: username ?? user['username'],
         search: search,
         postType: postType,
       );
@@ -519,13 +540,15 @@ class ProfileController extends StateClass {
     return data;
   }
 
-  Future<List<Data2>> getUserActivityReview(BuildContext context, int page) async {
+  Future<List<Data2>> getUserActivityReview(BuildContext context, int page,
+      {String? username}) async {
     isLoading.value = true;
     FinishedReviewModel userProfileReview;
     List<Data2> data = [];
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var user = await LocalStorage().getDataUser();
-      userProfileReview = await ProfileService().getUserActivityReview(page, user['username']);
+      userProfileReview = await ProfileService()
+          .getUserActivityReview(page, username ?? user['username']);
       data = userProfileReview.data!.data!;
     });
     isLoading.value = false;

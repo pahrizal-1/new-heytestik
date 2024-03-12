@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import '../../controller/customer/stream/post_controller.dart';
+import '../../controller/customer/stream/stream_controller.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/stream_post.dart';
 
@@ -17,25 +17,25 @@ class FollowedStreamPage extends StatefulWidget {
 
 class _FollowedStreamPageState extends State<FollowedStreamPage> {
   final ScrollController scrollController = ScrollController();
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postController.followedStreamIndex.value = 1;
-      postController.search.value = "";
-      postController.followedStreams.value = [];
-      await postController.getStreamFollowed(context);
+      stateStream.followedStreamIndex.value = 1;
+      stateStream.search.value = "";
+      stateStream.followedStreams.value = [];
+      await stateStream.getStreamFollowed(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.followedStreamIndex.value =
-              postController.followedStreamIndex.value + 1;
+          stateStream.followedStreamIndex.value =
+              stateStream.followedStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            await postController.getStreamFollowed(context);
+            await stateStream.getStreamFollowed(context);
           });
           setState(() {});
         }
@@ -48,7 +48,7 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (postController.followedStreams.isEmpty) {
+        if (stateStream.followedStreams.isEmpty) {
           return Center(
             child: Text("No Post From Your Followed Account"),
           );
@@ -60,10 +60,10 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: postController.followedStreams.length,
+                  itemCount: stateStream.followedStreams.length,
                   itemBuilder: (context, index) {
                     return StreamPostPage(
-                        stream: postController.followedStreams[index]);
+                        stream: stateStream.followedStreams[index]);
                   },
                   separatorBuilder: (context, index) {
                     return dividergreen();
@@ -82,7 +82,7 @@ class _FollowedStreamPageState extends State<FollowedStreamPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BuatPostinganStream(),
+              builder: (context) => BuatPostinganStream(),
             ),
           );
         },

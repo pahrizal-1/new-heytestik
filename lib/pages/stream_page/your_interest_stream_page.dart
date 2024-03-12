@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import '../../controller/customer/stream/post_controller.dart';
+import '../../controller/customer/stream/stream_controller.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/stream_post.dart';
 
@@ -17,25 +17,25 @@ class InterestStreamPage extends StatefulWidget {
 
 class _InterestStreamPageState extends State<InterestStreamPage> {
   final ScrollController scrollController = ScrollController();
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postController.interestStreamIndex.value = 1;
-      postController.search.value = "";
-      postController.interestStreams.value = [];
-      await postController.getStreamInterest(context);
+      stateStream.interestStreamIndex.value = 1;
+      stateStream.search.value = "";
+      stateStream.interestStreams.value = [];
+      await stateStream.getStreamInterest(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.interestStreamIndex.value =
-              postController.interestStreamIndex.value + 1;
+          stateStream.interestStreamIndex.value =
+              stateStream.interestStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            await postController.getStreamInterest(context);
+            await stateStream.getStreamInterest(context);
           });
           setState(() {});
         }
@@ -48,7 +48,7 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (postController.interestStreams.isEmpty) {
+        if (stateStream.interestStreams.isEmpty) {
           return Center(
             child: Text("No Post From Your Interest"),
           );
@@ -60,10 +60,10 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: postController.interestStreams.length,
+                  itemCount: stateStream.interestStreams.length,
                   itemBuilder: (context, index) {
                     return StreamPostPage(
-                        stream: postController.interestStreams[index]);
+                        stream: stateStream.interestStreams[index]);
                   },
                   separatorBuilder: (context, index) {
                     return dividergreen();
@@ -82,7 +82,7 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BuatPostinganStream(),
+              builder: (context) => BuatPostinganStream(),
             ),
           );
         },

@@ -20,7 +20,7 @@
 // class _BuatPostingaPollPageState extends State<BuatPostingaPollPage> {
 //   final TextEditingController postDescController = TextEditingController();
 //   final TextEditingController hashTagController = TextEditingController();
-//   final PostController streamController = Get.put(PostController());
+//   final StreamController streamController = Get.put(StreamController());
 //   String name = '-';
 //   final List<TextEditingController> optionController = [
 //     TextEditingController(),

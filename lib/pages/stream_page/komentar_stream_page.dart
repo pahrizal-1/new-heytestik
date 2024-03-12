@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -43,7 +45,7 @@ class KomentarStreamPage extends StatefulWidget {
 class _KomentarStreamPageState extends State<KomentarStreamPage> {
   File? imagePath;
   final ProfileController stateProfile = Get.put(ProfileController());
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
   final ScrollController commentScrollController = ScrollController();
   final TextEditingController commentController = TextEditingController();
 
@@ -69,8 +71,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postController.isLoading.value = true;
-      post = await postController.getStreamById(context, widget.postId);
+      stateStream.isLoading.value = true;
+      post = await stateStream.getStreamById(context, widget.postId);
       dataRemainingTime = post!.endTime
           .difference(DateTime.now())
           .toString()
@@ -83,7 +85,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       streamPollOptions = post?.streamPollOptions ?? [];
 
       comments.addAll(
-        await postController.getComment(context, page, widget.postId),
+        await stateStream.getComment(context, page, widget.postId),
       );
       print("comments $comments");
       for (var i = 0; i < comments.length; i++) {
@@ -96,7 +98,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               comments[i].commentReplies <= 0 ? false : true,
         });
       }
-      postController.isLoading.value = false;
+      stateStream.isLoading.value = false;
       setState(() {});
       print("commentLikes $commentLikes");
       print("viewCommentReply $viewCommentReply");
@@ -109,7 +111,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             comments.addAll(
-                await postController.getComment(context, page, widget.postId));
+                await stateStream.getComment(context, page, widget.postId));
             for (var i = 0; i < comments.length; i++) {
               commentLikes.addAll({
                 "${comments[i].commentID}": 0,
@@ -161,7 +163,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: postController.isLoading.value,
+          isLoading: stateStream.isLoading.value,
           child: SingleChildScrollView(
             controller: commentScrollController,
             child: Column(
@@ -179,42 +181,66 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: post?.photoUser == "" ||
-                                        post?.photoUser == "photo_profile"
-                                    ? AssetImage(
-                                        'assets/images/profiledummy.png',
-                                      )
-                                    : NetworkImage(
-                                        '${Global.FILE}/${post?.photoUser}',
-                                      ) as ImageProvider,
+                          InkWell(
+                            onTap: () {
+                              if (stateProfile.username.value ==
+                                  post?.username) {
+                                Get.to(() => const ProfilCustomerPage());
+                              } else {
+                                Get.to(() => FolowedStreamPage(
+                                    username: post!.username));
+                              }
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: post?.photoUser == "" ||
+                                          post?.photoUser == "photo_profile"
+                                      ? AssetImage(
+                                          'assets/images/profiledummy.png',
+                                        )
+                                      : NetworkImage(
+                                          '${Global.FILE}/${post?.photoUser}',
+                                        ) as ImageProvider,
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(
                             width: 11,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                post?.fullname ?? "",
-                                style: blackTextStyle.copyWith(fontSize: 14),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                '${DateFormat('dd MMMM yyyy').format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}, ${timeago.format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}',
-                                style: subTitleTextStyle.copyWith(fontSize: 10),
-                              )
-                            ],
+                          InkWell(
+                            onTap: () {
+                              if (stateProfile.username.value ==
+                                  post?.username) {
+                                Get.to(() => const ProfilCustomerPage());
+                              } else {
+                                Get.to(() => FolowedStreamPage(
+                                      username: post!.username,
+                                    ));
+                              }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  post?.fullname ?? "",
+                                  style: blackTextStyle.copyWith(fontSize: 14),
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  '${DateFormat('dd MMMM yyyy').format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}, ${timeago.format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 10),
+                                )
+                              ],
+                            ),
                           ),
                           const Spacer(),
                           InkWell(
@@ -420,7 +446,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                               streamPollOptions[indexVotes!]
                                                       ['count'] -
                                                   1;
-                                              postController.deletePolling(
+                                              stateStream.deletePolling(
                                                   context,
                                                   widget.postId,
                                                   streamPollOptions[indexVotes!]
@@ -429,7 +455,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                       ['id']);
                                             }
 
-                                            postController.pickPolling(
+                                            stateStream.pickPolling(
                                                 context,
                                                 widget.postId,
                                                 option.value['stream_poll_id'],
@@ -554,7 +580,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               InkWell(
                                   onTap: () {
                                     if (like ?? (post?.liked ?? false)) {
-                                      postController.unlikePost(
+                                      stateStream.unlikePost(
                                         context,
                                         widget.postId,
                                       );
@@ -563,7 +589,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         postLike = postLike - 1;
                                       });
                                     } else {
-                                      postController.likePost(
+                                      stateStream.likePost(
                                         context,
                                         widget.postId,
                                       );
@@ -622,7 +648,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               InkWell(
                                 onTap: () {
                                   if (saved ?? (post?.saved ?? false)) {
-                                    postController.unSavePost(
+                                    stateStream.unSavePost(
                                       context,
                                       widget.postId,
                                     );
@@ -630,7 +656,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       saved = false;
                                     });
                                   } else {
-                                    postController.savePost(
+                                    stateStream.savePost(
                                       context,
                                       widget.postId,
                                     );
@@ -746,7 +772,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                             0) >
                                                     0) {
                                                   print("TIDAK SUKA KOMEN");
-                                                  postController.unlikeComment(
+                                                  stateStream.unlikeComment(
                                                     context,
                                                     widget.postId,
                                                     comment.commentID,
@@ -762,7 +788,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                   });
                                                 } else {
                                                   print("SUKA KOMEN");
-                                                  postController.likeComment(
+                                                  stateStream.likeComment(
                                                     context,
                                                     widget.postId,
                                                     comment.commentID,
@@ -821,7 +847,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                 (value) => true,
                                               );
                                               List<StreamCommentReplyModel>
-                                                  replies = await postController
+                                                  replies = await stateStream
                                                       .getCommentReplies(
                                                 context,
                                                 page,
@@ -975,7 +1001,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                     ? InkWell(
                                                                         onTap:
                                                                             () {
-                                                                          postController
+                                                                          stateStream
                                                                               .unlikeCommentReply(
                                                                             context,
                                                                             widget.postId,
@@ -995,7 +1021,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                     : InkWell(
                                                                         onTap:
                                                                             () {
-                                                                          postController
+                                                                          stateStream
                                                                               .likeCommentReply(
                                                                             context,
                                                                             widget.postId,
@@ -1300,7 +1326,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     );
                     return;
                   }
-                  postController.postComment(
+                  stateStream.postComment(
                     context,
                     widget.postId,
                     commentController.text,
@@ -1308,7 +1334,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                   page = 1;
                   comments.clear();
                   comments.addAll(
-                    await postController.getComment(
+                    await stateStream.getComment(
                       context,
                       page,
                       widget.postId,

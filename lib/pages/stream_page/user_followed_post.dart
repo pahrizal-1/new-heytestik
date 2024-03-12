@@ -1,11 +1,11 @@
-// ignore_for_file: invalid_use_of_protected_member
+// ignore_for_file: invalid_use_of_protected_member, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import '../../controller/customer/account/profile_controller.dart';
-import '../../core/global.dart';
 import '../../theme/theme.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
@@ -34,6 +34,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
         await stateProfile.getUserActivityPost(
           context,
           stateProfile.page.value,
+          username: stateProfile.userOverview.value.username,
           search: search,
           postType: stateProfile.postType.value,
         ),
@@ -55,14 +56,20 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
             children: [
               Row(
                 children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage('assets/images/profiledummy.png'),
+                  Obx(
+                    () => Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: stateProfile.imgNetwork.value != ""
+                              ? NetworkImage(
+                                      '${Global.FILE}/${stateProfile.imgNetwork.value}')
+                                  as ImageProvider
+                              : AssetImage('assets/images/profiledummy.png'),
+                        ),
                       ),
                     ),
                   ),
@@ -83,7 +90,10 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                         transform: Matrix4.translationValues(0, -3, 0),
                         child: TextFormField(
                           onTap: () {
-                            Get.to(() => const BuatPostinganStream());
+                            Get.to(() => BuatPostinganStream(
+                                  username:
+                                      stateProfile.userOverview.value.username,
+                                ));
                           },
                           style: const TextStyle(
                             fontSize: 15,
@@ -91,7 +101,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                           ),
                           decoration: InputDecoration(
                             hintText:
-                                'Mau share apa hari ini? Tulis disini yuk :)',
+                                'Mention ${stateProfile.userOverview.value.fullname} di postingan kamu',
                             border: InputBorder.none,
                             hintStyle: subTitleTextStyle.copyWith(fontSize: 13),
                           ),
@@ -120,7 +130,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
               children: [
                 if (searchActive ||
                     stateProfile.postType.value == 'STREAM' ||
-                    stateProfile.postType.value == 'MY_JOURNEY' ||
+                    stateProfile.postType.value == 'REPLIES' ||
                     stateProfile.postType.value == 'POLLING' ||
                     stateProfile.postType.value == 'LIKED' ||
                     stateProfile.postType.value == 'SAVED')
@@ -132,6 +142,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       search = '';
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value.addAll(
                         await stateProfile.getUserActivityPost(
                           context,
@@ -178,6 +189,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                           search = searchController.text;
                           stateProfile.page.value = 1;
                           stateProfile.activity.value.clear();
+                          setState(() {});
                           stateProfile.activity.value =
                               await stateProfile.getUserActivityPost(
                             context,
@@ -228,6 +240,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       stateProfile.postType.value = "ALL";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -249,6 +262,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       stateProfile.postType.value = "STREAM";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -267,9 +281,10 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                 Obx(
                   () => InkWell(
                     onTap: () async {
-                      stateProfile.postType.value = "MY_JOURNEY";
+                      stateProfile.postType.value = "REPLIES";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -280,8 +295,8 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       setState(() {});
                     },
                     child: FilterOnTap(
-                      title: 'My Journey',
-                      isSelected: stateProfile.postType.value == 'MY_JOURNEY',
+                      title: 'Replies',
+                      isSelected: stateProfile.postType.value == 'REPLIES',
                     ),
                   ),
                 ),
@@ -291,6 +306,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       stateProfile.postType.value = "POLLING";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -312,6 +328,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       stateProfile.postType.value = "LIKED";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -333,6 +350,7 @@ class _UserFollowedPostState extends State<UserFollowedPost> {
                       stateProfile.postType.value = "SAVED";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,

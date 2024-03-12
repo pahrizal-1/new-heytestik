@@ -7,7 +7,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/models/customer/stream_post_model.dart';
@@ -21,7 +21,8 @@ import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
     as Concern;
 
 class BuatPostinganStream extends StatefulWidget {
-  const BuatPostinganStream({super.key});
+  String? username;
+  BuatPostinganStream({super.key, this.username});
 
   @override
   State<BuatPostinganStream> createState() => _BuatPostinganStreamState();
@@ -40,10 +41,10 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   final EtalaseController etalaseController = Get.put(EtalaseController());
   bool isSelectedHastag = true;
   bool isSelectedPoling = true;
-  final TextEditingController postDescController = TextEditingController();
+  TextEditingController postDescController = TextEditingController();
   final TextEditingController hashTagController = TextEditingController();
   List imagePath = [];
-  final PostController streamController = Get.put(PostController());
+  final StreamController streamController = Get.put(StreamController());
   String fullName = '-';
   final List<TextEditingController> optionController = [];
   final DateTime endDate = DateTime.now();
@@ -67,6 +68,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      postDescController.text = "@${widget.username} ";
       var dataUser = await LocalStorage().getDataUser();
       fullName = dataUser['fullname'];
       stateProfile.getProfile(context);

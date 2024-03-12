@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class BeautyFollower extends StatelessWidget {
-  BeautyFollower({
-    super.key,
-  });
+  const BeautyFollower({super.key});
 
   @override
   Widget build(BuildContext context) {

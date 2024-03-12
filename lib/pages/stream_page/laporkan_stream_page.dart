@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appar_cutome.dart';
@@ -22,7 +22,7 @@ class LaporkanStreamPage extends StatefulWidget {
 }
 
 class _LaporkanStreamPageState extends State<LaporkanStreamPage> {
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
   String reportReason = '';
   TextEditingController reportDetail = TextEditingController();
 
@@ -209,11 +209,11 @@ class _LaporkanStreamPageState extends State<LaporkanStreamPage> {
                                       child: Obx(
                                         () => LoadingWidget(
                                           isLoading:
-                                              postController.isLoading.value,
+                                              stateStream.isLoading.value,
                                           child: ButtonGreenWidget(
                                             title: 'Laporkan',
                                             onPressed: () async {
-                                              await postController.reportUser(
+                                              await stateStream.reportUser(
                                                 context,
                                                 widget.post.id,
                                                 reportReason.toString(),
