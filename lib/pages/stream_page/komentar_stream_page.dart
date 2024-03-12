@@ -299,24 +299,18 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           items: post?.postImage.map((image) {
                             return Builder(
                               builder: (BuildContext context) {
-                                return InkWell(
-                                  onTap: () {
-                                    // Get.to(
-                                    //     GalleryWidgets(urlImages: post.postImage));
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 5.0),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                          "${Global.FILE}/$image",
-                                        ),
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        "${Global.FILE}/$image",
                                       ),
-                                      borderRadius: BorderRadius.circular(10),
                                     ),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 );
                               },
@@ -709,22 +703,36 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             return Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 30,
-                                  width: 30,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: comment.photoUser == "" ||
-                                              comment.photoUser ==
-                                                  "photo_profile"
-                                          ? AssetImage(
-                                              'assets/images/profiledummy.png',
-                                            )
-                                          : NetworkImage(
-                                                  '${Global.FILE}/${comment.photoUser}')
-                                              as ImageProvider,
+                                InkWell(
+                                  onTap: () {
+                                    if (stateProfile.username.value ==
+                                        comment.userName) {
+                                      Get.to(() => const ProfilCustomerPage());
+                                    } else {
+                                      Get.to(
+                                        () => FolowedStreamPage(
+                                          username: comment.userName,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: comment.photoUser == "" ||
+                                                comment.photoUser ==
+                                                    "photo_profile"
+                                            ? AssetImage(
+                                                'assets/images/profiledummy.png',
+                                              )
+                                            : NetworkImage(
+                                                    '${Global.FILE}/${comment.photoUser}')
+                                                as ImageProvider,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -737,25 +745,40 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              comment.fullName,
-                                              style: blackTextStyle.copyWith(
-                                                  fontSize: 14),
-                                            ),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              timeago.format(DateTime.parse(
-                                                  comment.createdAt)),
-                                              style: blackRegulerTextStyle
-                                                  .copyWith(
-                                                fontSize: 12,
+                                        InkWell(
+                                          onTap: () {
+                                            if (stateProfile.username.value ==
+                                                comment.userName) {
+                                              Get.to(() =>
+                                                  const ProfilCustomerPage());
+                                            } else {
+                                              Get.to(
+                                                () => FolowedStreamPage(
+                                                  username: comment.userName,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                comment.fullName,
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 14),
                                               ),
-                                            ),
-                                          ],
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                timeago.format(DateTime.parse(
+                                                    comment.createdAt)),
+                                                style: blackRegulerTextStyle
+                                                    .copyWith(
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                         const SizedBox(
                                           height: 6,
@@ -916,27 +939,49 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            image:
-                                                                DecorationImage(
-                                                              image: commentReplies["${comment.commentID}"]![index]
-                                                                              .photoUser ==
-                                                                          "" ||
-                                                                      commentReplies["${comment.commentID}"]![index]
-                                                                              .photoUser ==
-                                                                          "photo_profile"
-                                                                  ? AssetImage(
-                                                                      'assets/images/profiledummy.png',
-                                                                    )
-                                                                  : NetworkImage(
-                                                                      '${Global.FILE}/${commentReplies["${comment.commentID}"]![index].photoUser}',
-                                                                    ) as ImageProvider,
+                                                        InkWell(
+                                                          onTap: () {
+                                                            if (stateProfile
+                                                                    .username
+                                                                    .value ==
+                                                                commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .userName) {
+                                                              Get.to(() =>
+                                                                  const ProfilCustomerPage());
+                                                            } else {
+                                                              Get.to(
+                                                                () =>
+                                                                    FolowedStreamPage(
+                                                                  username: commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .userName,
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: commentReplies["${comment.commentID}"]![index].photoUser ==
+                                                                            "" ||
+                                                                        commentReplies["${comment.commentID}"]![index].photoUser ==
+                                                                            "photo_profile"
+                                                                    ? AssetImage(
+                                                                        'assets/images/profiledummy.png',
+                                                                      )
+                                                                    : NetworkImage(
+                                                                        '${Global.FILE}/${commentReplies["${comment.commentID}"]![index].photoUser}',
+                                                                      ) as ImageProvider,
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
@@ -948,35 +993,53 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  commentReplies[
-                                                                              "${comment.commentID}"]![
-                                                                          index]
-                                                                      .fullName,
-                                                                  style: blackTextStyle
-                                                                      .copyWith(
-                                                                          fontSize:
-                                                                              14),
-                                                                ),
-                                                                const SizedBox(
-                                                                  width: 5,
-                                                                ),
-                                                                Text(
-                                                                  timeago.format(
-                                                                      DateTime.parse(
+                                                            InkWell(
+                                                              onTap: () {
+                                                                if (stateProfile
+                                                                        .username
+                                                                        .value ==
+                                                                    commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .userName) {
+                                                                  Get.to(() =>
+                                                                      const ProfilCustomerPage());
+                                                                } else {
+                                                                  Get.to(
+                                                                    () =>
+                                                                        FolowedStreamPage(
+                                                                      username:
                                                                           commentReplies["${comment.commentID}"]![index]
-                                                                              .createdAt)),
-                                                                  style: blackRegulerTextStyle
-                                                                      .copyWith(
-                                                                          fontSize:
-                                                                              12),
-                                                                ),
-                                                              ],
+                                                                              .userName,
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              },
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .fullName,
+                                                                    style: blackTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Text(
+                                                                    timeago.format(
+                                                                        DateTime.parse(
+                                                                            commentReplies["${comment.commentID}"]![index].createdAt)),
+                                                                    style: blackRegulerTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            12),
+                                                                  ),
+                                                                ],
+                                                              ),
                                                             ),
                                                             const SizedBox(
                                                               height: 6,
