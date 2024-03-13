@@ -117,7 +117,7 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                     SnackbarWidget.getSuccessSnackbar(
                       context,
                       'Info',
-                      'Berhasil memblokir @${widget.post.username}',
+                      'Block @${widget.post.username} berhasil',
                     );
                   },
                   redColor,

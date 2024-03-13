@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/pages/stream_page/user_stream_post.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
@@ -47,7 +48,7 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
   String? search;
   bool? follow;
   bool? notif;
-  bool block = false;
+  bool? blocked;
 
   @override
   void initState() {
@@ -384,114 +385,7 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 25, right: 25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () async {
-                        if ((follow ?? (userOverview?.follow ?? false))) {
-                          follow = false;
-                          setState(() {});
-                          stateStream.unFollowUser(context, widget.username);
-                          setState(() {});
-                        } else {
-                          follow = true;
-                          setState(() {});
-                          stateStream.followUser(context, widget.username);
-                          setState(() {});
-                        }
-                      },
-                      child: Container(
-                        width: 165,
-                        decoration: BoxDecoration(
-                            color: (follow ?? (userOverview?.follow ?? false))
-                                ? whiteColor
-                                : greenColor,
-                            border: Border.all(color: greenColor),
-                            borderRadius: BorderRadius.circular(7)),
-                        height: 30,
-                        child: Center(
-                          child: (follow ?? (userOverview?.follow ?? false))
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Following',
-                                        style: whiteTextStyle.copyWith(
-                                            fontSize: 13,
-                                            fontWeight: bold,
-                                            color: greenColor),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Icon(
-                                        Icons.keyboard_arrow_down,
-                                        color: greenColor,
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : Text(
-                                  'Follow',
-                                  style: whiteTextStyle.copyWith(
-                                      fontSize: 13, fontWeight: bold),
-                                ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          backgroundColor: Colors.white,
-                          isScrollControlled: true,
-                          showDragHandle: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadiusDirectional.only(
-                              topEnd: Radius.circular(25),
-                              topStart: Radius.circular(25),
-                            ),
-                          ),
-                          builder: (context) => BeautyFollower(
-                            userOverview: userOverview,
-                            userInterest: userInterest,
-                          ),
-                        );
-                      },
-                      child: Container(
-                        width: 165,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: greenColor),
-                            borderRadius: BorderRadius.circular(7)),
-                        height: 30,
-                        child: Center(
-                          child: Text(
-                            'Beauty Profile',
-                            style: grenTextStyle.copyWith(
-                                fontSize: 13, fontWeight: bold),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            if (block)
+            if (blocked ?? (userOverview?.blocked ?? false))
               Padding(
                 padding: const EdgeInsets.only(left: 25, right: 25),
                 child: ButtonGreenWidget(
@@ -543,11 +437,34 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 50),
                               child: ButtonGreenWidget(
-                                onPressed: () {
-                                  setState(() {
-                                    block = !block;
-                                    Navigator.pop(context);
-                                  });
+                                onPressed: () async {
+                                  if (blocked ??
+                                      (userOverview?.blocked ?? false)) {
+                                    blocked = false;
+                                    stateStream.unBlockUser(
+                                      context,
+                                      widget.username,
+                                    );
+                                    setState(() {});
+                                    SnackbarWidget.getSuccessSnackbar(
+                                      context,
+                                      'Info',
+                                      'Unblock @${widget.username} berhasil',
+                                    );
+                                  } else {
+                                    blocked = true;
+                                    stateStream.blockUser(
+                                      context,
+                                      widget.username,
+                                    );
+                                    setState(() {});
+                                    SnackbarWidget.getSuccessSnackbar(
+                                      context,
+                                      'Info',
+                                      'Block @${widget.username} berhasil',
+                                    );
+                                  }
+                                  Get.back();
                                 },
                                 title: 'Unblock',
                               ),
@@ -568,16 +485,121 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                   },
                   height: 35,
                 ),
+              )
+            else
+              Padding(
+                padding: const EdgeInsets.only(left: 25, right: 25),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () async {
+                          if ((follow ?? (userOverview?.follow ?? false))) {
+                            follow = false;
+                            setState(() {});
+                            stateStream.unFollowUser(context, widget.username);
+                            setState(() {});
+                          } else {
+                            follow = true;
+                            setState(() {});
+                            stateStream.followUser(context, widget.username);
+                            setState(() {});
+                          }
+                        },
+                        child: Container(
+                          width: 165,
+                          decoration: BoxDecoration(
+                              color: (follow ?? (userOverview?.follow ?? false))
+                                  ? whiteColor
+                                  : greenColor,
+                              border: Border.all(color: greenColor),
+                              borderRadius: BorderRadius.circular(7)),
+                          height: 30,
+                          child: Center(
+                            child: (follow ?? (userOverview?.follow ?? false))
+                                ? Padding(
+                                    padding: const EdgeInsets.only(left: 10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Following',
+                                          style: whiteTextStyle.copyWith(
+                                              fontSize: 13,
+                                              fontWeight: bold,
+                                              color: greenColor),
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.keyboard_arrow_down,
+                                          color: greenColor,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Text(
+                                    'Follow',
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 13, fontWeight: bold),
+                                  ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.white,
+                            isScrollControlled: true,
+                            showDragHandle: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadiusDirectional.only(
+                                topEnd: Radius.circular(25),
+                                topStart: Radius.circular(25),
+                              ),
+                            ),
+                            builder: (context) => BeautyFollower(
+                              userOverview: userOverview,
+                              userInterest: userInterest,
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 165,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: greenColor),
+                              borderRadius: BorderRadius.circular(7)),
+                          height: 30,
+                          child: Center(
+                            child: Text(
+                              'Beauty Profile',
+                              style: grenTextStyle.copyWith(
+                                  fontSize: 13, fontWeight: bold),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            if (block)
-              const SizedBox(
-                height: 20,
-              ),
+            const SizedBox(
+              height: 20,
+            ),
             const dividergreen(),
             const SizedBox(
               height: 20,
             ),
-            block
+            (blocked ?? (userOverview?.blocked ?? false))
                 ? Padding(
                     padding:
                         const EdgeInsets.only(top: 70, left: 32, right: 32),
