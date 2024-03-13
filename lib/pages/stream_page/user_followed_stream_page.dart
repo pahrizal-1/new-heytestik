@@ -629,14 +629,30 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                           'Kamu tidak bisa melihat postingan ini maupun mengirimkan pesan. Buka untuk melihat postingan ini.',
                           style: blackRegulerTextStyle,
                           textAlign: TextAlign.center,
-                        )
+                        ),
+                        SnackBar(
+                            backgroundColor: blackColor,
+                            content: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/centang22.png',
+                                    width: 24,
+                                  ),
+                                  Text('Block @lauranabilah berhasil')
+                                ],
+                              ),
+                            )),
                       ],
                     ),
                   )
                 : UserStreamPost(
                     username: widget.username,
                     fullname: widget.fullname,
-                  )
+                  ),
           ],
         ),
       ),

@@ -603,7 +603,7 @@ class _SolutionPageState extends State<SolutionPage> {
               ),
               const SizedBox(
                 height: 10,
-              )
+              ),
             ],
           ),
         ],
