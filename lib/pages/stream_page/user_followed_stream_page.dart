@@ -389,7 +389,9 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
               Padding(
                 padding: const EdgeInsets.only(left: 25, right: 25),
                 child: ButtonGreenWidget(
-                  title: 'Unblock',
+                  title: (blocked ?? (userOverview?.blocked ?? false))
+                      ? 'Unblock'
+                      : 'Block',
                   onPressed: () {
                     customeModal(
                       context,
@@ -401,7 +403,10 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                             Center(
                               child: RichText(
                                 text: TextSpan(
-                                    text: 'Unblock ',
+                                    text: (blocked ??
+                                            (userOverview?.blocked ?? false))
+                                        ? 'Unblock '
+                                        : 'Block ',
                                     style:
                                         blackTextStyle.copyWith(fontSize: 17),
                                     children: [
@@ -427,7 +432,9 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                               height: 40,
                             ),
                             Text(
-                              '@${widget.username} dapat melihat post kamu, follow dan mengirimkan pesan. @${widget.username} tidak akan diberi tahu bahwa kamu telah membuka memblokirnya.',
+                              (blocked ?? (userOverview?.blocked ?? false))
+                                  ? '@${widget.username} dapat melihat post kamu, follow dan mengirimkan pesan. @${widget.username} tidak akan diberi tahu bahwa kamu telah membuka memblokirnya.'
+                                  : '@${widget.username} tidak bisa mengirim pesan ke kamu atau menemukan profile, dan post kamu. @${widget.username} tidak akan diberi tahu bahwa kamu telah memblokirnya.',
                               style: blackRegulerTextStyle.copyWith(
                                 color: blackColor,
                                 fontSize: 15,
@@ -466,7 +473,10 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                                   }
                                   Get.back();
                                 },
-                                title: 'Unblock',
+                                title: (blocked ??
+                                        (userOverview?.blocked ?? false))
+                                    ? 'Unblock'
+                                    : 'Block',
                               ),
                             ),
                             Padding(
