@@ -162,4 +162,17 @@ class ProfileService extends ProviderClass {
         .map((e) => StreamHomeModel.fromJson(e))
         .toList();
   }
+
+  Future<InterestModel> getInterestUserProfile(
+      String username) async {
+    print("username getInterestUserProfile $username");
+    var response = await networkingConfig.doGet(
+      '/user-profile/$username/interest',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return InterestModel.fromJson(response);
+  }
 }

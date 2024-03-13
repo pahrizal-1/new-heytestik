@@ -18,6 +18,8 @@ import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model
     as Overview;
 import 'package:heystetik_mobileapps/models/customer/setting_notif_model.dart'
     as SettingNotif;
+import 'package:heystetik_mobileapps/models/customer/interest_model.dart'
+    as Interest;
 
 class FolowedStreamPage extends StatefulWidget {
   String username;
@@ -40,6 +42,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
   final TextEditingController searchController = TextEditingController();
   final ScrollController scrollController = ScrollController();
   Overview.Data? userOverview;
+  Interest.Data? userInterest;
   List<SettingNotif.Data> settingNotif = [];
   String? search;
   bool? follow;
@@ -69,6 +72,10 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
         }
         return null;
       });
+      userInterest = await stateProfile.getInterestUserProfile(
+        context,
+        username: widget.username,
+      );
       setState(() {});
     });
     scrollController.addListener(() {
@@ -456,7 +463,10 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                               topStart: Radius.circular(25),
                             ),
                           ),
-                          builder: (context) => BeautyFollower(),
+                          builder: (context) => BeautyFollower(
+                            userOverview: userOverview,
+                            userInterest: userInterest,
+                          ),
                         );
                       },
                       child: Container(

@@ -1,9 +1,17 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: must_be_immutable
 
+import 'package:flutter/material.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_model.dart'
+    as Interest;
+import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
+    as Overview;
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class BeautyFollower extends StatelessWidget {
-  const BeautyFollower({super.key});
+  Overview.Data? userOverview;
+  Interest.Data? userInterest;
+  BeautyFollower(
+      {super.key, required this.userInterest, required this.userOverview});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +36,11 @@ class BeautyFollower extends StatelessWidget {
               height: 37,
             ),
             Text(
-              'Rina',
+              userOverview?.fullname ?? "",
               style: blackTextStyle.copyWith(fontSize: 15),
             ),
             Text(
-              'Jakarta, 20 tahun',
+              '${userOverview?.city is String ? "${userOverview?.city}" : ""}${userOverview?.city is String && userOverview?.age is int ? ", " : ""}${userOverview?.age is int ? '${userOverview?.age} tahun' : ''}',
               style: blackRegulerTextStyle.copyWith(fontSize: 15),
             ),
             SizedBox(
@@ -40,23 +48,28 @@ class BeautyFollower extends StatelessWidget {
             ),
             tipeKulit(
               'Tipe Kulit',
-              'Kering',
+              userInterest?.beautyProfile?.skinType ?? '',
               'Warna Tone Kulit',
-              'Kuning Langsat',
+              userInterest?.beautyProfile?.skinToneColor ?? '',
             ),
             SizedBox(
               height: 19,
             ),
             tipeKulit(
               'Warna Undertone Kulit',
-              'Nettral',
+              userInterest?.beautyProfile?.skinUndertoneColor ?? '',
               'Tipe Rambut',
-              'Bergelombang',
+              userInterest?.beautyProfile?.hairType ?? '',
             ),
             SizedBox(
               height: 19,
             ),
-            tipeKulit('Warna Rambut', 'Berwarna', 'Hijabers', 'Iya'),
+            tipeKulit(
+              'Warna Rambut',
+              userInterest?.beautyProfile?.hairColor ?? '',
+              'Hijabers',
+              userInterest?.beautyProfile?.hijabers == true ? 'Iya' : 'Tidak',
+            ),
             SizedBox(
               height: 29,
             ),
@@ -71,6 +84,23 @@ class BeautyFollower extends StatelessWidget {
             skinGoalAugmentation('Skin Goals - Augmentation Wajah & Tubuh'),
             SizedBox(
               height: 19,
+            ),
+            skinGoalsSexuallyAndSkinDiseases(
+                'Skin Goals - Penyakit Menular Seksual dan Masalah Kulit Lainnya'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalPernahTreatment('Pernah Treatment'),
+            SizedBox(
+              height: 19,
+            ),
+            skinGoalsBudget(
+              'Anggaran Skincare',
+              userInterest?.skinGoalsBudget?.budgetForSkincare ?? '',
+            ),
+            skinGoalsBudget(
+              'Anggaran Treatment',
+              userInterest?.skinGoalsBudget?.budgetForTreatment ?? '',
             ),
           ],
         ),
@@ -91,12 +121,16 @@ class BeautyFollower extends StatelessWidget {
             fontSize: 15,
           ),
         ),
-        Text(
-          '-',
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
-        ),
+        ...?userInterest?.skinGoalsFaceCorrective
+            ?.map(
+              (value) => Text(
+                value.nameFaceCorrective.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
       ],
     );
   }
@@ -114,12 +148,16 @@ class BeautyFollower extends StatelessWidget {
             fontSize: 15,
           ),
         ),
-        Text(
-          'Bekas Jerawat, Kemerahan, Kulit Kering, Flek Hitam, Melasma',
-          style: blackTextStyle.copyWith(
-            fontSize: 15,
-          ),
-        ),
+        ...?userInterest?.skinGoalsBodyCorrective
+            ?.map(
+              (value) => Text(
+                value.nameBodyCorrective.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
       ],
     );
   }
@@ -135,13 +173,94 @@ class BeautyFollower extends StatelessWidget {
           fontSize: 15,
         ),
       ),
-      Text(
-        'Bekas Jerawat, Kemerahan, Kulit Kering, Flek Hitam, Melasma',
-        style: blackTextStyle.copyWith(
-          fontSize: 15,
-        ),
-      ),
+      ...?userInterest?.skinGoalsAugmentation
+          ?.map(
+            (value) => Text(
+              value.nameAugmentation.toString(),
+              style: blackTextStyle.copyWith(
+                fontSize: 15,
+              ),
+            ),
+          )
+          .toList()
     ]);
+  }
+
+  Column skinGoalsSexuallyAndSkinDiseases(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?userInterest?.skinGoalsSexuallyAndSkinDiseases
+            ?.map(
+              (value) => Text(
+                value.name.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList()
+      ],
+    );
+  }
+
+  Column skinGoalPernahTreatment(String title1) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        ...?userInterest?.skinGoalsHistoryTreatment
+            ?.map(
+              (value) => Text(
+                value.nameHistoryTreatment.toString(),
+                style: blackTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+            .toList(),
+      ],
+    );
+  }
+
+  Column skinGoalsBudget(String title1, String title2) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title1,
+          style: blackRegulerTextStyle.copyWith(
+            color: Color(
+              0xff9B9B9B,
+            ),
+            fontSize: 15,
+          ),
+        ),
+        Text(
+          title2,
+          style: blackTextStyle.copyWith(
+            fontSize: 15,
+          ),
+        ),
+      ],
+    );
   }
 
   Row tipeKulit(String text1, String text2, String text3, String text4) {

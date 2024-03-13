@@ -23,12 +23,14 @@ class UserProfileOverviewModel {
 }
 
 class Data {
+  int? id;
   String? fullname;
   String? username;
-  String? dob;
+  String? bio;
+  dynamic dob;
   int? age;
-  dynamic city;
-  dynamic province;
+  String? city;
+  String? province;
   String? level;
   int? totalFollower;
   int? totalFollowing;
@@ -37,10 +39,13 @@ class Data {
   UserLocation? userLocation;
   MediaUserProfilePicture? mediaUserProfilePicture;
   bool? follow;
+  bool? blocked;
 
   Data(
-      {this.fullname,
+      {this.id,
+      this.fullname,
       this.username,
+      this.bio,
       this.dob,
       this.age,
       this.city,
@@ -52,11 +57,14 @@ class Data {
       this.totalReview,
       this.userLocation,
       this.mediaUserProfilePicture,
-      this.follow});
+      this.follow,
+      this.blocked});
 
   Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     fullname = json['fullname'];
     username = json['username'];
+    bio = json['bio'];
     dob = json['dob'];
     age = json['age'];
     city = json['city'];
@@ -70,16 +78,18 @@ class Data {
         ? UserLocation.fromJson(json['user_location'])
         : null;
     mediaUserProfilePicture = json['media_user_profile_picture'] != null
-        ? MediaUserProfilePicture.fromJson(
-            json['media_user_profile_picture'])
+        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
         : null;
     follow = json['follow'];
+    blocked = json['blocked'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
     data['fullname'] = this.fullname;
     data['username'] = this.username;
+    data['bio'] = this.bio;
     data['dob'] = this.dob;
     data['age'] = this.age;
     data['city'] = this.city;
@@ -97,6 +107,7 @@ class Data {
           this.mediaUserProfilePicture!.toJson();
     }
     data['follow'] = this.follow;
+    data['blocked'] = this.blocked;
     return data;
   }
 }

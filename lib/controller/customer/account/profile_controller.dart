@@ -10,7 +10,8 @@ import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
-import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_model.dart'
+    as Interest;
 import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
     as Overview;
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart'
@@ -28,7 +29,7 @@ import '../../../models/stream_home.dart';
 import 'package:dio/dio.dart' as dio;
 
 class ProfileController extends StateClass {
-  Rx<InterestModel> interestData = InterestModel().obs;
+  Rx<Interest.InterestModel> interestData = Interest.InterestModel().obs;
   Rx<CompletionModel> completionData = CompletionModel().obs;
   Rx<int> skinGoalsFaceCorrectiveLength = 0.obs;
   Rx<int> skinGoalsBodyCorrectiveLength = 0.obs;
@@ -555,5 +556,17 @@ class ProfileController extends StateClass {
     });
     isLoading.value = false;
     return data;
+  }
+
+  Future<Interest.Data> getInterestUserProfile(BuildContext context,
+      {required String username}) async {
+    isLoading.value = true;
+    Interest.Data? data;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var response = await ProfileService().getInterestUserProfile(username);
+      data = response.data;
+    });
+    isLoading.value = false;
+    return data!;
   }
 }
