@@ -612,8 +612,11 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
             ),
             (blocked ?? (userOverview?.blocked ?? false))
                 ? Padding(
-                    padding:
-                        const EdgeInsets.only(top: 70, left: 32, right: 32),
+                    padding: const EdgeInsets.only(
+                      top: 70,
+                      left: 32,
+                      right: 32,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -630,6 +633,7 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                           style: blackRegulerTextStyle,
                           textAlign: TextAlign.center,
                         ),
+                        Spacer(),
                         SnackBar(
                             backgroundColor: blackColor,
                             content: Padding(
