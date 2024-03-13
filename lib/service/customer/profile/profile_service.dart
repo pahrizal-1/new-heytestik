@@ -4,10 +4,10 @@ import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/completion_model.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
-import 'package:heystetik_mobileapps/models/customer/interest_model.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_model.dart'
+    as Interest;
 import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
-
 import '../../../core/local_storage.dart';
 import '../../../models/customer/customer_profile_model.dart';
 import '../../../models/stream_home.dart';
@@ -71,7 +71,7 @@ class ProfileService extends ProviderClass {
     return response;
   }
 
-  Future<InterestModel> getInterest() async {
+  Future<Interest.InterestModel> getInterest() async {
     var response = await networkingConfig.doGet(
       '/profile/user/interest',
       headers: {
@@ -79,7 +79,7 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-    return InterestModel.fromJson(response);
+    return Interest.InterestModel.fromJson(response);
   }
 
   Future<CompletionModel> getCompletion() async {
@@ -163,7 +163,7 @@ class ProfileService extends ProviderClass {
         .toList();
   }
 
-  Future<InterestModel> getInterestUserProfile(String username) async {
+  Future<Interest.Data> getInterestUserProfile(String username) async {
     print("username getInterestUserProfile $username");
     var response = await networkingConfig.doGet(
       '/user-profile/$username/interest',
@@ -172,7 +172,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-    print("getInterestUserProfile $response");
-    return InterestModel.fromJson(response);
+    return Interest.Data.fromJson(response);
   }
 }
