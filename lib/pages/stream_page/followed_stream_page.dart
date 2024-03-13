@@ -64,7 +64,7 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
         if (follow ?? (userOverview?.follow ?? false)) {
           settingNotif = await stateNotif.getNotifAcitivityPosts(
             context,
-            userOverview!.userLocation!.userId!,
+            userOverview!.id!,
           );
         }
         return null;
@@ -128,18 +128,32 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
           if (follow ?? (userOverview?.follow ?? false))
             InkWell(
               onTap: () async {
-                if (notif ?? (settingNotif[0].isEnabled ?? false)) {
-                  stateNotif.postNotifAcitivityPosts(
-                      context, userOverview!.userLocation!.userId!, false);
+                if (notif ??
+                    (settingNotif.isNotEmpty
+                        ? (settingNotif[0].isEnabled ?? false)
+                        : false)) {
                   notif = false;
-                } else {
+                  setState(() {});
                   stateNotif.postNotifAcitivityPosts(
-                      context, userOverview!.userLocation!.userId!, true);
+                    context,
+                    userOverview!.id!,
+                    false,
+                  );
+                  setState(() {});
+                } else {
                   notif = true;
+                  stateNotif.postNotifAcitivityPosts(
+                    context,
+                    userOverview!.id!,
+                    true,
+                  );
                 }
                 setState(() {});
               },
-              child: (notif ?? (settingNotif[0].isEnabled ?? false))
+              child: (notif ??
+                      (settingNotif.isNotEmpty
+                          ? (settingNotif[0].isEnabled ?? false)
+                          : false))
                   ? SvgPicture.asset(
                       'assets/icons/notifikasi-green.svg',
                     )
@@ -209,19 +223,21 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                             style: blackTextStyle.copyWith(fontSize: 18),
                           ),
                           const SizedBox(
-                            height: 4,
-                          ),
-                          Container(
-                            constraints: const BoxConstraints(maxWidth: 200),
-                            child: Text(
-                              '-',
-                              style:
-                                  blackRegulerTextStyle.copyWith(fontSize: 13),
-                            ),
-                          ),
-                          const SizedBox(
                             height: 8,
                           ),
+                          if (userOverview?.bio?.isNotEmpty ?? false)
+                            Container(
+                              constraints: const BoxConstraints(maxWidth: 200),
+                              child: Text(
+                                userOverview?.bio ?? '',
+                                style: blackRegulerTextStyle.copyWith(
+                                    fontSize: 13),
+                              ),
+                            ),
+                          if (userOverview?.bio?.isNotEmpty ?? false)
+                            const SizedBox(
+                              height: 8,
+                            ),
                           Container(
                             padding: const EdgeInsets.only(
                                 left: 13, right: 12, top: 7, bottom: 5),
@@ -373,21 +389,11 @@ class _FolowedStreamPageState extends State<FolowedStreamPage> {
                           follow = false;
                           setState(() {});
                           stateStream.unFollowUser(context, widget.username);
-                          settingNotif =
-                              await stateNotif.getNotifAcitivityPosts(
-                            context,
-                            userOverview!.userLocation!.userId!,
-                          );
                           setState(() {});
                         } else {
                           follow = true;
                           setState(() {});
                           stateStream.followUser(context, widget.username);
-                          settingNotif =
-                              await stateNotif.getNotifAcitivityPosts(
-                            context,
-                            userOverview!.userLocation!.userId!,
-                          );
                           setState(() {});
                         }
                       },

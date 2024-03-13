@@ -346,16 +346,21 @@ class _ProfilCustomerPageState extends State<ProfilCustomerPage> {
                           ),
                           Row(
                             children: [
-                              Obx(
-                                () => Text(
-                                  stateProfile.interestData.value.data
-                                          ?.beautyProfile?.skinType ??
-                                      '-',
-                                  style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 13,
-                                  ),
-                                ),
-                              ),
+                              Obx(() {
+                                if (stateProfile.interestData.value.data
+                                        ?.beautyProfile?.skinType?.isNotEmpty ??
+                                    false) {
+                                  return Text(
+                                    stateProfile.interestData.value.data
+                                            ?.beautyProfile?.skinType ??
+                                        '-',
+                                    style: blackRegulerTextStyle.copyWith(
+                                      fontSize: 13,
+                                    ),
+                                  );
+                                }
+                                return Container();
+                              }),
                               InkWell(
                                 onTap: () {
                                   Get.to(() => BeautyProfil());
