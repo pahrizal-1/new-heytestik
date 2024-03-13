@@ -11,7 +11,7 @@ import 'package:heystetik_mobileapps/controller/customer/stream/stream_controlle
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -188,7 +188,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                 Get.to(() => const ProfilCustomerPage());
                               } else {
                                 Get.to(
-                                  () => FolowedStreamPage(
+                                  () => UserFollowedStreamPage(
                                     username: post!.username,
                                     fullname: post!.fullname,
                                   ),
@@ -223,7 +223,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   post?.username) {
                                 Get.to(() => const ProfilCustomerPage());
                               } else {
-                                Get.to(() => FolowedStreamPage(
+                                Get.to(() => UserFollowedStreamPage(
                                       username: post!.username,
                                       fullname: post!.fullname,
                                     ));
@@ -717,7 +717,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       Get.to(() => const ProfilCustomerPage());
                                     } else {
                                       Get.to(
-                                        () => FolowedStreamPage(
+                                        () => UserFollowedStreamPage(
                                           username: comment.userName,
                                           fullname: comment.fullName,
                                         ),
@@ -761,7 +761,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                   const ProfilCustomerPage());
                                             } else {
                                               Get.to(
-                                                () => FolowedStreamPage(
+                                                () => UserFollowedStreamPage(
                                                   username: comment.userName,
                                                   fullname: comment.fullName,
                                                 ),
@@ -965,7 +965,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                             } else {
                                                               Get.to(
                                                                 () =>
-                                                                    FolowedStreamPage(
+                                                                    UserFollowedStreamPage(
                                                                   username: commentReplies[
                                                                               "${comment.commentID}"]![
                                                                           index]
@@ -1022,7 +1022,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                 } else {
                                                                   Get.to(
                                                                     () =>
-                                                                        FolowedStreamPage(
+                                                                        UserFollowedStreamPage(
                                                                       username:
                                                                           commentReplies["${comment.commentID}"]![index]
                                                                               .userName,

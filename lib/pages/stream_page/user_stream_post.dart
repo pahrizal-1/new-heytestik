@@ -11,16 +11,16 @@ import '../../widget/appbar_widget.dart';
 import '../../widget/fikter_card_solusions_widget.dart';
 import '../../widget/stream_post.dart';
 
-class UserFollowedPost extends StatefulWidget {
+class UserStreamPost extends StatefulWidget {
   String? username;
   String? fullname;
-  UserFollowedPost({super.key, this.username, this.fullname});
+  UserStreamPost({super.key, this.username, this.fullname});
 
   @override
-  State<UserFollowedPost> createState() => _UserFollowedPostState();
+  State<UserStreamPost> createState() => _UserStreamPostState();
 }
 
-class _UserFollowedPostState extends State<UserFollowedPost> {
+class _UserStreamPostState extends State<UserStreamPost> {
   final ProfileController stateProfile = Get.put(ProfileController());
   final TextEditingController searchController = TextEditingController();
 

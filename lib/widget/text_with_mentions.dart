@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
 
 import '../theme/theme.dart';
 
@@ -41,7 +41,7 @@ Widget buildRichTextWithMentions(BuildContext context, String text,
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (_) => FolowedStreamPage(
+                      builder: (_) => UserFollowedStreamPage(
                             username: text
                                 .substring(start, end)
                                 .replaceRange(0, 1, ""),

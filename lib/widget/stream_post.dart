@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/account/profile_control
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/streams_by_hashtag_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
@@ -84,7 +84,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   if (stateProfile.username.value == widget.stream.username) {
                     Get.to(() => const ProfilCustomerPage());
                   } else {
-                    Get.to(() => FolowedStreamPage(
+                    Get.to(() => UserFollowedStreamPage(
                           username: widget.stream.username,
                           fullname: widget.stream.fullname,
                         ));
@@ -117,7 +117,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   if (stateProfile.username.value == widget.stream.username) {
                     Get.to(() => const ProfilCustomerPage());
                   } else {
-                    Get.to(() => FolowedStreamPage(
+                    Get.to(() => UserFollowedStreamPage(
                           username: widget.stream.username,
                           fullname: widget.stream.fullname,
                         ));
