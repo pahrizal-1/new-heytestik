@@ -563,7 +563,8 @@ class ProfileController extends StateClass {
     isLoading.value = true;
     Interest.Data? data;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      data = await ProfileService().getInterestUserProfile(username);
+      var res = await ProfileService().getInterestUserProfile(username);
+      data = res.data;
     });
     isLoading.value = false;
     return data!;
