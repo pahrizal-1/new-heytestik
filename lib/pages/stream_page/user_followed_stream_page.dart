@@ -134,41 +134,42 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
         ),
         actions: [
           if (follow ?? (userOverview?.follow ?? false))
-            InkWell(
-              onTap: () async {
-                if (notif ??
-                    (settingNotif.isNotEmpty
-                        ? (settingNotif[0].isEnabled ?? false)
-                        : false)) {
-                  notif = false;
-                  setState(() {});
-                  stateNotif.postNotifAcitivityPosts(
-                    context,
-                    userOverview!.id!,
-                    false,
-                  );
-                  setState(() {});
-                } else {
-                  notif = true;
-                  stateNotif.postNotifAcitivityPosts(
-                    context,
-                    userOverview!.id!,
-                    true,
-                  );
-                }
-                setState(() {});
-              },
-              child: (notif ??
+            if ((blocked == false) || (userOverview?.blocked == false))
+              InkWell(
+                onTap: () async {
+                  if (notif ??
                       (settingNotif.isNotEmpty
                           ? (settingNotif[0].isEnabled ?? false)
-                          : false))
-                  ? SvgPicture.asset(
-                      'assets/icons/notifikasi-green.svg',
-                    )
-                  : SvgPicture.asset(
-                      'assets/icons/notif-icons.svg',
-                    ),
-            ),
+                          : false)) {
+                    notif = false;
+                    setState(() {});
+                    stateNotif.postNotifAcitivityPosts(
+                      context,
+                      userOverview!.id!,
+                      false,
+                    );
+                    setState(() {});
+                  } else {
+                    notif = true;
+                    stateNotif.postNotifAcitivityPosts(
+                      context,
+                      userOverview!.id!,
+                      true,
+                    );
+                  }
+                  setState(() {});
+                },
+                child: (notif ??
+                        (settingNotif.isNotEmpty
+                            ? (settingNotif[0].isEnabled ?? false)
+                            : false))
+                    ? SvgPicture.asset(
+                        'assets/icons/notifikasi-green.svg',
+                      )
+                    : SvgPicture.asset(
+                        'assets/icons/notif-icons.svg',
+                      ),
+              ),
           const SizedBox(
             width: 26,
           ),
