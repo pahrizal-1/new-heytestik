@@ -163,7 +163,7 @@ class ProfileService extends ProviderClass {
         .toList();
   }
 
-  Future<Interest.Data> getInterestUserProfile(String username) async {
+  Future<Interest.InterestModel> getInterestUserProfile(String username) async {
     print("username getInterestUserProfile $username");
     var response = await networkingConfig.doGet(
       '/user-profile/$username/interest',
@@ -172,6 +172,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-    return Interest.Data.fromJson(response);
+    return Interest.InterestModel.fromJson(response);
   }
 }
