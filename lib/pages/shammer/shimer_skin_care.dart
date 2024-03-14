@@ -15,7 +15,7 @@ class ShimmerSkinCare extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 35),
+            padding: const EdgeInsets.only(left: 35, top: 50),
             child: Wrap(
               spacing: 12,
               runSpacing: 12,
