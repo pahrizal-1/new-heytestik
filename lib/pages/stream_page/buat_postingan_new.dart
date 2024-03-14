@@ -174,7 +174,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                     );
                     streamController.postStream(context, postModel,
                         files: imagePath, doInPost: () {
-                      Get.back();
+                      Get.back(result: true);
                     });
                   }
                 },

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
@@ -78,13 +80,14 @@ class _InterestStreamPageState extends State<InterestStreamPage> {
         }
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BuatPostinganStream(),
-            ),
-          );
+        onPressed: () async {
+          bool check = await Get.to(() => BuatPostinganStream());
+          if (check) {
+            stateStream.interestStreamIndex.value = 1;
+            stateStream.search.value = "";
+            stateStream.interestStreams.value = [];
+            await stateStream.getStreamInterest(context);
+          }
         },
         elevation: 0,
         backgroundColor: greenColor,
