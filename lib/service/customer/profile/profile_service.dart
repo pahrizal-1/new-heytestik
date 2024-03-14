@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_if_null_operators
 import 'package:dio/dio.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
@@ -79,6 +80,7 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
+    print("RES $response");
     return Interest.InterestModel.fromJson(response);
   }
 
@@ -172,6 +174,11 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
+    response['data']['skin_goals_budget'] =
+        (response['data']['skin_goals_budget'].runtimeType == List<dynamic>)
+            ? null
+            : response['data']['skin_goals_budget'];
+    print("RES $response");
     return Interest.InterestModel.fromJson(response);
   }
 }
