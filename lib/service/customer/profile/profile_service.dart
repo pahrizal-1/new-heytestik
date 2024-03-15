@@ -174,10 +174,6 @@ class ProfileService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-    response['data']['skin_goals_budget'] =
-        (response['data']['skin_goals_budget'].runtimeType == List<dynamic>)
-            ? null
-            : response['data']['skin_goals_budget'];
     print("RES $response");
     return Interest.InterestModel.fromJson(response);
   }
