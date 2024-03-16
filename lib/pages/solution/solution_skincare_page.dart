@@ -50,7 +50,6 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
     'assets/images/sunscreen06.png',
   ];
   List<Lookup.Data2> lookupCategory = [];
-
   int page = 1;
   List<Skincare.Data2> skincare = [];
   List<Skincare.Data2> skincareDermatologists = [];
@@ -62,7 +61,6 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       lookupCategory
           .addAll(await stateEtalase.getLookup(context, 'SKINCARE_CATEGORY'));
@@ -662,7 +660,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
+                          Padding(
+                            padding: EdgeInsets.only(left: 25, top: 20),
                             child: Wrap(
                               spacing: 23,
                               runSpacing: 12,
