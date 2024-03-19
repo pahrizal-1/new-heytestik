@@ -513,9 +513,8 @@ class _SolutionPageState extends State<SolutionPage> {
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: e.name.toString(),
-                                diskonProduk: '20',
-                                hargaDiskon:
-                                    CurrencyFormat.convertToIdr(e.price, 0),
+                                diskonProduk: '',
+                                hargaDiskon: '',
                                 harga: CurrencyFormat.convertToIdr(e.price, 0),
                                 urlImg:
                                     '${Global.FILE}/${e.mediaProducts![0].media!.path}',

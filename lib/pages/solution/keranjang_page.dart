@@ -255,15 +255,13 @@ class _KeranjangPageState extends State<KeranjangPage> {
                               child: SkincareWidget(
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
-                                namaProduk: ' e.name.toString()',
-                                diskonProduk: '20',
-                                hargaDiskon:
-                                    CurrencyFormat.convertToIdr(e.price, 0),
+                                namaProduk: e.name.toString(),
+                                diskonProduk: '',
+                                hargaDiskon: '',
                                 harga: CurrencyFormat.convertToIdr(e.price, 0),
                                 urlImg:
                                     '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                // rating: '4.9 (120k)',
-                                rating: e.rating.toString(),
+                                rating: '${e.rating} (0k)',
                               ),
                             );
                           }).toList(),

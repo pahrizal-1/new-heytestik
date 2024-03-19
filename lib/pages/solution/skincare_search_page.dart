@@ -419,15 +419,13 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
-                                      diskonProduk: '20',
-                                      hargaDiskon: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
+                                      diskonProduk: '',
+                                      hargaDiskon: '',
                                       harga: CurrencyFormat.convertToIdr(
                                           e.price, 0),
                                       urlImg:
                                           '${Global.FILE}/${e.mediaProducts![0].media!.path}',
-                                      rating: e.rating.toString(),
-                                      kota: 'Amerika Serikat',
+                                      rating: '${e.rating} (0k)',
                                     ),
                                   ),
                                 )

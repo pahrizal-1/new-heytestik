@@ -205,38 +205,38 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(1),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
-                          child: Center(
-                            child: Text(
-                              '20%',
-                              style: blackHigtTextStyle.copyWith(
-                                  color: redColor, fontSize: 15),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          CurrencyFormat.convertToIdr(
-                            stateSkincare.skincareDetail.value.price ?? 0,
-                            0,
-                          ),
-                          style: subGreyTextStyle.copyWith(
-                            fontSize: 15,
-                            decoration: TextDecoration.lineThrough,
-                            decorationThickness: 2,
-                            color: const Color(0xff9B9B9B),
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     Container(
+                    //       padding: EdgeInsets.all(1),
+                    //       decoration: BoxDecoration(
+                    //           borderRadius: BorderRadius.circular(4),
+                    //           color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                    //       child: Center(
+                    //         child: Text(
+                    //           '20%',
+                    //           style: blackHigtTextStyle.copyWith(
+                    //               color: redColor, fontSize: 15),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 4,
+                    //     ),
+                    //     Text(
+                    //       CurrencyFormat.convertToIdr(
+                    //         stateSkincare.skincareDetail.value.price ?? 0,
+                    //         0,
+                    //       ),
+                    //       style: subGreyTextStyle.copyWith(
+                    //         fontSize: 15,
+                    //         decoration: TextDecoration.lineThrough,
+                    //         decorationThickness: 2,
+                    //         color: const Color(0xff9B9B9B),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                     Row(
                       children: [
                         Text(
@@ -900,9 +900,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: e.name.toString(),
-                                diskonProduk: '20',
-                                hargaDiskon:
-                                    CurrencyFormat.convertToIdr(e.price, 0),
+                                diskonProduk: '',
+                                hargaDiskon: '',
                                 harga: CurrencyFormat.convertToIdr(e.price, 0),
                                 urlImg:
                                     '${Global.FILE}/${e.mediaProducts![0].media!.path}',
@@ -968,9 +967,8 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                 produkId: e.id!.toInt(),
                                 namaBrand: e.skincareDetail!.brand.toString(),
                                 namaProduk: e.name.toString(),
-                                diskonProduk: '20',
-                                hargaDiskon:
-                                    CurrencyFormat.convertToIdr(e.price, 0),
+                                diskonProduk: '',
+                                hargaDiskon: '',
                                 harga: CurrencyFormat.convertToIdr(e.price, 0),
                                 urlImg:
                                     '${Global.FILE}/${e.mediaProducts![0].media!.path}',

@@ -198,7 +198,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                       children: [
                         Text(
                           CurrencyFormat.convertToIdr(
-                              stateDrug.drugDetail.value.price ?? 0, 2),
+                              stateDrug.drugDetail.value.price ?? 0, 0),
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
                         ),
                         const Spacer(),

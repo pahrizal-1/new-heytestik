@@ -64,7 +64,7 @@ class DrugWidget extends StatelessWidget {
                     height: 10,
                   ),
                   Text(
-                    CurrencyFormat.convertToIdr(drug.price ?? 0, 2),
+                    CurrencyFormat.convertToIdr(drug.price ?? 0, 0),
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                   const SizedBox(

@@ -292,9 +292,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
-                                      diskonProduk: '20',
-                                      hargaDiskon: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
+                                      diskonProduk: '',
+                                      hargaDiskon: '',
                                       harga: CurrencyFormat.convertToIdr(
                                           e.price, 0),
                                       urlImg: e.mediaProducts!.isEmpty
@@ -678,10 +677,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                         namaBrand:
                                             e.skincareDetail!.brand.toString(),
                                         namaProduk: e.name.toString(),
-                                        diskonProduk: '20',
-                                        hargaDiskon:
-                                            CurrencyFormat.convertToIdr(
-                                                e.price, 0),
+                                        diskonProduk: '',
+                                        hargaDiskon: '',
                                         harga: CurrencyFormat.convertToIdr(
                                             e.price, 0),
                                         urlImg: e.mediaProducts!.isEmpty
