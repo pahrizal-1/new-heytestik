@@ -250,7 +250,8 @@ class _ChatPageState extends State<ChatPage> {
                     title: 'Konsul Sekarang',
                     onPressed: () {
                       Get.to(
-                        PertanyaanAwalPage(
+                        () => PertanyaanAwalPage(
+                          detail: widget.detail,
                           interestConditionId: widget.interestConditionId,
                           title: widget.title,
                         ),

@@ -1,10 +1,14 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/camera_selain_wajah.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/camera_wajah_depan_pertanyaan.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/hasil_poto_selain_wajah.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/hasil_poto_wajah_depan_pertanyaan.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/ringkasan_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
@@ -13,10 +17,16 @@ import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
 class RiwayatMedis7Page extends StatefulWidget {
   final int? interestConditionId;
-  const RiwayatMedis7Page({required this.interestConditionId, super.key});
+  Data detail;
+  RiwayatMedis7Page({
+    required this.interestConditionId,
+    required this.detail,
+    super.key,
+  });
 
   @override
   State<RiwayatMedis7Page> createState() => _RiwayatMedis7PageState();
@@ -159,17 +169,29 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     children: [
                       InkWell(
                         onTap: () async {
-                          state.isGallery.value = false;
-                          setState(() {});
-                          var result =
-                              await Get.to(CameraWajahDepanPreassesment());
-                          if (result) {
-                            setState(() {
-                              frontFace = state.initialConditionFrontFace;
-                              rightSide = state.initialConditionRightSide;
-                              leftSide = state.initialConditionLeftSide;
-                              problemPart = state.initialConditionProblemPart;
-                            });
+                          if (widget.detail.concern?.segment ==
+                              "Korektif Wajah") {
+                            state.isGallery.value = false;
+                            setState(() {});
+                            var result = await Get.to(
+                                () => CameraWajahDepanPreassesment());
+                            if (result) {
+                              setState(() {
+                                frontFace = state.initialConditionFrontFace;
+                                rightSide = state.initialConditionRightSide;
+                                leftSide = state.initialConditionLeftSide;
+                                problemPart = state.initialConditionProblemPart;
+                              });
+                            }
+                          } else {
+                            var result =
+                                await Get.to(() => CameraSelainWajah());
+
+                            if (result != null) {
+                              setState(() {
+                                state.imageCondition.add(result);
+                              });
+                            }
                           }
                         },
                         child: DottedBorder(
@@ -229,22 +251,38 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                       ),
                       InkWell(
                         onTap: () async {
-                          state.initialConditionFrontFace =
-                              await state.pickImageFromGalery();
-                          setState(() {});
-                          if (state.initialConditionFrontFace != null) {
+                          if (widget.detail.concern?.segment ==
+                              "Korektif Wajah") {
+                            state.initialConditionFrontFace =
+                                await state.pickImageFromGalery();
+                            setState(() {});
+                            if (state.initialConditionFrontFace != null) {
+                              state.isGallery.value = true;
+                              var result = await Get.to(
+                                  () => HasilPotoWajahDepanPreassement());
+                              if (result) {
+                                setState(() {
+                                  frontFace = state.initialConditionFrontFace;
+                                  rightSide = state.initialConditionRightSide;
+                                  leftSide = state.initialConditionLeftSide;
+                                  problemPart =
+                                      state.initialConditionProblemPart;
+                                });
+                              }
+                              return;
+                            }
+                          } else {
                             state.isGallery.value = true;
+                            var img = await state.pickImageFromGalery();
                             var result =
-                                await Get.to(HasilPotoWajahDepanPreassement());
-                            if (result) {
+                                await Get.to(() => HasilPotoSelainWajah(
+                                      img: img,
+                                    ));
+                            if (result != null) {
                               setState(() {
-                                frontFace = state.initialConditionFrontFace;
-                                rightSide = state.initialConditionRightSide;
-                                leftSide = state.initialConditionLeftSide;
-                                problemPart = state.initialConditionProblemPart;
+                                state.imageCondition.add(result);
                               });
                             }
-                            return;
                           }
                           state.isGallery.value = false;
                         },
@@ -308,334 +346,416 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/alert-new.png',
-                        width: 20,
-                        height: 20,
-                        color: greenColor,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12),
-                        child: Text(
-                          'Yuk!! Ambil Foto kamu :)',
-                          style: TextStyle(
-                            fontWeight: bold,
-                            fontSize: 15,
-                            fontFamily: 'ProximaNova',
-                            color: fromCssColor('#323232'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    Row(
                       children: [
-                        if (frontFace == null)
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/ambil-poto-kosong.png',
-                                ),
-                              ),
-                            ),
-                          )
-                        else
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: FileImage(
-                                  frontFace!,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        const SizedBox(
-                          width: 8,
+                        Image.asset(
+                          'assets/icons/alert-new.png',
+                          width: 20,
+                          height: 20,
+                          color: greenColor,
                         ),
-                        if (problemPart == null)
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/ambil-poto-kosong.png',
-                                ),
-                              ),
-                            ),
-                          )
-                        else
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: FileImage(
-                                  problemPart!,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            'Yuk!! Ambil Foto kamu :)',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontSize: 15,
+                              fontFamily: 'ProximaNova',
+                              color: fromCssColor('#323232'),
                             ),
                           ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        if (rightSide == null)
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/ambil-poto-kosong.png',
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          )
-                        else
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: FileImage(
-                                  rightSide!,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        if (leftSide == null)
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/images/ambil-poto-kosong.png',
-                                ),
-                              ),
-                            ),
-                          )
-                        else
-                          Container(
-                            height: 80,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(7),
-                              image: DecorationImage(
-                                image: FileImage(
-                                  leftSide!,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        const SizedBox(
-                          width: 8,
                         ),
                       ],
+                    )
+                  else
+                    state.imageCondition.isNotEmpty
+                        ? Row(
+                            children: [
+                              Image.asset(
+                                'assets/icons/alert-new.png',
+                                width: 20,
+                                height: 20,
+                                color: greenColor,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Text(
+                                  'Foto kamu :)',
+                                  style: TextStyle(
+                                    fontWeight: bold,
+                                    fontSize: 15,
+                                    fontFamily: 'ProximaNova',
+                                    color: fromCssColor('#323232'),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          if (frontFace == null)
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/ambil-poto-kosong.png',
+                                  ),
+                                ),
+                              ),
+                            )
+                          else
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    frontFace!,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          if (problemPart == null)
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/ambil-poto-kosong.png',
+                                  ),
+                                ),
+                              ),
+                            )
+                          else
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    problemPart!,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          if (rightSide == null)
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/ambil-poto-kosong.png',
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            )
+                          else
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    rightSide!,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          if (leftSide == null)
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/ambil-poto-kosong.png',
+                                  ),
+                                ),
+                              ),
+                            )
+                          else
+                            Container(
+                              height: 80,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                image: DecorationImage(
+                                  image: FileImage(
+                                    leftSide!,
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                        ],
+                      ),
+                    )
+                  else
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          ...state.imageCondition.map((val) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 8),
+                              child: Stack(
+                                children: [
+                                  Container(
+                                    height: 72,
+                                    width: 82,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffD9D9D9),
+                                      borderRadius: BorderRadius.circular(15),
+                                      image: DecorationImage(
+                                        image: FileImage(val),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 0,
+                                    child: InkWell(
+                                      onTap: () {
+                                        state.imageCondition
+                                            .removeWhere((File item) {
+                                          return item == val;
+                                        });
+                                        setState(() {});
+                                      },
+                                      child: Icon(
+                                        Icons.delete,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }).toList()
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/alert-new.png',
-                        width: 20,
-                        height: 20,
-                        color: greenColor,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 12),
-                        child: Text(
-                          'Tips pengambilan foto & panduan foto',
-                          style: TextStyle(
-                            fontWeight: bold,
-                            fontSize: 15,
-                            fontFamily: 'ProximaNova',
-                            color: fromCssColor('#323232'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    const SizedBox(
+                      height: 15,
+                    )
+                  else
+                    state.imageCondition.isNotEmpty
+                        ? const SizedBox(
+                            height: 15,
+                          )
+                        : Container(),
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    Row(
                       children: [
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/tampak-depan.png'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Tampak depan',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                        Image.asset(
+                          'assets/icons/alert-new.png',
+                          width: 20,
+                          height: 20,
+                          color: greenColor,
                         ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/zoom1.png'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Zoom area bermasalah',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/kanan1.png'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Tampak samping kanan',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        SizedBox(
-                          height: 110,
-                          width: 80,
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  image: const DecorationImage(
-                                    image:
-                                        AssetImage('assets/images/kiri1.png'),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: const TextSpan(
-                                    text: 'Tampak samping kiri',
-                                    style: TextStyle(
-                                      fontFamily: 'ProximaNova',
-                                      color: Colors.black,
-                                      fontSize: 10,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            'Tips pengambilan foto & panduan foto',
+                            style: TextStyle(
+                              fontWeight: bold,
+                              fontSize: 15,
+                              fontFamily: 'ProximaNova',
+                              color: fromCssColor('#323232'),
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            height: 110,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/tampak-depan.png'),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: const TextSpan(
+                                      text: 'Tampak depan',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          SizedBox(
+                            height: 110,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    image: const DecorationImage(
+                                      image:
+                                          AssetImage('assets/images/zoom1.png'),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: const TextSpan(
+                                      text: 'Zoom area bermasalah',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          SizedBox(
+                            height: 110,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/kanan1.png'),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: const TextSpan(
+                                      text: 'Tampak samping kanan',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          SizedBox(
+                            height: 110,
+                            width: 80,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 80,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    image: const DecorationImage(
+                                      image:
+                                          AssetImage('assets/images/kiri1.png'),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  child: RichText(
+                                    textAlign: TextAlign.center,
+                                    text: const TextSpan(
+                                      text: 'Tampak samping kiri',
+                                      style: TextStyle(
+                                        fontFamily: 'ProximaNova',
+                                        color: Colors.black,
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    const SizedBox(
+                      height: 15,
+                    ),
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -758,18 +878,28 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                   ButtonGreenWidget(
                     title: 'Konfirmasi Foto',
                     onPressed: () async {
-                      if (state.initialConditionFrontFace == null ||
-                          state.initialConditionRightSide == null ||
-                          state.initialConditionLeftSide == null ||
-                          state.initialConditionProblemPart == null) {
-                        return await showDialog(
-                          context: context,
-                          builder: (context) => AlertWidget(
-                            subtitle: 'Foto tidak boleh kosong',
-                          ),
-                        );
+                      if (widget.detail.concern?.segment == "Korektif Wajah") {
+                        if (state.initialConditionFrontFace == null ||
+                            state.initialConditionRightSide == null ||
+                            state.initialConditionLeftSide == null ||
+                            state.initialConditionProblemPart == null) {
+                          return await showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                              subtitle: 'Foto tidak boleh kosong',
+                            ),
+                          );
+                        }
+                      } else {
+                        if (state.imageCondition.isEmpty) {
+                          return await showDialog(
+                            context: context,
+                            builder: (context) => AlertWidget(
+                              subtitle: 'Foto tidak boleh kosong',
+                            ),
+                          );
+                        }
                       }
-
                       await showDialog(
                         context: context,
                         builder: (context) => AlertConfirmationWidget(
@@ -783,6 +913,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                                 builder: (context) => RingkasanPembayaranPage(
                                   interestConditionId:
                                       widget.interestConditionId,
+                                  detail: widget.detail,
                                 ),
                               ),
                             );
