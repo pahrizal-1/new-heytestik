@@ -59,7 +59,7 @@ class Data2 {
   int? careRating;
   int? serviceRating;
   int? managementRating;
-  int? avgRating;
+  double? avgRating;
   String? review;
   dynamic replyReview;
   dynamic createdBy;
@@ -105,7 +105,7 @@ class Data2 {
     careRating = json['care_rating'];
     serviceRating = json['service_rating'];
     managementRating = json['management_rating'];
-    avgRating = json['avg_rating'];
+    avgRating = double.parse(json['avg_rating'].toString());
     review = json['review'];
     replyReview = json['reply_review'];
     createdBy = json['created_by'];
@@ -196,7 +196,7 @@ class User {
   dynamic npwpNo;
   dynamic npwpImage;
   dynamic specialist;
-  int? rating;
+  double? rating;
   dynamic statusSchedule;
   dynamic since;
   dynamic start;
@@ -206,7 +206,7 @@ class User {
   String? updatedAt;
   dynamic deletedAt;
   dynamic refreshToken;
-  dynamic mediaUserProfilePicture;
+  MediaUserProfilePicture? mediaUserProfilePicture;
 
   User(
       {this.id,
@@ -286,7 +286,7 @@ class User {
     npwpNo = json['npwp_no'];
     npwpImage = json['npwp_image'];
     specialist = json['specialist'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     statusSchedule = json['status_schedule'];
     since = json['since'];
     start = json['start'];
@@ -296,7 +296,9 @@ class User {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     refreshToken = json['refresh_token'];
-    mediaUserProfilePicture = json['media_user_profile_picture'];
+    mediaUserProfilePicture = json['media_user_profile_picture'] != null
+        ? MediaUserProfilePicture.fromJson(json['media_user_profile_picture'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -343,7 +345,60 @@ class User {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     data['refresh_token'] = refreshToken;
-    data['media_user_profile_picture'] = mediaUserProfilePicture;
+    if (mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] = mediaUserProfilePicture!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaUserProfilePicture {
+  int? id;
+  int? mediaId;
+  int? userId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaUserProfilePicture(
+      {this.id,
+      this.mediaId,
+      this.userId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaUserProfilePicture.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    userId = json['user_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['media_id'] = mediaId;
+    data['user_id'] = userId;
+    data['created_by'] = createdBy;
+    data['updated_by'] = updatedBy;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (media != null) {
+      data['media'] = media!.toJson();
+    }
     return data;
   }
 }
@@ -429,7 +484,7 @@ class Treatment {
   String? treatmentStep;
   int? price;
   bool? isActive;
-  int? rating;
+  double? rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -467,7 +522,7 @@ class Treatment {
     treatmentStep = json['treatment_step'];
     price = json['price'];
     isActive = json['is_active'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];

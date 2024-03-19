@@ -6,7 +6,7 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/skincare_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
@@ -36,7 +36,7 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
   int page = 1;
   String? search;
   Map<String, dynamic> filter = {};
-
+  bool isText = false;
   List<Drug.Data2> drugs = [];
   List<Skincare.Data2> skincare = [];
   List<Treat.Data2> treatment = [];
@@ -75,6 +75,14 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                 child: Center(
                   child: TextField(
                     controller: searchController,
+                    onChanged: (val) {
+                      if (searchController.text.isNotEmpty) {
+                        isText = true;
+                      } else {
+                        isText = false;
+                      }
+                      setState(() {});
+                    },
                     onEditingComplete: () async {
                       search = searchController.text;
                       drugs.clear();
@@ -114,12 +122,21 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                           color: blackColor,
                         ),
                       ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: SvgPicture.asset(
-                          'assets/icons/x-circle-icons.svg',
-                        ),
-                      ),
+                      suffixIcon: isText
+                          ? InkWell(
+                              onTap: () {
+                                searchController.clear();
+                                search = null;
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: SvgPicture.asset(
+                                  'assets/icons/x-circle-icons.svg',
+                                ),
+                              ),
+                            )
+                          : null,
                       hintText: 'Search...',
                       border: InputBorder.none,
                     ),
@@ -133,9 +150,8 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
       body: (drugs.isEmpty && skincare.isEmpty && treatment.isEmpty)
           ? Center(
               child: Text(
-                'Data tidak ditemukan',
+                'Belum ada data',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

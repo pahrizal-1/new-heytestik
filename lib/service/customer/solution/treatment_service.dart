@@ -8,241 +8,194 @@ import 'package:heystetik_mobileapps/models/doctor/treatment_recommendation_mode
 import 'package:heystetik_mobileapps/models/find_clinic_model.dart';
 import 'package:heystetik_mobileapps/models/treatment_review_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
-
+import 'package:heystetik_mobileapps/models/customer/overview_treatment_model.dart';
 import '../../../models/clinic.dart';
-import '../../../models/lookup_treatment.dart';
 
 class TreatmentService extends ProviderClass {
   TreatmentService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<List<TreatmentRecommendationModel>>
-      getTreatmentRecommendation() async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/recomendation',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return (response['data'] as List)
-          .map((e) => TreatmentRecommendationModel.fromJson(e))
-          .toList();
-    } catch (error) {
-      print(error);
-      return [];
+  Future<TreatmentModel.TreatmentModel> getAllTreatment(
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+  }) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    if (filter != null) {
+      params.addAll(filter);
     }
+    print("params getAllTreatment $params");
+    var response = await networkingConfig.doGet(
+      '/solution/treatment',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('response getAllTreatment $response');
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
-  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/top',
-        params: {
-          "page": page,
-          "take": 10,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
+  Future<List<TreatmentRecommendationModel>>
+      getTreatmentRecommendation() async {
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/recomendation',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('response getTreatmentRecommendation $response');
+    return (response['data'] as List)
+        .map((e) => TreatmentRecommendationModel.fromJson(e))
+        .toList();
+  }
 
-      print(response);
-
-      return TreatmentModel.TreatmentModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.TreatmentModel();
-    }
+  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page,
+      {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTopTreatment $params');
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/top',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('response getTopTreatment $response');
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page,
       {String? search}) async {
-    print(search);
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/trending',
-        params: {"page": page, "take": 10, "search": search},
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-
-      return TreatmentModel.TreatmentModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.TreatmentModel();
-    }
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTrendingTreatment $params');
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/trending',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('response getTrendingTreatment $response');
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page,
       {String? search}) async {
-    print(search);
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/top-rating',
-        params: {"page": page, "take": 10, "search": search},
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-
-      return TreatmentModel.TreatmentModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.TreatmentModel();
-    }
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTopRatingTreatment $params');
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/top-rating',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getTopRatingTreatment $response");
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
-  Future<Map<String, dynamic>> getOverview(int treatmentID) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment-review/$treatmentID/overview',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-
-      return response;
-    } catch (error) {
-      print(error);
-      return {};
-    }
+  Future<OverviewUlasanTreatmentModel> getOverview(int treatmentID) async {
+    var response = await networkingConfig.doGet(
+      '/solution/treatment-review/$treatmentID/overview',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getOverview $response");
+    return OverviewUlasanTreatmentModel.fromJson(response);
   }
 
   Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(
       int page, int clinicID) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/clinic/$clinicID/treatment',
-        params: {
-          "page": page,
-          "take": 10,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-
-      return TreatmentModel.TreatmentModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.TreatmentModel();
-    }
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+    };
+    print("params getTreatmentFromSameClinic $params");
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/clinic/$clinicID/treatment',
+      params: {
+        "page": page,
+        "take": 10,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getTreatmentFromSameClinic $response");
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<TreatmentModel.Data2> getTreatmentDetail(int treatmentID) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/$treatmentID',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      return TreatmentModel.Data2.fromJson(response['data']);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.Data2();
-    }
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/$treatmentID',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getTreatmentDetail $response");
+    return TreatmentModel.Data2.fromJson(response['data']);
   }
 
   Future<ClinicModel> getClinic(int page,
       {String? search, Map<String, dynamic>? filter}) async {
-    try {
-      Map<String, dynamic> parameter = {
-        "page": page,
-        "take": 10,
-        "search": search,
-      };
+    Map<String, dynamic> parameter = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
 
-      if (filter != null) {
-        parameter.addAll(filter);
-      }
-      print("parameter $parameter");
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/clinic',
-        params: parameter,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      return ClinicModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return ClinicModel();
+    if (filter != null) {
+      parameter.addAll(filter);
     }
+    print("parameter getClinic $parameter");
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/clinic',
+      params: parameter,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getClinic $response");
+    return ClinicModel.fromJson(response);
   }
 
   Future<FindClinicModel> getClinicDetail(int id) async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/clinic/$id',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      return FindClinicModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return FindClinicModel();
-    }
-  }
-
-  Future addWishlistTreatment(int treatmentID) async {
-    try {
-      var response = await networkingConfig.doPost(
-        '/user-wishlist-treatment',
-        data: {
-          "treatment_id": treatmentID,
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-      return response;
-    } catch (error) {
-      print(error);
-    }
-  }
-
-  Future deleteWishlistTreatment(int treatmentID) async {
-    try {
-      var response = await networkingConfig.doDelete(
-        '/user-wishlist-treatment/$treatmentID',
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      print(response);
-      return response;
-    } catch (error) {
-      print(error);
-    }
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/clinic/$id',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getClinicDetail $response");
+    return FindClinicModel.fromJson(response);
   }
 
   Future<TreatmentModel.TreatmentModel> getNearTreatment(
@@ -250,30 +203,26 @@ class TreatmentService extends ProviderClass {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
-    try {
-      Map<String, dynamic> params = {
-        "page": page,
-        "take": 10,
-        "search": search,
-      };
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
 
-      if (filter != null) {
-        params.addAll(filter);
-      }
-      print("params $params");
-      var response = await networkingConfig.doGet(
-        '/solution/treatment/near-me',
-        params: params,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return TreatmentModel.TreatmentModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.TreatmentModel();
+    if (filter != null) {
+      params.addAll(filter);
     }
+    print("params getNearTreatment $params");
+    var response = await networkingConfig.doGet(
+      '/solution/treatment/near-me',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("response getNearTreatment $response");
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<TreatmentReviewModel> getTreatmentReview(
@@ -291,7 +240,7 @@ class TreatmentService extends ProviderClass {
     if (filter != null) {
       params.addAll(filter);
     }
-
+    print("params getTreatmentReview $params");
     var response = await networkingConfig.doGet(
       '/solution/treatment-review',
       params: params,
@@ -300,11 +249,11 @@ class TreatmentService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
+    print("response getTreatmentReview $response");
     return TreatmentReviewModel.fromJson(response);
   }
 
-  Future helped(int reviewId) async {
+  void helped(int reviewId) async {
     var response = await networkingConfig.doPost(
       '/solution/treatment-review/helpful',
       data: {
@@ -315,12 +264,10 @@ class TreatmentService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     print(response);
-    return response;
   }
 
-  Future unHelped(int reviewId) async {
+  void unHelped(int reviewId) async {
     var response = await networkingConfig.doDelete(
       '/solution/treatment-review/helpful',
       data: {
@@ -331,64 +278,6 @@ class TreatmentService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     print(response);
-    return response;
-  }
-
-  Future<TreatmentModel.TreatmentModel> getAllTreatment(
-    int page, {
-    String? search,
-    Map<String, dynamic>? filter,
-  }) async {
-    Map<String, dynamic> params = {
-      "page": page,
-      "take": 10,
-      "search": search,
-    };
-
-    if (filter != null) {
-      params.addAll(filter);
-    }
-    print("params getAllTreatment $params");
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/treatment',
-        params: params,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      print('responss ${response}');
-      return TreatmentModel.TreatmentModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return TreatmentModel.TreatmentModel();
-    }
-  }
-
-  Future<List<LookupTreatmentModel>> getLookupTreatment() async {
-    try {
-      var response = await networkingConfig.doGet(
-        '/lookup',
-        params: {
-          "page": 1,
-          "take": 100,
-          "order": "asc",
-          "category[]": "TREATMENT_TYPE",
-        },
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return (response['data']['data'] as List)
-          .map((e) => LookupTreatmentModel.fromJson(e))
-          .toList();
-    } catch (error) {
-      print(error);
-      return [];
-    }
   }
 }

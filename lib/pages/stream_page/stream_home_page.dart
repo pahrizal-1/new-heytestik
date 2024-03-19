@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/all_info_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_home_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
@@ -29,7 +29,7 @@ class StreamHomePage extends StatefulWidget {
 class _StreamHomePageState extends State<StreamHomePage>
     with TickerProviderStateMixin {
   final TextEditingController searchController = TextEditingController();
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
   final ProfileController state = Get.put(ProfileController());
 
   int index = 0;
@@ -37,7 +37,7 @@ class _StreamHomePageState extends State<StreamHomePage>
 
   @override
   void initState() {
-    tabController = TabController(vsync: this, length: 4);
+    tabController = TabController(vsync: this, length: 5);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       index = widget.index;
       setState(() {});
@@ -108,38 +108,34 @@ class _StreamHomePageState extends State<StreamHomePage>
                           onEditingComplete: () {
                             WidgetsBinding.instance
                                 .addPostFrameCallback((timeStamp) async {
-                              postController.search.value =
-                                  searchController.text;
-                              postController.homeStreamIndex.value = 1;
-                              postController.homeStreams.value = [];
-                              await postController.getStreamHome(context);
+                              stateStream.search.value = searchController.text;
+                              stateStream.homeStreamIndex.value = 1;
+                              stateStream.homeStreams.value = [];
+                              await stateStream.getStreamHome(context);
                             });
 
                             WidgetsBinding.instance
                                 .addPostFrameCallback((timeStamp) async {
-                              postController.search.value =
-                                  searchController.text;
-                              postController.trendingStreamIndex.value = 1;
-                              postController.trendingStreams.value = [];
-                              await postController.getTrendingStream(context);
+                              stateStream.search.value = searchController.text;
+                              stateStream.trendingStreamIndex.value = 1;
+                              stateStream.trendingStreams.value = [];
+                              await stateStream.getTrendingStream(context);
                             });
 
                             WidgetsBinding.instance
                                 .addPostFrameCallback((timeStamp) async {
-                              postController.search.value =
-                                  searchController.text;
-                              postController.followedStreamIndex.value = 1;
-                              postController.followedStreams.value = [];
-                              await postController.getStreamFollowed(context);
+                              stateStream.search.value = searchController.text;
+                              stateStream.followedStreamIndex.value = 1;
+                              stateStream.followedStreams.value = [];
+                              await stateStream.getStreamFollowed(context);
                             });
 
                             WidgetsBinding.instance
                                 .addPostFrameCallback((timeStamp) async {
-                              postController.search.value =
-                                  searchController.text;
-                              postController.interestStreamIndex.value = 1;
-                              postController.interestStreams.value = [];
-                              await postController.getStreamInterest(context);
+                              stateStream.search.value = searchController.text;
+                              stateStream.interestStreamIndex.value = 1;
+                              stateStream.interestStreams.value = [];
+                              await stateStream.getStreamInterest(context);
                             });
                           },
                         ),

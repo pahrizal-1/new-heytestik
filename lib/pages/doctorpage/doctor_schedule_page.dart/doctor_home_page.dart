@@ -17,7 +17,6 @@ import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:intl/intl.dart';
 
-
 import '../../../controller/doctor/profile/profile_controller.dart';
 import '../../../core/global.dart';
 
@@ -34,8 +33,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
   final DoctorProfileController stateProfile =
       Get.put(DoctorProfileController());
-  final NotificationCustomerController stateNotif =
-      Get.put(NotificationCustomerController());
+  final NotificationController stateNotif = Get.put(NotificationController());
 
   IO.Socket? _socket;
   Timer? timer;
@@ -247,12 +245,10 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                         child: Center(
                           child: state.startTime.value.isEmpty
                               ? Text(
-                                  'Tidak ada jadwal',
+                                  'Belum ada jadwal',
                                   style: TextStyle(
-                                    fontWeight: bold,
-                                    color: fromCssColor('#6B6B6B'),
+                                    fontFamily: 'ProximaNova',
                                     fontSize: 20,
-                                    fontFamily: 'ProximaNova,',
                                   ),
                                 )
                               : Column(
@@ -558,12 +554,10 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Tidak ada jadwal',
+                                  'Belum ada jadwal',
                                   style: TextStyle(
-                                    fontWeight: bold,
-                                    color: fromCssColor('#6B6B6B'),
+                                    fontFamily: 'ProximaNova',
                                     fontSize: 20,
-                                    fontFamily: 'ProximaNova,',
                                   ),
                                 ),
                               ),

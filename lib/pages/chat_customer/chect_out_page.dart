@@ -212,6 +212,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               CurrencyFormat.convertToIdr(e['totalPrice'], 0),
                           nameProduk: e['productName'],
                           item: e['qty'].toString(),
+                          note: e['notes'],
                           urlImg: "${Global.FILE}/${e['img']}",
                         );
                       }),
@@ -339,8 +340,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                             state.getPaymentMethod.isEmpty
                                                 ? Center(
                                                     child: Text(
-                                                      'Tidak ada metode pemayaran',
+                                                      'Belum ada motode pembayaran',
                                                       style: TextStyle(
+                                                        fontFamily:
+                                                            'ProximaNova',
                                                         fontSize: 20,
                                                       ),
                                                     ),
@@ -647,12 +650,16 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             Obx(
                               () => Text(
                                 CurrencyFormat.convertToIdr(
-                                    state.totalAmount.value, 0),
+                                  state.totalAmount.value,
+                                  0,
+                                ),
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 20),
                               ),
                             ),
-                            const Icon(Icons.keyboard_arrow_up)
+                            const Icon(
+                              Icons.keyboard_arrow_up,
+                            )
                           ],
                         ),
                       ],
@@ -776,7 +783,6 @@ class _SelectAddressState extends State<SelectAddress> {
                       child: Text(
                         'Belum ada alamat',
                         style: TextStyle(
-                          fontWeight: bold,
                           fontFamily: 'ProximaNova',
                           fontSize: 20,
                         ),

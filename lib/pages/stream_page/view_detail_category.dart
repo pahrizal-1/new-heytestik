@@ -163,9 +163,8 @@ class ViewDetailCategoryNews extends StatelessWidget {
                               child: Text(
                                 'Belum ada berita',
                                 style: TextStyle(
-                                  fontWeight: bold,
                                   fontFamily: 'ProximaNova',
-                                  fontSize: 15,
+                                  fontSize: 20,
                                 ),
                               ),
                             )
@@ -233,10 +232,9 @@ class ViewDetailCategoryNews extends StatelessWidget {
                       return Center(
                         child: Text(
                           'Belum ada berita',
-                          style: TextStyle(
-                            fontWeight: bold,
+                         style: TextStyle(
                             fontFamily: 'ProximaNova',
-                            fontSize: 15,
+                            fontSize: 20,
                           ),
                         ),
                       );

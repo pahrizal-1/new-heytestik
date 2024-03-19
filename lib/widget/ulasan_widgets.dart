@@ -295,14 +295,14 @@ class UlasanProduk extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              Get.to(TulisUlasanProdukPage(
-                transactionProductId: data!.transactionProductId.toString(),
-                transactionProductItemId: data!.id!.toString(),
-                img:
-                    "${Global.FILE}/${data?.product!.mediaProducts?[0].media?.path}",
-                product: data?.product?.name ?? '-',
-                type: data?.product?.type ?? '-',
-              ));
+              Get.to(() => TulisUlasanProdukPage(
+                    transactionProductId: data!.transactionProductId.toString(),
+                    transactionProductItemId: data!.id!.toString(),
+                    img:
+                        "${Global.FILE}/${data?.product!.mediaProducts?[0].media?.path}",
+                    product: data?.product?.name ?? '-',
+                    type: data?.product?.type ?? '-',
+                  ));
             },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),

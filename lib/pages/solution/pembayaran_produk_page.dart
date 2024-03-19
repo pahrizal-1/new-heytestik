@@ -171,6 +171,13 @@ class ProdukPembayaran extends StatefulWidget {
 
 class _ProdukPembayaranState extends State<ProdukPembayaran> {
   final OrderProductController state = Get.put(OrderProductController());
+  TextEditingController note = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    note.text = state.listProductItem[widget.index]['notes'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,13 +233,14 @@ class _ProdukPembayaranState extends State<ProdukPembayaran> {
                         height: 30,
                         width: 500,
                         child: TextFormField(
+                          controller: note,
                           onChanged: (value) {
                             state.listProductItem[widget.index]['notes'] =
                                 value;
                           },
                           decoration: InputDecoration(
                             labelText: 'Catatan',
-                            hintText: widget.note,
+                            hintText: 'Catatan',
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,

@@ -17,7 +17,7 @@ class TextUlasanRiwayat extends StatelessWidget {
     required this.nameBrand,
     required this.nameProduk,
     required this.waktu,
-    required this.coment,
+    this.coment = '',
     this.balasan = '',
     this.onPressed,
     required this.rating,
@@ -78,9 +78,33 @@ class TextUlasanRiwayat extends StatelessWidget {
                   const SizedBox(
                     height: 18,
                   ),
-                  Text(
-                    balasan,
-                    style: blackRegulerTextStyle.copyWith(fontSize: 13),
+                  Row(
+                    children: [
+                      Container(
+                        height: 60,
+                        width: 2,
+                        decoration: BoxDecoration(color: greenColor),
+                      ),
+                      const SizedBox(
+                        width: 7,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Penjual ',
+                              style: blackHigtTextStyle.copyWith(
+                                  fontSize: 13, color: subTitleColor),
+                            ),
+                            Text(
+                              balasan,
+                              style: subTitleTextStyle,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ]
               ],

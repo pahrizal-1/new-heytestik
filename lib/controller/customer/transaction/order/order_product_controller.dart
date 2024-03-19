@@ -263,6 +263,7 @@ class OrderProductController extends StateClass {
         productItem.add({
           "product_id": listProductItem[i]['productId'],
           "qty": listProductItem[i]['qty'],
+          "note": listProductItem[i]['notes'],
         });
 
         // kalo dari keranjang masuk kesini
@@ -283,7 +284,7 @@ class OrderProductController extends StateClass {
       };
 
       debugPrint("req order $reqOrder");
-      // return;
+
       var res = await TransactionService().orderProduct(reqOrder);
       debugPrint("req order ${jsonEncode(res)}");
       if (res.success != true && res.message != 'Success') {
@@ -299,16 +300,13 @@ class OrderProductController extends StateClass {
       // bank.value = bank.value;
       // JIKA SUKSES SET expireTime
       expireTime.value = res.data!.payment!.expiryTime.toString();
-      debugPrint('orderId ${orderId.value}');
+      debugPrint('order CONT  ${orderId.value}');
       // debugPrint('bank ${bank.value}');
-      debugPrint('expireTime ${expireTime.value}');
+      debugPrint('expireTime CONT ${expireTime.value}');
 
       if (isCart) {
-        debugPrint('dari keranjang');
-        // hapus produk di keranjang, pake id produk
+        // jika dari keranjang, hapus produk di keranjang, pake id produk
         await cart.deleteManyCart(context, listIdProduct);
-      } else {
-        debugPrint('bukan dari keranjang');
       }
 
       doInPost();

@@ -82,7 +82,6 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                                   'Belum ada data',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontWeight: bold,
                                     fontFamily: 'ProximaNova',
                                     fontSize: 20,
                                   ),
@@ -219,7 +218,6 @@ class _RekeningBankPageState extends State<RekeningBankPage> {
                         child: Text(
                           'Belum ada data',
                           style: TextStyle(
-                            fontWeight: bold,
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),

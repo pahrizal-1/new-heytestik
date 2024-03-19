@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-import 'package:heystetik_mobileapps/models/customer/wishlist_model.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/wishlist_produk_model.dart';
 import '../theme/theme.dart';
 import 'alert_dialog_ulasan.dart';
 
@@ -25,7 +23,7 @@ class ProdukWishlistSkinCare extends StatefulWidget {
 }
 
 class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
-  final WishlistController state = Get.put(WishlistController());
+  final WishlistProdukController state = Get.put(WishlistProdukController());
   final CartController cart = Get.put(CartController());
 
   @override
@@ -149,12 +147,12 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                                             context: context,
                                             builder: (context) => AlertInfomasi(
                                                 function: () async {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
                                               );
+                                              Get.back();
+                                              Get.back();
                                               widget.onDelete();
                                             }),
                                           );
@@ -175,13 +173,7 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
                                 ],
                               ),
                             ),
-                          ).then((value) {
-                            SnackbarWidget.getSuccessSnackbar(
-                              context,
-                              'Info',
-                              'Produk berhasil dihapus dari Wishlist',
-                            );
-                          });
+                          );
                         },
                         child: Image.asset(
                           'assets/icons/more-horizontal.png',
@@ -241,8 +233,8 @@ class ProdukWishlistObat extends StatefulWidget {
 }
 
 class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
-  final WishlistController state = Get.put(WishlistController());
-  DrugController drugController = Get.put(DrugController());
+  final WishlistProdukController state = Get.put(WishlistProdukController());
+  final CartController cart = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -332,12 +324,12 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                                             context: context,
                                             builder: (context) => AlertInfomasi(
                                                 function: () async {
-                                              Navigator.pop(context);
-                                              Navigator.pop(context);
                                               await state.deleteWistlist(
                                                 context,
                                                 widget.data.productId!.toInt(),
                                               );
+                                              Get.back();
+                                              Get.back();
                                               widget.onDelete();
                                             }),
                                           );
@@ -358,13 +350,7 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                                 ],
                               ),
                             ),
-                          ).then((value) {
-                            SnackbarWidget.getSuccessSnackbar(
-                              context,
-                              'Info',
-                              'Produk berhasil dihapus dari Wishlist',
-                            );
-                          });
+                          );
                         },
                         child: Image.asset(
                           'assets/icons/more-horizontal.png',
@@ -376,19 +362,13 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                   const SizedBox(
                     width: 4,
                   ),
-                  widget.data.product!.consultationRecipeDrugs!.isNotEmpty
+                  (widget.data.product?.consultationRecipeDrugs?.isNotEmpty ??
+                          widget.data.product?.consultationRecipeDrugs != null)
                       ? Expanded(
                           child: InkWell(
                             onTap: () async {
-                              drugController.addDrugToCart(
-                                context,
-                                widget.data.productId!,
-                              );
-                              SnackbarWidget.getSuccessSnackbar(
-                                context,
-                                'Info',
-                                'Produk ditambahkan ke keranjang',
-                              );
+                              await cart.addCart(
+                                  context, widget.data.productId!, 1, '');
                             },
                             child: Container(
                               height: 30,

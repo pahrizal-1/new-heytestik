@@ -352,6 +352,7 @@ class TransactionProductItems {
   int? price;
   int? discount;
   int? subtotal;
+  String? note;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -368,6 +369,7 @@ class TransactionProductItems {
       this.price,
       this.discount,
       this.subtotal,
+      this.note,
       this.createdBy,
       this.updatedBy,
       this.createdAt,
@@ -384,6 +386,7 @@ class TransactionProductItems {
     price = json['price'];
     discount = json['discount'];
     subtotal = json['subtotal'];
+    note = json['note'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
@@ -403,6 +406,7 @@ class TransactionProductItems {
     data['price'] = price;
     data['discount'] = discount;
     data['subtotal'] = subtotal;
+    data['note'] = note;
     data['created_by'] = createdBy;
     data['updated_by'] = updatedBy;
     data['created_at'] = createdAt;

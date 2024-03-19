@@ -168,7 +168,8 @@ class _EtalaseTreatMentPageState extends State<EtalaseTreatMentPage> {
                       ? const Center(
                           child: Text(
                             'Belum ada data',
-                            style: TextStyle(
+                             style: TextStyle(
+                              fontFamily: 'ProximaNova',
                               fontSize: 20,
                             ),
                           ),

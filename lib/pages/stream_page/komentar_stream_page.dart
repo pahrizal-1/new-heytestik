@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
@@ -43,7 +45,7 @@ class KomentarStreamPage extends StatefulWidget {
 class _KomentarStreamPageState extends State<KomentarStreamPage> {
   File? imagePath;
   final ProfileController stateProfile = Get.put(ProfileController());
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
   final ScrollController commentScrollController = ScrollController();
   final TextEditingController commentController = TextEditingController();
 
@@ -51,6 +53,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   int page = 1;
   int index = 1;
   bool? like;
+  bool? follow;
   bool? saved;
   int postLike = 0;
   Map<String, int> commentLikes = {};
@@ -68,8 +71,8 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postController.isLoading.value = true;
-      post = await postController.getStreamById(context, widget.postId);
+      stateStream.isLoading.value = true;
+      post = await stateStream.getStreamById(context, widget.postId);
       dataRemainingTime = post!.endTime
           .difference(DateTime.now())
           .toString()
@@ -82,7 +85,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       streamPollOptions = post?.streamPollOptions ?? [];
 
       comments.addAll(
-        await postController.getComment(context, page, widget.postId),
+        await stateStream.getComment(context, page, widget.postId),
       );
       print("comments $comments");
       for (var i = 0; i < comments.length; i++) {
@@ -95,7 +98,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
               comments[i].commentReplies <= 0 ? false : true,
         });
       }
-      postController.isLoading.value = false;
+      stateStream.isLoading.value = false;
       setState(() {});
       print("commentLikes $commentLikes");
       print("viewCommentReply $viewCommentReply");
@@ -108,7 +111,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             comments.addAll(
-                await postController.getComment(context, page, widget.postId));
+                await stateStream.getComment(context, page, widget.postId));
             for (var i = 0; i < comments.length; i++) {
               commentLikes.addAll({
                 "${comments[i].commentID}": 0,
@@ -160,7 +163,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: postController.isLoading.value,
+          isLoading: stateStream.isLoading.value,
           child: SingleChildScrollView(
             controller: commentScrollController,
             child: Column(
@@ -178,42 +181,71 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: post?.photoUser == "" ||
-                                        post?.photoUser == "photo_profile"
-                                    ? AssetImage(
-                                        'assets/images/profiledummy.png',
-                                      )
-                                    : NetworkImage(
-                                        '${Global.FILE}/${post?.photoUser}',
-                                      ) as ImageProvider,
+                          InkWell(
+                            onTap: () {
+                              if (stateProfile.username.value ==
+                                  post?.username) {
+                                Get.to(() => const ProfilCustomerPage());
+                              } else {
+                                Get.to(
+                                  () => UserFollowedStreamPage(
+                                    username: post!.username,
+                                    fullname: post!.fullname,
+                                  ),
+                                );
+                              }
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: post?.photoUser == "" ||
+                                          post?.photoUser == "photo_profile"
+                                      ? AssetImage(
+                                          'assets/images/profiledummy.png',
+                                        )
+                                      : NetworkImage(
+                                          '${Global.FILE}/${post?.photoUser}',
+                                        ) as ImageProvider,
+                                ),
                               ),
                             ),
                           ),
                           const SizedBox(
                             width: 11,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                post?.fullname ?? "",
-                                style: blackTextStyle.copyWith(fontSize: 14),
-                              ),
-                              const SizedBox(
-                                height: 4,
-                              ),
-                              Text(
-                                '${DateFormat('dd MMMM yyyy').format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}, ${timeago.format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}',
-                                style: subTitleTextStyle.copyWith(fontSize: 10),
-                              )
-                            ],
+                          InkWell(
+                            onTap: () {
+                              if (stateProfile.username.value ==
+                                  post?.username) {
+                                Get.to(() => const ProfilCustomerPage());
+                              } else {
+                                Get.to(() => UserFollowedStreamPage(
+                                      username: post!.username,
+                                      fullname: post!.fullname,
+                                    ));
+                              }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  post?.fullname ?? "",
+                                  style: blackTextStyle.copyWith(fontSize: 14),
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  '${DateFormat('dd MMMM yyyy').format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}, ${timeago.format(DateTime.parse(post?.createdAt ?? DateTime.now().toString()))}',
+                                  style:
+                                      subTitleTextStyle.copyWith(fontSize: 10),
+                                )
+                              ],
+                            ),
                           ),
                           const Spacer(),
                           InkWell(
@@ -233,6 +265,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           post?.username
                                       ? true
                                       : false,
+                                  follow: (follow ?? (post?.follow ?? false)),
                                 ),
                               );
                             },
@@ -249,7 +282,10 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                       ),
                       if (streamPollOptions.isEmpty)
                         buildRichTextWithMentions(
+                          context,
                           post?.content ?? "",
+                          isMe: stateProfile.username.value,
+                          fullname: post?.fullname ?? "",
                         ),
                       if (streamPollOptions.isEmpty)
                         const SizedBox(
@@ -269,24 +305,18 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           items: post?.postImage.map((image) {
                             return Builder(
                               builder: (BuildContext context) {
-                                return InkWell(
-                                  onTap: () {
-                                    // Get.to(
-                                    //     GalleryWidgets(urlImages: post.postImage));
-                                  },
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    margin: const EdgeInsets.symmetric(
-                                        horizontal: 5.0),
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: NetworkImage(
-                                          "${Global.FILE}/$image",
-                                        ),
+                                return Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(
+                                        "${Global.FILE}/$image",
                                       ),
-                                      borderRadius: BorderRadius.circular(10),
                                     ),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 );
                               },
@@ -352,7 +382,9 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                 height: 16.0,
                               ),
                               buildRichTextWithMentions(
+                                context,
                                 post?.content ?? "",
+                                fullname: post?.fullname ?? "",
                                 textStyle: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -418,7 +450,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                               streamPollOptions[indexVotes!]
                                                       ['count'] -
                                                   1;
-                                              postController.deletePolling(
+                                              stateStream.deletePolling(
                                                   context,
                                                   widget.postId,
                                                   streamPollOptions[indexVotes!]
@@ -427,7 +459,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                       ['id']);
                                             }
 
-                                            postController.pickPolling(
+                                            stateStream.pickPolling(
                                                 context,
                                                 widget.postId,
                                                 option.value['stream_poll_id'],
@@ -504,7 +536,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   Expanded(
                                     child: Text(
                                       isTimeOver
-                                          ? "Polling sudah ditutup ${ConvertDate.streamDate(post!.endTime.toString())}"
+                                          ? "Polling telah berakhir ${ConvertDate.streamDate(post!.endTime.toString())}"
                                           : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
                                       style: TextStyle(
                                         color: Colors.grey,
@@ -552,7 +584,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               InkWell(
                                   onTap: () {
                                     if (like ?? (post?.liked ?? false)) {
-                                      postController.unlikePost(
+                                      stateStream.unlikePost(
                                         context,
                                         widget.postId,
                                       );
@@ -561,7 +593,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                         postLike = postLike - 1;
                                       });
                                     } else {
-                                      postController.likePost(
+                                      stateStream.likePost(
                                         context,
                                         widget.postId,
                                       );
@@ -579,7 +611,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           color: greenColor,
                                         )
                                       : Image.asset(
-                                          'assets/icons/like.png',
+                                          'assets/icons/unlike.png',
                                           width: 19,
                                           height: 19,
                                           color: greyColor,
@@ -620,7 +652,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                               InkWell(
                                 onTap: () {
                                   if (saved ?? (post?.saved ?? false)) {
-                                    postController.unSavePost(
+                                    stateStream.unSavePost(
                                       context,
                                       widget.postId,
                                     );
@@ -628,7 +660,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       saved = false;
                                     });
                                   } else {
-                                    postController.savePost(
+                                    stateStream.savePost(
                                       context,
                                       widget.postId,
                                     );
@@ -662,413 +694,507 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     top: 24,
                     bottom: 24,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: comments.map((comment) {
-                      return Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: comment.photoUser == "" ||
-                                        comment.photoUser == "photo_profile"
-                                    ? AssetImage(
-                                        'assets/images/profiledummy.png',
-                                      )
-                                    : NetworkImage(
-                                            '${Global.FILE}/${comment.photoUser}')
-                                        as ImageProvider,
-                              ),
+                  child: (comments.isEmpty)
+                      ? Center(
+                          child: Text(
+                            'Belum ada komentar',
+                            style: TextStyle(
+                              fontFamily: 'ProximaNova',
+                              fontSize: 20,
                             ),
                           ),
-                          const SizedBox(
-                            width: 11,
-                          ),
-                          Expanded(
-                            child: Container(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        comment.fullName,
-                                        style: blackTextStyle.copyWith(
-                                            fontSize: 14),
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        timeago.format(
-                                            DateTime.parse(comment.createdAt)),
-                                        style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 12,
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: comments.map((comment) {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    if (stateProfile.username.value ==
+                                        comment.userName) {
+                                      Get.to(() => const ProfilCustomerPage());
+                                    } else {
+                                      Get.to(
+                                        () => UserFollowedStreamPage(
+                                          username: comment.userName,
+                                          fullname: comment.fullName,
                                         ),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 30,
+                                    width: 30,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: comment.photoUser == "" ||
+                                                comment.photoUser ==
+                                                    "photo_profile"
+                                            ? AssetImage(
+                                                'assets/images/profiledummy.png',
+                                              )
+                                            : NetworkImage(
+                                                    '${Global.FILE}/${comment.photoUser}')
+                                                as ImageProvider,
                                       ),
-                                    ],
+                                    ),
                                   ),
-                                  const SizedBox(
-                                    height: 6,
-                                  ),
-                                  buildRichTextWithMentions(comment.content),
-                                  const SizedBox(
-                                    height: 11,
-                                  ),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          if (comment.like +
-                                                  (commentLikes[
-                                                          "${comment.commentID}"] ??
-                                                      0) >
-                                              0) {
-                                            print("TIDAK SUKA KOMEN");
-                                            postController.unlikeComment(
-                                              context,
-                                              widget.postId,
-                                              comment.commentID,
-                                            );
-                                            setState(() {
-                                              commentLikes.update(
-                                                  "${comment.commentID}",
-                                                  (value) =>
-                                                      (commentLikes[
-                                                              "${comment.commentID}"] ??
-                                                          0) -
-                                                      1);
-                                            });
-                                          } else {
-                                            print("SUKA KOMEN");
-                                            postController.likeComment(
-                                              context,
-                                              widget.postId,
-                                              comment.commentID,
-                                            );
-                                            setState(() {
-                                              commentLikes.update(
-                                                  "${comment.commentID}",
-                                                  (value) =>
-                                                      (commentLikes[
-                                                              "${comment.commentID}"] ??
-                                                          0) +
-                                                      1);
-                                            });
-                                          }
-                                        },
-                                        child: comment.like +
-                                                    (commentLikes[
-                                                            "${comment.commentID}"] ??
-                                                        0) >
-                                                0
-                                            ? commentLike(comment.like +
-                                                (commentLikes[
-                                                        "${comment.commentID}"] ??
-                                                    0))
-                                            : Text(
-                                                'Suka',
+                                ),
+                                const SizedBox(
+                                  width: 11,
+                                ),
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            if (stateProfile.username.value ==
+                                                comment.userName) {
+                                              Get.to(() =>
+                                                  const ProfilCustomerPage());
+                                            } else {
+                                              Get.to(
+                                                () => UserFollowedStreamPage(
+                                                  username: comment.userName,
+                                                  fullname: comment.fullName,
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                comment.fullName,
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 14),
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                timeago.format(DateTime.parse(
+                                                    comment.createdAt)),
                                                 style: blackRegulerTextStyle
                                                     .copyWith(
                                                   fontSize: 12,
                                                 ),
                                               ),
-                                      ),
-                                      const SizedBox(
-                                        width: 17,
-                                      ),
-                                      Text(
-                                        'Balas',
-                                        style: blackRegulerTextStyle.copyWith(
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  if (viewCommentReply[
-                                          "${comment.commentID}"] ==
-                                      true)
-                                    InkWell(
-                                      onTap: () async {
-                                        viewCommentReply.update(
-                                          "${comment.commentID}",
-                                          (value) => true,
-                                        );
-                                        List<StreamCommentReplyModel> replies =
-                                            await postController
-                                                .getCommentReplies(
-                                          context,
-                                          page,
-                                          widget.postId,
-                                          comment.commentID,
-                                        );
-
-                                        commentReplies.addAll({
-                                          "${comment.commentID}": replies,
-                                        });
-
-                                        for (var i = 0;
-                                            i < replies.length;
-                                            i++) {
-                                          commentReplyLikes.addAll({
-                                            "${replies[i].replyID}": 0,
-                                          });
-                                        }
-                                        setState(() {});
-                                      },
-                                      child: Text(
-                                        "View Comments",
-                                        style: greyTextStyle,
-                                      ),
-                                    ),
-                                  SizedBox(
-                                    height: 8.0,
-                                  ),
-                                  if (viewCommentReply[
-                                          "${comment.commentID}"] ==
-                                      true)
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          commentReplies["${comment.commentID}"]
-                                                  ?.length ??
-                                              0,
-                                      itemBuilder: (context, index) {
-                                        return Container(
-                                          margin: const EdgeInsets.symmetric(
-                                            vertical: 5.0,
-                                          ),
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 10,
-                                            vertical: 10,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: const Color.fromRGBO(
-                                                241, 241, 241, 0.95),
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration: BoxDecoration(
-                                                      shape: BoxShape.circle,
-                                                      image: DecorationImage(
-                                                        image: commentReplies["${comment.commentID}"]![
-                                                                            index]
-                                                                        .photoUser ==
-                                                                    "" ||
-                                                                commentReplies["${comment.commentID}"]![
-                                                                            index]
-                                                                        .photoUser ==
-                                                                    "photo_profile"
-                                                            ? AssetImage(
-                                                                'assets/images/profiledummy.png',
-                                                              )
-                                                            : NetworkImage(
-                                                                '${Global.FILE}/${commentReplies["${comment.commentID}"]![index].photoUser}',
-                                                              ) as ImageProvider,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 11,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            commentReplies[
-                                                                        "${comment.commentID}"]![
-                                                                    index]
-                                                                .fullName,
-                                                            style: blackTextStyle
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        14),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Text(
-                                                            timeago.format(DateTime
-                                                                .parse(commentReplies[
-                                                                            "${comment.commentID}"]![
-                                                                        index]
-                                                                    .createdAt)),
-                                                            style:
-                                                                blackRegulerTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            12),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 6,
-                                                      ),
-                                                      Container(
-                                                        constraints:
-                                                            const BoxConstraints(
-                                                                maxWidth: 220),
-                                                        child: buildRichTextWithMentions(
-                                                            commentReplies[
-                                                                        "${comment.commentID}"]![
-                                                                    index]
-                                                                .content),
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 11,
-                                                      ),
-                                                      Row(
-                                                        children: [
-                                                          (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
-                                                                          0) +
-                                                                      commentReplies["${comment.commentID}"]![
-                                                                              index]
-                                                                          .like >
-                                                                  0
-                                                              ? InkWell(
-                                                                  onTap: () {
-                                                                    postController
-                                                                        .unlikeCommentReply(
-                                                                      context,
-                                                                      widget
-                                                                          .postId,
-                                                                      comment
-                                                                          .commentID,
-                                                                      commentReplies["${comment.commentID}"]![
-                                                                              index]
-                                                                          .replyID,
-                                                                    );
-                                                                    setState(
-                                                                        () {
-                                                                      commentReplyLikes.update(
-                                                                          "${commentReplies["${comment.commentID}"]![index].replyID}",
-                                                                          (value) =>
-                                                                              (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) -
-                                                                              1);
-                                                                    });
-                                                                  },
-                                                                  child: commentLike(commentReplies["${comment.commentID}"]![
-                                                                              index]
-                                                                          .like +
-                                                                      (commentReplyLikes[
-                                                                              "${commentReplies["${comment.commentID}"]![index].replyID}"] ??
-                                                                          0)),
-                                                                )
-                                                              : InkWell(
-                                                                  onTap: () {
-                                                                    postController
-                                                                        .likeCommentReply(
-                                                                      context,
-                                                                      widget
-                                                                          .postId,
-                                                                      comment
-                                                                          .commentID,
-                                                                      commentReplies["${comment.commentID}"]![
-                                                                              index]
-                                                                          .replyID,
-                                                                    );
-                                                                    setState(
-                                                                        () {
-                                                                      commentReplyLikes.update(
-                                                                          "${commentReplies["${comment.commentID}"]![index].replyID}",
-                                                                          (value) =>
-                                                                              (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) +
-                                                                              1);
-                                                                    });
-                                                                  },
-                                                                  child: Text(
-                                                                    'Suka',
-                                                                    style: blackRegulerTextStyle
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          10,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                          const SizedBox(
-                                                            width: 17,
-                                                          ),
-                                                          Text(
-                                                            'Balas',
-                                                            style:
-                                                                blackRegulerTextStyle
-                                                                    .copyWith(
-                                                              fontSize: 12,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
                                             ],
                                           ),
-                                        );
-                                      },
+                                        ),
+                                        const SizedBox(
+                                          height: 6,
+                                        ),
+                                        buildRichTextWithMentions(
+                                          context,
+                                          comment.content,
+                                          fullname: comment.fullName,
+                                        ),
+                                        const SizedBox(
+                                          height: 11,
+                                        ),
+                                        Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                if (comment.like +
+                                                        (commentLikes[
+                                                                "${comment.commentID}"] ??
+                                                            0) >
+                                                    0) {
+                                                  print("TIDAK SUKA KOMEN");
+                                                  stateStream.unlikeComment(
+                                                    context,
+                                                    widget.postId,
+                                                    comment.commentID,
+                                                  );
+                                                  setState(() {
+                                                    commentLikes.update(
+                                                        "${comment.commentID}",
+                                                        (value) =>
+                                                            (commentLikes[
+                                                                    "${comment.commentID}"] ??
+                                                                0) -
+                                                            1);
+                                                  });
+                                                } else {
+                                                  print("SUKA KOMEN");
+                                                  stateStream.likeComment(
+                                                    context,
+                                                    widget.postId,
+                                                    comment.commentID,
+                                                  );
+                                                  setState(() {
+                                                    commentLikes.update(
+                                                        "${comment.commentID}",
+                                                        (value) =>
+                                                            (commentLikes[
+                                                                    "${comment.commentID}"] ??
+                                                                0) +
+                                                            1);
+                                                  });
+                                                }
+                                              },
+                                              child: comment.like +
+                                                          (commentLikes[
+                                                                  "${comment.commentID}"] ??
+                                                              0) >
+                                                      0
+                                                  ? commentLike(comment.like +
+                                                      (commentLikes[
+                                                              "${comment.commentID}"] ??
+                                                          0))
+                                                  : Text(
+                                                      'Suka',
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                            ),
+                                            const SizedBox(
+                                              width: 17,
+                                            ),
+                                            Text(
+                                              'Balas',
+                                              style: blackRegulerTextStyle
+                                                  .copyWith(
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8.0,
+                                        ),
+                                        if (viewCommentReply[
+                                                "${comment.commentID}"] ==
+                                            true)
+                                          InkWell(
+                                            onTap: () async {
+                                              viewCommentReply.update(
+                                                "${comment.commentID}",
+                                                (value) => true,
+                                              );
+                                              List<StreamCommentReplyModel>
+                                                  replies = await stateStream
+                                                      .getCommentReplies(
+                                                context,
+                                                page,
+                                                widget.postId,
+                                                comment.commentID,
+                                              );
+
+                                              commentReplies.addAll({
+                                                "${comment.commentID}": replies,
+                                              });
+
+                                              for (var i = 0;
+                                                  i < replies.length;
+                                                  i++) {
+                                                commentReplyLikes.addAll({
+                                                  "${replies[i].replyID}": 0,
+                                                });
+                                              }
+                                              setState(() {});
+                                            },
+                                            child: Text(
+                                              "View Comments",
+                                              style: greyTextStyle,
+                                            ),
+                                          ),
+                                        SizedBox(
+                                          height: 8.0,
+                                        ),
+                                        if (viewCommentReply[
+                                                "${comment.commentID}"] ==
+                                            true)
+                                          ListView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            itemCount: commentReplies[
+                                                        "${comment.commentID}"]
+                                                    ?.length ??
+                                                0,
+                                            itemBuilder: (context, index) {
+                                              return Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                  vertical: 5.0,
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                  vertical: 10,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: const Color.fromRGBO(
+                                                      241, 241, 241, 0.95),
+                                                  borderRadius:
+                                                      BorderRadius.circular(7),
+                                                ),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () {
+                                                            if (stateProfile
+                                                                    .username
+                                                                    .value ==
+                                                                commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .userName) {
+                                                              Get.to(() =>
+                                                                  const ProfilCustomerPage());
+                                                            } else {
+                                                              Get.to(
+                                                                () =>
+                                                                    UserFollowedStreamPage(
+                                                                  username: commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .userName,
+                                                                  fullname: commentReplies[
+                                                                              "${comment.commentID}"]![
+                                                                          index]
+                                                                      .fullName,
+                                                                ),
+                                                              );
+                                                            }
+                                                          },
+                                                          child: Container(
+                                                            height: 30,
+                                                            width: 30,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: commentReplies["${comment.commentID}"]![index].photoUser ==
+                                                                            "" ||
+                                                                        commentReplies["${comment.commentID}"]![index].photoUser ==
+                                                                            "photo_profile"
+                                                                    ? AssetImage(
+                                                                        'assets/images/profiledummy.png',
+                                                                      )
+                                                                    : NetworkImage(
+                                                                        '${Global.FILE}/${commentReplies["${comment.commentID}"]![index].photoUser}',
+                                                                      ) as ImageProvider,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 11,
+                                                        ),
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            InkWell(
+                                                              onTap: () {
+                                                                if (stateProfile
+                                                                        .username
+                                                                        .value ==
+                                                                    commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .userName) {
+                                                                  Get.to(() =>
+                                                                      const ProfilCustomerPage());
+                                                                } else {
+                                                                  Get.to(
+                                                                    () =>
+                                                                        UserFollowedStreamPage(
+                                                                      username:
+                                                                          commentReplies["${comment.commentID}"]![index]
+                                                                              .userName,
+                                                                      fullname:
+                                                                          commentReplies["${comment.commentID}"]![index]
+                                                                              .fullName,
+                                                                    ),
+                                                                  );
+                                                                }
+                                                              },
+                                                              child: Row(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Text(
+                                                                    commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .fullName,
+                                                                    style: blackTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            14),
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 5,
+                                                                  ),
+                                                                  Text(
+                                                                    timeago.format(
+                                                                        DateTime.parse(
+                                                                            commentReplies["${comment.commentID}"]![index].createdAt)),
+                                                                    style: blackRegulerTextStyle.copyWith(
+                                                                        fontSize:
+                                                                            12),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 6,
+                                                            ),
+                                                            Container(
+                                                              constraints:
+                                                                  const BoxConstraints(
+                                                                      maxWidth:
+                                                                          220),
+                                                              child:
+                                                                  buildRichTextWithMentions(
+                                                                context,
+                                                                commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .content,
+                                                                fullname: commentReplies[
+                                                                            "${comment.commentID}"]![
+                                                                        index]
+                                                                    .fullName,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 11,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                                0) +
+                                                                            commentReplies["${comment.commentID}"]![index].like >
+                                                                        0
+                                                                    ? InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          stateStream
+                                                                              .unlikeCommentReply(
+                                                                            context,
+                                                                            widget.postId,
+                                                                            comment.commentID,
+                                                                            commentReplies["${comment.commentID}"]![index].replyID,
+                                                                          );
+                                                                          setState(
+                                                                              () {
+                                                                            commentReplyLikes.update("${commentReplies["${comment.commentID}"]![index].replyID}",
+                                                                                (value) => (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) - 1);
+                                                                          });
+                                                                        },
+                                                                        child: commentLike(commentReplies["${comment.commentID}"]![index].like +
+                                                                            (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ??
+                                                                                0)),
+                                                                      )
+                                                                    : InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          stateStream
+                                                                              .likeCommentReply(
+                                                                            context,
+                                                                            widget.postId,
+                                                                            comment.commentID,
+                                                                            commentReplies["${comment.commentID}"]![index].replyID,
+                                                                          );
+                                                                          setState(
+                                                                              () {
+                                                                            commentReplyLikes.update("${commentReplies["${comment.commentID}"]![index].replyID}",
+                                                                                (value) => (commentReplyLikes["${commentReplies["${comment.commentID}"]![index].replyID}"] ?? 0) + 1);
+                                                                          });
+                                                                        },
+                                                                        child:
+                                                                            Text(
+                                                                          'Suka',
+                                                                          style:
+                                                                              blackRegulerTextStyle.copyWith(
+                                                                            fontSize:
+                                                                                10,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                const SizedBox(
+                                                                  width: 17,
+                                                                ),
+                                                                Text(
+                                                                  'Balas',
+                                                                  style: blackRegulerTextStyle
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        12,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                      ],
                                     ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              showModalBottomSheet(
-                                context: context,
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadiusDirectional.only(
-                                    topEnd: Radius.circular(25),
-                                    topStart: Radius.circular(25),
                                   ),
                                 ),
-                                builder: (context) => ShareLinkStream(
-                                  post: post!,
-                                  isMe: stateProfile.username.value ==
-                                          comment.userName
-                                      ? true
-                                      : false,
-                                ),
-                              );
-                            },
-                            child: Icon(
-                              Icons.more_horiz,
-                              color: subgreyColor,
-                              size: 24,
-                            ),
-                          )
-                        ],
-                      );
-                    }).toList(),
-                  ),
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      backgroundColor: Colors.white,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadiusDirectional.only(
+                                          topEnd: Radius.circular(25),
+                                          topStart: Radius.circular(25),
+                                        ),
+                                      ),
+                                      builder: (context) => ShareLinkStream(
+                                        post: post!,
+                                        isMe: stateProfile.username.value ==
+                                                comment.userName
+                                            ? true
+                                            : false,
+                                        follow:
+                                            (follow ?? (post?.follow ?? false)),
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(
+                                    Icons.more_horiz,
+                                    color: subgreyColor,
+                                    size: 24,
+                                  ),
+                                )
+                              ],
+                            );
+                          }).toList(),
+                        ),
                 ),
               ],
             ),
@@ -1292,7 +1418,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                     );
                     return;
                   }
-                  postController.postComment(
+                  stateStream.postComment(
                     context,
                     widget.postId,
                     commentController.text,
@@ -1300,7 +1426,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                   page = 1;
                   comments.clear();
                   comments.addAll(
-                    await postController.getComment(
+                    await stateStream.getComment(
                       context,
                       page,
                       widget.postId,

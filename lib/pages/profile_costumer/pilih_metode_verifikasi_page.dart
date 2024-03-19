@@ -67,8 +67,7 @@ class _PilihMetodeVerifikasiProfilState extends State<PilihMetodeVerifikasiProfi
               ),
               Text(
                 'Pilih salah satu metode dibawah ini untuk mendapatkan kode verifikasi',
-                style: blackRegulerTextStyle.copyWith(
-                    fontSize: 15, color: blackColor),
+                style: blackRegulerTextStyle.copyWith(fontSize: 15, color: blackColor),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -85,9 +84,7 @@ class _PilihMetodeVerifikasiProfilState extends State<PilihMetodeVerifikasiProfi
                 },
                 child: Container(
                   padding: const EdgeInsets.only(top: 18, left: 21, bottom: 17),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor, width: 0.6),
-                      borderRadius: BorderRadius.circular(7)),
+                  decoration: BoxDecoration(border: Border.all(color: borderColor, width: 0.6), borderRadius: BorderRadius.circular(7)),
                   child: Row(
                     children: [
                       Image.asset(
@@ -131,9 +128,7 @@ class _PilihMetodeVerifikasiProfilState extends State<PilihMetodeVerifikasiProfi
                 },
                 child: Container(
                   padding: const EdgeInsets.only(top: 18, left: 21, bottom: 17),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: borderColor, width: 0.6),
-                      borderRadius: BorderRadius.circular(7)),
+                  decoration: BoxDecoration(border: Border.all(color: borderColor, width: 0.6), borderRadius: BorderRadius.circular(7)),
                   child: Row(
                     children: [
                       Image.asset(

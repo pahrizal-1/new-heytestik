@@ -9,6 +9,7 @@ import 'package:heystetik_mobileapps/pages/setings&akun/menunggu_pembayaran_page
 import 'package:heystetik_mobileapps/widget/filter_jenis_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:intl/intl.dart';
 import '../../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import '../../widget/appbar_widget.dart';
@@ -36,6 +37,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
   Map<String, dynamic> filter = {};
   int totalPending = 0;
   List<Data2> cek = [];
+  int? filterTanggal;
+  String? filterJenis;
+  String? filterStatus;
 
   @override
   void initState() {
@@ -187,10 +191,14 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         if (filter.isNotEmpty)
                           InkWell(
                             onTap: () async {
+                              filterStatus = null;
+                              filterTanggal = null;
+                              filterJenis = null;
                               filter.clear();
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -231,14 +239,20 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           ),
                         InkWell(
                           onTap: () {
-                            customeModal(context, FilterStatusTransaksi())
+                            customeModal(context,
+                                    FilterStatusTransaksi(val: filterStatus))
                                 .then((value) async {
                               if (value == null) return;
 
-                              filter['transaction_status[]'] = value;
+                              filterStatus = value;
+                              filter['transaction_status[]'] = value
+                                  .toString()
+                                  .toUpperCase()
+                                  .replaceAll(' ', '_');
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -268,7 +282,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: borderColor,
+                                color: (filterStatus is String)
+                                    ? greenColor
+                                    : borderColor,
                               ),
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -276,29 +292,42 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               children: [
                                 Center(
                                   child: Text(
-                                    'Status Transaksi',
+                                    filterStatus ?? 'Status Transaksi',
                                     style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 15),
+                                      fontSize: 15,
+                                      color: (filterStatus is String)
+                                          ? greenColor
+                                          : null,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
                                   width: 6,
                                 ),
-                                const Icon(Icons.keyboard_arrow_down)
+                                Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: (filterStatus is String)
+                                      ? greenColor
+                                      : null,
+                                )
                               ],
                             ),
                           ),
                         ),
                         InkWell(
                           onTap: () {
-                            customeModal(context, FilterJenisTransaksi())
+                            customeModal(context,
+                                    FilterJenisTransaksi(val: filterJenis))
                                 .then((value) async {
                               if (value == null) return;
 
-                              filter['transaction_type[]'] = value;
+                              filterJenis = value;
+                              filter['transaction_type[]'] =
+                                  value.toString().toUpperCase();
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -328,7 +357,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: borderColor,
+                                color: (filterJenis is String)
+                                    ? greenColor
+                                    : borderColor,
                               ),
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -336,31 +367,46 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               children: [
                                 Center(
                                   child: Text(
-                                    'Jenis Transaksi',
+                                    filterJenis ?? 'Jenis Transaksi',
                                     style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 15),
+                                      fontSize: 15,
+                                      color: (filterJenis is String)
+                                          ? greenColor
+                                          : null,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
                                   width: 6,
                                 ),
-                                const Icon(Icons.keyboard_arrow_down)
+                                Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: (filterJenis is String)
+                                      ? greenColor
+                                      : null,
+                                )
                               ],
                             ),
                           ),
                         ),
                         InkWell(
                           onTap: () {
-                            customeModal(context, FilterTanggalTransaksi())
+                            customeModal(context,
+                                    FilterTanggalTransaksi(val: filterTanggal))
                                 .then((value) async {
                               if (value == null) return;
 
-                              filter['start_date'] = DateTime.now()
+                              filterTanggal = value;
+                              DateTime now = DateTime.now()
                                   .subtract(Duration(days: value));
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(now);
+                              filter['start_date'] = formattedDate;
                               filter['end_date'] = DateTime.now();
                               page = 1;
                               totalPending = 0;
                               cek.clear();
+                              setState(() {});
                               cek.addAll(
                                 await state.getAllHistory(
                                   context,
@@ -390,7 +436,9 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: borderColor,
+                                color: (filterTanggal is int)
+                                    ? greenColor
+                                    : borderColor,
                               ),
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -398,15 +446,28 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               children: [
                                 Center(
                                   child: Text(
-                                    'Tanggal Transaksi',
+                                    (filterTanggal is int)
+                                        ? filterTanggal == 0
+                                            ? 'Hari ini'
+                                            : '$filterTanggal Hari yang lalu'
+                                        : 'Tanggal Transaksi',
                                     style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 15),
+                                      fontSize: 15,
+                                      color: (filterTanggal is int)
+                                          ? greenColor
+                                          : null,
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
                                   width: 6,
                                 ),
-                                const Icon(Icons.keyboard_arrow_down)
+                                Icon(
+                                  Icons.keyboard_arrow_down,
+                                  color: (filterTanggal is int)
+                                      ? greenColor
+                                      : null,
+                                )
                               ],
                             ),
                           ),
@@ -510,6 +571,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             child: Text(
                               'Belum ada transaksi',
                               style: TextStyle(
+                                fontFamily: 'ProximaNova',
                                 fontSize: 20,
                               ),
                             ),

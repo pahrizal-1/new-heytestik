@@ -4,9 +4,10 @@ import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
 import 'package:heystetik_mobileapps/widget/tampilan_right_widget.dart';
 
-import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../controller/customer/solution/treatment_controller.dart';
 import '../../widget/produk_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
@@ -26,12 +27,12 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
   final ScrollController scrollController = ScrollController();
   late TextEditingController searchController = TextEditingController();
-
   int page = 1;
   late String localSearch;
   List<Data2> treatments = [];
   bool isSelecteSearch = true;
   bool isSelecteTampilan = true;
+  Map<String, dynamic> filter = {};
 
   @override
   void initState() {
@@ -39,8 +40,11 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
     localSearch = widget.search;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       treatments.addAll(
-        await stateTreatment.getAllTreatment(context, page,
-            search: localSearch),
+        await stateTreatment.getAllTreatment(
+          context,
+          page,
+          search: localSearch,
+        ),
       );
       setState(() {});
     });
@@ -50,8 +54,13 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            treatments.addAll(await stateTreatment
-                .getAllTreatment(context, page, search: localSearch));
+            treatments.addAll(
+              await stateTreatment.getAllTreatment(
+                context,
+                page,
+                search: localSearch,
+              ),
+            );
             setState(() {});
           });
         }
@@ -82,9 +91,6 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                   color: blackColor,
                 ),
               ),
-              const SizedBox(
-                width: 7,
-              ),
               Expanded(
                 child: Container(
                   height: 35,
@@ -114,14 +120,17 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                         child: TextFormField(
                           controller: searchController,
                           onEditingComplete: () async {
-                            print("INI GW KLIK");
                             page = 1;
                             treatments.clear();
                             localSearch = searchController.text;
-                            treatments.addAll(await stateTreatment
-                                .getAllTreatment(context, page,
-                                    search: localSearch));
-                            print(treatments);
+                            treatments.addAll(
+                              await stateTreatment.getAllTreatment(
+                                context,
+                                page,
+                                search: localSearch,
+                              ),
+                            );
+
                             setState(() {});
                           },
                           style: const TextStyle(
@@ -145,13 +154,136 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
             ],
           ),
         ),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: SizedBox(
+            height: 60.0,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (filter.isNotEmpty)
+                    InkWell(
+                      onTap: () async {
+                        filter.clear();
+                        page = 1;
+                        treatments.clear();
+                        localSearch = searchController.text;
+                        setState(() {});
+                        treatments.addAll(
+                          await stateTreatment.getNearTreatment(
+                            context,
+                            page,
+                            search: localSearch,
+                            filter: filter,
+                          ),
+                        );
+                        setState(() {});
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 5),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: greenColor,
+                          ),
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          color: greenColor,
+                        ),
+                      ),
+                    ),
+                  InkWell(
+                    onTap: () {
+                      showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        backgroundColor: Colors.white,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadiusDirectional.only(
+                            topEnd: Radius.circular(25),
+                            topStart: Radius.circular(25),
+                          ),
+                        ),
+                        builder: (context) =>
+                            FilterAllTreatmentWidget(param: filter),
+                      ).then((value) async {
+                        if (value == null) return;
+
+                        filter = value;
+                        if (filter['rating[]'] != null && filter['rating[]']) {
+                          filter['rating[]'] = ['4', '5'];
+                        }
+                        if (filter['promo'] == true) {
+                          treatments.clear();
+                          page = 1;
+                          setState(() {});
+                        } else {
+                          treatments.clear();
+                          page = 1;
+                          setState(() {});
+                          treatments.addAll(
+                            await stateTreatment.getNearTreatment(
+                              context,
+                              page,
+                              search: localSearch,
+                              filter: filter,
+                            ),
+                          );
+                        }
+                        setState(() {});
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, top: 6, bottom: 6),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(
+                          color: (filter.isNotEmpty) ? greenColor : borderColor,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/filter-icon.png',
+                            color: (filter.isNotEmpty) ? greenColor : null,
+                          ),
+                          SizedBox(
+                            width: 9,
+                          ),
+                          Text(
+                            filter.isNotEmpty
+                                ? "${filter.length} Filter"
+                                : "Filter",
+                            style: TextStyle(
+                              color: filter.isNotEmpty ? greenColor : null,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
       body: treatments.isEmpty
           ? Center(
               child: Text(
                 'Belum ada treatment',
                 style: TextStyle(
-                  fontWeight: bold,
                   fontFamily: 'ProximaNova',
                   fontSize: 20,
                 ),

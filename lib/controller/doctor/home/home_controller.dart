@@ -35,10 +35,10 @@ class DoctorHomeController extends StateClass {
   init(BuildContext context) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      fullName.value = await LocalStorage().getFullName();
+      var dataUser = await LocalStorage().getDataUser();
+      fullName.value = dataUser['fullname'];
       await getCurrentDoctorSchedule(context);
       await getDoctorSchedule(context);
-      print('init staet');
     });
     isLoading.value = false;
   }

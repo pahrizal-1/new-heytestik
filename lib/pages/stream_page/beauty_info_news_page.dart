@@ -350,10 +350,9 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
                         ? Center(
                             child: Text(
                               'Belum ada berita',
-                              style: TextStyle(
-                                fontWeight: bold,
+                               style: TextStyle(
                                 fontFamily: 'ProximaNova',
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                           )
@@ -429,10 +428,9 @@ class _BeautyInfoNewsPageState extends State<BeautyInfoNewsPage> {
                     return Center(
                       child: Text(
                         'Belum ada berita',
-                        style: TextStyle(
-                          fontWeight: bold,
+                         style: TextStyle(
                           fontFamily: 'ProximaNova',
-                          fontSize: 15,
+                          fontSize: 20,
                         ),
                       ),
                     );

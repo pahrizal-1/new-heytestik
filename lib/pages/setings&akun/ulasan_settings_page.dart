@@ -121,11 +121,8 @@ class RiwayatUlasan extends StatefulWidget {
 
 class _RiwayatUlasanState extends State<RiwayatUlasan> {
   final ReviewController state = Get.put(ReviewController());
-
   final ScrollController scrollController = ScrollController();
-
   List<Finished.Data2> finishedReview = [];
-
   int page = 1;
 
   @override
@@ -162,7 +159,6 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                 child: Text(
                   'Belum ada data',
                   style: TextStyle(
-                    fontWeight: bold,
                     fontFamily: 'ProximaNova',
                     fontSize: 20,
                   ),
@@ -204,7 +200,7 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                                     .detail
                                     ?.consultationReview
                                     ?.review ??
-                                '-',
+                                '',
                             rating: finishedReview[index]
                                 .detail!
                                 .consultationReview!
@@ -243,7 +239,7 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                                     ?.toInt() ??
                                 0,
                             balasan:
-                                '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
+                                '${finishedReview[index].detail?.treatmentReview?.replyReview ?? ''}',
                           );
                         }
                         if (finishedReview[index].transactionType ==
@@ -274,7 +270,7 @@ class _RiwayatUlasanState extends State<RiwayatUlasan> {
                                     ?.toInt() ??
                                 0,
                             balasan:
-                                '${finishedReview[index].detail?.treatmentReview?.replyReview ?? 0} balasan',
+                                '${finishedReview[index].detail?.productReview?.replyReview ?? ''}',
                           );
                         }
                         return null;
@@ -300,11 +296,8 @@ class MenungguUlasan extends StatefulWidget {
 
 class _MenungguUlasanState extends State<MenungguUlasan> {
   final ReviewController state = Get.put(ReviewController());
-
   final ScrollController scrollController = ScrollController();
-
   List<Waiting.Data2> waitingReview = [];
-
   int page = 1;
 
   @override
@@ -346,7 +339,6 @@ class _MenungguUlasanState extends State<MenungguUlasan> {
                   child: Text(
                     'Belum ada data',
                     style: TextStyle(
-                      fontWeight: bold,
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

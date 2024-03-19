@@ -5,7 +5,8 @@ import 'package:heystetik_mobileapps/core/global.dart';
 class ShowImageFullScreen extends StatefulWidget {
   final List listImagesModel;
   final int current;
-  const ShowImageFullScreen({super.key, required this.listImagesModel, required this.current});
+  const ShowImageFullScreen(
+      {super.key, required this.listImagesModel, required this.current});
 
   @override
   State<ShowImageFullScreen> createState() => _ShowImageFullScreenState();
@@ -59,18 +60,24 @@ class _ShowImageFullScreenState extends State<ShowImageFullScreen> {
                         },
                         initialPage: widget.current),
                     items: map<Widget>(widget.listImagesModel, (index, url) {
-                      return Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: <Widget>[
-                        Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(0.0)),
-                            child: Image.network(
-                              '${Global.FILE}/' + widget.listImagesModel[index]['media']['path'],
-                              fit: BoxFit.fill,
-                              height: 400.0,
-                            ),
-                          ),
-                        )
-                      ]);
+                      return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(0.0)),
+                                child: Image.network(
+                                  '${Global.FILE}/' +
+                                      widget.listImagesModel[index]['media']
+                                          ['path'],
+                                  fit: BoxFit.fill,
+                                  height: 400.0,
+                                ),
+                              ),
+                            )
+                          ]);
                     }),
                   ),
                   Row(
@@ -79,10 +86,13 @@ class _ShowImageFullScreenState extends State<ShowImageFullScreen> {
                       return Container(
                         width: 10.0,
                         height: 9.0,
-                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
+                        margin: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 5.0),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: (current == index) ? Colors.redAccent : Colors.grey,
+                          color: (current == index)
+                              ? Colors.redAccent
+                              : Colors.grey,
                         ),
                       );
                     }),

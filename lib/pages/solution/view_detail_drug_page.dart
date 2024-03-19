@@ -5,9 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/cart_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/drug_search.dart';
+import 'package:heystetik_mobileapps/pages/solution/drug_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
@@ -16,13 +17,16 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/drug_widget.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/ulasan_produk_widget.dart';
 import 'package:social_share/social_share.dart';
-import 'package:timeago/timeago.dart' as timeago;
-import '../../controller/customer/solution/wishlist_controller.dart';
+import '../../controller/customer/solution/wishlist_produk_controller.dart';
 import '../../theme/theme.dart';
-import '../../widget/snackbar_widget.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
+import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
+    as ProductReviewModel;
+import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
+    as Overview;
 
 class DetailDrugPage extends StatefulWidget {
   int drugId;
@@ -36,25 +40,29 @@ class DetailDrugPage extends StatefulWidget {
 }
 
 class _DetailDrugPageState extends State<DetailDrugPage> {
-  DrugController drugController = Get.put(DrugController());
-  final WishlistController wishlist = Get.put(WishlistController());
+  final DrugController stateDrug = Get.put(DrugController());
+  final WishlistProdukController stateWishlist =
+      Get.put(WishlistProdukController());
+  final CartController stateCart = Get.put(CartController());
+  final UlasanProdukController stateUlasan = Get.put(UlasanProdukController());
   final TextEditingController searchController = TextEditingController();
-  final CartController cart = Get.put(CartController());
-  bool isVisibelity = false;
-  bool? help;
   bool? isWishlist;
-  Map<String, int> helpReview = {};
+  Overview.Data? productOverview;
   List<Drug.Data2> drugRecomendation = [];
+  List<ProductReviewModel.Data2> reviews = [];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      drugController.detailDrug(context, widget.drugId);
-      drugController.getOverviewProduct(context, widget.drugId);
-      drugController.getReviewProduct(context, 1, 3, widget.drugId);
+      stateDrug.detailDrug(context, widget.drugId);
+      productOverview =
+          await stateUlasan.getOverviewProduct(context, widget.drugId);
+      reviews.addAll(
+        await stateUlasan.getReviewProduct(context, 1, 3, widget.drugId),
+      );
       drugRecomendation.addAll(
-        await drugController.drugRecomendation(context, 1, widget.drugId),
+        await stateDrug.drugRecomendation(context, 1, widget.drugId),
       );
       setState(() {});
     });
@@ -102,8 +110,8 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => DrugSearch(
-                        search: searchController.text,
+                      builder: (context) => DrugSearchPage(
+                        searchParam: searchController.text,
                       ),
                     ),
                   );
@@ -162,7 +170,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: drugController.isLoadingDetailDrug.value,
+          isLoading: stateDrug.isLoadingDetailDrug.value,
           child: ListView(
             children: [
               Container(
@@ -171,14 +179,18 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: NetworkImage(
-                      '${Global.FILE}/${drugController.drugDetail.value.mediaProducts?[0].media?.path}',
+                      '${Global.FILE}/${stateDrug.drugDetail.value.mediaProducts?[0].media?.path}',
                     ),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 12, left: 24, right: 24, bottom: 17),
+                  top: 12,
+                  left: 24,
+                  right: 24,
+                  bottom: 17,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -186,29 +198,28 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                       children: [
                         Text(
                           CurrencyFormat.convertToIdr(
-                              drugController.drugDetail.value.price ?? 0, 2),
+                              stateDrug.drugDetail.value.price ?? 0, 2),
                           style: blackHigtTextStyle.copyWith(fontSize: 20),
                         ),
                         const Spacer(),
                         InkWell(
                           onTap: () async {
                             if ((isWishlist ??
-                                    drugController.drugDetail.value.wishlist) ==
+                                    stateDrug.drugDetail.value.wishlist) ==
                                 true) {
                               isWishlist = false;
-                              await wishlist.deleteWistlist(context,
-                                  drugController.drugDetail.value.id ?? 0);
+                              await stateWishlist.deleteWistlist(
+                                  context, stateDrug.drugDetail.value.id ?? 0);
                               setState(() {});
                             } else {
                               isWishlist = true;
-                              await wishlist.addWishlist(context,
-                                  drugController.drugDetail.value.id ?? 0);
+                              await stateWishlist.addWishlist(
+                                  context, stateDrug.drugDetail.value.id ?? 0);
                               setState(() {});
                             }
                           },
                           child: (isWishlist ??
-                                      drugController
-                                          .drugDetail.value.wishlist) ==
+                                      stateDrug.drugDetail.value.wishlist) ==
                                   true
                               ? Icon(
                                   Icons.favorite,
@@ -222,7 +233,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                       height: 15,
                     ),
                     Text(
-                      drugController.drugDetail.value.name ?? '-',
+                      stateDrug.drugDetail.value.name ?? '-',
                       style: blackRegulerTextStyle.copyWith(color: blackColor),
                     ),
                     const SizedBox(
@@ -255,7 +266,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 width: 5,
                               ),
                               Text(
-                                '${drugController.drugDetail.value.rating}',
+                                '${stateDrug.drugDetail.value.rating}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 13),
                               ),
@@ -331,15 +342,68 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     const SizedBox(
                       height: 12,
                     ),
-                    TitleDetail(
-                      ontap: () {},
-                      title1: 'Concern',
-                      title2: drugController.drugDetail.value.display ?? '-',
-                      textColor: greenColor,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 4, bottom: 5),
+                      child: Column(
+                        children: [
+                          Table(
+                            children: [
+                              TableRow(
+                                children: [
+                                  Text(
+                                    'Concern',
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      ...?stateDrug
+                                          .drugDetail.value.productConcerns
+                                          ?.asMap()
+                                          .entries
+                                          .map((item) {
+                                        return InkWell(
+                                          onTap: () {
+                                            Get.to(
+                                              () => DrugSearchPage(
+                                                idConcern:
+                                                    item.value.concernId!,
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            child: Text(
+                                              item.key == 0
+                                                  ? '${item.value.concern?.name}'
+                                                  : ', ${item.value.concern?.name}',
+                                              style: grenTextStyle.copyWith(
+                                                fontSize: 15,
+                                                color: greenColor,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }).toList()
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 7,
+                          ),
+                          const Divider(
+                            thickness: 2,
+                          )
+                        ],
+                      ),
                     ),
                     TitleDetail(
                       title1: 'Bentuk Obat',
-                      title2: drugController
+                      title2: stateDrug
                               .drugDetail.value.drugDetail?.specificationForm ??
                           '-',
                       textColor: blackColor,
@@ -347,7 +411,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     ),
                     TitleDetail(
                       title1: 'No. BPOM',
-                      title2: drugController
+                      title2: stateDrug
                               .drugDetail.value.drugDetail?.specificationBpom ??
                           '-',
                       textColor: blackColor,
@@ -355,9 +419,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     ),
                     TitleDetail(
                       title1: 'Manufaktur',
-                      title2: drugController
-                              .drugDetail.value.drugDetail?.manufacture ??
-                          '-',
+                      title2:
+                          stateDrug.drugDetail.value.drugDetail?.manufacture ??
+                              '-',
                       textColor: blackColor,
                       fontWeight: regular,
                     ),
@@ -366,35 +430,35 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                     ),
                     DescripsiText(
                         title1: 'Deskripsi',
-                        subtitle2: drugController
+                        subtitle2: stateDrug
                                 .drugDetail.value.drugDetail?.description ??
                             '-'),
                     DescripsiText(
                       title1: 'Indikasi',
-                      subtitle2: drugController
-                              .drugDetail.value.drugDetail?.indication ??
-                          '-',
+                      subtitle2:
+                          stateDrug.drugDetail.value.drugDetail?.indication ??
+                              '-',
                     ),
                     DescripsiText(
                       title1: 'Komposisi',
-                      subtitle2: drugController.drugDetail.value.drugDetail
+                      subtitle2: stateDrug.drugDetail.value.drugDetail
                               ?.specificationIngredients ??
                           '-',
                     ),
                     DescripsiText(
                         title1: 'Dosis & Aturan Pakai',
-                        subtitle2: drugController.drugDetail.value.drugDetail
+                        subtitle2: stateDrug.drugDetail.value.drugDetail
                                 ?.specificationDose ??
                             '-'),
                     DescripsiText(
                       title1: 'Perhatian',
-                      subtitle2: drugController.drugDetail.value.drugDetail
+                      subtitle2: stateDrug.drugDetail.value.drugDetail
                               ?.specificationSpecialAttention ??
                           '-',
                     ),
                     DescripsiText(
                       title1: 'Kontra indikasi',
-                      subtitle2: drugController
+                      subtitle2: stateDrug
                               .drugDetail.value.drugDetail?.contradiction ??
                           '-',
                       isLast: true,
@@ -407,11 +471,13 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                 ),
               ),
               const dividergreen(),
-              const SizedBox(
-                height: 18,
-              ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
+                padding: const EdgeInsets.only(
+                  top: 12,
+                  left: 20,
+                  right: 20,
+                  bottom: 12,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -425,11 +491,9 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                         const SizedBox(
                           width: 6,
                         ),
-                        Obx(
-                          () => Text(
-                            '${drugController.overviewMedicine.value.avgRating ?? 0.0}',
-                            style: blackHigtTextStyle.copyWith(fontSize: 30),
-                          ),
+                        Text(
+                          '${productOverview?.avgRating ?? 0.0}',
+                          style: blackHigtTextStyle.copyWith(fontSize: 30),
                         ),
                         Text(
                           '/5.0',
@@ -444,13 +508,11 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                           children: [
                             Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${drugController.overviewMedicine.value.satisfiedPercentage ?? 0}% Sobat Hey',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 12,
-                                        fontStyle: FontStyle.italic),
-                                  ),
+                                Text(
+                                  '${productOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
+                                  style: blackHigtTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontStyle: FontStyle.italic),
                                 ),
                                 Text(
                                   ' merasa puas',
@@ -462,12 +524,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${drugController.overviewMedicine.value.totalRating ?? 0} rating',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 12, fontWeight: regular),
-                                  ),
+                                Text(
+                                  '${productOverview?.totalRating ?? 0} rating',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                                 const SizedBox(
                                   width: 5,
@@ -479,12 +539,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                 const SizedBox(
                                   width: 5,
                                 ),
-                                Obx(
-                                  () => Text(
-                                    '${drugController.overviewMedicine.value.totalReview ?? 0} ulasan',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 12, fontWeight: regular),
-                                  ),
+                                Text(
+                                  '${productOverview?.totalReview ?? 0} ulasan',
+                                  style: blackTextStyle.copyWith(
+                                      fontSize: 12, fontWeight: regular),
                                 ),
                               ],
                             ),
@@ -512,12 +570,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${drugController.overviewMedicine.value.avgEffectivenessRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgEffectivenessRating ?? 0.0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -530,12 +586,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${drugController.overviewMedicine.value.countEffectivenessRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countEffectivenessRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -557,12 +611,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${drugController.overviewMedicine.value.avgTextureRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgTextureRating ?? 0.0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -575,12 +627,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${drugController.overviewMedicine.value.countTextureRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countTextureRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -602,12 +652,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             ),
                             child: Row(
                               children: [
-                                Obx(
-                                  () => Text(
-                                    '${drugController.overviewMedicine.value.avgPackagingRating ?? 0}',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 18),
-                                  ),
+                                Text(
+                                  '${productOverview?.avgPackagingRating ?? 0.0}',
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
                                 const SizedBox(
                                   width: 4,
@@ -620,12 +668,10 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                                       style: blackTextStyle.copyWith(
                                           fontSize: 10, fontWeight: regular),
                                     ),
-                                    Obx(
-                                      () => Text(
-                                        '${drugController.overviewMedicine.value.countPackagingRating ?? 0} ulasan',
-                                        style: subTitleTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      ),
+                                    Text(
+                                      '${productOverview?.countPackagingRating ?? 0} ulasan',
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 12, fontWeight: regular),
                                     ),
                                   ],
                                 )
@@ -635,359 +681,76 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                         ),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Ulasan',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18),
-                            ),
-                            Text(
-                              ' Sobat Hey',
-                              style: blackHigtTextStyle.copyWith(
-                                  fontSize: 18, fontStyle: FontStyle.italic),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UlasanProdukPage(
-                                  productId:
-                                      drugController.drugDetail.value.id!,
-                                ),
+                    if (reviews.isNotEmpty)
+                      const SizedBox(
+                        height: 8,
+                      ),
+                    if (reviews.isNotEmpty)
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Ulasan',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
-                            );
-                          },
-                          child: Text(
-                            '  Lihat Semua',
-                            style: grenTextStyle.copyWith(fontSize: 12),
+                              Text(
+                                ' Sobat Hey',
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 18, fontStyle: FontStyle.italic),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 11,
-                    ),
-                    Obx(
-                      () => drugController.productReview.isEmpty
-                          ? Center(
-                              child: Text(
-                                'Belum ada ulasan',
-                                style: TextStyle(
-                                  fontWeight: bold,
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 15,
+                          const Spacer(),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UlasanProdukPage(
+                                    productId: widget.drugId,
+                                    isDrug: true,
+                                  ),
                                 ),
-                              ),
-                            )
-                          : Column(
-                              children:
-                                  drugController.productReview.map((element) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/doctor1.png',
-                                          width: 40,
-                                        ),
-                                        const SizedBox(
-                                          width: 12,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              element.user?.fullname ?? '-',
-                                              style: blackHigtTextStyle
-                                                  .copyWith(fontSize: 15),
-                                            ),
-                                            Text(
-                                              element.transactionProductItem
-                                                      ?.product?.type ??
-                                                  '-',
-                                              style:
-                                                  blackHigtTextStyle.copyWith(
-                                                      fontSize: 13,
-                                                      fontWeight: regular),
-                                            ),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        const Icon(Icons.more_vert)
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: List.generate(5, (index) {
-                                            return Image.asset(
-                                              'assets/icons/stars-new.png',
-                                              width: 12,
-                                              color: element.avgRating! > index
-                                                  ? const Color(0xffFFC36A)
-                                                  : Color.fromRGBO(
-                                                      155, 155, 155, 0.61),
-                                            );
-                                          }),
-                                        ),
-                                        const SizedBox(
-                                          width: 13,
-                                        ),
-                                        Text(
-                                          timeago.format(DateTime.parse(
-                                              element.createdAt.toString())),
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 12,
-                                              fontWeight: regular),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Text(
-                                      element.review ?? '-',
-                                      style: greyTextStyle.copyWith(
-                                          fontSize: 13,
-                                          color: const Color(0xff6B6B6B)),
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Text(
-                                      'Before',
-                                      style: blackHigtTextStyle.copyWith(
-                                          fontSize: 12),
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Wrap(
-                                      spacing: 4,
-                                      runSpacing: 4,
-                                      children: element
-                                          .mediaBeforeConditionProductReviews!
-                                          .map((e) {
-                                        return Container(
-                                          height: 72,
-                                          width: 82,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          child: Image.network(
-                                            '${Global.FILE}/${e.media!.path.toString()}',
-                                            width: 72,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Text(
-                                      'After',
-                                      style: blackHigtTextStyle.copyWith(
-                                          fontSize: 12),
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Wrap(
-                                      spacing: 4,
-                                      runSpacing: 4,
-                                      children: element
-                                          .mediaAfterConditionProductReviews!
-                                          .map((e) {
-                                        return Container(
-                                          height: 72,
-                                          width: 82,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          child: Image.network(
-                                            '${Global.FILE}/${e.media!.path.toString()}',
-                                            width: 72,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                    const SizedBox(
-                                      height: 22,
-                                    ),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () async {
-                                            if (help ?? element.helped!) {
-                                              drugController.unHelped(
-                                                  context, element.id!);
-                                              setState(() {
-                                                help = false;
-                                                helpReview["${element.id}"] =
-                                                    (helpReview["${element.id}"] ??
-                                                            0) -
-                                                        1;
-                                              });
-                                            } else {
-                                              drugController.helped(
-                                                  context, element.id!);
-                                              setState(() {
-                                                help = true;
-                                                helpReview["${element.id}"] =
-                                                    (helpReview["${element.id}"] ??
-                                                            0) +
-                                                        1;
-                                              });
-                                            }
-                                          },
-                                          child: Image.asset(
-                                            'assets/icons/like.png',
-                                            width: 15,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Text(
-                                          '${element.cCount!.productReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                          style: grenTextStyle.copyWith(
-                                            fontSize: 13,
-                                            fontWeight: regular,
-                                            color: help ?? element.helped!
-                                                ? greenColor
-                                                : greyColor,
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        element.replyReview == null
-                                            ? Container()
-                                            : InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isVisibelity =
-                                                        !isVisibelity;
-                                                  });
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    isVisibelity
-                                                        ? Text(
-                                                            'Lihat Balasan',
-                                                            style:
-                                                                blackRegulerTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            13),
-                                                          )
-                                                        : Text(
-                                                            'Tutup Balasan',
-                                                            style:
-                                                                blackRegulerTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            13),
-                                                          ),
-                                                    const SizedBox(
-                                                      width: 4,
-                                                    ),
-                                                    const Icon(
-                                                      Icons.keyboard_arrow_down,
-                                                      color: Color(0xff6B6B6B),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    Visibility(
-                                      visible: isVisibelity,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 60,
-                                            width: 2,
-                                            decoration: BoxDecoration(
-                                                color: greenColor),
-                                          ),
-                                          const SizedBox(
-                                            width: 7,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'Penjual ',
-                                                      style: blackHigtTextStyle
-                                                          .copyWith(
-                                                              fontSize: 13,
-                                                              color:
-                                                                  subTitleColor),
-                                                    ),
-                                                    Text(
-                                                      timeago.format(
-                                                          DateTime.parse(element
-                                                              .createdAt
-                                                              .toString())),
-                                                      style: blackRegulerTextStyle
-                                                          .copyWith(
-                                                              color:
-                                                                  subTitleColor,
-                                                              fontSize: 13),
-                                                    )
-                                                  ],
-                                                ),
-                                                Text(
-                                                  element.replyReview ?? '',
-                                                  style: subTitleTextStyle,
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
-                                );
-                              }).toList(),
+                              );
+                            },
+                            child: Text(
+                              'Lihat Semua',
+                              style: grenTextStyle.copyWith(fontSize: 12),
                             ),
-                    )
+                          ),
+                        ],
+                      ),
+                    if (reviews.isNotEmpty)
+                      const SizedBox(
+                        height: 11,
+                      ),
+                    if (reviews.isNotEmpty)
+                      Column(
+                        children: reviews.asMap().entries.map((element) {
+                          return UlasanProdukWidget(
+                            element: element.value,
+                            isEnd: reviews.length == (element.key + 1),
+                          );
+                        }).toList(),
+                      ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 18,
-              ),
+              if (reviews.isEmpty)
+                const SizedBox(
+                  height: 18,
+                ),
+              if (drugRecomendation.isNotEmpty)
+                const Divider(
+                  thickness: 6,
+                  color: Color(0xffF1F1F1),
+                ),
+              if (drugRecomendation.isNotEmpty)
+                const SizedBox(
+                  height: 19,
+                ),
               if (drugRecomendation.isNotEmpty)
                 Padding(
                   padding: const EdgeInsets.only(left: 25, right: 25),
@@ -1022,112 +785,105 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
         children: [
           Obx(
             () => Padding(
-                padding: const EdgeInsets.only(
-                    left: 25, right: 25, top: 10, bottom: 10),
-                child: (drugController.drugDetail.value.consultationRecipeDrugs
-                            ?.isEmpty ==
-                        0)
-                    ? Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 6),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: greenColor),
-                          borderRadius: BorderRadius.circular(7),
-                        ),
-                        child: Text(
-                          'Harus Dengan Resep Dokter',
-                          textAlign: TextAlign.center,
-                          style: grenTextStyle.copyWith(
-                            fontSize: 18,
-                          ),
-                        ),
-                      )
-                    : Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                List product = [
-                                  {
-                                    "productId":
-                                        drugController.drugDetail.value.id,
-                                    "productName":
-                                        drugController.drugDetail.value.name,
-                                    "img": drugController.drugDetail.value
-                                        .mediaProducts?[0].media?.path,
-                                    "qty": 1,
-                                    "notes": '',
-                                    "isSelected": true,
-                                    "price":
-                                        drugController.drugDetail.value.price,
-                                    "totalPrice":
-                                        drugController.drugDetail.value.price,
-                                  }
-                                ];
+              padding: const EdgeInsets.only(
+                  left: 25, right: 25, top: 10, bottom: 10),
+              child: (stateDrug.drugDetail.value.consultationRecipeDrugs
+                          ?.isNotEmpty ??
+                      stateDrug.drugDetail.value.consultationRecipeDrugs !=
+                          null)
+                  ? Row(
+                      children: [
+                        Expanded(
+                          child: InkWell(
+                            onTap: () {
+                              List product = [
+                                {
+                                  "productId": stateDrug.drugDetail.value.id,
+                                  "productName":
+                                      stateDrug.drugDetail.value.name,
+                                  "img": stateDrug.drugDetail.value
+                                      .mediaProducts?[0].media?.path,
+                                  "qty": 1,
+                                  "notes": '',
+                                  "isSelected": true,
+                                  "price": stateDrug.drugDetail.value.price,
+                                  "totalPrice":
+                                      stateDrug.drugDetail.value.price,
+                                }
+                              ];
 
-                                Get.to(() => PembayaranProduk(
-                                      pesan: product,
-                                      isCart: false,
-                                    ));
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(color: greenColor),
-                                    borderRadius: BorderRadius.circular(7)),
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    'Beli Langsung',
-                                    style: grenTextStyle.copyWith(
-                                        fontSize: 15, fontWeight: bold),
-                                  ),
+                              Get.to(() => PembayaranProduk(
+                                    pesan: product,
+                                    isCart: false,
+                                  ));
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7)),
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  'Beli Langsung',
+                                  style: grenTextStyle.copyWith(
+                                      fontSize: 15, fontWeight: bold),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () async {
-                                drugController.addDrugToCart(
-                                  context,
-                                  drugController.drugDetail.value.id!,
-                                );
-                                SnackbarWidget.getSuccessSnackbar(
-                                  context,
-                                  'Info',
-                                  'Produk ditambahkan ke keranjang',
-                                );
-                              },
-                              child: Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 10, horizontal: 10),
-                                width: 142,
-                                decoration: BoxDecoration(
-                                    color: greenColor,
-                                    border: Border.all(color: greenColor),
-                                    borderRadius: BorderRadius.circular(7)),
-                                height: 40,
-                                child: Center(
-                                  child: Text(
-                                    '+ Keranjang',
-                                    style: whiteTextStyle.copyWith(
-                                        fontSize: 15, fontWeight: bold),
-                                  ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Expanded(
+                          child: InkWell(
+                            onTap: () async {
+                              await stateCart.addCart(
+                                  context, widget.drugId, 1, '');
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 10),
+                              width: 142,
+                              decoration: BoxDecoration(
+                                  color: greenColor,
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7)),
+                              height: 40,
+                              child: Center(
+                                child: Text(
+                                  '+ Keranjang',
+                                  style: whiteTextStyle.copyWith(
+                                      fontSize: 15, fontWeight: bold),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                        ],
-                      )),
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                      ],
+                    )
+                  : Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 6),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: greenColor),
+                        borderRadius: BorderRadius.circular(7),
+                      ),
+                      child: Text(
+                        'Harus Dengan Resep Dokter',
+                        textAlign: TextAlign.center,
+                        style: grenTextStyle.copyWith(
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+            ),
           )
         ],
       ),

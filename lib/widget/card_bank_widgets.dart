@@ -20,8 +20,9 @@ class CardTreatmentBank extends StatelessWidget {
     return state.getPaymentMethod.isEmpty
         ? Center(
             child: Text(
-              'Tidak ada metode pemayaran',
+              'Belum ada motede pembayaran',
               style: TextStyle(
+                fontFamily: 'ProximaNova',
                 fontSize: 20,
               ),
             ),
@@ -257,8 +258,9 @@ class CardKonsultasiBank extends StatelessWidget {
     return state.getPaymentMethod.isEmpty
         ? Center(
             child: Text(
-              'Tidak ada metode pemayaran',
+              'Belum ada metode pembayaran',
               style: TextStyle(
+                fontFamily: 'ProximaNova',
                 fontSize: 20,
               ),
             ),

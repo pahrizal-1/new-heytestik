@@ -9,12 +9,13 @@ import 'package:heystetik_mobileapps/models/customer/transaction_history_consult
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 
 class AccountController extends StateClass {
-  RxString fullName = '-'.obs;
+  RxString fullName = ''.obs;
   Rx<TransactionHistoryConsultationModel> data =
       TransactionHistoryConsultationModel().obs;
 
   init() async {
-    fullName.value = await LocalStorage().getFullName();
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
   }
 
   Future<TransactionHistoryConsultationModel?> getMyActivity(

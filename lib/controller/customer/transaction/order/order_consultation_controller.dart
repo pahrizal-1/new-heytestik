@@ -187,7 +187,8 @@ class OrderConsultationController extends StateClass {
 
   initPayment(BuildContext context) async {
     isLoading.value = true;
-    fullName.value = await LocalStorage().getFullName();
+    var dataUser = await LocalStorage().getDataUser();
+    fullName.value = dataUser['fullname'];
     getPaymentMethod.value.clear();
     await getPaymentmethod(context);
     idPayment.value = 0;

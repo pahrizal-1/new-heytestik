@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 
@@ -23,8 +24,7 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
   Duration myDuration = Duration(seconds: 120);
 
   void startTimer() {
-    countdownTimer =
-        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
   }
 
   void stopTimer() {
@@ -127,15 +127,14 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                 height: 9,
               ),
               Text(
-                'Masukkan 6 digit kode yang telah dikirmkan ke Whatsapp',
+                'Masukkan 5 digit kode yang telah dikirmkan ke Whatsapp',
                 style: greyTextStyle,
               ),
               const SizedBox(
                 height: 4,
               ),
               Text(
-                state.nomorHpController.text
-                    .replaceAll(RegExp(r'.(?=.{3})'), '*'),
+                state.nomorHpController.text.replaceAll(RegExp(r'.(?=.{3})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
@@ -149,6 +148,12 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onCodeChanged: (verif) {
+                  setState(() {
+                    state.otp.value = verif;
+                  });
+                },
                 onSubmit: (String verifCode) {
                   print(verifCode);
                   setState(() {
@@ -157,32 +162,20 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                   print(state.otp.value);
                 },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    '$minutes:$seconds',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontSize: 18),
-                  ),
-                  // SizedBox(
-                  //   width: 7,
-                  // ),
-                  // Text(
-                  //   'detik',
-                  //   style: grenTextStyle.copyWith(fontSize: 18),
-                  // ),
-                ],
-              ),
               const SizedBox(
                 height: 25,
               ),
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  state.updatePhone(context);
+                  if (state.otp.value.length < 5) {
+                    showDialog(
+                      context: Get.context!,
+                      builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
+                    );
+                  } else {
+                    state.verifyOtpPassword(context);
+                  }
                   // state.verifyCode(context);
                 },
               ),
@@ -196,25 +189,42 @@ class _VerifikasiSetingsPageState extends State<VerifikasiSetingsPage> {
                     'Belum mendapatkan kode?',
                     style: greyTextStyle.copyWith(fontSize: 14),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      if (countdownTimer!.isActive) {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertWidget(
-                                  subtitle: 'Coba beberapa saat lagi',
-                                ));
-                      } else {
-                        state.verifyCodeWA(
-                            context, state.nomorHpController.text);
-                        resetTimer();
-                      }
-                    },
-                    child: Text(
-                      ' Kirim Ulang',
-                      style: grenTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ),
+                  countdownTimer!.isActive
+                      ? Row(
+                          children: [
+                            Text(
+                              '$minutes:$seconds',
+                              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 18),
+                            ),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              'detik',
+                              style: grenTextStyle.copyWith(fontSize: 18),
+                            ),
+                          ],
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (countdownTimer!.isActive) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertWidget(
+                                        subtitle: 'Coba beberapa saat lagi',
+                                      ));
+                            } else {
+                              state.verifyCodeWA(context, state.nomorHpController.text);
+                              resetTimer();
+                            }
+                          },
+                          child: state.isLoading.value
+                              ? CircularProgressIndicator()
+                              : Text(
+                                  ' Kirim Ulang',
+                                  style: grenTextStyle.copyWith(fontSize: 14),
+                                ),
+                        ),
                 ],
               ),
             ],
@@ -229,20 +239,17 @@ class VerifikasiEmailSetingsPage extends StatefulWidget {
   const VerifikasiEmailSetingsPage({super.key});
 
   @override
-  State<VerifikasiEmailSetingsPage> createState() =>
-      _VerifikasiEmailSetingsPageState();
+  State<VerifikasiEmailSetingsPage> createState() => _VerifikasiEmailSetingsPageState();
 }
 
-class _VerifikasiEmailSetingsPageState
-    extends State<VerifikasiEmailSetingsPage> {
+class _VerifikasiEmailSetingsPageState extends State<VerifikasiEmailSetingsPage> {
   final ProfileController state = Get.put(ProfileController());
 
   Timer? countdownTimer;
   Duration myDuration = Duration(seconds: 120);
 
   void startTimer() {
-    countdownTimer =
-        Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
+    countdownTimer = Timer.periodic(Duration(seconds: 1), (_) => setCountDown());
   }
 
   void stopTimer() {
@@ -344,15 +351,14 @@ class _VerifikasiEmailSetingsPageState
                 height: 9,
               ),
               Text(
-                'Masukkan 6 digit kode yang telah dikirmkan ke Email',
+                'Masukkan 5 digit kode yang telah dikirmkan ke Email',
                 style: greyTextStyle,
               ),
               const SizedBox(
                 height: 4,
               ),
               Text(
-                state.emailBaruController.text
-                    .replaceAll(RegExp(r'.(?=.{10})'), '*'),
+                state.emailBaruController.text.replaceAll(RegExp(r'.(?=.{10})'), '*'),
                 style: blackTextStyle.copyWith(),
               ),
               const SizedBox(
@@ -366,6 +372,12 @@ class _VerifikasiEmailSetingsPageState
                 fieldWidth: 50,
                 borderColor: greenColor,
                 showFieldAsBox: true,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onCodeChanged: (verif) {
+                  setState(() {
+                    state.otp.value = verif;
+                  });
+                },
                 onSubmit: (String verifCode) {
                   print(verifCode);
                   setState(() {
@@ -374,26 +386,20 @@ class _VerifikasiEmailSetingsPageState
                   print(state.otp.value);
                 },
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text('$minutes:$seconds', style: subTitleTextStyle),
-                  SizedBox(
-                    width: 2,
-                  ),
-                  Text(
-                    'detik',
-                    style: grenTextStyle.copyWith(fontSize: 12),
-                  ),
-                ],
-              ),
               const SizedBox(
                 height: 25,
               ),
               ButtonGreenWidget(
                 title: 'Simpan',
                 onPressed: () {
-                  state.updateEmail(context);
+                  if (state.otp.value.length < 5) {
+                    showDialog(
+                      context: Get.context!,
+                      builder: (context) => AlertWidget(subtitle: 'Tolong Lengkapi Code Terlebih Dahulu'),
+                    );
+                  } else {
+                    state.verifyOtpPassword(context);
+                  }
                   // state.verifyCode(context);
                 },
               ),
@@ -407,25 +413,37 @@ class _VerifikasiEmailSetingsPageState
                     'Belum mendapatkan kode?',
                     style: greyTextStyle.copyWith(fontSize: 14),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      if (countdownTimer!.isActive) {
-                        showDialog(
-                            context: context,
-                            builder: (context) => AlertWidget(
-                                  subtitle: 'Coba beberapa saat lagi',
-                                ));
-                      } else {
-                        state.verifyCodeEmail(
-                            context, state.emailBaruController.text);
-                        resetTimer();
-                      }
-                    },
-                    child: Text(
-                      ' Kirim Ulang',
-                      style: grenTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ),
+                  countdownTimer!.isActive
+                      ? Row(
+                          children: [
+                            Text('$minutes:$seconds', style: subTitleTextStyle),
+                            SizedBox(
+                              width: 2,
+                            ),
+                            Text(
+                              'detik',
+                              style: grenTextStyle.copyWith(fontSize: 12),
+                            ),
+                          ],
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            if (countdownTimer!.isActive) {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => AlertWidget(
+                                        subtitle: 'Coba beberapa saat lagi',
+                                      ));
+                            } else {
+                              state.verifyCodeEmail(context, state.emailBaruController.text);
+                              resetTimer();
+                            }
+                          },
+                          child: Text(
+                            ' Kirim Ulang',
+                            style: grenTextStyle.copyWith(fontSize: 14),
+                          ),
+                        ),
                 ],
               ),
             ],

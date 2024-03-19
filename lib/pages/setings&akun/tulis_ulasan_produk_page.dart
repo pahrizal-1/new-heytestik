@@ -71,7 +71,6 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
   void initState() {
     super.initState();
     state.clearForm();
-
     state.usageDuration.value = titleCirkel[isSelected];
     state.wouldRecommend.value = titleRekomendasi[isRekomendasi];
     state.wouldRepurchase.value = titleProduk[isProduk];
@@ -199,6 +198,7 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                   ),
                   child: TextField(
                     controller: state.review,
+                    maxLength: 150,
                     onChanged: (value) {
                       if (state.review.text.length <= 150) {
                         setState(() {});
@@ -421,11 +421,9 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                 children: List.generate(titleCirkel.length, (index) {
                   return InkWell(
                     onTap: () {
-                      setState(() {
-                        isSelected = index;
-                      });
-
+                      isSelected = index;
                       state.usageDuration.value = titleCirkel[index];
+                      setState(() {});
                     },
                     child: Container(
                       margin: const EdgeInsets.only(right: 8),
@@ -665,10 +663,9 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                     children: List.generate(2, (index) {
                       return InkWell(
                         onTap: () {
-                          setState(() {
-                            isRekomendasi = index;
-                          });
+                          isRekomendasi = index;
                           state.wouldRecommend.value = titleRekomendasi[index];
+                          setState(() {});
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 8),
@@ -739,10 +736,9 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
                     children: List.generate(2, (index) {
                       return InkWell(
                         onTap: () {
-                          setState(() {
-                            isProduk = index;
-                          });
+                          isProduk = index;
                           state.wouldRepurchase.value = titleProduk[index];
+                          setState(() {});
                         },
                         child: Container(
                           margin: const EdgeInsets.only(right: 8),
@@ -816,22 +812,14 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
-
       if (condition == 'after') {
-        print('img camera $imagePath');
         state.afterConditions.add(imagePath!.path);
         setState(() {});
-        print('img camera afterConditions ${state.afterConditions}');
       }
-
       if (condition == 'before') {
-        print('img camera $imagePath');
         state.beforeConditions.add(imagePath!.path);
         setState(() {});
-        print('img camera beforeConditions ${state.beforeConditions}');
       }
-    } else {
-      print('image not selected');
     }
   }
 
@@ -840,52 +828,35 @@ class _TulisUlasanProdukPageState extends State<TulisUlasanProdukPage> {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       imagePath = File(pickedImage.path);
-
       if (condition == 'after') {
-        print('img camera $imagePath');
         state.afterConditions.add(imagePath!.path);
         setState(() {});
-        print('img camera afterConditions ${state.afterConditions}');
       }
-
       if (condition == 'before') {
-        print('img camera $imagePath');
         state.beforeConditions.add(imagePath!.path);
         setState(() {});
-        print('img camera beforeConditions ${state.beforeConditions}');
       }
-    } else {
-      print('image not selected');
     }
   }
 
   Future openGalleryMyJourney(String condition) async {
-    List hasil = await Get.to(ImageGalleryMyJourney());
-    print("hasil $hasil");
+    List hasil = await Get.to(() => ImageGalleryMyJourney());
     Get.back();
 
-    if (hasil.isEmpty) {
-      print("hasil kosong");
-      return;
-    }
+    if (hasil.isEmpty) return;
 
     state.isMinorLoading.value = true;
     for (int i = 0; i < hasil.length; i++) {
       String path = await downloadFileFromUrl(hasil[i]);
-
       if (condition == 'after') {
         state.afterConditions.add(path);
         setState(() {});
-        print('afterConditions ${state.afterConditions}');
       }
-
       if (condition == 'before') {
         state.beforeConditions.add(path);
         setState(() {});
-        print('beforeConditions ${state.beforeConditions}');
       }
     }
     state.isMinorLoading.value = false;
-    print("beres");
   }
 }

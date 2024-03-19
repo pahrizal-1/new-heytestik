@@ -38,8 +38,8 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
   final OrderConsultationController stateConcern =
       Get.put(OrderConsultationController());
 
-  final NotificationCustomerController stateNotification =
-      Get.put(NotificationCustomerController());
+  final NotificationController stateNotification =
+      Get.put(NotificationController());
 
   _launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
@@ -100,7 +100,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                 width: 11,
               ),
               Text(
-                'Hai, ',
+                'Hi, ',
                 style: blackRegulerTextStyle.copyWith(fontSize: 18),
               ),
               Expanded(

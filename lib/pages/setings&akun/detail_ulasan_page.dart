@@ -80,38 +80,40 @@ class DetailPageUlasanKonsultasi extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Container(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 14,
+                //     vertical: 8,
+                //   ),
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(7),
+                //       border: Border.all(color: borderColor),
+                //       color:
+                //           Color.fromRGBO(204, 204, 204, 0.80).withOpacity(0.4)),
+                //   child: Row(
+                //     children: [
+                //       Image.asset(
+                //         'assets/icons/alert-new.png',
+                //         width: 20,
+                //         color: Color.fromARGB(255, 146, 146, 146),
+                //         height: 20,
+                //       ),
+                //       const SizedBox(
+                //         width: 10,
+                //       ),
+                //       Expanded(
+                //         child: Text(
+                //           'Ulasan tidak bisa diubah karena kamu sudah mengubah 2 kali atau lebih dari 30 hari sejak ulasan terkirim.',
+                //           style: blackRegulerTextStyle.copyWith(fontSize: 11),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                //   const SizedBox(
+                //   height: 14,
+                // ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: borderColor),
-                      color:
-                          Color.fromRGBO(204, 204, 204, 0.80).withOpacity(0.4)),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/alert-new.png',
-                        width: 20,
-                        color: Color.fromARGB(255, 146, 146, 146),
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Ulasan tidak bisa diubah karena kamu sudah mengubah 2 kali atau lebih dari 30 hari sejak ulasan terkirim.',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 11),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 12, bottom: 12),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   decoration: BoxDecoration(
@@ -154,6 +156,9 @@ class DetailPageUlasanKonsultasi extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(
+                  height: 9,
                 ),
                 Row(
                   children: [
@@ -325,38 +330,40 @@ class DetailPageUlasanTreatment extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Container(
+                //   padding: const EdgeInsets.symmetric(
+                //     horizontal: 14,
+                //     vertical: 8,
+                //   ),
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(7),
+                //       border: Border.all(color: borderColor),
+                //       color:
+                //           Color.fromRGBO(204, 204, 204, 0.80).withOpacity(0.4)),
+                //   child: Row(
+                //     children: [
+                //       Image.asset(
+                //         'assets/icons/alert-new.png',
+                //         width: 20,
+                //         color: Color.fromARGB(255, 146, 146, 146),
+                //         height: 20,
+                //       ),
+                //       const SizedBox(
+                //         width: 10,
+                //       ),
+                //       Expanded(
+                //         child: Text(
+                //           'Ulasan tidak bisa diubah karena kamu sudah mengubah 2 kali atau lebih dari 30 hari sejak ulasan terkirim.',
+                //           style: blackRegulerTextStyle.copyWith(fontSize: 11),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 14,
+                // ),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 8,
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: borderColor),
-                      color:
-                          Color.fromRGBO(204, 204, 204, 0.80).withOpacity(0.4)),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        'assets/icons/alert-new.png',
-                        width: 20,
-                        color: Color.fromARGB(255, 146, 146, 146),
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Ulasan tidak bisa diubah karena kamu sudah mengubah 2 kali atau lebih dari 30 hari sejak ulasan terkirim.',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 11),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 12, bottom: 12),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
                   decoration: BoxDecoration(
@@ -394,6 +401,9 @@ class DetailPageUlasanTreatment extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                const SizedBox(
+                  height: 9,
                 ),
                 Row(
                   children: [
@@ -445,49 +455,32 @@ class DetailPageUlasanTreatment extends StatelessWidget {
                     : Row(
                         children: [
                           Container(
-                            width: 3,
-                            height: 47,
-                            decoration: BoxDecoration(
-                              color: Color(0xffECECEC),
-                            ),
+                            height: 60,
+                            width: 2,
+                            decoration: BoxDecoration(color: greenColor),
                           ),
                           const SizedBox(
-                            width: 14,
+                            width: 7,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'oleh',
-                                    style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 13),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    ' MinHey',
-                                    style: blackTextStyle.copyWith(
-                                        fontSize: 13,
-                                        color: const Color(0xFF6B6B6B)),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                data.detail?.treatmentReview?.replyReview ??
-                                    '-',
-                                style: blackRegulerTextStyle.copyWith(
-                                    fontSize: 13),
-                              )
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Penjual ',
+                                  style: blackHigtTextStyle.copyWith(
+                                      fontSize: 13, color: subTitleColor),
+                                ),
+                                Text(
+                                  data.detail?.treatmentReview?.replyReview ??
+                                      '-',
+                                  style: subTitleTextStyle,
+                                )
+                              ],
+                            ),
                           )
                         ],
-                      )
+                      ),
               ],
             ),
           ),

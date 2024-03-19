@@ -407,7 +407,6 @@ class _PenarikanDanaState extends State<PenarikanDana> {
                                     child: Text(
                                       'Belum ada data',
                                       style: TextStyle(
-                                        fontWeight: bold,
                                         fontFamily: 'ProximaNova',
                                         fontSize: 20,
                                       ),

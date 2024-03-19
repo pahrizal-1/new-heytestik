@@ -24,6 +24,8 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
   CameraController? controller; //controller for camera
   XFile? image; //for captured image
   int direction = 0;
+  FlashMode flashMode = FlashMode.off;
+
   @override
   void initState() {
     loadCamera(direction);
@@ -86,19 +88,21 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            height: 400,
-            width: MediaQuery.of(context).size.width,
-            child: controller == null
-                ? const Center(child: Text("Loading Camera..."))
-                : !controller!.value.isInitialized
-                    ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : CameraPreview(controller!),
+          Expanded(
+            child: Container(
+              height: 500,
+              width: MediaQuery.of(context).size.width,
+              child: controller == null
+                  ? const Center(child: Text("Loading Camera..."))
+                  : !controller!.value.isInitialized
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : CameraPreview(controller!),
+            ),
           ),
-          SizedBox(
-            height: 135,
+          const SizedBox(
+            height: 39,
           ),
           Text(
             'Pastikan KTP mu terlihat jelas di dalam bingkai foto ini.',
@@ -108,16 +112,27 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
             height: 39,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 73, right: 73),
+            padding: const EdgeInsets.only(left: 40, right: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image.asset(
-                  'assets/icons/refresh-icons.png',
-                  width: 24,
-                  color: Colors.transparent,
-                  height: 24,
-                ),
+                FloatingActionButton(
+                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
+                      setState(() {
+                        if (flashMode == FlashMode.off) {
+                          controller?.setFlashMode(FlashMode.always);
+                          flashMode = FlashMode.always;
+                        } else {
+                          controller?.setFlashMode(FlashMode.off);
+                          flashMode = FlashMode.off;
+                        }
+                      });
+                    },
+                    child: flashMode == FlashMode.off
+                        ? const Icon(Icons.flash_off)
+                        : const Icon(Icons.flash_on)),
                 Obx(
                   () => state.isLoadingCam.value
                       ? LoadingMore()
@@ -149,21 +164,27 @@ class _CameraCutomeKTPState extends State<CameraCutomeKTP> {
                           ),
                         ),
                 ),
-                InkWell(
-                  onTap: () {
-                    setState(() {
-                      direction = direction == 0 ? 1 : 0;
-                      loadCamera(direction);
-                    });
-                  },
-                  child: Image.asset(
-                    'assets/icons/refresh-icons.png',
-                    width: 24,
-                    height: 24,
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        direction = direction == 0 ? 1 : 0;
+                        loadCamera(direction);
+                      });
+                    },
+                    child: Image.asset(
+                      'assets/icons/refresh-icons.png',
+                      width: 24,
+                      height: 24,
+                    ),
                   ),
                 ),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 39,
           ),
         ],
       ),

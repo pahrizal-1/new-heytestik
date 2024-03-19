@@ -68,10 +68,9 @@ class _FilterTambahbankState extends State<FilterTambahBankDoctor> {
                       ? Padding(
                           padding: const EdgeInsets.only(top: paddingL),
                           child: Text(
-                            'Tidak ada data',
+                            'Belum ada data',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontWeight: bold,
                               fontFamily: 'ProximaNova',
                               fontSize: 20,
                             ),

@@ -36,8 +36,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
   deletedPin() {
     if (state.pinNewController.text.isNotEmpty) {
       setState(() {
-        state.pinNewController.text = state.pinNewController.text
-            .substring(0, state.pinNewController.text.length - 1);
+        state.pinNewController.text = state.pinNewController.text.substring(0, state.pinNewController.text.length - 1);
       });
     }
   }
@@ -96,9 +95,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                     Padding(
                       padding: const EdgeInsets.all(3),
                       child: Icon(
-                        (state.pinNewController.text.length >= 1)
-                            ? Icons.circle
-                            : Icons.circle_outlined,
+                        (state.pinNewController.text.length >= 1) ? Icons.circle : Icons.circle_outlined,
                         size: 15,
                         color: whiteColor,
                       ),
@@ -106,9 +103,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                     Padding(
                       padding: const EdgeInsets.all(3),
                       child: Icon(
-                        (state.pinNewController.text.length >= 2)
-                            ? Icons.circle
-                            : Icons.circle_outlined,
+                        (state.pinNewController.text.length >= 2) ? Icons.circle : Icons.circle_outlined,
                         color: whiteColor,
                         size: 15,
                       ),
@@ -116,9 +111,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                     Padding(
                       padding: const EdgeInsets.all(3),
                       child: Icon(
-                        (state.pinNewController.text.length >= 3)
-                            ? Icons.circle
-                            : Icons.circle_outlined,
+                        (state.pinNewController.text.length >= 3) ? Icons.circle : Icons.circle_outlined,
                         color: whiteColor,
                         size: 15,
                       ),
@@ -126,9 +119,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                     Padding(
                       padding: const EdgeInsets.all(3),
                       child: Icon(
-                        (state.pinNewController.text.length >= 4)
-                            ? Icons.circle
-                            : Icons.circle_outlined,
+                        (state.pinNewController.text.length >= 4) ? Icons.circle : Icons.circle_outlined,
                         color: whiteColor,
                         size: 15,
                       ),
@@ -136,9 +127,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                     Padding(
                       padding: const EdgeInsets.all(3),
                       child: Icon(
-                        (state.pinNewController.text.length >= 5)
-                            ? Icons.circle
-                            : Icons.circle_outlined,
+                        (state.pinNewController.text.length >= 5) ? Icons.circle : Icons.circle_outlined,
                         color: whiteColor,
                         size: 15,
                       ),
@@ -146,9 +135,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                     Padding(
                       padding: const EdgeInsets.all(3),
                       child: Icon(
-                        (state.pinNewController.text.length == 6)
-                            ? Icons.circle
-                            : Icons.circle_outlined,
+                        (state.pinNewController.text.length == 6) ? Icons.circle : Icons.circle_outlined,
                         color: whiteColor,
                         size: 15,
                       ),
@@ -239,8 +226,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                       onTap: () {},
                       child: InkWell(
                         onTap: () {
-                          stateCustomer.updatePassword(context, widget.pinOld,
-                              state.pinNewController.text);
+                          stateCustomer.updatePassword(context, widget.pinOld, state.pinNewController.text);
                           // showDialog(
                           //   context: context,
                           //   builder: (context) => const MoreDialogPassword(),
@@ -252,8 +238,7 @@ class _PinbaruCustomerState extends State<PinbaruCustomer> {
                           child: Center(
                               child: Text(
                             'OK',
-                            style: whiteTextStyle.copyWith(
-                                fontSize: 25, fontWeight: bold),
+                            style: whiteTextStyle.copyWith(fontSize: 25, fontWeight: bold),
                           )),
                         ),
                       ),

@@ -45,10 +45,17 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
     if (state.pinOldController.text.isNotEmpty) {
       setState(() {
         isErr = false;
-        state.pinOldController.text = state.pinOldController.text
-            .substring(0, state.pinOldController.text.length - 1);
+        state.pinOldController.text = state.pinOldController.text.substring(0, state.pinOldController.text.length - 1);
       });
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    state.pinOldController.clear();
+    state.pinNewController.clear();
   }
 
   @override
@@ -62,7 +69,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
               padding: const EdgeInsets.only(left: 21, top: 50),
               child: InkWell(
                   onTap: () {
-                    state.pinOldController.text ='';
+                    state.pinOldController.text = '';
                     Navigator.pop(context);
                   },
                   child: Icon(
@@ -100,9 +107,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 1)
-                              ? Icons.circle
-                              : Icons.circle_outlined,
+                          (state.pinOldController.text.length >= 1) ? Icons.circle : Icons.circle_outlined,
                           size: 15,
                           color: whiteColor,
                         ),
@@ -110,9 +115,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 2)
-                              ? Icons.circle
-                              : Icons.circle_outlined,
+                          (state.pinOldController.text.length >= 2) ? Icons.circle : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -120,9 +123,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 3)
-                              ? Icons.circle
-                              : Icons.circle_outlined,
+                          (state.pinOldController.text.length >= 3) ? Icons.circle : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -130,9 +131,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 4)
-                              ? Icons.circle
-                              : Icons.circle_outlined,
+                          (state.pinOldController.text.length >= 4) ? Icons.circle : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -140,9 +139,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length >= 5)
-                              ? Icons.circle
-                              : Icons.circle_outlined,
+                          (state.pinOldController.text.length >= 5) ? Icons.circle : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -150,9 +147,7 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                       Padding(
                         padding: const EdgeInsets.all(3),
                         child: Icon(
-                          (state.pinOldController.text.length == 6)
-                              ? Icons.circle
-                              : Icons.circle_outlined,
+                          (state.pinOldController.text.length == 6) ? Icons.circle : Icons.circle_outlined,
                           color: whiteColor,
                           size: 15,
                         ),
@@ -176,31 +171,26 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                           builder: (context) => Container(
                                 height: 246,
                                 child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 33, top: 47, right: 45),
+                                  padding: const EdgeInsets.only(left: 33, top: 47, right: 45),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'Lupa Kata Sandi?',
-                                        style: blackTextStyle.copyWith(
-                                            fontSize: 20),
+                                        style: blackTextStyle.copyWith(fontSize: 20),
                                       ),
                                       const SizedBox(
                                         height: 28,
                                       ),
                                       Text(
                                         'Kami akan kirimkan Kata Sandi Anda\nke email yang terdaftar di akun Heystetik.',
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontWeight: regular, fontSize: 15),
+                                        style: blackHigtTextStyle.copyWith(fontWeight: regular, fontSize: 15),
                                       ),
                                       const SizedBox(
                                         height: 15,
                                       ),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: InkWell(
@@ -217,16 +207,11 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                                                 // width: MediaQuery.of(context).size.width,
                                                 decoration: BoxDecoration(
                                                   color: whiteColor,
-                                                  border: Border.all(
-                                                      color: greenColor),
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
+                                                  border: Border.all(color: greenColor),
+                                                  borderRadius: BorderRadius.circular(7),
                                                 ),
                                                 child: Center(
-                                                  child: Text('Batal',
-                                                      style: TextStyle(
-                                                          color: greenColor,
-                                                          fontSize: 15)),
+                                                  child: Text('Batal', style: TextStyle(color: greenColor, fontSize: 15)),
                                                 ),
                                               ),
                                             ),
@@ -244,15 +229,12 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                                                 // width: MediaQuery.of(context).size.width,
                                                 decoration: BoxDecoration(
                                                   color: greenColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(7),
+                                                  borderRadius: BorderRadius.circular(7),
                                                 ),
                                                 child: Center(
                                                   child: Text(
                                                     'Lanjut',
-                                                    style: TextStyle(
-                                                        color: whiteColor,
-                                                        fontSize: 15),
+                                                    style: TextStyle(color: whiteColor, fontSize: 15),
                                                   ),
                                                 ),
                                               ),
@@ -350,27 +332,21 @@ class _PinPageLamaDoctorState extends State<PinPageLamaDoctor> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
-                          deletedPin();
+                          showDialog(
+                            context: context,
+                            builder: (context) => const MoreDialogPassword(),
+                          );
                         },
-                        child: InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => const MoreDialogPassword(),
-                            );
-                          },
-                          child: Container(
-                            width: 73,
-                            height: 73,
-                            child: Center(
-                                child: Text(
-                              'OK',
-                              style: whiteTextStyle.copyWith(
-                                  fontSize: 25, fontWeight: bold),
-                            )),
-                          ),
+                        child: Container(
+                          width: 73,
+                          height: 73,
+                          child: Center(
+                              child: Text(
+                            '',
+                            style: whiteTextStyle.copyWith(fontSize: 25, fontWeight: bold),
+                          )),
                         ),
                       ),
                       CustomInputButton(

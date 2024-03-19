@@ -103,31 +103,26 @@ class TransactionService extends ProviderClass {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
-    try {
-      Map<String, dynamic> params = {
-        "page": page,
-        "take": 10,
-        "order": "desc",
-        "search": search,
-      };
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "order": "desc",
+      "search": search,
+    };
 
-      if (filter != null) {
-        params.addAll(filter);
-      }
-      print("params $params");
-      var response = await networkingConfig.doGet(
-        '/transaction',
-        params: params,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return TransactionHistoryModel.fromJson(response);
-    } catch (e) {
-      print("hahahh $e");
-      return TransactionHistoryModel.fromJson({});
+    if (filter != null) {
+      params.addAll(filter);
     }
+    print("params $params");
+    var response = await networkingConfig.doGet(
+      '/transaction',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return TransactionHistoryModel.fromJson(response);
   }
 
   Future<TransactionStatusModel> transactionStatusConsultation(

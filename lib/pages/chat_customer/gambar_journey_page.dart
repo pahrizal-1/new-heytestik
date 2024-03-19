@@ -35,7 +35,6 @@ class _GambarPageState extends State<GambarPage> {
                   child: Text(
                     'Belum ada gambar',
                     style: TextStyle(
-                      fontWeight: bold,
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),

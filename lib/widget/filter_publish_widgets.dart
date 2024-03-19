@@ -1,10 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/etalase_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
+    as Lookup;
 
 class FilterPublis extends StatefulWidget {
-  const FilterPublis({
-    super.key,
-  });
+  Map? val;
+  FilterPublis({super.key, this.val});
 
   @override
   State<FilterPublis> createState() => _FilterPublisState();
@@ -12,7 +17,13 @@ class FilterPublis extends StatefulWidget {
 
 class _FilterPublisState extends State<FilterPublis> {
   int isSelected = 0;
-  Map value = {};
+  Map? value;
+
+  @override
+  void initState() {
+    super.initState();
+    value = widget.val;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +54,11 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 0 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 0 ? greenColor : blackColor,
+                value?['title'] == 'Semua Orang'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color:
+                    value?['title'] == 'Semua Orang' ? greenColor : blackColor,
               ),
             ],
           ),
@@ -80,8 +94,12 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 1 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 1 ? greenColor : blackColor,
+                value?['title'] == 'Hanya orang yang mengikuti'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color: value?['title'] == 'Hanya orang yang mengikuti'
+                    ? greenColor
+                    : blackColor,
               ),
             ],
           ),
@@ -117,8 +135,12 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 2 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 2 ? greenColor : blackColor,
+                value?['title'] == 'Hanya orang yang disebutkan'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color: value?['title'] == 'Hanya orang yang disebutkan'
+                    ? greenColor
+                    : blackColor,
               ),
             ],
           ),
@@ -151,8 +173,11 @@ class _FilterPublisState extends State<FilterPublis> {
               ),
               Spacer(),
               Icon(
-                isSelected == 3 ? Icons.radio_button_on : Icons.circle_outlined,
-                color: isSelected == 3 ? greenColor : blackColor,
+                value?['title'] == 'Hanya saya'
+                    ? Icons.radio_button_on
+                    : Icons.circle_outlined,
+                color:
+                    value?['title'] == 'Hanya saya' ? greenColor : blackColor,
               ),
             ],
           ),
@@ -160,6 +185,68 @@ class _FilterPublisState extends State<FilterPublis> {
         SizedBox(
           height: 17,
         ),
+      ],
+    );
+  }
+}
+
+class FilterSpamStream extends StatefulWidget {
+  String? val;
+  FilterSpamStream({super.key, this.val = ''});
+
+  @override
+  State<FilterSpamStream> createState() => _FilterSpamStreamState();
+}
+
+class _FilterSpamStreamState extends State<FilterSpamStream> {
+  final EtalaseController state = Get.put(EtalaseController());
+  List<Lookup.Data2> streamReport = [];
+  String? reason;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      reason = widget.val;
+      streamReport
+          .addAll(await state.getLookup(context, 'STREAM_REPORT_REASON'));
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ...streamReport.map((e) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: () {
+                reason = e.value.toString();
+                setState(() {});
+                Get.back(result: reason);
+              },
+              child: Row(
+                children: [
+                  Text(
+                    e.value.toString(),
+                    style: blackRegulerTextStyle.copyWith(
+                        fontSize: 15, color: blackColor),
+                  ),
+                  Spacer(),
+                  Icon(
+                    reason == e.value.toString()
+                        ? Icons.radio_button_on
+                        : Icons.circle_outlined,
+                    color:
+                        reason == e.value.toString() ? greenColor : blackColor,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
       ],
     );
   }

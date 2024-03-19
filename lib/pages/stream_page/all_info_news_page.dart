@@ -291,9 +291,8 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                             child: Text(
                               'Belum ada berita',
                               style: TextStyle(
-                                fontWeight: bold,
                                 fontFamily: 'ProximaNova',
-                                fontSize: 15,
+                                fontSize: 20,
                               ),
                             ),
                           )
@@ -370,9 +369,8 @@ class _AllInfoNewsPageState extends State<AllInfoNewsPage> {
                       child: Text(
                         'Belum ada berita',
                         style: TextStyle(
-                          fontWeight: bold,
                           fontFamily: 'ProximaNova',
-                          fontSize: 15,
+                          fontSize: 20,
                         ),
                       ),
                     );

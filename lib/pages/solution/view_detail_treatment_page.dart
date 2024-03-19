@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable, await_only_futures
 
 import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
@@ -19,16 +20,18 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/ulasan_treatment_widget.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_share/social_share.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../controller/customer/treatment/treatment_controller.dart';
+import '../../controller/customer/solution/treatment_controller.dart';
 import '../../models/treatment_review_model.dart' as TreatmentReview;
 import '../../widget/loading_widget.dart';
 import '../../widget/produk_widget.dart';
 import '../../widget/text_form_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import 'package:heystetik_mobileapps/models/customer/overview_treatment_model.dart'
+    as Overview;
 
 class DetailTreatmentPage extends StatefulWidget {
   int treatmentId;
@@ -43,8 +46,11 @@ class DetailTreatmentPage extends StatefulWidget {
 
 class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
   final TreatmentController stateTreatment = Get.put(TreatmentController());
+  final WishlistTreatmentController stateWishlist =
+      Get.put(WishlistTreatmentController());
+  final UlasanTreatmentController stateUlasan =
+      Get.put(UlasanTreatmentController());
   final ScrollController scrollController = ScrollController();
-
   int activeIndex = 0;
   final images = [
     'assets/images/boking_image.png',
@@ -53,34 +59,32 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
   int currentIndex = 0;
   bool? isFavourite;
   int page = 1;
-  bool isVisibelity = false;
-  Map<String, dynamic> dataOverview = {};
   List<Data2> treatments = [];
   List<TreatmentReview.Data2> reviews = [];
-  bool? help;
-  Map<String, int> helpReview = {};
+  Overview.Data? treatmentOverview;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await stateTreatment.getTreatmentDetail(
+      stateTreatment.getTreatmentDetail(
         context,
         widget.treatmentId,
       );
-      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
+      treatmentOverview = await stateUlasan.getTreatmentOverview(
         context,
-        page,
-        stateTreatment.treatmentDetail.value.clinicId!,
-      ));
-      reviews.addAll(await stateTreatment.getTreatmentReview(
+        widget.treatmentId,
+      );
+      reviews.addAll(await stateUlasan.getTreatmentReview(
         context,
         page,
         3,
         widget.treatmentId,
       ));
-      dataOverview = await stateTreatment.getTreatmentOverview(
+      treatments.addAll(await stateTreatment.getTreatmentFromSameClinic(
         context,
-        widget.treatmentId,
-      );
+        page,
+        stateTreatment.treatmentDetail.value.clinicId!,
+      ));
       setState(() {});
     });
 
@@ -155,7 +159,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
               onTap: () {
                 if (isFavourite ??
                     stateTreatment.treatmentDetail.value.wishlist!) {
-                  stateTreatment.deleteWishlistTreatment(
+                  stateWishlist.deleteWistlist(
                     context,
                     widget.treatmentId,
                   );
@@ -164,7 +168,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     isFavourite = false;
                   });
                 } else {
-                  stateTreatment.addWishlistTreatment(
+                  stateWishlist.addWishlist(
                     context,
                     widget.treatmentId,
                   );
@@ -216,7 +220,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: stateTreatment.isLoading.value,
+          isLoading: stateTreatment.isLoadingDetailTreatment.value,
           child: ListView(
             children: [
               Stack(
@@ -472,14 +476,17 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                 ),
               ),
               const SizedBox(
-                height: 21,
+                height: 15,
               ),
               const dividergreen(),
               const SizedBox(
-                height: 25,
+                height: 10,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
+                padding: const EdgeInsets.only(
+                  left: 20,
+                  right: 20,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -494,7 +501,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                           width: 6,
                         ),
                         Text(
-                          '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_rating']}',
+                          '${treatmentOverview?.avgRating ?? 0.0}',
                           style: blackHigtTextStyle.copyWith(fontSize: 30),
                         ),
                         Text(
@@ -511,7 +518,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['satisfied_percentage']}% Sobat Hey',
+                                  '${treatmentOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
                                   style: blackHigtTextStyle.copyWith(
                                       fontSize: 12,
                                       fontStyle: FontStyle.italic),
@@ -527,7 +534,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_rating']} rating',
+                                  '${treatmentOverview?.totalRating ?? 0} rating',
                                   style: blackTextStyle.copyWith(
                                       fontSize: 12, fontWeight: regular),
                                 ),
@@ -542,7 +549,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                   width: 5,
                                 ),
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['total_review']} ulasan',
+                                  '${treatmentOverview?.totalReview ?? 0} ulasan',
                                   style: blackTextStyle.copyWith(
                                       fontSize: 12, fontWeight: regular),
                                 ),
@@ -573,7 +580,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_care_rating']}',
+                                  '${treatmentOverview?.avgCareRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -589,7 +596,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                           fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_care_rating']} ulasan',
+                                      '${treatmentOverview?.countCareRating ?? 0} ulasan',
                                       style: subTitleTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -614,7 +621,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_service_rating']}',
+                                  '${treatmentOverview?.avgServiceRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -630,7 +637,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                           fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_service_rating']} ulasan',
+                                      '${treatmentOverview?.countServiceRating ?? 0} ulasan',
                                       style: subTitleTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -655,7 +662,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                             child: Row(
                               children: [
                                 Text(
-                                  '${dataOverview['data'] == null ? 0 : dataOverview['data']['avg_management_rating']}',
+                                  '${treatmentOverview?.avgManagementRating ?? 0.0}',
                                   style:
                                       blackHigtTextStyle.copyWith(fontSize: 18),
                                 ),
@@ -671,7 +678,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                                           fontSize: 10, fontWeight: regular),
                                     ),
                                     Text(
-                                      '${dataOverview['data'] == null ? 0 : dataOverview['data']['count_management_rating']} ulasan',
+                                      '${treatmentOverview?.countManagementRating ?? 0} ulasan',
                                       style: subTitleTextStyle.copyWith(
                                           fontSize: 12, fontWeight: regular),
                                     ),
@@ -686,305 +693,55 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    Row(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              'Ulasan',
-                              style: blackHigtTextStyle.copyWith(fontSize: 18),
-                            ),
-                            Text(
-                              ' Sobat Hey',
-                              style: blackHigtTextStyle.copyWith(
-                                  fontSize: 18, fontStyle: FontStyle.italic),
-                            ),
-                          ],
-                        ),
-                        const Spacer(),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UlasanTreatmentPage(
-                                  treatmentID: widget.treatmentId,
+                    if (reviews.isNotEmpty)
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'Ulasan',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 18),
+                              ),
+                              Text(
+                                ' Sobat Hey',
+                                style: blackHigtTextStyle.copyWith(
+                                    fontSize: 18, fontStyle: FontStyle.italic),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => UlasanTreatmentPage(
+                                    treatmentID: widget.treatmentId,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: Text(
-                            'Lihat Semua',
-                            style: grenTextStyle.copyWith(fontSize: 12),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    reviews.isEmpty
-                        ? Center(
-                            child: Text(
-                              'Belum ada ulasan',
-                              style: TextStyle(
-                                fontWeight: bold,
-                                fontFamily: 'ProximaNova',
-                                fontSize: 15,
-                              ),
-                            ),
-                          )
-                        : Column(
-                            children: reviews.map((element) {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/doctor1.png',
-                                        width: 40,
-                                      ),
-                                      const SizedBox(
-                                        width: 12,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            element.user?.fullname ?? '-',
-                                            style: blackHigtTextStyle.copyWith(
-                                                fontSize: 15),
-                                          ),
-                                          Text(
-                                            element.transactionTreatmentItem
-                                                    ?.treatment!.name ??
-                                                '-',
-                                            style: blackHigtTextStyle.copyWith(
-                                                fontSize: 13,
-                                                fontWeight: regular),
-                                          ),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      const Icon(Icons.more_vert)
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 13,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: List.generate(5, (index) {
-                                          return Image.asset(
-                                            'assets/icons/stars-new.png',
-                                            width: 12,
-                                            color: element.avgRating! > index
-                                                ? const Color(0xffFFC36A)
-                                                : Color.fromRGBO(
-                                                    155, 155, 155, 0.61),
-                                          );
-                                        }),
-                                      ),
-                                      const SizedBox(
-                                        width: 13,
-                                      ),
-                                      Text(
-                                        timeago.format(DateTime.parse(
-                                            element.createdAt.toString())),
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 12, fontWeight: regular),
-                                      )
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 13,
-                                  ),
-                                  Text(
-                                    element.review ?? '-',
-                                    style: greyTextStyle.copyWith(
-                                        fontSize: 13,
-                                        color: const Color(0xff6B6B6B)),
-                                  ),
-                                  const SizedBox(
-                                    height: 13,
-                                  ),
-                                  Wrap(
-                                    spacing: 4,
-                                    runSpacing: 4,
-                                    children:
-                                        element.mediaTreatmentReviews!.map((e) {
-                                      return Container(
-                                        height: 72,
-                                        width: 82,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(7),
-                                        ),
-                                        child: Image.network(
-                                          '${Global.FILE}/${e.media!.path.toString()}',
-                                          width: 72,
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                  const SizedBox(
-                                    height: 22,
-                                  ),
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          print("help");
-
-                                          if (help ?? element.helped!) {
-                                            stateTreatment.unHelped(
-                                                context, element.id!);
-                                            setState(() {
-                                              help = false;
-                                              helpReview["${element.id}"] =
-                                                  (helpReview["${element.id}"] ??
-                                                          0) -
-                                                      1;
-                                            });
-                                          } else {
-                                            stateTreatment.helped(
-                                                context, element.id!);
-                                            setState(() {
-                                              help = true;
-                                              helpReview["${element.id}"] =
-                                                  (helpReview["${element.id}"] ??
-                                                          0) +
-                                                      1;
-                                            });
-                                          }
-                                        },
-                                        child: Image.asset(
-                                          'assets/icons/like.png',
-                                          width: 15,
-                                          color: help ?? element.helped!
-                                              ? greenColor
-                                              : greyColor,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 7,
-                                      ),
-                                      Text(
-                                        '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                        style: grenTextStyle.copyWith(
-                                          fontSize: 13,
-                                          fontWeight: regular,
-                                          color: help ?? element.helped!
-                                              ? greenColor
-                                              : greyColor,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      element.replyReview == null
-                                          ? Container()
-                                          : InkWell(
-                                              onTap: () {
-                                                setState(() {
-                                                  isVisibelity = !isVisibelity;
-                                                });
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  isVisibelity
-                                                      ? Text(
-                                                          'Lihat Balasan',
-                                                          style:
-                                                              blackRegulerTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13),
-                                                        )
-                                                      : Text(
-                                                          'Tutup Balasan',
-                                                          style:
-                                                              blackRegulerTextStyle
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13),
-                                                        ),
-                                                  const SizedBox(
-                                                    width: 4,
-                                                  ),
-                                                  const Icon(
-                                                    Icons.keyboard_arrow_down,
-                                                    color: Color(0xff6B6B6B),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 16,
-                                  ),
-                                  Visibility(
-                                    visible: isVisibelity,
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          height: 60,
-                                          width: 2,
-                                          decoration:
-                                              BoxDecoration(color: greenColor),
-                                        ),
-                                        const SizedBox(
-                                          width: 7,
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                children: [
-                                                  Text(
-                                                    'Penjual ',
-                                                    style: blackHigtTextStyle
-                                                        .copyWith(
-                                                            fontSize: 13,
-                                                            color:
-                                                                subTitleColor),
-                                                  ),
-                                                  Text(
-                                                    timeago.format(
-                                                        DateTime.parse(element
-                                                            .createdAt
-                                                            .toString())),
-                                                    style: blackRegulerTextStyle
-                                                        .copyWith(
-                                                            color:
-                                                                subTitleColor,
-                                                            fontSize: 13),
-                                                  )
-                                                ],
-                                              ),
-                                              Text(
-                                                element.replyReview ?? '',
-                                                style: subTitleTextStyle,
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
                               );
-                            }).toList(),
+                            },
+                            child: Text(
+                              'Lihat Semua',
+                              style: grenTextStyle.copyWith(fontSize: 12),
+                            ),
                           ),
+                        ],
+                      ),
+                    if (reviews.isNotEmpty)
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    if (reviews.isNotEmpty)
+                      Column(
+                        children: reviews.asMap().entries.map((element) {
+                          return UlasanTreatmentWidget(
+                            element: element.value,
+                            isEnd: reviews.length == (element.key + 1),
+                          );
+                        }).toList(),
+                      ),
                   ],
                 ),
               ),
@@ -993,7 +750,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                 color: Color(0xffF1F1F1),
               ),
               const SizedBox(
-                height: 26,
+                height: 15,
               ),
               Padding(
                 padding: lsymetric,
@@ -1026,7 +783,7 @@ class _DetailTreatmentPageState extends State<DetailTreatmentPage> {
                               ? ""
                               : "${Global.FILE}/${treatments[index].mediaTreatments![0].media!.path}",
                           rating: "${treatments[index].rating} (0k)",
-                          km: '${treatments[index].distance ?? '0'} km',
+                          km: '${treatments[index].distance ?? '0'}',
                           lokasiKlinik: treatments[index].clinic!.city!.name!,
                         ));
                   },

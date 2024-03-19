@@ -5,6 +5,9 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/streams_by_hashtag_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +15,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_share/social_share.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../controller/customer/stream/post_controller.dart';
+import '../controller/customer/stream/stream_controller.dart';
 import '../core/global.dart';
 import '../pages/stream_page/komentar_stream_page.dart';
 import '../theme/theme.dart';
@@ -31,8 +34,9 @@ class StreamPostPage extends StatefulWidget {
 
 class _StreamPostPageState extends State<StreamPostPage> {
   final ProfileController stateProfile = Get.put(ProfileController());
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
   bool? like;
+  bool? follow;
   bool? saved;
   Map<String, int> postLike = {};
   bool isTimeOver = false;
@@ -75,42 +79,66 @@ class _StreamPostPageState extends State<StreamPostPage> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 30,
-                width: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: widget.stream.photoUser == "" ||
-                            widget.stream.photoUser == "photo_profile"
-                        ? AssetImage(
-                            'assets/images/profiledummy.png',
-                          )
-                        : NetworkImage(
-                            '${Global.FILE}/${widget.stream.photoUser}',
-                          ) as ImageProvider,
+              InkWell(
+                onTap: () {
+                  if (stateProfile.username.value == widget.stream.username) {
+                    Get.to(() => const ProfilCustomerPage());
+                  } else {
+                    Get.to(() => UserFollowedStreamPage(
+                          username: widget.stream.username,
+                          fullname: widget.stream.fullname,
+                        ));
+                  }
+                },
+                child: Container(
+                  height: 30,
+                  width: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: widget.stream.photoUser == "" ||
+                              widget.stream.photoUser == "photo_profile"
+                          ? AssetImage(
+                              'assets/images/profiledummy.png',
+                            )
+                          : NetworkImage(
+                              '${Global.FILE}/${widget.stream.photoUser}',
+                            ) as ImageProvider,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(
                 width: 11,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.stream.fullname,
-                    style: blackTextStyle.copyWith(fontSize: 14),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.stream.createdAt))}, ${timeago.format(DateTime.parse(widget.stream.createdAt))}',
-                    style: subTitleTextStyle.copyWith(fontSize: 10),
-                  )
-                ],
+              InkWell(
+                onTap: () {
+                  if (stateProfile.username.value == widget.stream.username) {
+                    Get.to(() => const ProfilCustomerPage());
+                  } else {
+                    Get.to(() => UserFollowedStreamPage(
+                          username: widget.stream.username,
+                          fullname: widget.stream.fullname,
+                        ));
+                  }
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.stream.fullname,
+                      style: blackTextStyle.copyWith(fontSize: 14),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.stream.createdAt))}, ${timeago.format(DateTime.parse(widget.stream.createdAt))}',
+                      style: subTitleTextStyle.copyWith(fontSize: 10),
+                    )
+                  ],
+                ),
               ),
               const Spacer(),
               InkWell(
@@ -130,6 +158,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                           stateProfile.username.value == widget.stream.username
                               ? true
                               : false,
+                      follow: (follow ?? widget.stream.follow),
                     ),
                   );
                 },
@@ -146,7 +175,10 @@ class _StreamPostPageState extends State<StreamPostPage> {
           ),
           if (streamPollOptions.isEmpty)
             buildRichTextWithMentions(
+              context,
               widget.stream.content,
+              isMe: stateProfile.username.value,
+              fullname: widget.stream.fullname,
             ),
           if (streamPollOptions.isEmpty)
             const SizedBox(
@@ -245,7 +277,9 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     height: 16.0,
                   ),
                   buildRichTextWithMentions(
+                    context,
                     widget.stream.content,
+                    fullname: widget.stream.fullname,
                     textStyle: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -299,7 +333,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
 
                                 if (indexVotes != null) {
                                   streamPollOptions[indexVotes!]['count'] - 1;
-                                  postController.deletePolling(
+                                  stateStream.deletePolling(
                                       context,
                                       widget.stream.id,
                                       streamPollOptions[indexVotes!]
@@ -307,7 +341,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                                       streamPollOptions[indexVotes!]['id']);
                                 }
 
-                                postController.pickPolling(
+                                stateStream.pickPolling(
                                     context,
                                     widget.stream.id,
                                     option.value['stream_poll_id'],
@@ -382,7 +416,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       Expanded(
                         child: Text(
                           isTimeOver
-                              ? "Polling sudah ditutup ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
+                              ? "Polling telah berakhir ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
                               : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
                           style: TextStyle(
                             color: Colors.grey,
@@ -401,11 +435,21 @@ class _StreamPostPageState extends State<StreamPostPage> {
             ),
             Wrap(
               children: widget.stream.hashtags.map((hashtag) {
-                return Text(
-                  "#$hashtag",
-                  style: grenTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: regular,
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => StreamsByHashtagPage(
+                                  hashtag: hashtag,
+                                )));
+                  },
+                  child: Text(
+                    "#$hashtag",
+                    style: grenTextStyle.copyWith(
+                      fontSize: 14,
+                      fontWeight: regular,
+                    ),
                   ),
                 );
               }).toList(),
@@ -429,14 +473,14 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   InkWell(
                     onTap: () {
                       if (like ?? widget.stream.liked) {
-                        postController.unlikePost(context, widget.stream.id);
+                        stateStream.unlikePost(context, widget.stream.id);
                         setState(() {
                           like = false;
                           postLike["${widget.stream.id}"] =
                               (postLike["${widget.stream.id}"] ?? 0) - 1;
                         });
                       } else {
-                        postController.likePost(context, widget.stream.id);
+                        stateStream.likePost(context, widget.stream.id);
                         setState(() {
                           like = true;
                           postLike["${widget.stream.id}"] =
@@ -452,7 +496,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                             color: greenColor,
                           )
                         : Image.asset(
-                            'assets/icons/like.png',
+                            'assets/icons/unlike.png',
                             width: 19,
                             height: 19,
                             color: greyColor,
@@ -494,12 +538,12 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   InkWell(
                     onTap: () {
                       if (saved ?? widget.stream.saved) {
-                        postController.unSavePost(context, widget.stream.id);
+                        stateStream.unSavePost(context, widget.stream.id);
                         setState(() {
                           saved = false;
                         });
                       } else {
-                        postController.savePost(context, widget.stream.id);
+                        stateStream.savePost(context, widget.stream.id);
                         setState(() {
                           saved = true;
                         });

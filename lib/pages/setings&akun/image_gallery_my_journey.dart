@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/pages/myJourney/zoom_image_detail.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/my_journey_model.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 import '../../widget/show_modal_dialog.dart';
 
@@ -136,7 +137,6 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
                   child: Text(
                     'Belum ada data',
                     style: TextStyle(
-                      fontWeight: bold,
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
                     ),
@@ -211,7 +211,8 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
                                                       InkWell(
                                                         onTap: () {
                                                           Get.to(
-                                                            ZoomImageDetail(
+                                                            () =>
+                                                                ZoomImageDetail(
                                                               concern: gallery[
                                                                           index]
                                                                       .concern!
@@ -354,8 +355,14 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
         child: ButtonGreenWidget(
           title: 'Pilih Foto',
           onPressed: () {
-            print("imageee $selectedImage");
-            print("selectedImage ${selectedImage.length}");
+            if (selectedImage.isEmpty) {
+              SnackbarWidget.getErrorSnackbar(
+                context,
+                'Info',
+                "Harap pilih terkebih dahulu",
+              );
+              return;
+            }
             Navigator.pop(context, selectedImage);
           },
         ),
@@ -376,9 +383,9 @@ class _ImageGalleryMyJourneyState extends State<ImageGalleryMyJourney> {
                 InkWell(
                   onTap: () {
                     Get.back();
-                    Get.to(DetailGalleryMyJourneyPage(
-                      id: e.concernId!.toInt(),
-                    ));
+                    Get.to(() => DetailGalleryMyJourneyPage(
+                          id: e.concernId!.toInt(),
+                        ));
                   },
                   child: Text(
                     'Detail',

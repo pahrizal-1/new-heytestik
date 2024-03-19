@@ -4,10 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/treatment/treatment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/solution/etalase_treatment_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/filter_treatment_widgets.dart';
@@ -54,7 +53,8 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
   int page = 1;
   String? search;
   Map<String, dynamic> filter = {};
-  bool emptyLoading = false;
+  String? treatmentType;
+  String? orderBy;
 
   @override
   void initState() {
@@ -70,14 +70,14 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
         if (!isTop) {
           page += 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            emptyLoading = true;
+            state.isLoadingMore.value = true;
             treatments.addAll(await state.getAllTreatment(
               context,
               page,
               search: search,
               filter: filter,
             ));
-            emptyLoading = false;
+            state.isLoadingMore.value = false;
             setState(() {});
           });
         }
@@ -130,13 +130,13 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
         ),
         backgroundColor: greenColor,
         actions: [
-          SvgPicture.asset(
-            'assets/icons/love-grey.svg',
-            color: whiteColor,
-          ),
-          const SizedBox(
-            width: 21,
-          ),
+          // SvgPicture.asset(
+          //   'assets/icons/love-grey.svg',
+          //   color: whiteColor,
+          // ),
+          // const SizedBox(
+          //   width: 21,
+          // ),
           InkWell(
             onTap: () async {
               Uri? url = await createDynamicLinkClinic(widget.clinicId);
@@ -167,7 +167,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
       ),
       body: Obx(
         () => LoadingWidget(
-          isLoading: emptyLoading ? false : state.isLoading.value,
+          isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
           child: ListView(
             controller: scrollController,
             children: [
@@ -435,12 +435,13 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                           children: [
                                             for (int i = 0;
                                                 i <
-                                                    state
-                                                        .responseClinicDetail
-                                                        .value
-                                                        .data!
-                                                        .clinicOperationHours!
-                                                        .length;
+                                                    (state
+                                                            .responseClinicDetail
+                                                            .value
+                                                            .data
+                                                            ?.clinicOperationHours
+                                                            ?.length ??
+                                                        0);
                                                 i++)
                                               TetxtInfomasi(
                                                 title: state
@@ -739,7 +740,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Semua Treatment',
+                            filter.isNotEmpty ? 'Filter' : 'Semua Treatment',
                             style: blackHigtTextStyle.copyWith(fontSize: 18),
                           ),
                           InkWell(
@@ -779,12 +780,13 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                             if (filter.isNotEmpty)
                               InkWell(
                                 onTap: () async {
+                                  treatmentType = null;
+                                  orderBy = null;
                                   filter.clear();
                                   page = 1;
                                   treatments.clear();
-                                  setState(() {
-                                    emptyLoading = true;
-                                  });
+                                  state.isLoadingMore.value = true;
+                                  setState(() {});
                                   treatments.addAll(
                                     await state.getAllTreatment(
                                       context,
@@ -793,7 +795,7 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                       filter: filter,
                                     ),
                                   );
-                                  emptyLoading = false;
+                                  state.isLoadingMore.value = false;
                                   setState(() {});
                                 },
                                 child: Container(
@@ -826,27 +828,36 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                     ),
                                   ),
                                   builder: (context) =>
-                                      FilterAllTreatmentWidget(),
+                                      FilterAllTreatmentWidget(param: filter),
                                 ).then((value) async {
                                   if (value == null) return;
 
-                                  if (value['promo'] == true) {
+                                  filter = value;
+                                  if (filter['rating[]'] != null &&
+                                      filter['rating[]']) {
+                                    filter['rating[]'] = ['4', '5'];
+                                  }
+
+                                  if (filter.containsKey('order_by')) {
+                                    if (filter['order_by'] == "RATING") {
+                                      orderBy = "Rating";
+                                    } else if (filter['order_by'] ==
+                                        "POPULARITY") {
+                                      orderBy = "Popularitas";
+                                    } else if (filter['order_by'] ==
+                                        "DISTANCE") {
+                                      orderBy = "Jarak";
+                                    }
+                                  }
+                                  if (filter['promo'] == true) {
                                     treatments.clear();
                                     page = 1;
                                     setState(() {});
                                   } else {
-                                    filter['treatment_type[]'] =
-                                        value['treatment'];
-                                    filter['order_by'] = value['orderBy'];
-                                    filter['open_now'] = value['openNow'];
-                                    filter['min_price'] = value['minPrice'];
-                                    filter['max_price'] = value['maxPrice'];
-
                                     page = 1;
                                     treatments.clear();
-                                    setState(() {
-                                      emptyLoading = true;
-                                    });
+                                    state.isLoadingMore.value = true;
+                                    setState(() {});
                                     treatments.addAll(
                                       await state.getAllTreatment(
                                         context,
@@ -855,14 +866,48 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                         filter: filter,
                                       ),
                                     );
-                                    emptyLoading = false;
+                                    state.isLoadingMore.value = false;
                                   }
                                   setState(() {});
                                 });
                               },
-                              child: Image.asset(
-                                'assets/icons/filters.png',
-                                width: 78,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 6, bottom: 6),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: (filter.isNotEmpty)
+                                        ? greenColor
+                                        : borderColor,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/filter-icon.png',
+                                      color: (filter.isNotEmpty)
+                                          ? greenColor
+                                          : null,
+                                    ),
+                                    SizedBox(
+                                      width: 9,
+                                    ),
+                                    Text(
+                                      filter.isNotEmpty
+                                          ? "${filter.length} Filter"
+                                          : "Filter",
+                                      style: TextStyle(
+                                        color: filter.isNotEmpty
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             InkWell(
@@ -877,129 +922,41 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => Wrap(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 25,
-                                            right: 25,
-                                            top: 36,
-                                            bottom: 20),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Image.asset(
-                                                    'assets/icons/danger-icons.png',
-                                                    width: 14,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 22,
-                                                ),
-                                                Text(
-                                                  'Filter',
-                                                  style: blackHigtTextStyle
-                                                      .copyWith(fontSize: 20),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 31,
-                                            ),
-                                            FilterTapTreatment(
-                                              title: 'Terbaru',
-                                              onTap: () async {
-                                                Get.back();
-                                                filter['order_by'] = 'RATING';
+                                  builder: (context) =>
+                                      FilterUrutkanRating(val: orderBy),
+                                ).then((value) async {
+                                  if (value == null) return;
 
-                                                page = 1;
-                                                treatments.clear();
-                                                setState(() {
-                                                  emptyLoading = true;
-                                                });
-                                                treatments.addAll(
-                                                  await state.getAllTreatment(
-                                                    context,
-                                                    page,
-                                                    search: search,
-                                                    filter: filter,
-                                                  ),
-                                                );
-                                                emptyLoading = false;
-                                                setState(() {});
-                                              },
-                                            ),
-                                            const SizedBox(
-                                              height: 18,
-                                            ),
-                                            FilterTapTreatment(
-                                              title: 'Popularitas',
-                                              onTap: () async {
-                                                Get.back();
-                                                filter['order_by'] =
-                                                    'POPULARITY';
+                                  if (value == "RATING") {
+                                    orderBy = "Rating";
+                                  } else if (value == "POPULARITY") {
+                                    orderBy = "Popularitas";
+                                  } else if (value == "DISTANCE") {
+                                    orderBy = "Jarak";
+                                  }
 
-                                                page = 1;
-                                                treatments.clear();
-                                                setState(() {
-                                                  emptyLoading = true;
-                                                });
-                                                treatments.addAll(
-                                                  await state.getAllTreatment(
-                                                    context,
-                                                    page,
-                                                    search: search,
-                                                    filter: filter,
-                                                  ),
-                                                );
-                                                emptyLoading = false;
-                                                setState(() {});
-                                              },
-                                            ),
-                                            const SizedBox(
-                                              height: 18,
-                                            ),
-                                            FilterTapTreatment(
-                                              title: 'Jarak',
-                                              onTap: () async {
-                                                Get.back();
-                                                filter['order_by'] = 'DISTANCE';
-
-                                                page = 1;
-                                                treatments.clear();
-                                                setState(() {
-                                                  emptyLoading = true;
-                                                });
-                                                treatments.addAll(
-                                                  await state.getAllTreatment(
-                                                    context,
-                                                    page,
-                                                    search: search,
-                                                    filter: filter,
-                                                  ),
-                                                );
-                                                emptyLoading = false;
-                                                setState(() {});
-                                              },
-                                            ),
-                                            const SizedBox(
-                                              height: 29,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                  filter['order_by'] = value;
+                                  if (filter['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                    return;
+                                  }
+                                  page = 1;
+                                  treatments.clear();
+                                  state.isLoadingMore.value = true;
+                                  setState(() {});
+                                  treatments.addAll(
+                                    await state.getNearTreatment(
+                                      context,
+                                      page,
+                                      search: search,
+                                      filter: filter,
+                                    ),
+                                  );
+                                  state.isLoadingMore.value = false;
+                                  setState(() {});
+                                });
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 9),
@@ -1008,69 +965,80 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                 height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
-                                  border: Border.all(color: borderColor),
+                                  border: Border.all(
+                                    color: (orderBy is String)
+                                        ? greenColor
+                                        : borderColor,
+                                  ),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Text('Urutkan'),
-                                    SizedBox(
+                                  children: [
+                                    Text(
+                                      (orderBy is String ? orderBy : 'Urutkan')
+                                          .toString(),
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        color: (orderBy is String)
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                    ),
+                                    const SizedBox(
                                       width: 9,
                                     ),
                                     Icon(
                                       Icons.keyboard_arrow_down,
                                       size: 15,
+                                      color: (orderBy is String)
+                                          ? greenColor
+                                          : null,
                                     )
                                   ],
                                 ),
                               ),
                             ),
                             InkWell(
-                              onTap: () async {
-                                var res = await Get.to(
-                                    () => const EtalaseTreatMentPage());
+                              onTap: () {
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusDirectional.only(
+                                      topEnd: Radius.circular(25),
+                                      topStart: Radius.circular(25),
+                                    ),
+                                  ),
+                                  builder: (context) =>
+                                      FilterTreatmentType(val: treatmentType),
+                                ).then((value) async {
+                                  if (value == null) return;
 
-                                if (res == 'semua') {
-                                  filter.clear();
+                                  treatmentType = value;
+                                  filter['treatment_type[]'] = value;
+                                  if (filter['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                    return;
+                                  }
                                   page = 1;
                                   treatments.clear();
-                                  setState(() {
-                                    emptyLoading = true;
-                                  });
+                                  state.isLoadingMore.value = true;
+                                  setState(() {});
                                   treatments.addAll(
-                                    await state.getAllTreatment(
+                                    await state.getNearTreatment(
                                       context,
                                       page,
                                       search: search,
                                       filter: filter,
                                     ),
                                   );
-                                  emptyLoading = false;
+                                  state.isLoadingMore.value = false;
                                   setState(() {});
-                                } else if (res == 'diskon') {
-                                  page = 1;
-                                  treatments.clear();
-                                  setState(() {});
-                                } else {
-                                  filter['concern_ids[]'] = res;
-
-                                  page = 1;
-                                  treatments.clear();
-                                  setState(() {
-                                    emptyLoading = true;
-                                  });
-                                  treatments.addAll(
-                                    await state.getAllTreatment(
-                                      context,
-                                      page,
-                                      search: search,
-                                      filter: filter,
-                                    ),
-                                  );
-                                  emptyLoading = false;
-                                  setState(() {});
-                                }
+                                });
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 9),
@@ -1079,19 +1047,40 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                                 height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
-                                  border: Border.all(color: borderColor),
+                                  border: Border.all(
+                                    color:
+                                        (filter.containsKey("treatment_type[]"))
+                                            ? greenColor
+                                            : borderColor,
+                                  ),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: const [
-                                    Text('Etalase Treatment'),
-                                    SizedBox(
+                                  children: [
+                                    Text(
+                                      (filter.containsKey("treatment_type[]")
+                                              ? filter['treatment_type[]']
+                                              : 'Treatment')
+                                          .toString(),
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 14,
+                                        color: (filter.containsKey(
+                                                "treatment_type[]"))
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                    ),
+                                    const SizedBox(
                                       width: 9,
                                     ),
                                     Icon(
                                       Icons.keyboard_arrow_down,
                                       size: 15,
+                                      color: (filter
+                                              .containsKey("treatment_type[]"))
+                                          ? greenColor
+                                          : null,
                                     )
                                   ],
                                 ),
@@ -1108,7 +1097,6 @@ class _DetailKlnikPageState extends State<DetailKlinikPage> {
                         child: Text(
                           'Belum ada treatment',
                           style: TextStyle(
-                            fontWeight: bold,
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),

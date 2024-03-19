@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/controller/customer/solution/cart_controlle
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
-import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_page.dart';
+import 'package:heystetik_mobileapps/pages/setings&akun/wishlist_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_drug_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/view_detail_skincare_page.dart';
@@ -80,7 +80,7 @@ class _KeranjangPageState extends State<KeranjangPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const WishListPage(),
+                  builder: (context) => const WishlistProdukPage(),
                 ),
               );
             },

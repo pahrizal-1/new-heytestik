@@ -9,7 +9,8 @@ import 'package:heystetik_mobileapps/models/customer/concern_model.dart'
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class FilterConcern extends StatefulWidget {
-  const FilterConcern({super.key});
+  Map? val;
+  FilterConcern({super.key, this.val});
 
   @override
   State<FilterConcern> createState() => _FilterConcernState();
@@ -17,13 +18,13 @@ class FilterConcern extends StatefulWidget {
 
 class _FilterConcernState extends State<FilterConcern> {
   final EtalaseController state = Get.put(EtalaseController());
-  List<Concern.Data2> concern = [];
-  List concernIds = [];
-
+  List<Concern.Data2> data = [];
+  Map? concern;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      concern.addAll(await state.getConcern(context));
+      concern = widget.val;
+      data.addAll(await state.getConcern(context));
       setState(() {});
     });
     super.initState();
@@ -63,10 +64,8 @@ class _FilterConcernState extends State<FilterConcern> {
             Expanded(
               child: InkWell(
                 onTap: () async {
-                  if (concernIds.isNotEmpty) {
-                    Navigator.pop(context, {
-                      "concern_ids": concernIds,
-                    });
+                  if (concern is Map) {
+                    Navigator.pop(context, concern);
                   } else {
                     SnackbarWidget.getSuccessSnackbar(
                       context,
@@ -121,12 +120,17 @@ class _FilterConcernState extends State<FilterConcern> {
               const SizedBox(
                 height: 10,
               ),
-              ...concern.map((e) {
-                return FilterTapConcern(
-                  title: e.name.toString(),
-                  function: () {
-                    concernIds.add(e.id.toString());
+              ...data.map((e) {
+                return filterTapConcern(
+                  onTap: () {
+                    concern = {
+                      "id": e.id,
+                      "text": e.name.toString(),
+                    };
+                    setState(() {});
                   },
+                  title: e.name.toString(),
+                  isSelected: concern?['text'] == e.name.toString(),
                 );
               }),
               const SizedBox(
@@ -140,56 +144,36 @@ class _FilterConcernState extends State<FilterConcern> {
   }
 }
 
-class FilterTapConcern extends StatefulWidget {
-  final String title;
-  Function()? function;
-
-  FilterTapConcern({
-    Key? key,
-    required this.title,
-    this.function,
-  }) : super(key: key);
-
-  @override
-  State<FilterTapConcern> createState() => _FilterTapConcernState();
-}
-
-class _FilterTapConcernState extends State<FilterTapConcern> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.function == null ? () {} : widget.function!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
+Widget filterTapConcern({
+  required Function() onTap,
+  required String title,
+  required bool isSelected,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 14),
+    child: Column(
+      children: [
+        InkWell(
+          onTap: () => onTap(),
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+              ),
+              const Spacer(),
+              Icon(
+                isSelected ? Icons.radio_button_on : Icons.circle_outlined,
+                color: isSelected ? greenColor : blackColor,
+              ),
+            ],
           ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
-      ),
-    );
-  }
+        ),
+        Divider(
+          thickness: 1,
+          color: borderColor,
+        )
+      ],
+    ),
+  );
 }

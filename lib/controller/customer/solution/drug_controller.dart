@@ -10,22 +10,11 @@ import 'package:heystetik_mobileapps/models/customer/detail_drug_model.dart'
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/service/customer/solution/solution_service.dart';
 import 'package:heystetik_mobileapps/models/customer/drug_recipe_model.dart';
-import 'package:heystetik_mobileapps/models/customer/overview_product_model.dart'
-    as Overview;
-import 'package:heystetik_mobileapps/models/customer/product_review_model.dart'
-    as ProductReviewModel;
 
 class DrugController extends StateClass {
   Rx<DrugRecipeModel?> drugRecipe = DrugRecipeModel.fromJson({}).obs;
   CartController state = CartController();
-
-  Rx<Overview.Data> overviewMedicine = Overview.Data.fromJson({}).obs;
-  RxList<ProductReviewModel.Data2> productReview =
-      List<ProductReviewModel.Data2>.empty().obs;
-
-  RxBool isLoadingProductReviewMedicine = false.obs;
   RxBool isLoadingDetailDrug = false.obs;
-
   Rx<DetailDrug.Data> drugDetail = DetailDrug.Data.fromJson({}).obs;
 
   Future<List<Drug.Data2>> getDrug(
@@ -84,77 +73,5 @@ class DrugController extends StateClass {
       drugDetail.value = res.data!;
     });
     isLoadingDetailDrug.value = false;
-  }
-
-  void addDrugToCart(BuildContext context, int productID) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      SolutionService().addDrugToCart(productID);
-    });
-    await state.totalCartFunc();
-    isLoading.value = false;
-  }
-
-  getOverviewProduct(BuildContext context, int id) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getOverviewProduct(id);
-
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      overviewMedicine.value = res.data!;
-    });
-  }
-
-  Future<List<ProductReviewModel.Data2>> getReviewProduct(
-      BuildContext context, int page, int take, int id) async {
-    isLoadingProductReviewMedicine.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().getReviewProduct(page, take, id);
-
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-      productReview.value = res.data!.data!;
-    });
-    isLoadingProductReviewMedicine.value = false;
-
-    return productReview.value;
-  }
-
-  void helped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().helped(reviewId);
-
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
-    isLoading.value = false;
-  }
-
-  void unHelped(BuildContext context, int reviewId) async {
-    isLoading.value = true;
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await SolutionService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
-
-    isLoading.value = false;
   }
 }

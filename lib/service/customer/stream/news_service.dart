@@ -12,45 +12,32 @@ class NewsService extends ProviderClass {
                 NetworkingConfig(baseUrl: "https://www.heystetik.com/api"));
 
   Future<ArticleModel> getArticle(dynamic data) async {
-    try {
-      var response = await networkingConfig.doPost(
-        '/article',
-        data: data,
-      );
-
-      return ArticleModel.fromJson(response);
-    } catch (error) {
-      return ArticleModel();
-    }
+    var response = await networkingConfig.doPost(
+      '/article',
+      data: data,
+    );
+    return ArticleModel.fromJson(response);
   }
 
   Future<NewsTagModel> getTag(dynamic data) async {
-    try {
-      var response = await networkingConfig.doPost(
-        '/tag',
-        data: data,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
-      );
-      return NewsTagModel.fromJson(response);
-    } catch (error) {
-      return NewsTagModel();
-    }
+    var response = await networkingConfig.doPost(
+      '/tag',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return NewsTagModel.fromJson(response);
   }
 
   Future<NewsCategoryModel> getNewsCategory(dynamic data) async {
-    try {
-      var response = await networkingConfig.doPost(
-        '/newscategory',
-        data: data,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
-        },
-      );
-      return NewsCategoryModel.fromJson(response);
-    } catch (error) {
-      return NewsCategoryModel();
-    }
+    var response = await networkingConfig.doPost(
+      '/newscategory',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'
+      },
+    );
+    return NewsCategoryModel.fromJson(response);
   }
 }
