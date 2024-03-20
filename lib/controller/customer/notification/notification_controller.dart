@@ -74,6 +74,40 @@ class NotificationController extends StateClass {
     return isSuccess;
   }
 
+  void postNotifAcitivityPosts(
+      BuildContext context, int userId, bool isEnabled) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      List data = [
+        {"type": "NOTIF_ACTIVITY_POSTS", "is_enabled": isEnabled}
+      ];
+      var req = {"data": data};
+      var res =
+          await NotificationService().postNotifAcitivityPosts(req, userId);
+      print(res);
+      if (res['success'] && res['message'] == 'Success') {
+        SnackbarWidget.getSuccessSnackbar(
+          context,
+          'Berhasil',
+          'Notifikasi aktifitas postingan berhasil di ${isEnabled == true ? 'aktifkan' : 'non aktifkan'}',
+        );
+      }
+    });
+    isLoading.value = false;
+  }
+
+  Future<List<SettingNotif.Data>> getNotifAcitivityPosts(
+      BuildContext context, int userId) async {
+    isLoading.value = true;
+    List<SettingNotif.Data>? data = [];
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await NotificationService().getNotifAcitivityPosts(userId);
+      data = res.data;
+    });
+    isLoading.value = false;
+    return data ?? [];
+  }
+
   Future getNotificationDoctor(BuildContext context, int page) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {

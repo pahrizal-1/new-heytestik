@@ -210,7 +210,7 @@ class _DetailPasienPageState extends State<DetailPasienPage> {
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(ShowImageFullScreen(listImagesModel: state.listPreAssesmentImage, current: index));
+                                  Get.to(()=>ShowImageFullScreen(listImagesModel: state.listPreAssesmentImage, current: index));
                                 },
                                 child: Container(
                                   height: 80,

@@ -6,9 +6,7 @@ import 'package:heystetik_mobileapps/pages/profile_costumer/edit_beauty_profil_p
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class BeautyProfil extends StatelessWidget {
-  BeautyProfil({
-    super.key,
-  });
+  BeautyProfil({super.key});
   final ProfileController state = Get.put(ProfileController());
   final LocationController stateLocation = Get.put(LocationController());
   @override
@@ -54,7 +52,7 @@ class BeautyProfil extends StatelessWidget {
             ),
             Obx(
               () => Text(
-                '${stateLocation.myCity.value}${state.age.value == 0 ? '' : ', ${state.age.value} tahun'}',
+                '${stateLocation.myCity.value}${stateLocation.myCity.value.isEmpty && state.age.value == 0 ? ", " : ""}${state.age.value == 0 ? '' : '${state.age.value} tahun'}',
                 style: blackRegulerTextStyle.copyWith(fontSize: 15),
               ),
             ),

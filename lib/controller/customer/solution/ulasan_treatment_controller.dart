@@ -51,26 +51,18 @@ class UlasanTreatmentController extends StateClass {
   }
 
   void helped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().helped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+    try {
+      TreatmentService().helped(reviewId);
+    } catch (e) {
+      print("ERROR helped treatment $e");
+    }
   }
 
   void unHelped(BuildContext context, int reviewId) async {
-    await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TreatmentService().unHelped(reviewId);
-      if (res.success != true && res.message != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: res.message.toString(),
-        );
-      }
-    });
+    try {
+      TreatmentService().unHelped(reviewId);
+    } catch (e) {
+      print("ERROR unHelped treatment $e");
+    }
   }
 }

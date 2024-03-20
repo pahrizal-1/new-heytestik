@@ -50,17 +50,17 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
     'assets/images/sunscreen06.png',
   ];
   List<Lookup.Data2> lookupCategory = [];
-
   int page = 1;
   List<Skincare.Data2> skincare = [];
   List<Skincare.Data2> skincareDermatologists = [];
   String? search;
   Map<String, dynamic> filter = {};
-
+  Map? concern;
+  String? display;
+  String? category;
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       lookupCategory
           .addAll(await stateEtalase.getLookup(context, 'SKINCARE_CATEGORY'));
@@ -292,9 +292,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                       namaBrand:
                                           e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
-                                      diskonProduk: '20',
-                                      hargaDiskon: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
+                                      diskonProduk: '',
+                                      hargaDiskon: '',
                                       harga: CurrencyFormat.convertToIdr(
                                           e.price, 0),
                                       urlImg: e.mediaProducts!.isEmpty
@@ -435,7 +434,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Semua Produk',
+                        filter.isNotEmpty ? 'Filter' : 'Semua Produk',
                         style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
                       const SizedBox(
@@ -448,9 +447,13 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                             if (filter.isNotEmpty)
                               InkWell(
                                 onTap: () async {
+                                  display = null;
+                                  category = null;
+                                  concern = null;
                                   filter.clear();
                                   skincare.clear();
                                   page = 1;
+                                  setState(() {});
                                   skincare.addAll(
                                     await stateSkincare.getAllSkincare(
                                       context,
@@ -490,14 +493,22 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterAllSkincare(),
+                                  builder: (context) => FilterAllSkincare(
+                                      display: display, category: category),
                                 ).then((value) async {
                                   if (value == null) return;
 
-                                  filter['display[]'] = value['display'];
-                                  filter['category[]'] = value['category'];
+                                  if (value['display'] != null) {
+                                    filter['display[]'] = value['display'];
+                                    display = value['display'];
+                                  }
+                                  if (value['category'] != null) {
+                                    filter['category[]'] = value['category'];
+                                    category = value['category'];
+                                  }
                                   skincare.clear();
                                   page = 1;
+                                  setState(() {});
                                   skincare.addAll(
                                     await stateSkincare.getAllSkincare(
                                       context,
@@ -509,9 +520,49 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                   setState(() {});
                                 });
                               },
-                              child: Image.asset(
-                                'assets/icons/filters.png',
-                                width: 78,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 10, right: 10, top: 6, bottom: 6),
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(7),
+                                  border: Border.all(
+                                    color: (filter.containsKey('display[]') ||
+                                            filter.containsKey('category[]'))
+                                        ? greenColor
+                                        : borderColor,
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/filter-icon.png',
+                                      color: (filter.containsKey('display[]') ||
+                                              filter.containsKey('category[]'))
+                                          ? greenColor
+                                          : null,
+                                    ),
+                                    SizedBox(
+                                      width: 9,
+                                    ),
+                                    Text(
+                                      (filter.containsKey('display[]') ||
+                                              filter.containsKey('category[]'))
+                                          ? "${filter.containsKey('concern_ids[]') ? (filter.length - 1) : filter.length} Filter"
+                                          : 'Filter',
+                                      style: TextStyle(
+                                        color: (filter
+                                                    .containsKey('display[]') ||
+                                                filter
+                                                    .containsKey('category[]'))
+                                            ? greenColor
+                                            : null,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             const SizedBox(
@@ -533,10 +584,11 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                 ).then((value) async {
                                   if (value == null) return;
 
-                                  filter['concern_ids[]'] =
-                                      value['concern_ids'];
+                                  concern = value;
+                                  filter['concern_ids[]'] = value['id'];
                                   skincare.clear();
                                   page = 1;
+                                  setState(() {});
                                   skincare.addAll(
                                     await stateSkincare.getAllSkincare(
                                       context,
@@ -553,18 +605,34 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                 margin: const EdgeInsets.only(right: 5),
                                 padding: const EdgeInsets.only(left: 11.5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: borderColor),
+                                  border: Border.all(
+                                    color: (concern is Map)
+                                        ? greenColor
+                                        : borderColor,
+                                  ),
                                   borderRadius: BorderRadius.circular(7),
                                 ),
                                 child: Row(
                                   children: [
                                     Text(
-                                      'Etalase Skincare',
-                                      style: blackRegulerTextStyle.copyWith(
-                                        fontSize: 15,
+                                      (concern is Map)
+                                          ? (concern?['text'])
+                                          : 'Etalase Skincare',
+                                      style: TextStyle(
+                                        color: (concern is Map)
+                                            ? greenColor
+                                            : null,
                                       ),
                                     ),
-                                    const Icon(Icons.keyboard_arrow_down)
+                                    SizedBox(
+                                      width: 9,
+                                    ),
+                                    Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 15,
+                                      color:
+                                          (concern is Map) ? greenColor : null,
+                                    )
                                   ],
                                 ),
                               ),
@@ -582,7 +650,7 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     ? Center(
                         child: Text(
                           'Belum ada skincare',
-                           style: TextStyle(
+                          style: TextStyle(
                             fontFamily: 'ProximaNova',
                             fontSize: 20,
                           ),
@@ -591,7 +659,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Center(
+                          Padding(
+                            padding: EdgeInsets.only(left: 25, top: 20),
                             child: Wrap(
                               spacing: 23,
                               runSpacing: 12,
@@ -608,10 +677,8 @@ class _SolutionSkincare1PageState extends State<SolutionSkincare1Page> {
                                         namaBrand:
                                             e.skincareDetail!.brand.toString(),
                                         namaProduk: e.name.toString(),
-                                        diskonProduk: '20',
-                                        hargaDiskon:
-                                            CurrencyFormat.convertToIdr(
-                                                e.price, 0),
+                                        diskonProduk: '',
+                                        hargaDiskon: '',
                                         harga: CurrencyFormat.convertToIdr(
                                             e.price, 0),
                                         urlImg: e.mediaProducts!.isEmpty

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/theme/theme.dart';
 
 class CelebrityNewsPage extends StatefulWidget {
   const CelebrityNewsPage({super.key});

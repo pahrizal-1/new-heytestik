@@ -46,6 +46,7 @@ class OrderConsultationController extends StateClass {
   ];
 
   RxBool isGallery = false.obs;
+  List<File> imageCondition = [];
   File? initialConditionFrontFace;
   File? initialConditionRightSide;
   File? initialConditionLeftSide;
@@ -205,7 +206,7 @@ class OrderConsultationController extends StateClass {
   }
 
   order(BuildContext context, int interestConditionsId,
-      {required Function() doInPost}) async {
+      {required bool isWajah, required Function() doInPost}) async {
     isMinorLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List paramAnswer = [];
@@ -242,16 +243,23 @@ class OrderConsultationController extends StateClass {
           }
         }
       }
-
-      var reqOrder = {
-        'interest_condition_id': interestConditionsId.toString(),
-        'medical_history_item': paramAnswer,
-        'files': [
+      List files = [];
+      if (isWajah) {
+        files = [
           initialConditionFrontFace?.path,
           initialConditionRightSide?.path,
           initialConditionLeftSide?.path,
           initialConditionProblemPart?.path
-        ],
+        ];
+      } else {
+        for (int i = 0; i < imageCondition.length; i++) {
+          files.add(imageCondition[i].path);
+        }
+      }
+      var reqOrder = {
+        'interest_condition_id': interestConditionsId.toString(),
+        'medical_history_item': paramAnswer,
+        'files': files,
         'payment_method': paymentMethod.toString(),
         'payment_type': paymentType.toString()
       };

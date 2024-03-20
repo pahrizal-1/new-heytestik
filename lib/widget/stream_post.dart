@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/streams_by_hashtag_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/widget/text_with_mentions.dart';
@@ -14,7 +15,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:social_share/social_share.dart';
 import '../../widget/shere_link_stream.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../controller/customer/stream/post_controller.dart';
+import '../controller/customer/stream/stream_controller.dart';
 import '../core/global.dart';
 import '../pages/stream_page/komentar_stream_page.dart';
 import '../theme/theme.dart';
@@ -33,7 +34,7 @@ class StreamPostPage extends StatefulWidget {
 
 class _StreamPostPageState extends State<StreamPostPage> {
   final ProfileController stateProfile = Get.put(ProfileController());
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
   bool? like;
   bool? follow;
   bool? saved;
@@ -80,7 +81,14 @@ class _StreamPostPageState extends State<StreamPostPage> {
             children: [
               InkWell(
                 onTap: () {
-                  Get.to(FolowedStreamPage());
+                  if (stateProfile.username.value == widget.stream.username) {
+                    Get.to(() => const ProfilCustomerPage());
+                  } else {
+                    Get.to(() => UserFollowedStreamPage(
+                          username: widget.stream.username,
+                          fullname: widget.stream.fullname,
+                        ));
+                  }
                 },
                 child: Container(
                   height: 30,
@@ -104,21 +112,33 @@ class _StreamPostPageState extends State<StreamPostPage> {
               const SizedBox(
                 width: 11,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.stream.fullname,
-                    style: blackTextStyle.copyWith(fontSize: 14),
-                  ),
-                  const SizedBox(
-                    height: 4,
-                  ),
-                  Text(
-                    '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.stream.createdAt))}, ${timeago.format(DateTime.parse(widget.stream.createdAt))}',
-                    style: subTitleTextStyle.copyWith(fontSize: 10),
-                  )
-                ],
+              InkWell(
+                onTap: () {
+                  if (stateProfile.username.value == widget.stream.username) {
+                    Get.to(() => const ProfilCustomerPage());
+                  } else {
+                    Get.to(() => UserFollowedStreamPage(
+                          username: widget.stream.username,
+                          fullname: widget.stream.fullname,
+                        ));
+                  }
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.stream.fullname,
+                      style: blackTextStyle.copyWith(fontSize: 14),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      '${DateFormat('dd MMMM yyyy').format(DateTime.parse(widget.stream.createdAt))}, ${timeago.format(DateTime.parse(widget.stream.createdAt))}',
+                      style: subTitleTextStyle.copyWith(fontSize: 10),
+                    )
+                  ],
+                ),
               ),
               const Spacer(),
               InkWell(
@@ -155,7 +175,10 @@ class _StreamPostPageState extends State<StreamPostPage> {
           ),
           if (streamPollOptions.isEmpty)
             buildRichTextWithMentions(
+              context,
               widget.stream.content,
+              isMe: stateProfile.username.value,
+              fullname: widget.stream.fullname,
             ),
           if (streamPollOptions.isEmpty)
             const SizedBox(
@@ -254,7 +277,9 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     height: 16.0,
                   ),
                   buildRichTextWithMentions(
+                    context,
                     widget.stream.content,
+                    fullname: widget.stream.fullname,
                     textStyle: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
@@ -308,7 +333,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
 
                                 if (indexVotes != null) {
                                   streamPollOptions[indexVotes!]['count'] - 1;
-                                  postController.deletePolling(
+                                  stateStream.deletePolling(
                                       context,
                                       widget.stream.id,
                                       streamPollOptions[indexVotes!]
@@ -316,7 +341,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                                       streamPollOptions[indexVotes!]['id']);
                                 }
 
-                                postController.pickPolling(
+                                stateStream.pickPolling(
                                     context,
                                     widget.stream.id,
                                     option.value['stream_poll_id'],
@@ -448,14 +473,14 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   InkWell(
                     onTap: () {
                       if (like ?? widget.stream.liked) {
-                        postController.unlikePost(context, widget.stream.id);
+                        stateStream.unlikePost(context, widget.stream.id);
                         setState(() {
                           like = false;
                           postLike["${widget.stream.id}"] =
                               (postLike["${widget.stream.id}"] ?? 0) - 1;
                         });
                       } else {
-                        postController.likePost(context, widget.stream.id);
+                        stateStream.likePost(context, widget.stream.id);
                         setState(() {
                           like = true;
                           postLike["${widget.stream.id}"] =
@@ -513,12 +538,12 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   InkWell(
                     onTap: () {
                       if (saved ?? widget.stream.saved) {
-                        postController.unSavePost(context, widget.stream.id);
+                        stateStream.unSavePost(context, widget.stream.id);
                         setState(() {
                           saved = false;
                         });
                       } else {
-                        postController.savePost(context, widget.stream.id);
+                        stateStream.savePost(context, widget.stream.id);
                         setState(() {
                           saved = true;
                         });

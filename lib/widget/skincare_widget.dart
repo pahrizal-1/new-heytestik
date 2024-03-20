@@ -71,36 +71,37 @@ class SkincareWidget extends StatelessWidget {
                     const SizedBox(
                       height: 4,
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 28,
-                          height: 13,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
-                          child: Center(
-                            child: Text(
-                              '$diskonProduk%',
-                              style: blackHigtTextStyle.copyWith(
-                                  color: redColor, fontSize: 11),
+                    if (diskonProduk.isNotEmpty && hargaDiskon.isNotEmpty)
+                      Row(
+                        children: [
+                          Container(
+                            width: 28,
+                            height: 13,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: const Color.fromRGBO(201, 42, 42, 0.2)),
+                            child: Center(
+                              child: Text(
+                                '$diskonProduk%',
+                                style: blackHigtTextStyle.copyWith(
+                                    color: redColor, fontSize: 11),
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          hargaDiskon,
-                          style: subGreyTextStyle.copyWith(
-                            fontSize: 12,
-                            decoration: TextDecoration.lineThrough,
-                            decorationThickness: 2,
-                            color: const Color(0xff9B9B9B),
+                          const SizedBox(
+                            width: 4,
                           ),
-                        ),
-                      ],
-                    ),
+                          Text(
+                            hargaDiskon,
+                            style: subGreyTextStyle.copyWith(
+                              fontSize: 12,
+                              decoration: TextDecoration.lineThrough,
+                              decorationThickness: 2,
+                              color: const Color(0xff9B9B9B),
+                            ),
+                          ),
+                        ],
+                      ),
                     Text(
                       harga,
                       style: blackHigtTextStyle.copyWith(fontSize: 15),

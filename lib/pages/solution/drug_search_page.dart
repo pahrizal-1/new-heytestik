@@ -29,7 +29,9 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
   List<Drug.Data2> drugs = [];
   String? search;
   Map<String, dynamic> filter = {};
-
+  Map? concern;
+  String? display;
+  String? category;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
@@ -166,9 +168,13 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                           if (filter.isNotEmpty)
                             InkWell(
                               onTap: () async {
+                                display = null;
+                                category = null;
+                                concern = null;
                                 filter.clear();
                                 drugs.clear();
                                 page = 1;
+                                setState(() {});
                                 drugs.addAll(
                                   await state.getDrug(
                                     context,
@@ -208,14 +214,22 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                                     topStart: Radius.circular(25),
                                   ),
                                 ),
-                                builder: (context) => FilterAllDrug(),
+                                builder: (context) => FilterAllDrug(
+                                    display: display, category: category),
                               ).then((value) async {
                                 if (value == null) return;
 
-                                filter['display[]'] = value['display'];
-                                filter['category[]'] = value['category'];
+                                if (value['display'] != null) {
+                                  filter['display[]'] = value['display'];
+                                  display = value['display'];
+                                }
+                                if (value['category'] != null) {
+                                  filter['category[]'] = value['category'];
+                                  category = value['category'];
+                                }
                                 drugs.clear();
                                 page = 1;
+                                setState(() {});
                                 drugs.addAll(
                                   await state.getDrug(
                                     context,
@@ -227,9 +241,47 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                                 setState(() {});
                               });
                             },
-                            child: Image.asset(
-                              'assets/icons/filters.png',
-                              width: 78,
+                            child: Container(
+                              padding: const EdgeInsets.only(
+                                  left: 10, right: 10, top: 6, bottom: 6),
+                              height: 30,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(
+                                  color: (filter.containsKey('display[]') ||
+                                          filter.containsKey('category[]'))
+                                      ? greenColor
+                                      : borderColor,
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/icons/filter-icon.png',
+                                    color: (filter.containsKey('display[]') ||
+                                            filter.containsKey('category[]'))
+                                        ? greenColor
+                                        : null,
+                                  ),
+                                  SizedBox(
+                                    width: 9,
+                                  ),
+                                  Text(
+                                    (filter.containsKey('display[]') ||
+                                            filter.containsKey('category[]'))
+                                        ? "${filter.containsKey('concern_ids[]') ? (filter.length - 1) : filter.length} Filter"
+                                        : 'Filter',
+                                    style: TextStyle(
+                                      color: (filter.containsKey('display[]') ||
+                                              filter.containsKey('category[]'))
+                                          ? greenColor
+                                          : null,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           InkWell(
@@ -244,13 +296,16 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                                     topStart: Radius.circular(25),
                                   ),
                                 ),
-                                builder: (context) => FilterConcern(),
+                                builder: (context) =>
+                                    FilterConcern(val: concern),
                               ).then((value) async {
                                 if (value == null) return;
 
-                                filter['concern_ids[]'] = value['concern_ids'];
+                                concern = value;
+                                filter['concern_ids[]'] = value['id'];
                                 drugs.clear();
                                 page = 1;
+                                setState(() {});
                                 drugs.addAll(
                                   await state.getDrug(
                                     context,
@@ -269,19 +324,32 @@ class _DrugSearchPageState extends State<DrugSearchPage> {
                               height: 30,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(7),
-                                border: Border.all(color: borderColor),
+                                border: Border.all(
+                                  color: (concern is Map)
+                                      ? greenColor
+                                      : borderColor,
+                                ),
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Text('Etalase Treatment'),
+                                  Text(
+                                    (concern is Map)
+                                        ? (concern?['text'])
+                                        : 'Etalase Treatment',
+                                    style: TextStyle(
+                                      color:
+                                          (concern is Map) ? greenColor : null,
+                                    ),
+                                  ),
                                   SizedBox(
                                     width: 9,
                                   ),
                                   Icon(
                                     Icons.keyboard_arrow_down,
                                     size: 15,
+                                    color: (concern is Map) ? greenColor : null,
                                   )
                                 ],
                               ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:heystetik_mobileapps/pages/stream_page/folowed_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/followed_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/home_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/saved_stream_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/trending_stream_page.dart';

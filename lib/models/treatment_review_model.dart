@@ -59,7 +59,7 @@ class Data2 {
   int? careRating;
   int? serviceRating;
   int? managementRating;
-  int? avgRating;
+  double? avgRating;
   String? review;
   dynamic replyReview;
   dynamic createdBy;
@@ -105,7 +105,7 @@ class Data2 {
     careRating = json['care_rating'];
     serviceRating = json['service_rating'];
     managementRating = json['management_rating'];
-    avgRating = json['avg_rating'];
+    avgRating = double.parse(json['avg_rating'].toString());
     review = json['review'];
     replyReview = json['reply_review'];
     createdBy = json['created_by'];
@@ -196,7 +196,7 @@ class User {
   dynamic npwpNo;
   dynamic npwpImage;
   dynamic specialist;
-  int? rating;
+  double? rating;
   dynamic statusSchedule;
   dynamic since;
   dynamic start;
@@ -286,7 +286,7 @@ class User {
     npwpNo = json['npwp_no'];
     npwpImage = json['npwp_image'];
     specialist = json['specialist'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     statusSchedule = json['status_schedule'];
     since = json['since'];
     start = json['start'];
@@ -484,7 +484,7 @@ class Treatment {
   String? treatmentStep;
   int? price;
   bool? isActive;
-  int? rating;
+  double? rating;
   dynamic createdBy;
   dynamic updatedBy;
   String? createdAt;
@@ -522,7 +522,7 @@ class Treatment {
     treatmentStep = json['treatment_step'];
     price = json['price'];
     isActive = json['is_active'];
-    rating = json['rating'];
+    rating = double.parse(json['rating'].toString());
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];

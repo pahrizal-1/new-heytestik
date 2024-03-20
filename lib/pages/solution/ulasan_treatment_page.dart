@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_treatment_controller.dart';
-import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
@@ -14,9 +13,9 @@ import 'package:heystetik_mobileapps/widget/filter_topik_ulasan_treatment_widget
 import 'package:heystetik_mobileapps/widget/filter_urutan_ulasan_treatment_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
+import 'package:heystetik_mobileapps/widget/ulasan_treatment_widget.dart';
 import 'package:social_share/social_share.dart';
 import '../../models/treatment_review_model.dart' as TreatmentReview;
-import 'package:timeago/timeago.dart' as timeago;
 import 'package:heystetik_mobileapps/models/customer/overview_treatment_model.dart'
     as Overview;
 
@@ -39,11 +38,8 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
   bool? isFavourite;
   int page = 1;
   List<TreatmentReview.Data2> reviews = [];
-  bool isVisibelity = false;
   Map<String, dynamic> filter = {};
-  bool? help;
   Overview.Data? treatmentOverview;
-  Map<String, int> helpReview = {};
   int? filterRating;
   String? filterTopik;
   String? filterUrutan;
@@ -204,7 +200,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.satisfiedPercentage}% Sobat Hey',
+                                '${treatmentOverview?.satisfiedPercentage ?? 0}% Sobat Hey',
                                 style: blackHigtTextStyle.copyWith(
                                     fontSize: 12, fontStyle: FontStyle.italic),
                               ),
@@ -264,7 +260,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.avgCareRating ?? 0}',
+                                '${treatmentOverview?.avgCareRating ?? 0.0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -304,7 +300,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.avgServiceRating ?? 0}',
+                                '${treatmentOverview?.avgServiceRating ?? 0.0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -344,7 +340,7 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                           child: Row(
                             children: [
                               Text(
-                                '${treatmentOverview?.avgManagementRating ?? 0}',
+                                '${treatmentOverview?.avgManagementRating ?? 0.0}',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 18),
                               ),
@@ -685,274 +681,10 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
                               ),
                             )
                           : Column(
-                              children: reviews.map((element) {
-                                return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                          height: 30,
-                                          width: 30,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              fit: BoxFit.cover,
-                                              image: element.user
-                                                          ?.mediaUserProfilePicture !=
-                                                      null
-                                                  ? NetworkImage(
-                                                      '${Global.FILE}/${element.user?.mediaUserProfilePicture?.media?.path}',
-                                                    ) as ImageProvider
-                                                  : AssetImage(
-                                                      'assets/images/profiledummy.png',
-                                                    ),
-                                            ),
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 12,
-                                        ),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              element.user?.fullname ?? '-',
-                                              style: blackHigtTextStyle
-                                                  .copyWith(fontSize: 15),
-                                            ),
-                                            Text(
-                                              element.transactionTreatmentItem
-                                                      ?.treatment?.name ??
-                                                  '-',
-                                              style:
-                                                  blackHigtTextStyle.copyWith(
-                                                      fontSize: 13,
-                                                      fontWeight: regular),
-                                            ),
-                                          ],
-                                        ),
-                                        const Spacer(),
-                                        const Icon(Icons.more_vert)
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: List.generate(5, (index) {
-                                            return Image.asset(
-                                              'assets/icons/stars-new.png',
-                                              width: 12,
-                                              color: element.avgRating! > index
-                                                  ? const Color(0xffFFC36A)
-                                                  : Color.fromRGBO(
-                                                      155, 155, 155, 0.61),
-                                            );
-                                          }),
-                                        ),
-                                        const SizedBox(
-                                          width: 13,
-                                        ),
-                                        Text(
-                                          timeago.format(DateTime.parse(
-                                              element.createdAt.toString())),
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 12,
-                                              fontWeight: regular),
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Text(
-                                      element.review ?? '-',
-                                      style: greyTextStyle.copyWith(
-                                          fontSize: 13,
-                                          color: const Color(0xff6B6B6B)),
-                                    ),
-                                    const SizedBox(
-                                      height: 13,
-                                    ),
-                                    Wrap(
-                                      spacing: 4,
-                                      runSpacing: 4,
-                                      children: element.mediaTreatmentReviews!
-                                          .map((e) {
-                                        return Container(
-                                          height: 72,
-                                          width: 82,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                          ),
-                                          child: Image.network(
-                                            '${Global.FILE}/${e.media!.path.toString()}',
-                                            width: 72,
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                    const SizedBox(
-                                      height: 22,
-                                    ),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: () {
-                                            if (help ?? element.helped!) {
-                                              stateUlasan.unHelped(
-                                                  context, element.id!);
-                                              setState(() {
-                                                help = false;
-                                                helpReview["${element.id}"] =
-                                                    (helpReview["${element.id}"] ??
-                                                            0) -
-                                                        1;
-                                              });
-                                            } else {
-                                              stateUlasan.helped(
-                                                  context, element.id!);
-                                              setState(() {
-                                                help = true;
-                                                helpReview["${element.id}"] =
-                                                    (helpReview["${element.id}"] ??
-                                                            0) +
-                                                        1;
-                                              });
-                                            }
-                                          },
-                                          child: Row(
-                                            children: [
-                                              Image.asset(
-                                                'assets/icons/like.png',
-                                                width: 15,
-                                                color: help ?? element.helped!
-                                                    ? greenColor
-                                                    : greyColor,
-                                              ),
-                                              const SizedBox(
-                                                width: 7,
-                                              ),
-                                              Text(
-                                                '${element.cCount!.treatmentReviewHelpfuls! + (helpReview["${element.id}"] ?? 0)} orang terbantu',
-                                                style: grenTextStyle.copyWith(
-                                                  fontSize: 13,
-                                                  fontWeight: regular,
-                                                  color: help ?? element.helped!
-                                                      ? greenColor
-                                                      : greyColor,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        const Spacer(),
-                                        element.replyReview == null
-                                            ? Container()
-                                            : InkWell(
-                                                onTap: () {
-                                                  setState(() {
-                                                    isVisibelity =
-                                                        !isVisibelity;
-                                                  });
-                                                },
-                                                child: Row(
-                                                  children: [
-                                                    isVisibelity
-                                                        ? Text(
-                                                            'Tutup Balasan',
-                                                            style:
-                                                                blackRegulerTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            13),
-                                                          )
-                                                        : Text(
-                                                            'Lihat Balasan',
-                                                            style:
-                                                                blackRegulerTextStyle
-                                                                    .copyWith(
-                                                                        fontSize:
-                                                                            13),
-                                                          ),
-                                                    const SizedBox(
-                                                      width: 4,
-                                                    ),
-                                                    const Icon(
-                                                      Icons.keyboard_arrow_down,
-                                                      color: Color(0xff6B6B6B),
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 16,
-                                    ),
-                                    Visibility(
-                                      visible: isVisibelity,
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 60,
-                                            width: 2,
-                                            decoration: BoxDecoration(
-                                                color: greenColor),
-                                          ),
-                                          const SizedBox(
-                                            width: 7,
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      'Penjual ',
-                                                      style: blackHigtTextStyle
-                                                          .copyWith(
-                                                              fontSize: 13,
-                                                              color:
-                                                                  subTitleColor),
-                                                    ),
-                                                    Text(
-                                                      timeago.format(
-                                                          DateTime.parse(element
-                                                              .createdAt
-                                                              .toString())),
-                                                      style: blackRegulerTextStyle
-                                                          .copyWith(
-                                                              color:
-                                                                  subTitleColor,
-                                                              fontSize: 13),
-                                                    )
-                                                  ],
-                                                ),
-                                                Text(
-                                                  element.replyReview ?? '',
-                                                  style: subTitleTextStyle,
-                                                )
-                                              ],
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 20,
-                                    ),
-                                  ],
+                              children: reviews.asMap().entries.map((element) {
+                                return UlasanTreatmentWidget(
+                                  element: element.value,
+                                  isEnd: reviews.length == (element.key + 1),
                                 );
                               }).toList(),
                             ),
@@ -994,184 +726,4 @@ class _UlasanTreatmentPageState extends State<UlasanTreatmentPage> {
       ),
     );
   }
-
-  // Padding comentbalasan() {
-  //   return Padding(
-  //     padding: lsymetric.copyWith(bottom: 10),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         const SizedBox(
-  //           height: 11,
-  //         ),
-  //         Row(
-  //           children: [
-  //             Image.asset(
-  //               'assets/images/doctor1.png',
-  //               width: 40,
-  //             ),
-  //             const SizedBox(
-  //               width: 12,
-  //             ),
-  //             Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   'Jessy',
-  //                   style: blackHigtTextStyle.copyWith(fontSize: 15),
-  //                 ),
-  //                 Text(
-  //                   'Perawatan Peeling TCA Ringan',
-  //                   style: blackHigtTextStyle.copyWith(
-  //                       fontSize: 13, fontWeight: regular),
-  //                 ),
-  //               ],
-  //             ),
-  //             const Spacer(),
-  //             const Icon(Icons.more_vert)
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 13,
-  //         ),
-  //         Row(
-  //           children: [
-  //             const Icon(
-  //               Icons.star,
-  //               size: 12,
-  //               color: Color(0xffFFC36A),
-  //             ),
-  //             const Icon(
-  //               Icons.star,
-  //               size: 12,
-  //               color: Color(0xffFFC36A),
-  //             ),
-  //             const Icon(
-  //               Icons.star,
-  //               size: 12,
-  //               color: Color(0xffFFC36A),
-  //             ),
-  //             const Icon(
-  //               Icons.star,
-  //               size: 12,
-  //               color: Color(0xffFFC36A),
-  //             ),
-  //             const Icon(
-  //               Icons.star,
-  //               size: 12,
-  //               color: Color(0xffFFC36A),
-  //             ),
-  //             const SizedBox(
-  //               width: 12,
-  //             ),
-  //             Text(
-  //               '1 Bulan Yang lalu',
-  //               style: blackHigtTextStyle.copyWith(
-  //                   fontSize: 12, fontWeight: regular),
-  //             )
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 13,
-  //         ),
-  //         Text(
-  //           'Makasih buat dokter dan beautician nya yang ramah. Puas banget perawatan disini, jerawatku makin sirnaaaa.',
-  //           style: greyTextStyle.copyWith(
-  //               fontSize: 13, color: const Color(0xff6B6B6B)),
-  //         ),
-  //         const SizedBox(
-  //           height: 13,
-  //         ),
-  //         Row(
-  //           children: [
-  //             Image.asset(
-  //               'assets/icons/like.png',
-  //               width: 15,
-  //               color: greenColor,
-  //             ),
-  //             const SizedBox(
-  //               width: 7,
-  //             ),
-  //             Text(
-  //               '6 orang terbantu',
-  //               style:
-  //                   grenTextStyle.copyWith(fontSize: 13, fontWeight: regular),
-  //             ),
-  //             const Spacer(),
-  //             InkWell(
-  //               onTap: () {
-  //                 setState(() {
-  //                   isVisibelity = !isVisibelity;
-  //                 });
-  //               },
-  //               child: Row(
-  //                 children: [
-  //                   isVisibelity
-  //                       ? Text(
-  //                           'Liat Balesan',
-  //                           style: blackRegulerTextStyle.copyWith(fontSize: 13),
-  //                         )
-  //                       : Text(
-  //                           'Tutup Balasan',
-  //                           style: blackRegulerTextStyle.copyWith(fontSize: 13),
-  //                         ),
-  //                   const SizedBox(
-  //                     width: 4,
-  //                   ),
-  //                   const Icon(
-  //                     Icons.keyboard_arrow_down,
-  //                     color: Color(0xff6B6B6B),
-  //                   )
-  //                 ],
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         const SizedBox(
-  //           height: 16,
-  //         ),
-  //         Visibility(
-  //           visible: isVisibelity,
-  //           child: Row(
-  //             children: [
-  //               Container(
-  //                 height: 60,
-  //                 width: 2,
-  //                 decoration: BoxDecoration(color: greenColor),
-  //               ),
-  //               const SizedBox(
-  //                 width: 7,
-  //               ),
-  //               Expanded(
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Row(
-  //                       children: [
-  //                         Text(
-  //                           'Klinik Utama Lithea',
-  //                           style: blackHigtTextStyle.copyWith(
-  //                               fontSize: 13, color: subTitleColor),
-  //                         ),
-  //                         Text(
-  //                           ' 1 bulan lalu',
-  //                           style: blackRegulerTextStyle.copyWith(
-  //                               color: subTitleColor, fontSize: 13),
-  //                         )
-  //                       ],
-  //                     ),
-  //                     Text(
-  //                       'Terima kasih telah melakukan perawatan di Klinik Utama Lithea. Ditunggu kedatangan selanjutnya yaa kak :) ',
-  //                       style: subTitleTextStyle,
-  //                     )
-  //                   ],
-  //                 ),
-  //               )
-  //             ],
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

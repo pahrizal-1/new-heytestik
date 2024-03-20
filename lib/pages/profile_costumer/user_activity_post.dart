@@ -90,7 +90,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                         transform: Matrix4.translationValues(0, -3, 0),
                         child: TextFormField(
                           onTap: () {
-                            Get.to(() => const BuatPostinganStream());
+                            Get.to(() => BuatPostinganStream());
                           },
                           style: const TextStyle(
                             fontSize: 15,
@@ -139,6 +139,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       search = '';
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value.addAll(
                         await stateProfile.getUserActivityPost(
                           context,
@@ -185,6 +186,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                           search = searchController.text;
                           stateProfile.page.value = 1;
                           stateProfile.activity.value.clear();
+                          setState(() {});
                           stateProfile.activity.value =
                               await stateProfile.getUserActivityPost(
                             context,
@@ -235,6 +237,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       stateProfile.postType.value = "ALL";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -256,6 +259,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       stateProfile.postType.value = "STREAM";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -277,6 +281,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       stateProfile.postType.value = "MY_JOURNEY";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -298,6 +303,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       stateProfile.postType.value = "POLLING";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -319,6 +325,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       stateProfile.postType.value = "LIKED";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -340,6 +347,7 @@ class _UserActivityPostState extends State<UserActivityPost> {
                       stateProfile.postType.value = "SAVED";
                       stateProfile.page.value = 1;
                       stateProfile.activity.value.clear();
+                      setState(() {});
                       stateProfile.activity.value =
                           await stateProfile.getUserActivityPost(
                         context,
@@ -366,10 +374,10 @@ class _UserActivityPostState extends State<UserActivityPost> {
                   child: Center(
                     child: Text(
                       'Belum ada data',
-                       style: TextStyle(
-                                  fontFamily: 'ProximaNova',
-                                  fontSize: 20,
-                                ),
+                      style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 20,
+                      ),
                     ),
                   ),
                 )

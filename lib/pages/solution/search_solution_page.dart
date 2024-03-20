@@ -36,7 +36,7 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
   int page = 1;
   String? search;
   Map<String, dynamic> filter = {};
-
+  bool isText = false;
   List<Drug.Data2> drugs = [];
   List<Skincare.Data2> skincare = [];
   List<Treat.Data2> treatment = [];
@@ -75,6 +75,14 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                 child: Center(
                   child: TextField(
                     controller: searchController,
+                    onChanged: (val) {
+                      if (searchController.text.isNotEmpty) {
+                        isText = true;
+                      } else {
+                        isText = false;
+                      }
+                      setState(() {});
+                    },
                     onEditingComplete: () async {
                       search = searchController.text;
                       drugs.clear();
@@ -114,12 +122,21 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                           color: blackColor,
                         ),
                       ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: SvgPicture.asset(
-                          'assets/icons/x-circle-icons.svg',
-                        ),
-                      ),
+                      suffixIcon: isText
+                          ? InkWell(
+                              onTap: () {
+                                searchController.clear();
+                                search = null;
+                                setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: SvgPicture.asset(
+                                  'assets/icons/x-circle-icons.svg',
+                                ),
+                              ),
+                            )
+                          : null,
                       hintText: 'Search...',
                       border: InputBorder.none,
                     ),
@@ -210,9 +227,8 @@ class _SearchSolutionPageState extends State<SearchSolutionPage> {
                                   produkId: e.id!.toInt(),
                                   namaBrand: e.skincareDetail!.brand.toString(),
                                   namaProduk: e.name.toString(),
-                                  diskonProduk: '20',
-                                  hargaDiskon:
-                                      CurrencyFormat.convertToIdr(e.price, 0),
+                                  diskonProduk: '',
+                                  hargaDiskon: '',
                                   harga:
                                       CurrencyFormat.convertToIdr(e.price, 0),
                                   urlImg: e.mediaProducts!.isEmpty

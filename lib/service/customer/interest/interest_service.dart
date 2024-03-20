@@ -17,7 +17,6 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -55,7 +54,6 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -67,7 +65,6 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -79,7 +76,6 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -91,7 +87,6 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -103,7 +98,6 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
@@ -115,23 +109,17 @@ class InterestService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return response;
   }
 
   Future<dynamic> budgets(dynamic data) async {
-    try {
-      var response = await networkingConfig.doPost(
-        '/registration/step/interest-budget-skin-goals',
-        data: data,
-        headers: {
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      return response;
-    } catch (error) {
-      print(error.toString());
-    }
+    var response = await networkingConfig.doPost(
+      '/registration/step/interest-budget-skin-goals',
+      data: data,
+      headers: {
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
   }
 }

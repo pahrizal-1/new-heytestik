@@ -2,6 +2,7 @@ class StreamCommentModel {
   final int commentID;
   final String content;
   final String photoUser;
+  final int userId;
   final String userName;
   final String fullName;
   final String createdAt;
@@ -12,6 +13,7 @@ class StreamCommentModel {
     required this.commentID,
     required this.content,
     required this.photoUser,
+    required this.userId,
     required this.userName,
     required this.fullName,
     required this.createdAt,
@@ -22,6 +24,7 @@ class StreamCommentModel {
   factory StreamCommentModel.fromJson(Map<String, dynamic> json) {
     return StreamCommentModel(
       commentID: json['id'],
+      userId: json['user_id'],
       content: json['content'],
       photoUser: json['user']['media_user_profile_picture'] != null
           ? json['user']['media_user_profile_picture']['media']['path']

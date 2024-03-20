@@ -53,6 +53,29 @@ class NotificationService extends ProviderClass {
     return response;
   }
 
+  Future postNotifAcitivityPosts(dynamic data, int userId) async {
+    var response = await networkingConfig.doPost(
+      '/notification/user-activity/$userId',
+      data: data,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return response;
+  }
+
+  Future<SettingNotifModel> getNotifAcitivityPosts(int userId) async {
+    var response = await networkingConfig.doGet(
+      '/notification/user-activity/$userId',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    return SettingNotifModel.fromJson(response);
+  }
+
   Future listNotificationDoctor(int page, {int pageCount = 10}) async {
     var response = await networkingConfig.doGet(
       '/notification',

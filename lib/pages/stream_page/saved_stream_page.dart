@@ -1,8 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/buat_postingan_new.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import '../../controller/customer/stream/post_controller.dart';
+import '../../controller/customer/stream/stream_controller.dart';
 import '../../widget/appbar_widget.dart';
 import '../../widget/stream_post.dart';
 
@@ -17,25 +19,25 @@ class SavedStreamPage extends StatefulWidget {
 
 class _SavedStreamPageState extends State<SavedStreamPage> {
   final ScrollController scrollController = ScrollController();
-  final PostController postController = Get.put(PostController());
+  final StreamController stateStream = Get.put(StreamController());
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      postController.savedStreamIndex.value = 1;
-      postController.search.value = "";
-      postController.savedStreams.value = [];
-      await postController.getSavedStream(context);
+      stateStream.savedStreamIndex.value = 1;
+      stateStream.search.value = "";
+      stateStream.savedStreams.value = [];
+      await stateStream.getSavedStream(context);
     });
 
     scrollController.addListener(() {
       if (scrollController.position.atEdge) {
         bool isTop = scrollController.position.pixels == 0;
         if (!isTop) {
-          postController.savedStreamIndex.value =
-              postController.savedStreamIndex.value + 1;
+          stateStream.savedStreamIndex.value =
+              stateStream.savedStreamIndex.value + 1;
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            await postController.getSavedStream(context);
+            await stateStream.getSavedStream(context);
           });
           setState(() {});
         }
@@ -48,7 +50,7 @@ class _SavedStreamPageState extends State<SavedStreamPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(() {
-        if (postController.savedStreams.isEmpty) {
+        if (stateStream.savedStreams.isEmpty) {
           return Center(
             child: Text("No Post From Your Saved Account"),
           );
@@ -60,10 +62,10 @@ class _SavedStreamPageState extends State<SavedStreamPage> {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: postController.savedStreams.length,
+                  itemCount: stateStream.savedStreams.length,
                   itemBuilder: (context, index) {
                     return StreamPostPage(
-                        stream: postController.savedStreams[index]);
+                        stream: stateStream.savedStreams[index]);
                   },
                   separatorBuilder: (context, index) {
                     return dividergreen();
@@ -78,13 +80,14 @@ class _SavedStreamPageState extends State<SavedStreamPage> {
         }
       }),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const BuatPostinganStream(),
-            ),
-          );
+        onPressed: () async {
+          bool check = await Get.to(() => BuatPostinganStream());
+          if (check) {
+            stateStream.savedStreamIndex.value = 1;
+            stateStream.search.value = "";
+            stateStream.savedStreams.value = [];
+            await stateStream.getSavedStream(context);
+          }
         },
         elevation: 0,
         backgroundColor: greenColor,

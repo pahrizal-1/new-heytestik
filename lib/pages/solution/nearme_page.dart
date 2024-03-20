@@ -31,6 +31,7 @@ class _NearMePageState extends State<NearMePage> {
   bool isSelecteColor = true;
   Map<String, dynamic> filter = {};
   bool promo = false;
+  String? treatmentType;
 
   @override
   void initState() {
@@ -143,10 +144,21 @@ class _NearMePageState extends State<NearMePage> {
                                 onEditingComplete: () async {
                                   page = 1;
                                   search = searchController.text;
+                                  if (filter['promo'] == true) {
+                                    treatments.clear();
+                                    page = 1;
+                                    setState(() {});
+                                    return;
+                                  }
                                   treatments.clear();
-                                  treatments.addAll(await stateTreatment
-                                      .getNearTreatment(context, page,
-                                          search: search));
+                                  setState(() {});
+                                  treatments.addAll(
+                                      await stateTreatment.getNearTreatment(
+                                    context,
+                                    page,
+                                    search: search,
+                                    filter: filter,
+                                  ));
                                   setState(() {});
                                 },
                                 style: const TextStyle(
@@ -181,10 +193,12 @@ class _NearMePageState extends State<NearMePage> {
                     if (filter.isNotEmpty || promo)
                       InkWell(
                         onTap: () async {
+                          treatmentType = null;
                           promo = false;
                           filter.clear();
                           page = 1;
                           treatments.clear();
+                          setState(() {});
                           treatments.addAll(
                             await stateTreatment.getNearTreatment(
                               context,
@@ -212,58 +226,79 @@ class _NearMePageState extends State<NearMePage> {
                           ),
                         ),
                       ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 9),
-                      padding: const EdgeInsets.only(left: 9, right: 9),
-                      height: 30,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        border: Border.all(color: borderColor),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            backgroundColor: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadiusDirectional.only(
-                                topEnd: Radius.circular(25),
-                                topStart: Radius.circular(25),
-                              ),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          backgroundColor: Colors.white,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadiusDirectional.only(
+                              topEnd: Radius.circular(25),
+                              topStart: Radius.circular(25),
                             ),
-                            builder: (context) => FilterAllTreatmentWidget(),
-                          ).then((value) async {
-                            if (value == null) return;
+                          ),
+                          builder: (context) =>
+                              FilterAllTreatmentWidget(param: filter),
+                        ).then((value) async {
+                          if (value == null) return;
 
-                            if (value['promo'] == true) {
-                              treatments.clear();
-                              page = 1;
-                              setState(() {});
-                            } else {
-                              filter['treatment_type[]'] = value['treatment'];
-                              filter['order_by'] = value['orderBy'];
-                              filter['open_now'] = value['openNow'];
-                              filter['min_price'] = value['minPrice'];
-                              filter['max_price'] = value['maxPrice'];
-
-                              treatments.clear();
-                              page = 1;
-                              treatments.addAll(
-                                await stateTreatment.getNearTreatment(
-                                  context,
-                                  page,
-                                  search: search,
-                                  filter: filter,
-                                ),
-                              );
-                            }
+                          filter = value;
+                          if (filter['rating[]'] != null &&
+                              filter['rating[]']) {
+                            filter['rating[]'] = ['4', '5'];
+                          }
+                          if (filter['promo'] == true) {
+                            treatments.clear();
+                            page = 1;
                             setState(() {});
-                          });
-                        },
-                        child: Image.asset(
-                          'assets/icons/filter-icon.png',
-                          width: 13,
+                          } else {
+                            treatments.clear();
+                            page = 1;
+                            setState(() {});
+                            treatments.addAll(
+                              await stateTreatment.getNearTreatment(
+                                context,
+                                page,
+                                search: search,
+                                filter: filter,
+                              ),
+                            );
+                          }
+                          setState(() {});
+                        });
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10, top: 6, bottom: 6),
+                        height: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(
+                            color:
+                                (filter.isNotEmpty) ? greenColor : borderColor,
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icons/filter-icon.png',
+                              color: (filter.isNotEmpty) ? greenColor : null,
+                            ),
+                            if (filter.isNotEmpty)
+                              SizedBox(
+                                width: 9,
+                              ),
+                            if (filter.isNotEmpty)
+                              Text(
+                                filter.length.toString(),
+                                style: TextStyle(
+                                  color: greenColor,
+                                ),
+                              ),
+                          ],
                         ),
                       ),
                     ),
@@ -279,13 +314,22 @@ class _NearMePageState extends State<NearMePage> {
                               topStart: Radius.circular(25),
                             ),
                           ),
-                          builder: (context) => FilterTreatmentType(),
+                          builder: (context) =>
+                              FilterTreatmentType(val: treatmentType),
                         ).then((value) async {
                           if (value == null) return;
 
-                          page = 1;
+                          treatmentType = value;
                           filter['treatment_type[]'] = value;
+                          if (filter['promo'] == true) {
+                            treatments.clear();
+                            page = 1;
+                            setState(() {});
+                            return;
+                          }
+                          page = 1;
                           treatments.clear();
+                          setState(() {});
                           treatments.addAll(
                             await stateTreatment.getNearTreatment(
                               context,
@@ -304,22 +348,37 @@ class _NearMePageState extends State<NearMePage> {
                         height: 30,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          border: Border.all(color: borderColor),
+                          border: Border.all(
+                            color: (filter.containsKey("treatment_type[]"))
+                                ? greenColor
+                                : borderColor,
+                          ),
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              'Treatment',
-                              style: blackTextStyle.copyWith(fontSize: 14),
+                              (filter.containsKey("treatment_type[]")
+                                      ? filter['treatment_type[]']
+                                      : 'Treatment')
+                                  .toString(),
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                                color: (filter.containsKey("treatment_type[]"))
+                                    ? greenColor
+                                    : null,
+                              ),
                             ),
                             const SizedBox(
                               width: 9,
                             ),
-                            const Icon(
+                            Icon(
                               Icons.keyboard_arrow_down,
                               size: 15,
+                              color: (filter.containsKey("treatment_type[]"))
+                                  ? greenColor
+                                  : null,
                             )
                           ],
                         ),
@@ -329,7 +388,14 @@ class _NearMePageState extends State<NearMePage> {
                       onTap: () async {
                         if (filter.containsKey("rating[]")) {
                           filter.remove('rating[]');
+                          if (filter['promo'] == true) {
+                            treatments.clear();
+                            page = 1;
+                            setState(() {});
+                            return;
+                          }
                           treatments.clear();
+                          setState(() {});
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
                             context,
@@ -340,7 +406,14 @@ class _NearMePageState extends State<NearMePage> {
                           setState(() {});
                         } else {
                           filter['rating[]'] = ['4', '5'];
+                          if (filter['promo'] == true) {
+                            treatments.clear();
+                            page = 1;
+                            setState(() {});
+                            return;
+                          }
                           treatments.clear();
+                          setState(() {});
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
                             context,
@@ -362,7 +435,14 @@ class _NearMePageState extends State<NearMePage> {
                         if (filter['open_now'] == true) {
                           filter['open_now'] = false;
                           filter.remove('open_now');
+                          if (filter['promo'] == true) {
+                            treatments.clear();
+                            page = 1;
+                            setState(() {});
+                            return;
+                          }
                           treatments.clear();
+                          setState(() {});
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
                             context,
@@ -373,7 +453,14 @@ class _NearMePageState extends State<NearMePage> {
                           setState(() {});
                         } else {
                           filter['open_now'] = true;
+                          if (filter['promo'] == true) {
+                            treatments.clear();
+                            page = 1;
+                            setState(() {});
+                            return;
+                          }
                           treatments.clear();
+                          setState(() {});
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
                             context,
@@ -391,9 +478,11 @@ class _NearMePageState extends State<NearMePage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        if (promo) {
+                        if (filter['promo'] == true) {
                           promo = false;
+                          filter.remove('promo');
                           treatments.clear();
+                          setState(() {});
                           treatments
                               .addAll(await stateTreatment.getNearTreatment(
                             context,
@@ -404,13 +493,14 @@ class _NearMePageState extends State<NearMePage> {
                           setState(() {});
                         } else {
                           promo = true;
+                          filter['promo'] = true;
                           treatments.clear();
                           setState(() {});
                         }
                       },
                       child: FilterTreatment(
                         title: 'Promo',
-                        isSelected: promo,
+                        isSelected: filter['promo'] == true,
                       ),
                     ),
                   ],

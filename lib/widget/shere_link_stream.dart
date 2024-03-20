@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/laporkan_stream_page.dart';
 import 'package:heystetik_mobileapps/routes/create_dynamic_link.dart';
@@ -26,7 +26,7 @@ class ShareLinkStream extends StatefulWidget {
 }
 
 class _ShareLinkStreamState extends State<ShareLinkStream> {
-  PostController postController = Get.put(PostController());
+  StreamController stateStream = Get.put(StreamController());
   bool? isFollow;
 
   @override
@@ -69,7 +69,7 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                       : 'Ikuti postingan ini',
                   () async {
                     if (isFollow ?? widget.follow) {
-                      postController.unFollowPost(
+                      stateStream.unFollowPost(
                         context,
                         widget.post.id,
                       );
@@ -77,7 +77,7 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                         isFollow = false;
                       });
                     } else {
-                      postController.followPost(
+                      stateStream.followPost(
                         context,
                         widget.post.id,
                       );
@@ -111,8 +111,14 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                 text(
                   'assets/icons/slash-icons.png',
                   'Blokir @${widget.post.username}',
-                  () {
-                    postController.blockUser(context, widget.post.username);
+                  () async {
+                    stateStream.blockUser(context, widget.post.username);
+                    Get.back();
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      'Info',
+                      'Block @${widget.post.username} berhasil',
+                    );
                   },
                   redColor,
                 ),

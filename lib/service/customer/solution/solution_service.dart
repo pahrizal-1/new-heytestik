@@ -29,7 +29,6 @@ class SolutionService extends ProviderClass {
       "search": search,
       "order": "desc",
     };
-
     if (filter != null) {
       params.addAll(filter);
     }
@@ -75,7 +74,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return SkincareModel.fromJson(response);
   }
 
@@ -92,7 +90,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return SkincareModel.fromJson(response);
   }
 
@@ -109,7 +106,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return SkincareModel.fromJson(response);
   }
 
@@ -121,7 +117,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return DetailSkincareSolutionModel.fromJson(response);
   }
 
@@ -136,27 +131,20 @@ class SolutionService extends ProviderClass {
       "order": "asc",
       "category[]": category,
     };
-
     print("params $params");
-
-    try {
-      var response = await networkingConfig.doGet(
-        '/lookup',
-        params: params,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-      return LookupModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return LookupModel();
-    }
+    var response = await networkingConfig.doGet(
+      '/lookup',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("getLookup $response");
+    return LookupModel.fromJson(response);
   }
 
   Future<OverviewUlasanProductModel> getOverviewProduct(int id) async {
-    print("id $id");
     var response = await networkingConfig.doGet(
       '/solution/product-review/$id/overview',
       headers: {
@@ -164,7 +152,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return OverviewUlasanProductModel.fromJson(response);
   }
 
@@ -174,7 +161,6 @@ class SolutionService extends ProviderClass {
       "take": take,
       "product_id": productId,
     };
-
     if (filter != null) {
       params.addAll(filter);
     }
@@ -187,7 +173,7 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
+    print("getReviewProduct $response");
     return ProductReviewModel.fromJson(response);
   }
 
@@ -199,7 +185,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return ConcernModel.fromJson(response);
   }
 
@@ -213,22 +198,17 @@ class SolutionService extends ProviderClass {
     if (filter != null) {
       params.addAll(filter);
     }
-    print("params getDrug $params");
-    try {
-      var response = await networkingConfig.doGet(
-        '/solution/drug',
-        params: params,
-        headers: {
-          'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-          'User-Agent': await userAgent(),
-        },
-      );
-
-      return DrugModel.fromJson(response);
-    } catch (error) {
-      print(error);
-      return DrugModel();
-    }
+    print("params $params");
+    var response = await networkingConfig.doGet(
+      '/solution/drug',
+      params: params,
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print("getDrug $response");
+    return DrugModel.fromJson(response);
   }
 
   Future<DrugModel> drugRecomendation(int page, int id) async {
@@ -243,7 +223,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return DrugModel.fromJson(response);
   }
 
@@ -259,7 +238,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return DrugRecipeModel.fromJson(response);
   }
 
@@ -271,11 +249,10 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     return DetailDrugModel.fromJson(response);
   }
 
-  Future helped(int reviewId) async {
+  void helped(int reviewId) async {
     var response = await networkingConfig.doPost(
       '/solution/product-review/helpful',
       data: {
@@ -286,12 +263,10 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     print(response);
-    return response;
   }
 
-  Future unHelped(int reviewId) async {
+  void unHelped(int reviewId) async {
     var response = await networkingConfig.doDelete(
       '/solution/product-review/helpful',
       data: {
@@ -302,8 +277,6 @@ class SolutionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
-
     print(response);
-    return response;
   }
 }

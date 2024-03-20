@@ -6,7 +6,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/stream_image_recent_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/stream/post_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/stream/stream_controller.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
@@ -20,7 +20,7 @@ class UploadPotoStream extends StatefulWidget {
 }
 
 class _UploadPotoStreamState extends State<UploadPotoStream> {
-  final PostController streamController = Get.put(PostController());
+  final StreamController streamController = Get.put(StreamController());
   final ScrollController scrollController = ScrollController();
   List<File> selectedImagePath = [];
   int page = 1;

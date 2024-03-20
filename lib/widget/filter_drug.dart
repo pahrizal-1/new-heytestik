@@ -9,7 +9,13 @@ import 'package:heystetik_mobileapps/models/customer/lookup_model.dart'
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 class FilterAllDrug extends StatefulWidget {
-  const FilterAllDrug({super.key});
+  String? display;
+  String? category;
+  FilterAllDrug({
+    super.key,
+    this.display,
+    this.category,
+  });
 
   @override
   State<FilterAllDrug> createState() => _FilterAllDrugState();
@@ -19,12 +25,14 @@ class _FilterAllDrugState extends State<FilterAllDrug> {
   final EtalaseController state = Get.put(EtalaseController());
   List<Lookup.Data2> lookupDisplay = [];
   List<Lookup.Data2> lookupCategory = [];
-  List display = [];
-  List category = [];
+  String? display;
+  String? category;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      display = widget.display;
+      category = widget.category;
       lookupDisplay.addAll(await state.getLookup(context, 'SKINCARE_DISPLAY'));
       lookupCategory
           .addAll(await state.getLookup(context, 'SKINCARE_CATEGORY'));
@@ -68,7 +76,7 @@ class _FilterAllDrugState extends State<FilterAllDrug> {
             Expanded(
               child: InkWell(
                 onTap: () async {
-                  if (display.isNotEmpty || category.isNotEmpty) {
+                  if (display is String || category is String) {
                     Navigator.pop(context, {
                       "display": display,
                       "category": category,
@@ -124,11 +132,13 @@ class _FilterAllDrugState extends State<FilterAllDrug> {
                 height: 10,
               ),
               ...lookupDisplay.map((e) {
-                return FilterTapDrug(
-                  title: e.value.toString(),
-                  function: () {
-                    display.add(e.value.toString());
+                return filterTapAllDrug(
+                  onTap: () {
+                    display = e.value.toString();
+                    setState(() {});
                   },
+                  title: e.value.toString(),
+                  isSelected: display == e.value.toString(),
                 );
               }),
               const SizedBox(
@@ -142,11 +152,13 @@ class _FilterAllDrugState extends State<FilterAllDrug> {
                 height: 10,
               ),
               ...lookupCategory.map((e) {
-                return FilterTapDrug(
-                  title: e.value.toString(),
-                  function: () {
-                    category.add(e.value.toString());
+                return filterTapAllDrug(
+                  onTap: () {
+                    category = e.value.toString();
+                    setState(() {});
                   },
+                  title: e.value.toString(),
+                  isSelected: category == e.value.toString(),
                 );
               }),
               const SizedBox(
@@ -160,56 +172,36 @@ class _FilterAllDrugState extends State<FilterAllDrug> {
   }
 }
 
-class FilterTapDrug extends StatefulWidget {
-  final String title;
-  Function()? function;
-
-  FilterTapDrug({
-    Key? key,
-    required this.title,
-    this.function,
-  }) : super(key: key);
-
-  @override
-  State<FilterTapDrug> createState() => _FilterTapDrugState();
-}
-
-class _FilterTapDrugState extends State<FilterTapDrug> {
-  bool isSelected = false;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
-      child: Column(
-        children: [
-          InkWell(
-            onTap: () {
-              widget.function == null ? () {} : widget.function!();
-              setState(() {
-                isSelected = !isSelected;
-              });
-            },
-            child: Row(
-              children: [
-                Text(
-                  widget.title,
-                  style:
-                      blackTextStyle.copyWith(color: blackColor, fontSize: 15),
-                ),
-                const Spacer(),
-                Icon(
-                  isSelected ? Icons.radio_button_on : Icons.circle_outlined,
-                  color: isSelected ? greenColor : blackColor,
-                ),
-              ],
-            ),
+Widget filterTapAllDrug({
+  required Function() onTap,
+  required String title,
+  required bool isSelected,
+}) {
+  return Padding(
+    padding: const EdgeInsets.only(bottom: 14),
+    child: Column(
+      children: [
+        InkWell(
+          onTap: () => onTap(),
+          child: Row(
+            children: [
+              Text(
+                title,
+                style: blackTextStyle.copyWith(color: blackColor, fontSize: 15),
+              ),
+              const Spacer(),
+              Icon(
+                isSelected ? Icons.radio_button_on : Icons.circle_outlined,
+                color: isSelected ? greenColor : blackColor,
+              ),
+            ],
           ),
-          Divider(
-            thickness: 1,
-            color: borderColor,
-          )
-        ],
-      ),
-    );
-  }
+        ),
+        Divider(
+          thickness: 1,
+          color: borderColor,
+        )
+      ],
+    ),
+  );
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Future<dynamic> customeModal(BuildContext context, Widget route) {
   return showModalBottomSheet(
     context: context,
+    showDragHandle: true,
     backgroundColor: Colors.white,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadiusDirectional.only(

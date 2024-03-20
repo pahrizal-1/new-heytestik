@@ -1110,7 +1110,7 @@ class ContainerTreatment extends StatelessWidget {
               child: ButtonGreenWidget(
                 title: 'Cari & Pilih Klinik',
                 onPressed: () {
-                  Get.to(() => const TreatmentKlink());
+                  Get.to(() => TreatmentKlinikPage());
                 },
               ),
             ),

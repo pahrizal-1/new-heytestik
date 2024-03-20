@@ -127,9 +127,8 @@ class KorektifWajahPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10),
       child: InkWell(
         onTap: () {
-          print('interestConditionId $interestConditionId');
           Get.to(
-            ChatPage(
+            () => ChatPage(
               interestConditionId: interestConditionId,
               title: title,
               detail: detail,

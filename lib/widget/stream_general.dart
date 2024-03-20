@@ -27,7 +27,7 @@
 // }
 
 // class _StreamPostGeneralState extends State<StreamPostGeneral> {
-//   final PostController postController = Get.put(PostController());
+//   final StreamController StreamController = Get.put(StreamController());
 //   bool? like;
 //   bool? saved;
 //   Map<String, int> postLike = {};
@@ -201,14 +201,14 @@
 //                   GestureDetector(
 //                       onTap: () {
 //                         if (like ?? widget.stream.liked) {
-//                           postController.unlikePost(context, widget.stream.id);
+//                           StreamController.unlikePost(context, widget.stream.id);
 //                           setState(() {
 //                             like = false;
 //                             postLike["${widget.stream.id}"] =
 //                                 (postLike["${widget.stream.id}"] ?? 0) - 1;
 //                           });
 //                         } else {
-//                           postController.likePost(context, widget.stream.id);
+//                           StreamController.likePost(context, widget.stream.id);
 //                           setState(() {
 //                             like = true;
 //                             postLike["${widget.stream.id}"] =
@@ -261,12 +261,12 @@
 //                   GestureDetector(
 //                     onTap: () {
 //                       if (saved ?? widget.stream.saved) {
-//                         postController.unSavePost(context, widget.stream.id);
+//                         StreamController.unSavePost(context, widget.stream.id);
 //                         setState(() {
 //                           saved = false;
 //                         });
 //                       } else {
-//                         postController.savePost(context, widget.stream.id);
+//                         StreamController.savePost(context, widget.stream.id);
 //                         setState(() {
 //                           saved = true;
 //                         });

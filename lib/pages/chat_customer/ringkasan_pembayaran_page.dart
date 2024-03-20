@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,10 +13,13 @@ import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
 class RingkasanPembayaranPage extends StatefulWidget {
   final int? interestConditionId;
-  const RingkasanPembayaranPage({required this.interestConditionId, super.key});
+  Data detail;
+  RingkasanPembayaranPage(
+      {required this.interestConditionId, required this.detail, super.key});
 
   @override
   State<RingkasanPembayaranPage> createState() =>
@@ -280,6 +283,8 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                               await state.order(
                                 context,
                                 widget.interestConditionId!.toInt(),
+                                isWajah: widget.detail.concern?.segment ==
+                                    "Korektif Wajah",
                                 doInPost: () async {
                                   Get.offAll(SelesaikanPembayaranKonsultasiPage(
                                     isWillPop: true,

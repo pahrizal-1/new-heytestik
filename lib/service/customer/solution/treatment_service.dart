@@ -91,13 +91,16 @@ class TreatmentService extends ProviderClass {
     return (response['data'] as List).map((e) => TreatmentRecommendationModel.fromJson(e)).toList();
   }
 
-  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page) async {
+  Future<TreatmentModel.TreatmentModel> getTopTreatment(int page, {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTopTreatment $params');
     var response = await networkingConfig.doGet(
       '/solution/treatment/top',
-      params: {
-        "page": page,
-        "take": 10,
-      },
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -108,29 +111,41 @@ class TreatmentService extends ProviderClass {
   }
 
   Future<TreatmentModel.TreatmentModel> getTrendingTreatment(int page, {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTrendingTreatment $params');
     var response = await networkingConfig.doGet(
       '/solution/treatment/trending',
-      params: {"page": page, "take": 10, "search": search},
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
-    print('response getTopTreatment $response');
+    print('response getTrendingTreatment $response');
     return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<TreatmentModel.TreatmentModel> getTopRatingTreatment(int page, {String? search}) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+    };
+    print('params getTopRatingTreatment $params');
     var response = await networkingConfig.doGet(
       '/solution/treatment/top-rating',
-      params: {"page": page, "take": 10, "search": search},
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
     print("response getTopRatingTreatment $response");
-    return TreatmentModel.TreatmentModel();
+    return TreatmentModel.TreatmentModel.fromJson(response);
   }
 
   Future<OverviewUlasanTreatmentModel> getOverview(int treatmentID) async {
@@ -146,6 +161,11 @@ class TreatmentService extends ProviderClass {
   }
 
   Future<TreatmentModel.TreatmentModel> getTreatmentFromSameClinic(int page, int clinicID) async {
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+    };
+    print("params getTreatmentFromSameClinic $params");
     var response = await networkingConfig.doGet(
       '/solution/treatment/clinic/$clinicID/treatment',
       params: {
@@ -263,7 +283,7 @@ class TreatmentService extends ProviderClass {
     return TreatmentReviewModel.fromJson(response);
   }
 
-  Future helped(int reviewId) async {
+  void helped(int reviewId) async {
     var response = await networkingConfig.doPost(
       '/solution/treatment-review/helpful',
       data: {
@@ -275,10 +295,9 @@ class TreatmentService extends ProviderClass {
       },
     );
     print(response);
-    return response;
   }
 
-  Future unHelped(int reviewId) async {
+  void unHelped(int reviewId) async {
     var response = await networkingConfig.doDelete(
       '/solution/treatment-review/helpful',
       data: {
@@ -290,6 +309,5 @@ class TreatmentService extends ProviderClass {
       },
     );
     print(response);
-    return response;
   }
 }
