@@ -29,6 +29,8 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
 
+import '../treatment_recommendation/treatment_recommendation_controller.dart';
+
 class DoctorConsultationController extends StateClass {
   RxInt wigetIndex = 0.obs;
   Rx<CurrentDoctorScheduleModel?> currentSchedule = CurrentDoctorScheduleModel.fromJson({}).obs;
@@ -109,6 +111,10 @@ class DoctorConsultationController extends StateClass {
 
   void clearData() {
     indicationController.clear();
+    nameController.clear();
+    selectedGender.value = '';
+    ageController.clear();
+    suggestionController.clear();
     diagnosisPossibilityController.clear();
     diagnosisSecondaryController.clear();
     diagnosisSecondary.value = [];
@@ -417,6 +423,7 @@ class DoctorConsultationController extends StateClass {
             ),
           ),
         );
+        clearData();
 
         if (postNote['success'] != true && postNote['message'] != 'Success') {
           throw ErrorConfig(
@@ -453,6 +460,7 @@ class DoctorConsultationController extends StateClass {
             ),
           ),
         );
+        clearData();
         print('masyk sini ga ${postNote}');
 
         if (postNote['success'] != true && postNote['message'] != 'Success') {

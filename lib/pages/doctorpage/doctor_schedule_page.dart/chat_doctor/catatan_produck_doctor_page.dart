@@ -47,6 +47,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
     // TODO: implement initState
     super.initState();
     print('he ${widget.name}');
+    stateTreatment.listOfTreatment.value = [];
   }
 
   @override
