@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/doctor/skincare_recommendations_model.dart';
+import 'package:heystetik_mobileapps/models/skincare_brand_model.dart' as SkincareBrand;
+import 'package:heystetik_mobileapps/service/customer/interest/interest_service.dart';
 import 'package:heystetik_mobileapps/service/doctor/skincare_recommendations/skincare_recommendations_service.dart';
 import 'package:heystetik_mobileapps/models/customer/skincare_model.dart' as Skincare;
 
@@ -26,21 +30,29 @@ class SkincareRecommendationController extends StateClass {
   RxInt totalPage = 1.obs;
   bool getFirstPagination = false;
   bool getLastPagination = false;
+  List<String> filterBrand = [];
+  List<String> filterProduct = [];
+  List toggleBrand = [];
+  List toggleProduct = [];
+  Rx<Skincare.SkincareModel> skincareModel = Skincare.SkincareModel().obs;
+
   var hasMore = true.obs;
+  RxList<SkincareBrand.Data> brandSkincare = List<SkincareBrand.Data>.empty().obs;
 
   Future<List<Data2>> getSkincareRecommendation(
     BuildContext context,
     int pages, {
     String? search,
   }) async {
-    try {
-      isLoading.value = true;
+    // try {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await SkincareRecommendationService().getSkincareRecommendation(
         pages,
         search,
         10,
       );
-      filterData.addAll(res.data!.data!);
+      filterData.addAll(res.data?.data ?? []);
       if (pages > totalPage.value || filterData.length < 10) {
         hasMore.value = false;
       }
@@ -48,9 +60,11 @@ class SkincareRecommendationController extends StateClass {
       totalPage.value = res.data!.meta!.pageCount!.toInt();
       notifyListeners();
       print('datas ${res.data!.meta!.pageCount}');
-    } catch (e) {
-      if (kDebugMode) print(e.toString());
-    }
+    });
+
+    // } catch (e) {
+    // if (kDebugMode) print(e.toString());
+    // }
     isLoading.value = false;
     return filterData;
   }
@@ -82,39 +96,70 @@ class SkincareRecommendationController extends StateClass {
     );
   }
 
-  getSkincare(
+  Future<List<Skincare.Data2>> getSkincare(
     BuildContext context,
     int page, {
     String? search,
     Map<String, dynamic>? filter,
+    List<String>? brands,
+    List<String>? categories,
   }) async {
-    isLoadingSkincare.value = true;
+    isLoading.value = true;
+    // print('isLoading ${isLoading.value}');
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      Skincare.SkincareModel res = await SolutionService().getAllSkincare(
+      skincareModel.value = await SolutionService().getAllSkincare(
         page,
         search: search,
         filter: filter,
+        brand: brands,
+        category: categories,
       );
+      print('current ${currentPage.value}');
+      print('pages ${totalPage.value}');
+      print('check method ${brands} ${categories}');
 
+      // if (brands != null || categories != null) {
+      //   hasMore.value = false;
+      //   solutionSkincare.value = skincareModel.value.data!.data!;
+      //   currentPage.value++;
+      // } else {
+      // solutionSkincare.addAll(skincareModel.value.data!.data!);
+      // currentPage.value++;
+      // }
+
+      solutionSkincare.addAll(skincareModel.value.data!.data!);
+      currentPage.value++;
       if (page > totalPage.value) {
         hasMore.value = false;
       }
-      solutionSkincare.addAll(res.data!.data!);
-      print('skin sol ${solutionSkincare}');
-      currentPage.value++;
-      totalPage.value = res.data!.meta!.pageCount!.toInt();
+      print('lengt dtata ${solutionSkincare.length}');
+      totalPage.value = skincareModel.value.data!.meta!.pageCount!.toInt();
+      print('disinin ${totalPage.value}');
       notifyListeners();
     });
-    isLoadingSkincare.value = false;
+    isLoading.value = false;
+    return solutionSkincare;
   }
 
-  Future refresh(BuildContext context) async {
+  Future refresh(
+    BuildContext context, {
+    List<String>? filterBrand,
+    List<String>? filterProduct,
+    String? search,
+  }) async {
     currentPage.value = 1;
     hasMore.value = true;
     solutionSkincare.value = [];
+    // filterBrand = [];
+    // filterProduct = [];
     totalPage.value = 1;
 
-    await getSkincare(context, currentPage.value);
+    await getSkincare(
+      context,
+      currentPage.value,
+      brands: filterBrand,
+      categories: filterProduct,
+    );
     notifyListeners();
   }
 
@@ -133,11 +178,17 @@ class SkincareRecommendationController extends StateClass {
 
   Future loadMore(BuildContext context, ScrollController scrollController) async {
     // scrollController.hasClients;
-    if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
-      await getSkincare(
-        context,
-        currentPage.value,
-      );
+    print('kesini ga ${currentPage.value}');
+
+    if (currentPage.value <= totalPage.value) {
+      if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
+        await getSkincare(
+          context,
+          currentPage.value,
+        );
+      }
+    } else {
+      null;
     }
   }
 
@@ -227,5 +278,16 @@ class SkincareRecommendationController extends StateClass {
       );
       isLoading.value = false;
     });
+  }
+
+  Future<List<SkincareBrand.Data>> getSkincareBrand(BuildContext context) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await InterestService().skincareBrand();
+      print(jsonDecode(jsonEncode(res)));
+      brandSkincare.value = res.data ?? [];
+    });
+    isLoading.value = false;
+    return brandSkincare;
   }
 }

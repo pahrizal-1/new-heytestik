@@ -14,23 +14,34 @@ import 'package:heystetik_mobileapps/models/drug_model.dart';
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class SolutionService extends ProviderClass {
-  SolutionService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  SolutionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<SkincareModel> getAllSkincare(
     int page, {
     String? search,
     Map<String, dynamic>? filter,
+    List<String>? category,
+    List<String>? brand,
   }) async {
     Map<String, dynamic> params = {
       "page": page,
-      "take": 10,
+      "take": 5,
       "search": search,
       "order": "desc",
     };
 
     if (filter != null) {
       params.addAll(filter);
+    }
+    if (category != null) {
+      params.addAll({
+        "category[]": [for (var i in category) "$i"]
+      });
+    }
+    if (brand != null) {
+      params.addAll({
+        "brand[]": [for (var i in brand) "$i"]
+      });
     }
     print("params getAllSkincare $params");
     try {
@@ -42,6 +53,7 @@ class SolutionService extends ProviderClass {
           'User-Agent': await userAgent(),
         },
       );
+      print("payloads ${response}");
 
       return SkincareModel.fromJson(response);
     } catch (error) {
@@ -122,7 +134,7 @@ class SolutionService extends ProviderClass {
       "take": 100,
       "search": search,
       "order": "asc",
-      "category[]": category
+      "category[]": category,
     };
 
     print("params $params");
@@ -156,8 +168,7 @@ class SolutionService extends ProviderClass {
     return OverviewUlasanProductModel.fromJson(response);
   }
 
-  Future<ProductReviewModel> getReviewProduct(int page, int take, int productId,
-      {Map<String, dynamic>? filter}) async {
+  Future<ProductReviewModel> getReviewProduct(int page, int take, int productId, {Map<String, dynamic>? filter}) async {
     Map<String, dynamic> params = {
       "page": page,
       "take": take,
@@ -197,12 +208,7 @@ class SolutionService extends ProviderClass {
     String? search,
     Map<String, dynamic>? filter,
   }) async {
-    Map<String, dynamic> params = {
-      "page": page,
-      "take": 10,
-      "search": search,
-      "order": "desc"
-    };
+    Map<String, dynamic> params = {"page": page, "take": 10, "search": search, "order": "desc"};
 
     if (filter != null) {
       params.addAll(filter);

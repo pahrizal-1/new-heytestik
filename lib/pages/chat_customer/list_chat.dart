@@ -42,57 +42,50 @@ class _ListChatPageState extends State<ListChatPage> {
                 )
               : ListView.builder(
                   shrinkWrap: true,
-                  keyboardDismissBehavior:
-                      ScrollViewKeyboardDismissBehavior.onDrag,
+                  keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: widget.recentChat!.data!.length,
                   itemBuilder: (BuildContext context, int i) {
                     return DoctorChat(
                       ontap: () async {
-                        print(state
-                            .recentChat.value!.data![i].lastChat!.senderId!);
-                        print(state
-                            .recentChat.value!.data![i].lastChat!.receiverId!);
-                        print(state
-                            .recentChat.value!.data![i].customer!.fullname);
-                        print(
-                            state.recentChat.value!.data![i].doctor!.fullname);
+                        print(state.recentChat.value!.data![i].lastChat!.senderId!);
+                        print(state.recentChat.value!.data![i].lastChat!.receiverId!);
+                        print(state.recentChat.value!.data![i].customer!.fullname);
+                        print(state.recentChat.value!.data![i].doctor!.fullname);
                         String refresh = await Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: ((context) {
                               return ChatCostomerPage(
-                                id: state.recentChat.value!.data![i].id!
-                                    .toInt(),
-                                roomId: state.recentChat.value!.data![i].id!
-                                    .toInt(),
-                                roomCode: state.recentChat.value!.data![i].code
-                                    .toString(),
-                                senderId: state
-                                    .recentChat.value!.data![i].customerId!
-                                    .toInt(),
-                                receiverId: state
-                                    .recentChat.value!.data![i].doctorId!
-                                    .toInt(),
-                                sendBy: state.recentChat.value!.data![i]
-                                    .customer!.fullname
-                                    .toString(),
-                                receiverBy: state
-                                    .recentChat.value!.data![i].doctor!.fullname
-                                    .toString(),
-                                image: state.recentChat.value!.data![i].doctor!
-                                            .mediaUserProfilePicture ==
-                                        null
-                                    ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'
-                                    : '${Global.FILE}/' +
-                                        state
-                                            .recentChat
-                                            .value!
-                                            .data![i]
-                                            .doctor!
-                                            .mediaUserProfilePicture!
-                                            .media!
-                                            .path!,
+                                id: state.recentChat.value!.data![i].id!.toInt(),
+                                // roomId: state.recentChat.value!.data![i].id!
+                                //     .toInt(),
+                                roomCode: state.recentChat.value!.data![i].code.toString(),
+                                // senderId: state
+                                //     .recentChat.value!.data![i].customerId!
+                                //     .toInt(),
+                                // receiverId: state
+                                //     .recentChat.value!.data![i].doctorId!
+                                //     .toInt(),
+                                // sendBy: state.recentChat.value!.data![i]
+                                //     .customer!.fullname
+                                //     .toString(),
+                                // receiverBy: state
+                                //     .recentChat.value!.data![i].doctor!.fullname
+                                //     .toString(),
+                                // image: state.recentChat.value!.data![i].doctor!
+                                //             .mediaUserProfilePicture ==
+                                //         null
+                                //     ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'
+                                //     : '${Global.FILE}/' +
+                                //         state
+                                //             .recentChat
+                                //             .value!
+                                //             .data![i]
+                                //             .doctor!
+                                //             .mediaUserProfilePicture!
+                                //             .media!
+                                //             .path!,
                               );
                             }),
                           ),
@@ -105,41 +98,17 @@ class _ListChatPageState extends State<ListChatPage> {
                       },
                       // doctorId:
                       //     state.recentChat.value!.data![i].doctorId!.toInt(),
-                      doctorName:
-                          state.recentChat.value!.data?[i].doctor?.fullname ??
-                              '',
-                      chat: state.recentChat.value!.data?[i].lastChat!
-                                  .message ==
-                              '####'
-                          ? state.recentChat.value!.data![i].lastChat!.message =
-                              'Resep Obat '
-                          : state.recentChat.value!.data?[i].lastChat!
-                                  .message ??
-                              '-',
+                      doctorName: state.recentChat.value!.data?[i].doctor?.fullname ?? '',
+                      chat: state.recentChat.value!.data?[i].lastChat!.message == '#####' ? state.recentChat.value!.data![i].lastChat!.message = 'Resep Obat ' : state.recentChat.value!.data?[i].lastChat!.message ?? '-',
                       // img: 'https://asset.kompas.com/crops/xxJOBtGmPRnsYjmTJu1Od6MnlhU=/153x0:1773x1080/1200x800/data/photo/2022/08/08/62f07b64afff9.jpg',
-                      img: state.recentChat.value!.data![i].doctor!
-                                  .mediaUserProfilePicture ==
-                              null
-                          ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'
-                          : '${Global.FILE}/' +
-                              state.recentChat.value!.data![i].doctor!
-                                  .mediaUserProfilePicture!.media!.path!,
-                      time: DateFormat('HH:mm').format(DateTime.parse(
-                              '${state.recentChat.value!.data![i].lastChat!.createdAt}')
-                          .toUtc()
-                          .add(Duration(hours: 7, minutes: 00))),
+                      img: state.recentChat.value!.data![i].doctor!.mediaUserProfilePicture == null ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg' : '${Global.FILE}/' + state.recentChat.value!.data![i].doctor!.mediaUserProfilePicture!.media!.path!,
+                      time: DateFormat('HH:mm').format(DateTime.parse('${state.recentChat.value!.data![i].lastChat!.createdAt}').toUtc().add(Duration(hours: 7, minutes: 00))),
 
                       // roomCode:
                       //     state.recentChat.value!.data![i].code.toString(),
-                      seen: state.recentChat.value!.data![i].lastChat!.seen ??
-                          false,
-                      valueChat: state.recentChat.value!.data?[i].unseenCount
-                          .toString(),
-                      isMe:
-                          state.recentChat.value?.data?[i].lastChat!.senderId ==
-                                  state.customerId.value
-                              ? true
-                              : false,
+                      seen: state.recentChat.value!.data![i].lastChat!.seen ?? false,
+                      valueChat: state.recentChat.value!.data?[i].unseenCount.toString(),
+                      isMe: state.recentChat.value?.data?[i].lastChat!.senderId == state.customerId.value ? true : false,
                     );
                   },
                 ),
@@ -218,16 +187,14 @@ class DoctorChat extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 19, vertical: 2),
+                      padding: EdgeInsets.symmetric(horizontal: 19, vertical: 2),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(9),
                         color: Color(0xff24A7A0).withOpacity(0.1),
                       ),
                       child: Text(
                         'Aktif',
-                        style: grenTextStyle.copyWith(
-                            fontSize: 12, fontWeight: regular),
+                        style: grenTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                       ),
                     ),
                     const SizedBox(
@@ -278,12 +245,10 @@ class DoctorChat extends StatelessWidget {
                               horizontal: 7,
                               vertical: 2,
                             ),
-                            decoration: BoxDecoration(
-                                color: greenColor, shape: BoxShape.circle),
+                            decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
                             child: Text(
                               valueChat.toString(),
-                              style: whiteTextStyle.copyWith(
-                                  fontSize: 12, color: whiteColor),
+                              style: whiteTextStyle.copyWith(fontSize: 12, color: whiteColor),
                             ),
                           ),
               ],

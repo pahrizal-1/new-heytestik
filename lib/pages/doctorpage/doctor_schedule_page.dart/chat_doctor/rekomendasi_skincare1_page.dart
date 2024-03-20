@@ -156,7 +156,6 @@ class _RekomendasiSkincare1PageState extends State<RekomendasiSkincare1Page> {
                           itemCount: state.hasMore.value ? state.filterData.length + 1 : state.filterData.length,
                           physics: ClampingScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            print('datalengs ${state.filterData.length}');
                             if (index < state.filterData.length) {
                               return InkWell(
                                 onTap: () {

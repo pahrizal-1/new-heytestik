@@ -9,8 +9,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/filter_concern.dart';
 import 'package:heystetik_mobileapps/widget/filter_skincare.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
-    as Skincare;
+import 'package:heystetik_mobileapps/models/customer/skincare_model.dart' as Skincare;
 import '../../theme/theme.dart';
 import '../../widget/skincare_widget.dart';
 import 'view_detail_skincare_page.dart';
@@ -19,8 +18,7 @@ class SkincareSearchPage extends StatefulWidget {
   String? searchParam;
   String? category;
   String? display;
-  SkincareSearchPage(
-      {this.searchParam, this.category, this.display, super.key});
+  SkincareSearchPage({this.searchParam, this.category, this.display, super.key});
 
   @override
   State<SkincareSearchPage> createState() => _SkincareSearchPageState();
@@ -133,8 +131,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                             );
                             setState(() {});
                           },
-                          style: const TextStyle(
-                              fontSize: 15, fontFamily: "ProximaNova"),
+                          style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
                           decoration: InputDecoration(
                             hintText: "Cari Skincare",
                             border: InputBorder.none,
@@ -258,8 +255,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                 ).then((value) async {
                                   if (value == null) return;
 
-                                  filter['concern_ids[]'] =
-                                      value['concern_ids'];
+                                  filter['concern_ids[]'] = value['concern_ids'];
                                   skincare.clear();
                                   page = 1;
                                   skincare.addAll(
@@ -275,8 +271,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 9),
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 6, bottom: 6),
+                                padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
                                 height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
@@ -345,16 +340,12 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                     },
                                     child: SkincareWidget(
                                       produkId: e.id!.toInt(),
-                                      namaBrand:
-                                          e.skincareDetail!.brand.toString(),
+                                      namaBrand: e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
                                       diskonProduk: '20',
-                                      hargaDiskon: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      harga: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      urlImg:
-                                          '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                      hargaDiskon: CurrencyFormat.convertToIdr(e.price, 0),
+                                      harga: CurrencyFormat.convertToIdr(e.price, 0),
+                                      urlImg: '${Global.FILE}/${e.mediaProducts![0].media!.path}',
                                       rating: e.rating.toString(),
                                       kota: 'Amerika Serikat',
                                     ),

@@ -66,21 +66,7 @@ class Data2 {
   Sender? receiver;
   List<MediaChatMessages>? mediaChatMessages;
 
-  Data2(
-      {this.id,
-      this.chatRoomId,
-      this.senderId,
-      this.receiverId,
-      this.message,
-      this.seen,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.sender,
-      this.receiver,
-      this.mediaChatMessages});
+  Data2({this.id, this.chatRoomId, this.senderId, this.receiverId, this.message, this.seen, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.sender, this.receiver, this.mediaChatMessages});
 
   Data2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -95,8 +81,7 @@ class Data2 {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     sender = json['sender'] != null ? Sender.fromJson(json['sender']) : null;
-    receiver =
-        json['receiver'] != null ? Sender.fromJson(json['receiver']) : null;
+    receiver = json['receiver'] != null ? Sender.fromJson(json['receiver']) : null;
     if (json['media_chat_messages'] != null) {
       mediaChatMessages = <MediaChatMessages>[];
       json['media_chat_messages'].forEach((v) {
@@ -125,8 +110,7 @@ class Data2 {
       data['receiver'] = receiver!.toJson();
     }
     if (mediaChatMessages != null) {
-      data['media_chat_messages'] =
-          mediaChatMessages!.map((v) => v.toJson()).toList();
+      data['media_chat_messages'] = mediaChatMessages!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -134,16 +118,112 @@ class Data2 {
 
 class Sender {
   String? fullname;
+  MediaUserProfilePicture? mediaUserProfilePicture;
 
-  Sender({this.fullname});
+  Sender({this.fullname, this.mediaUserProfilePicture});
 
   Sender.fromJson(Map<String, dynamic> json) {
     fullname = json['fullname'];
+    mediaUserProfilePicture = json['media_user_profile_picture'] != null ? new MediaUserProfilePicture.fromJson(json['media_user_profile_picture']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['fullname'] = fullname;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['fullname'] = this.fullname;
+    if (this.mediaUserProfilePicture != null) {
+      data['media_user_profile_picture'] = this.mediaUserProfilePicture!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaUserProfilePicture {
+  int? id;
+  int? mediaId;
+  int? userId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaUserProfilePicture({this.id, this.mediaId, this.userId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
+
+  MediaUserProfilePicture.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    userId = json['user_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? new Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['media_id'] = this.mediaId;
+    data['user_id'] = this.userId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.media != null) {
+      data['media'] = this.media!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaUserProfile {
+  int? id;
+  String? filename;
+  String? ext;
+  int? size;
+  String? mime;
+  String? path;
+  String? destination;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  MediaUserProfile({this.id, this.filename, this.ext, this.size, this.mime, this.path, this.destination, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
+
+  MediaUserProfile.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    filename = json['filename'];
+    ext = json['ext'];
+    size = json['size'];
+    mime = json['mime'];
+    path = json['path'];
+    destination = json['destination'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['filename'] = this.filename;
+    data['ext'] = this.ext;
+    data['size'] = this.size;
+    data['mime'] = this.mime;
+    data['path'] = this.path;
+    data['destination'] = this.destination;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }
@@ -159,16 +239,7 @@ class MediaChatMessages {
   dynamic deletedAt;
   Media? media;
 
-  MediaChatMessages(
-      {this.id,
-      this.mediaId,
-      this.chatMessageId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaChatMessages({this.id, this.mediaId, this.chatMessageId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaChatMessages.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -212,18 +283,7 @@ class Media {
   String? updatedAt;
   dynamic deletedAt;
 
-  Media(
-      {this.id,
-      this.filename,
-      this.ext,
-      this.size,
-      this.mime,
-      this.path,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Media({this.id, this.filename, this.ext, this.size, this.mime, this.path, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -264,13 +324,7 @@ class Meta {
   bool? hasPreviousPage;
   bool? hasNextPage;
 
-  Meta(
-      {this.page,
-      this.take,
-      this.itemCount,
-      this.pageCount,
-      this.hasPreviousPage,
-      this.hasNextPage});
+  Meta({this.page, this.take, this.itemCount, this.pageCount, this.hasPreviousPage, this.hasNextPage});
 
   Meta.fromJson(Map<String, dynamic> json) {
     page = json['page'];

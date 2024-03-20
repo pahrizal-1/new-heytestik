@@ -23,8 +23,7 @@ class HalamanChatPage extends StatefulWidget {
 }
 
 class _HalamanChatPageState extends State<HalamanChatPage> {
-  final DoctorConsultationController state =
-      Get.put(DoctorConsultationController());
+  final DoctorConsultationController state = Get.put(DoctorConsultationController());
   bool isSelcted = false;
   late final NotificationService notificationService;
 
@@ -52,8 +51,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               child: Stack(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     height: 156,
                     color: greenColor,
                     child: Row(
@@ -67,8 +65,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                   ),
                   FutureBuilder(
                     future: state.getCurrentDoctorSchedule(context),
-                    builder: (context,
-                        AsyncSnapshot<CurrentDoctorScheduleModel?> snapshot) {
+                    builder: (context, AsyncSnapshot<CurrentDoctorScheduleModel?> snapshot) {
                       print(snapshot.connectionState);
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Positioned(
@@ -101,16 +98,14 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                 color: whiteColor,
                               ),
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 16, vertical: 18),
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                                 child: Column(
                                   children: [
                                     Row(
                                       children: [
                                         Text(
                                           'Jadwal Saya hari ini',
-                                          style: blackHigtTextStyle.copyWith(
-                                              fontSize: 15),
+                                          style: blackHigtTextStyle.copyWith(fontSize: 15),
                                         ),
                                         const Spacer(),
                                         InkWell(
@@ -118,11 +113,8 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                             showModalBottomSheet(
                                               isScrollControlled: true,
                                               backgroundColor: Colors.white,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadiusDirectional
-                                                        .only(
+                                              shape: const RoundedRectangleBorder(
+                                                borderRadius: BorderRadiusDirectional.only(
                                                   topEnd: Radius.circular(25),
                                                   topStart: Radius.circular(25),
                                                 ),
@@ -143,8 +135,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                           },
                                           child: Text(
                                             'Atur Jadwal',
-                                            style: grenTextStyle.copyWith(
-                                                fontSize: 15),
+                                            style: grenTextStyle.copyWith(fontSize: 15),
                                           ),
                                         ),
                                         Icon(
@@ -160,9 +151,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     Obx(
                                       () => currentSchedule(
                                         state.isFirstSchedule.value,
-                                        state.isFirstSchedule.value
-                                            ? 'Online'
-                                            : 'Jam pertama',
+                                        state.isFirstSchedule.value ? 'Online' : 'Jam pertama',
                                         state.startTime.value,
                                       ),
                                     ),
@@ -172,9 +161,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     Obx(
                                       () => currentSchedule(
                                         state.isSecondSchedule.value,
-                                        state.isSecondSchedule.value
-                                            ? 'Online'
-                                            : 'Jam berikutnya',
+                                        state.isSecondSchedule.value ? 'Online' : 'Jam berikutnya',
                                         state.endTime.value,
                                       ),
                                     ),
@@ -195,8 +182,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                           );
                         }
                       } else {
-                        return Text(
-                            'Connection State: ${snapshot.connectionState}');
+                        return Text('Connection State: ${snapshot.connectionState}');
                       }
                     },
                   ),
@@ -208,8 +194,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 // height: MediaQuery.of(context).size.height,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 decoration: BoxDecoration(
                   color: whiteColor,
                   borderRadius: BorderRadius.circular(10),
@@ -250,19 +235,13 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                     children: [
                                       Text(
                                         'Aktif (${state.totalRecentChatActive.value})',
-                                        style: grenTextStyle.copyWith(
-                                            fontSize: 15,
-                                            color: state.wigetIndex.value == 0
-                                                ? greenColor
-                                                : greyColor),
+                                        style: grenTextStyle.copyWith(fontSize: 15, color: state.wigetIndex.value == 0 ? greenColor : greyColor),
                                       ),
                                     ],
                                   ),
                                   Divider(
                                     thickness: 2,
-                                    color: state.wigetIndex.value == 0
-                                        ? greenColor
-                                        : const Color(0xffD9D9D9),
+                                    color: state.wigetIndex.value == 0 ? greenColor : const Color(0xffD9D9D9),
                                   )
                                 ],
                               ),
@@ -279,17 +258,11 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                 children: [
                                   Text(
                                     'Selesai (${state.totalRecentChatDone.value})',
-                                    style: greyTextStyle.copyWith(
-                                        fontSize: 15,
-                                        color: state.wigetIndex.value == 1
-                                            ? greenColor
-                                            : greyColor),
+                                    style: greyTextStyle.copyWith(fontSize: 15, color: state.wigetIndex.value == 1 ? greenColor : greyColor),
                                   ),
                                   Divider(
                                     thickness: 2,
-                                    color: state.wigetIndex.value == 1
-                                        ? greenColor
-                                        : const Color(0xffD9D9D9),
+                                    color: state.wigetIndex.value == 1 ? greenColor : const Color(0xffD9D9D9),
                                   ),
                                 ],
                               ),
@@ -367,33 +340,32 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: state.totalRecentChatActive.value,
               itemBuilder: (BuildContext context, int i) {
-                String names = getInitials(
-                    state.recentChatActive[i].customer!.fullname ?? '-');
+                String names = getInitials(state.recentChatActive[i].customer!.fullname ?? '-');
                 return InkWell(
-                  onTap: () async {
+                  onTap: () {
                     print('per ${state.recentChatActive[i].id}');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => ChatDoctorPage(
                             roomCode: state.recentChatActive[i].code.toString(),
-                            senderBy:
-                                state.recentChatActive[i].doctor!.fullname ??
-                                    '-',
-                            receiverBy:
-                                state.recentChatActive[i].customer!.fullname ??
-                                    '-',
-                            roomId: state.recentChatActive[i].id!.toInt(),
-                            senderId:
-                                state.recentChatActive[i].doctorId!.toInt(),
-                            receiverId:
-                                state.recentChatActive[i].customerId!.toInt(),
+                            // senderBy:
+                            //     state.recentChatActive[i].doctor!.fullname ??
+                            //         '-',
+                            // receiverBy:
+                            //     state.recentChatActive[i].customer!.fullname ??
+                            //         '-',
+                            // roomId: state.recentChatActive[i].id!.toInt(),
+                            // senderId:
+                            //     state.recentChatActive[i].doctorId!.toInt(),
+                            // receiverId:
+                            //     state.recentChatActive[i].customerId!.toInt(),
                             id: state.recentChatActive[i].id!.toInt(),
-                            image: state.recentChatActive[i].customer!
-                                        .mediaUserProfilePicture ==
-                                    null
-                                ? names
-                                : '${Global.FILE}/${state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!}',
+                            // image: state.recentChatActive[i].customer!
+                            //             .mediaUserProfilePicture ==
+                            //         null
+                            //     ? names
+                            //     : '${Global.FILE}/${state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!}',
                           ),
                         )).then(
                       (value) => {
@@ -405,31 +377,15 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                     id: state.recentChatActive[i].id!.toInt(),
                     roomCode: state.recentChatActive[i].code.toString(),
                     roomId: state.recentChatActive[i].id!.toInt(),
-                    customerName:
-                        state.recentChatActive[i].customer!.fullname ?? '-',
-                    doctorName:
-                        state.recentChatActive[i].doctor!.fullname ?? '-',
+                    customerName: state.recentChatActive[i].customer!.fullname ?? '-',
+                    doctorName: state.recentChatActive[i].doctor!.fullname ?? '-',
                     subNameTitle: '',
-                    img: state.recentChatActive[i].customer!
-                                .mediaUserProfilePicture ==
-                            null
-                        ? names
-                        : '${Global.FILE}/${state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!}',
-                    time: DateFormat('HH:mm').format(DateTime.parse(
-                            '${state.recentChatActive[i].lastChat!.createdAt}')
-                        .toUtc()
-                        .add(Duration(hours: 7, minutes: 00))),
+                    img: state.recentChatActive[i].customer!.mediaUserProfilePicture == null ? names : '${Global.FILE}/${state.recentChatActive[i].customer!.mediaUserProfilePicture!.media!.path!}',
+                    time: DateFormat('HH:mm').format(DateTime.parse('${state.recentChatActive[i].lastChat!.createdAt}').toUtc().add(Duration(hours: 7, minutes: 00))),
                     valueChat: state.recentChatActive[i].unseenCount.toString(),
-                    chat: state.recentChatActive[i].lastChat!.message == "####"
-                        ? state.recentChatActive[i].lastChat!.message =
-                            'Resep Dokter'
-                        : state.recentChatActive[i].lastChat!.message ?? '-',
+                    chat: state.recentChatActive[i].lastChat!.message == "#####" ? state.recentChatActive[i].lastChat!.message = 'Resep Dokter' : state.recentChatActive[i].lastChat!.message ?? '-',
                     seen: state.recentChatActive[i].lastChat!.seen ?? false,
-                    isMe: state.recentChatActive[i].lastChat!.senderId ==
-                                state.doctorId.value ||
-                            state.recentChatActive[i].lastChat!.senderId == 0
-                        ? true
-                        : false,
+                    isMe: state.recentChatActive[i].lastChat!.senderId == state.doctorId.value || state.recentChatActive[i].lastChat!.senderId == 0 ? true : false,
                     senderId: state.recentChatActive[i].doctorId!.toInt(),
                     receiverId: state.recentChatActive[i].customerId!.toInt(),
                   ),
@@ -465,36 +421,21 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                   id: state.recentChatDone[i].id!.toInt(),
                   roomCode: state.recentChatDone[i].code.toString(),
                   roomId: state.recentChatDone[i].id!.toInt(),
-                  customerName:
-                      state.recentChatDone[i].customer!.fullname ?? '-',
+                  customerName: state.recentChatDone[i].customer!.fullname ?? '-',
                   doctorName: '',
                   subNameTitle: '',
-                  img: state.recentChatDone[i].customer!
-                              .mediaUserProfilePicture ==
-                          null
-                      ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg'
-                      : '${Global.FILE}/${state.recentChatDone[i].customer!.mediaUserProfilePicture!.media!.path!}',
+                  img: state.recentChatDone[i].customer!.mediaUserProfilePicture == null ? 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg' : '${Global.FILE}/${state.recentChatDone[i].customer!.mediaUserProfilePicture!.media!.path!}',
                   // img:
                   //     '${Global.FILE}${state.recentChatActive[i].customer?.photoProfile}',
-                  chat: state.recentChatDone[i].lastChat!.message == '####'
-                      ? 'Resep Obat'
-                      : state.recentChatDone[i].lastChat!.message ?? '-',
+                  chat: state.recentChatDone[i].lastChat!.message == '#####' ? 'Resep Obat' : state.recentChatDone[i].lastChat!.message ?? '-',
                   // topic: 'Licorice',
-                  time: DateFormat('HH:mm').format(
-                      DateTime.parse('${state.recentChatDone[i].createdAt}')
-                          .toUtc()
-                          .add(Duration(hours: 7, minutes: 00))),
+                  time: DateFormat('HH:mm').format(DateTime.parse('${state.recentChatDone[i].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00))),
 
                   seen: state.recentChatDone[i].lastChat!.seen ?? false,
                   valueChat: state.recentChatDone[i].unseenCount.toString(),
-                  isMe: state.recentChatDone[i].lastChat!.senderId ==
-                              state.doctorId.value ||
-                          state.recentChatDone[i].lastChat!.senderId == 0
-                      ? true
-                      : false,
+                  isMe: state.recentChatDone[i].lastChat!.senderId == state.doctorId.value || state.recentChatDone[i].lastChat!.senderId == 0 ? true : false,
                   senderId: state.recentChatDone[i].lastChat!.senderId!.toInt(),
-                  receiverId:
-                      state.recentChatDone[i].lastChat!.receiverId!.toInt(),
+                  receiverId: state.recentChatDone[i].lastChat!.receiverId!.toInt(),
                 );
               },
             ),

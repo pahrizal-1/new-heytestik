@@ -1,10 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/filter2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
+import 'package:heystetik_mobileapps/models/customer/lookup_skin_goals_model.dart';
 
-class FilterTambahObat extends StatelessWidget {
+import '../controller/customer/interest/interest_controller.dart';
+
+class FilterTambahObat extends StatefulWidget {
   const FilterTambahObat({super.key});
+
+  @override
+  State<FilterTambahObat> createState() => _FilterTambahObatState();
+}
+
+class _FilterTambahObatState extends State<FilterTambahObat> {
+  final InterestController state = Get.put(InterestController());
+  List<Data2>? data = [];
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      data?.addAll(
+        await state.lookupSkinGoalsFilter(context, "MEDICINE_CLASSIFICATIONS"),
+      );
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,22 +94,42 @@ class FilterTambahObat extends StatelessWidget {
               SizedBox(
                 height: 16,
               ),
-              Wrap(
-                runSpacing: 12,
-                children: [
-                  CardFilter(
-                    title: "Obat Keras (Merah)",
-                    width: 150,
-                  ),
-                  CardFilter(
-                    title: "Obat Keras (Hijau)",
-                    width: 150,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  CardFilter(title: "Surgical")
-                ],
+              Container(
+                // height: 180.0,
+                child: Wrap(
+                  children: [
+                    for (var item in state.lookupSkinFilter)
+                      InkWell(
+                        onTap: () {
+                          // if (stateBrand.toggleBrand.contains(item.brand)) {
+                          //   setState(() {
+                          //     stateBrand.toggleBrand.remove(item.brand);
+                          //     stateBrand.filterBrand.remove("${item.brand}");
+                          //     print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
+                          //   });
+                          // } else {
+                          //   setState(() {
+                          //     stateBrand.toggleBrand.add(item.brand);
+                          //     stateBrand.filterBrand.add("${item.brand}");
+                          //   });
+                          // }
+                        },
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white10,
+                            // color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            border: Border.all(color: Colors.green),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          // you can change margin to increase spacing between containers
+                          margin: const EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(5),
+                          child: Text("${item.value}"),
+                        ),
+                      ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 30,
@@ -165,8 +208,7 @@ class FilterTambahObat extends StatelessWidget {
                           fillColor: greenColor,
                           hoverColor: greenColor,
                           hintText: 'Min.',
-                          hintStyle:
-                              TextStyle(color: subgreyColor, fontSize: 12),
+                          hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -200,8 +242,7 @@ class FilterTambahObat extends StatelessWidget {
                           fillColor: greenColor,
                           hoverColor: greenColor,
                           hintText: 'Max',
-                          hintStyle:
-                              TextStyle(color: subgreyColor, fontSize: 12),
+                          hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
