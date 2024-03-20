@@ -26,8 +26,7 @@ class DaftarTransaksiPage extends StatefulWidget {
 }
 
 class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
-  final HistoryTransactionController state =
-      Get.put(HistoryTransactionController());
+  final HistoryTransactionController state = Get.put(HistoryTransactionController());
   final ScrollController scrollController = ScrollController();
   final TextEditingController searchController = TextEditingController();
 
@@ -184,8 +183,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
-                    padding: const EdgeInsets.only(
-                        left: 26, top: 9, right: 26, bottom: 8),
+                    padding: const EdgeInsets.only(left: 26, top: 9, right: 26, bottom: 8),
                     child: Row(
                       children: [
                         if (filter.isNotEmpty)
@@ -209,12 +207,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               );
                               history.clear();
                               for (int i = 0; i < cek.length; i++) {
-                                if (cek[i].detail?.status ==
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
                                   totalPending += 1;
                                 }
-                                if (cek[i].detail?.status !=
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
                                   history.add(cek[i]);
                                 }
                               }
@@ -239,16 +235,11 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           ),
                         InkWell(
                           onTap: () {
-                            customeModal(context,
-                                    FilterStatusTransaksi(val: filterStatus))
-                                .then((value) async {
+                            customeModal(context, FilterStatusTransaksi(val: filterStatus)).then((value) async {
                               if (value == null) return;
 
                               filterStatus = value;
-                              filter['transaction_status[]'] = value
-                                  .toString()
-                                  .toUpperCase()
-                                  .replaceAll(' ', '_');
+                              filter['transaction_status[]'] = value.toString().toUpperCase().replaceAll(' ', '_');
                               page = 1;
                               totalPending = 0;
                               cek.clear();
@@ -263,12 +254,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               );
                               history.clear();
                               for (int i = 0; i < cek.length; i++) {
-                                if (cek[i].detail?.status ==
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
                                   totalPending += 1;
                                 }
-                                if (cek[i].detail?.status !=
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
                                   history.add(cek[i]);
                                 }
                               }
@@ -282,9 +271,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: (filterStatus is String)
-                                    ? greenColor
-                                    : borderColor,
+                                color: (filterStatus is String) ? greenColor : borderColor,
                               ),
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -295,9 +282,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                     filterStatus ?? 'Status Transaksi',
                                     style: blackRegulerTextStyle.copyWith(
                                       fontSize: 15,
-                                      color: (filterStatus is String)
-                                          ? greenColor
-                                          : null,
+                                      color: (filterStatus is String) ? greenColor : null,
                                     ),
                                   ),
                                 ),
@@ -306,9 +291,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 ),
                                 Icon(
                                   Icons.keyboard_arrow_down,
-                                  color: (filterStatus is String)
-                                      ? greenColor
-                                      : null,
+                                  color: (filterStatus is String) ? greenColor : null,
                                 )
                               ],
                             ),
@@ -316,14 +299,11 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeModal(context,
-                                    FilterJenisTransaksi(val: filterJenis))
-                                .then((value) async {
+                            customeModal(context, FilterJenisTransaksi(val: filterJenis)).then((value) async {
                               if (value == null) return;
 
                               filterJenis = value;
-                              filter['transaction_type[]'] =
-                                  value.toString().toUpperCase();
+                              filter['transaction_type[]'] = value.toString().toUpperCase();
                               page = 1;
                               totalPending = 0;
                               cek.clear();
@@ -338,12 +318,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               );
                               history.clear();
                               for (int i = 0; i < cek.length; i++) {
-                                if (cek[i].detail?.status ==
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
                                   totalPending += 1;
                                 }
-                                if (cek[i].detail?.status !=
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
                                   history.add(cek[i]);
                                 }
                               }
@@ -357,9 +335,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: (filterJenis is String)
-                                    ? greenColor
-                                    : borderColor,
+                                color: (filterJenis is String) ? greenColor : borderColor,
                               ),
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -370,9 +346,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                     filterJenis ?? 'Jenis Transaksi',
                                     style: blackRegulerTextStyle.copyWith(
                                       fontSize: 15,
-                                      color: (filterJenis is String)
-                                          ? greenColor
-                                          : null,
+                                      color: (filterJenis is String) ? greenColor : null,
                                     ),
                                   ),
                                 ),
@@ -381,9 +355,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 ),
                                 Icon(
                                   Icons.keyboard_arrow_down,
-                                  color: (filterJenis is String)
-                                      ? greenColor
-                                      : null,
+                                  color: (filterJenis is String) ? greenColor : null,
                                 )
                               ],
                             ),
@@ -391,16 +363,12 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            customeModal(context,
-                                    FilterTanggalTransaksi(val: filterTanggal))
-                                .then((value) async {
+                            customeModal(context, FilterTanggalTransaksi(val: filterTanggal)).then((value) async {
                               if (value == null) return;
 
                               filterTanggal = value;
-                              DateTime now = DateTime.now()
-                                  .subtract(Duration(days: value));
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(now);
+                              DateTime now = DateTime.now().subtract(Duration(days: value));
+                              String formattedDate = DateFormat('yyyy-MM-dd').format(now);
                               filter['start_date'] = formattedDate;
                               filter['end_date'] = DateTime.now();
                               page = 1;
@@ -417,12 +385,10 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               );
                               history.clear();
                               for (int i = 0; i < cek.length; i++) {
-                                if (cek[i].detail?.status ==
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status == 'MENUNGGU_PEMBAYARAN') {
                                   totalPending += 1;
                                 }
-                                if (cek[i].detail?.status !=
-                                    'MENUNGGU_PEMBAYARAN') {
+                                if (cek[i].detail?.status != 'MENUNGGU_PEMBAYARAN') {
                                   history.add(cek[i]);
                                 }
                               }
@@ -436,9 +402,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             ),
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: (filterTanggal is int)
-                                    ? greenColor
-                                    : borderColor,
+                                color: (filterTanggal is int) ? greenColor : borderColor,
                               ),
                               borderRadius: BorderRadius.circular(7),
                             ),
@@ -453,9 +417,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                         : 'Tanggal Transaksi',
                                     style: blackRegulerTextStyle.copyWith(
                                       fontSize: 15,
-                                      color: (filterTanggal is int)
-                                          ? greenColor
-                                          : null,
+                                      color: (filterTanggal is int) ? greenColor : null,
                                     ),
                                   ),
                                 ),
@@ -464,9 +426,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                                 ),
                                 Icon(
                                   Icons.keyboard_arrow_down,
-                                  color: (filterTanggal is int)
-                                      ? greenColor
-                                      : null,
+                                  color: (filterTanggal is int) ? greenColor : null,
                                 )
                               ],
                             ),
@@ -499,8 +459,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                   ],
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
+                  padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 13),
                   child: InkWell(
                     onTap: () {
                       Get.to(
@@ -517,10 +476,11 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                           height: 25,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage(
-                                  'assets/icons/transaksi_logo.png',
-                                ),
-                                fit: BoxFit.cover),
+                              image: AssetImage(
+                                'assets/icons/transaksi_logo.png',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -534,11 +494,8 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                         totalPending == 0
                             ? Container()
                             : Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 5, vertical: 2),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: redColor),
+                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: redColor),
                                 child: Text(
                                   totalPending.toString(),
                                   style: whiteTextStyle.copyWith(fontSize: 10),
@@ -562,8 +519,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
               ),
               Obx(
                 () => LoadingWidget(
-                  isLoading:
-                      state.isLoadingMore.value ? false : state.isLoading.value,
+                  isLoading: state.isLoadingMore.value ? false : state.isLoading.value,
                   child: history.isEmpty
                       ? Padding(
                           padding: const EdgeInsets.only(top: 230),
@@ -587,116 +543,58 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: history.length,
                               itemBuilder: (BuildContext context, index) {
-                                if (history[index].transactionType ==
-                                    'CONSULTATION') {
+                                if (history[index].transactionType == 'CONSULTATION') {
                                   return TransaksiKonsultan(
-                                    namaDokter:
-                                        history[index].detail?.consultation ==
-                                                null
-                                            ? '-'
-                                            : history[index]
-                                                    .detail
-                                                    ?.consultation!
-                                                    .doctor
-                                                    ?.fullname ??
-                                                '-',
-                                    tanggal: ConvertDate.defaultDate(
-                                        history[index].createdAt ?? '-'),
+                                    namaDokter: history[index].detail?.consultation == null ? '-' : history[index].detail?.consultation!.doctor?.fullname ?? '-',
+                                    tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
                                     pesanan: 'Konsultasi',
-                                    progres: history[index].detail?.status ==
-                                            'MENUNGGU_PEMBAYARAN'
+                                    progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
                                         ? 'Menunggu Pembayaran'
-                                        : history[index].detail?.status ==
-                                                'READY'
+                                        : history[index].detail?.status == 'READY'
                                             ? 'Ready'
-                                            : history[index].detail?.status ==
-                                                    'REVIEW'
+                                            : history[index].detail?.status == 'REVIEW'
                                                 ? 'Review'
-                                                : history[index]
-                                                            .detail
-                                                            ?.status ==
-                                                        'AKTIF'
+                                                : history[index].detail?.status == 'AKTIF'
                                                     ? 'Aktif'
-                                                    : history[index]
-                                                                .detail
-                                                                ?.status ==
-                                                            'SELESAI'
+                                                    : history[index].detail?.status == 'SELESAI'
                                                         ? 'Selesai'
                                                         : '-',
-                                    keluhan: history[index]
-                                            .detail
-                                            ?.medicalHistory
-                                            ?.interestCondition
-                                            ?.concern
-                                            ?.name ??
-                                        '-',
+                                    keluhan: history[index].detail?.medicalHistory?.interestCondition?.concern?.name ?? '-',
                                     harga: history[index].detail!.totalPaid!,
-                                    img: history[index].detail?.consultation ==
-                                            null
-                                        ? '-'
-                                        : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
-                                    doneReview: history[index]
-                                                .detail
-                                                ?.consultationReview ==
-                                            null
-                                        ? false
-                                        : true,
-                                    orderId:
-                                        history[index].transactionId.toString(),
-                                    paymentMethodId:
-                                        history[index].detail!.paymentMethodId!,
-                                    vaNumber:
-                                        history[index].detail?.vaNumber ?? '-',
+                                    img: history[index].detail?.consultation == null ? '-' : '${Global.FILE}/${history[index].detail?.consultation?.doctor!.mediaUserProfilePicture?.media?.path}',
+                                    doneReview: history[index].detail?.consultationReview == null ? false : true,
+                                    orderId: history[index].transactionId.toString(),
+                                    paymentMethodId: history[index].detail!.paymentMethodId!,
+                                    vaNumber: history[index].detail?.vaNumber ?? '-',
                                   );
                                 }
 
-                                if (history[index].transactionType ==
-                                    'TREATMENT') {
+                                if (history[index].transactionType == 'TREATMENT') {
                                   return TransaksiTreatment(
-                                    item: history[index]
-                                        .detail
-                                        ?.transactionTreatmentItems,
-                                    orderId:
-                                        history[index].transactionId.toString(),
-                                    tanggal: ConvertDate.defaultDate(
-                                        history[index].createdAt ?? '-'),
+                                    item: history[index].detail?.transactionTreatmentItems,
+                                    orderId: history[index].transactionId.toString(),
+                                    tanggal: ConvertDate.defaultDate(history[index].createdAt ?? '-'),
                                     pesanan: 'Reservasi Treatment',
-                                    progres: history[index].detail?.status ==
-                                            'MENUNGGU_PEMBAYARAN'
+                                    progres: history[index].detail?.status == 'MENUNGGU_PEMBAYARAN'
                                         ? 'Menunggu Pembayaran'
-                                        : history[index].detail?.status ==
-                                                'MENUNGGU_KONFIRMASI_KLINIK'
+                                        : history[index].detail?.status == 'MENUNGGU_KONFIRMASI_KLINIK'
                                             ? 'Menunggu Konfirmasi Klinik'
-                                            : history[index].detail?.status ==
-                                                    'KLINIK_MENGKONFIRMASI'
+                                            : history[index].detail?.status == 'KLINIK_MENGKONFIRMASI'
                                                 ? 'Klinik Mengkonfirmasi'
-                                                : history[index]
-                                                            .detail
-                                                            ?.status ==
-                                                        'SELESAI'
+                                                : history[index].detail?.status == 'SELESAI'
                                                     ? 'Selesai'
                                                     : '-',
                                     harga: history[index].detail!.totalPaid!,
-                                    doneReview: history[index]
-                                                .detail!
-                                                .transactionTreatmentItems?[0]
-                                                .treatmentReview ==
-                                            null
-                                        ? false
-                                        : true,
-                                    paymentMethodId:
-                                        history[index].detail!.paymentMethodId!,
-                                    vaNumber:
-                                        history[index].detail?.vaNumber ?? '-',
+                                    doneReview: history[index].detail!.transactionTreatmentItems?[0].treatmentReview == null ? false : true,
+                                    paymentMethodId: history[index].detail!.paymentMethodId!,
+                                    vaNumber: history[index].detail?.vaNumber ?? '-',
                                   );
                                 }
 
-                                if (history[index].transactionType ==
-                                    'PRODUCT') {
+                                if (history[index].transactionType == 'PRODUCT') {
                                   return TransaksiProduk(
                                     product: history[index].detail,
-                                    orderId:
-                                        history[index].transactionId.toString(),
+                                    orderId: history[index].transactionId.toString(),
                                   );
                                 }
                                 return null;
@@ -708,8 +606,7 @@ class _DaftarTransaksiPageState extends State<DaftarTransaksiPage> {
                             Obx(
                               () => state.isLoading.value
                                   ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.only(bottom: 10),
                                       child: LoadingMore(),
                                     )
                                   : Container(),

@@ -24,13 +24,14 @@ class NetworkingConfig {
     String endpoint, {
     Map<String, dynamic> params = const {},
     Map<String, dynamic> headers = const {},
+    ResponseType? responseType,
   }) async {
     try {
       await preparation();
       var response = await dio.get(
         endpoint,
         queryParameters: params,
-        options: Options(headers: headers),
+        options: Options(headers: headers, responseType: responseType),
       );
       return response.data;
     } catch (error) {
@@ -213,11 +214,7 @@ class NetworkingConfig {
 
   doUpload(String endpoint) {}
 
-  doPatch(String endpoint,
-      {dynamic data,
-      Map<String, dynamic> params = const {},
-      Map<String, dynamic> headers = const {},
-      bool checkLogin = true}) async {
+  doPatch(String endpoint, {dynamic data, Map<String, dynamic> params = const {}, Map<String, dynamic> headers = const {}, bool checkLogin = true}) async {
     try {
       await preparation();
       var response = await dio.patch(
@@ -232,11 +229,7 @@ class NetworkingConfig {
     }
   }
 
-  doDelete(String endpoint,
-      {dynamic data,
-      Map<String, dynamic> params = const {},
-      Map<String, dynamic> headers = const {},
-      bool checkLogin = true}) async {
+  doDelete(String endpoint, {dynamic data, Map<String, dynamic> params = const {}, Map<String, dynamic> headers = const {}, bool checkLogin = true}) async {
     try {
       await preparation();
       var response = await dio.delete(

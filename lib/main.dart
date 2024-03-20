@@ -19,9 +19,7 @@ import 'package:heystetik_mobileapps/routes/app_pages.dart';
 import 'package:heystetik_mobileapps/routes/init_dynamic_link.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-
 import 'package:provider/provider.dart';
-
 import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
