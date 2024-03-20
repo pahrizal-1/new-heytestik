@@ -9,8 +9,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/filter_concern.dart';
 import 'package:heystetik_mobileapps/widget/filter_skincare.dart';
 import 'package:sticky_headers/sticky_headers/widget.dart';
-import 'package:heystetik_mobileapps/models/customer/skincare_model.dart'
-    as Skincare;
+import 'package:heystetik_mobileapps/models/customer/skincare_model.dart' as Skincare;
 import '../../theme/theme.dart';
 import '../../widget/skincare_widget.dart';
 import 'view_detail_skincare_page.dart';
@@ -19,8 +18,7 @@ class SkincareSearchPage extends StatefulWidget {
   String? searchParam;
   String? category;
   String? display;
-  SkincareSearchPage(
-      {this.searchParam, this.category, this.display, super.key});
+  SkincareSearchPage({this.searchParam, this.category, this.display, super.key});
 
   @override
   State<SkincareSearchPage> createState() => _SkincareSearchPageState();
@@ -135,8 +133,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                             );
                             setState(() {});
                           },
-                          style: const TextStyle(
-                              fontSize: 15, fontFamily: "ProximaNova"),
+                          style: const TextStyle(fontSize: 15, fontFamily: "ProximaNova"),
                           decoration: InputDecoration(
                             hintText: "Cari Skincare",
                             border: InputBorder.none,
@@ -224,8 +221,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) => FilterAllSkincare(
-                                      display: display, category: category),
+                                  builder: (context) => FilterAllSkincare(display: display, category: category),
                                 ).then((value) async {
                                   if (value == null) return;
 
@@ -252,16 +248,12 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                 });
                               },
                               child: Container(
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 6, bottom: 6),
+                                padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
                                 height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   border: Border.all(
-                                    color: (filter.containsKey('display[]') ||
-                                            filter.containsKey('category[]'))
-                                        ? greenColor
-                                        : borderColor,
+                                    color: (filter.containsKey('display[]') || filter.containsKey('category[]')) ? greenColor : borderColor,
                                   ),
                                 ),
                                 child: Row(
@@ -270,26 +262,15 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                   children: [
                                     Image.asset(
                                       'assets/icons/filter-icon.png',
-                                      color: (filter.containsKey('display[]') ||
-                                              filter.containsKey('category[]'))
-                                          ? greenColor
-                                          : null,
+                                      color: (filter.containsKey('display[]') || filter.containsKey('category[]')) ? greenColor : null,
                                     ),
                                     SizedBox(
                                       width: 9,
                                     ),
                                     Text(
-                                      (filter.containsKey('display[]') ||
-                                              filter.containsKey('category[]'))
-                                          ? "${filter.containsKey('concern_ids[]') ? (filter.length - 1) : filter.length} Filter"
-                                          : 'Filter',
+                                      (filter.containsKey('display[]') || filter.containsKey('category[]')) ? "${filter.containsKey('concern_ids[]') ? (filter.length - 1) : filter.length} Filter" : 'Filter',
                                       style: TextStyle(
-                                        color: (filter
-                                                    .containsKey('display[]') ||
-                                                filter
-                                                    .containsKey('category[]'))
-                                            ? greenColor
-                                            : null,
+                                        color: (filter.containsKey('display[]') || filter.containsKey('category[]')) ? greenColor : null,
                                       ),
                                     ),
                                   ],
@@ -308,8 +289,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                       topStart: Radius.circular(25),
                                     ),
                                   ),
-                                  builder: (context) =>
-                                      FilterConcern(val: concern),
+                                  builder: (context) => FilterConcern(val: concern),
                                 ).then((value) async {
                                   if (value == null) return;
 
@@ -331,15 +311,12 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 9),
-                                padding: const EdgeInsets.only(
-                                    left: 10, right: 10, top: 6, bottom: 6),
+                                padding: const EdgeInsets.only(left: 10, right: 10, top: 6, bottom: 6),
                                 height: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   border: Border.all(
-                                    color: (concern is Map)
-                                        ? greenColor
-                                        : borderColor,
+                                    color: (concern is Map) ? greenColor : borderColor,
                                   ),
                                 ),
                                 child: Row(
@@ -347,13 +324,9 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Text(
-                                      (concern is Map)
-                                          ? (concern?['text'])
-                                          : 'Etalase Skincare',
+                                      (concern is Map) ? (concern?['text']) : 'Etalase Skincare',
                                       style: TextStyle(
-                                        color: (concern is Map)
-                                            ? greenColor
-                                            : null,
+                                        color: (concern is Map) ? greenColor : null,
                                       ),
                                     ),
                                     SizedBox(
@@ -362,8 +335,7 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                     Icon(
                                       Icons.keyboard_arrow_down,
                                       size: 15,
-                                      color:
-                                          (concern is Map) ? greenColor : null,
+                                      color: (concern is Map) ? greenColor : null,
                                     )
                                   ],
                                 ),
@@ -416,15 +388,12 @@ class _SkincareSearchPageState extends State<SkincareSearchPage> {
                                     },
                                     child: SkincareWidget(
                                       produkId: e.id!.toInt(),
-                                      namaBrand:
-                                          e.skincareDetail!.brand.toString(),
+                                      namaBrand: e.skincareDetail!.brand.toString(),
                                       namaProduk: e.name.toString(),
                                       diskonProduk: '',
                                       hargaDiskon: '',
-                                      harga: CurrencyFormat.convertToIdr(
-                                          e.price, 0),
-                                      urlImg:
-                                          '${Global.FILE}/${e.mediaProducts![0].media!.path}',
+                                      harga: CurrencyFormat.convertToIdr(e.price, 0),
+                                      urlImg: '${Global.FILE}/${e.mediaProducts![0].media!.path}',
                                       rating: '${e.rating} (0k)',
                                     ),
                                   ),

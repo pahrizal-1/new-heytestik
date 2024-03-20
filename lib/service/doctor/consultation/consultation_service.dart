@@ -10,8 +10,7 @@ import 'package:ua_client_hints/ua_client_hints.dart';
 import '../../../models/doctor/find_doctor_note_model.dart';
 
 class ConsultationDoctorScheduleServices extends ProviderClass {
-  ConsultationDoctorScheduleServices()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  ConsultationDoctorScheduleServices() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<CurrentDoctorScheduleModel> getCurrentDoctorSchedule() async {
     var response = await networkingConfig.doGet(
@@ -25,8 +24,7 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     return CurrentDoctorScheduleModel.fromJson(response);
   }
 
-  Future<FindDoctorScheduleModel> getDoctorSchedule(
-      int currentScheduleId, String startTime, String endTime) async {
+  Future<FindDoctorScheduleModel> getDoctorSchedule(int currentScheduleId, String startTime, String endTime) async {
     var response = await networkingConfig.doGet(
       '/consultation/doctor-schedule/$currentScheduleId',
       params: {
@@ -110,13 +108,14 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
 
   Future<dynamic> postDoctorNote(dynamic data, int id) async {
     var response = await networkingConfig.doPost(
-      '/consultation/${id}/doctor-note',
+      '/consultation/$id/doctor-note',
       data: data,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
       },
     );
+    print('res ${response}');
 
     return response;
   }

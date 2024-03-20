@@ -31,19 +31,20 @@ import 'package:timeago/timeago.dart' as timeago;
 
 class ChatDoctorPage extends StatefulWidget {
   final String roomCode;
-  final String? senderBy, receiverBy;
-  final int? roomId, senderId, receiverId, id;
-  final String? image;
+  // final String? senderBy, receiverBy;
+  final int? id;
+  // final int? roomId, senderId, receiverId, id;
+  // final String? image;
   ChatDoctorPage({
     super.key,
     required this.roomCode,
-    this.senderBy,
-    this.receiverBy,
-    this.roomId,
-    this.senderId,
-    this.receiverId,
+    // this.senderBy,
+    // this.receiverBy,
+    // this.roomId,
+    // this.senderId,
+    // this.receiverId,
     this.id,
-    this.image,
+    // this.image,
   });
 
   @override
@@ -68,6 +69,14 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   int take = 1000;
   int itemCountt = 0;
   TextEditingController searchController = TextEditingController();
+  int chatRoomId = 0;
+  int idRoom = 0;
+  String pengirim = '';
+  String penerima = '';
+  int pengirimId = 0;
+  int penerimaId = 0;
+  String imagDoktor = '';
+  String imgUser = '';
 
   List<XFile> selectedMultipleImage = [];
   String? fileImg64;
@@ -95,7 +104,6 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     notificationService = NotificationService();
     notificationService.initializePlatformNotifications();
     state.quickReply();
-    print('id ' + widget.id.toString());
   }
 
   void _scrollDown() {
@@ -190,14 +198,22 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
             receiverBy: receiverBy,
             sendMsg: () {
               sendMessage(
-                widget.roomId ?? 0,
-                widget.roomId ?? 0,
-                widget.senderId ?? 0,
-                widget.receiverId ?? 0,
+                chatRoomId,
+                chatRoomId,
+                pengirimId,
+                penerimaId,
                 widget.roomCode,
                 state.messageController.text.isNotEmpty ? state.messageController.text : '',
-                widget.senderBy ?? '',
-                widget.receiverBy ?? '',
+                pengirim,
+                penerima,
+                // widget.roomId ?? 0,
+                // widget.roomId ?? 0,
+                // widget.senderId ?? 0,
+                // widget.receiverId ?? 0,
+                // widget.roomCode,
+                // state.messageController.text.isNotEmpty ? state.messageController.text : '',
+                // widget.senderBy ?? '',
+                // widget.receiverBy ?? '',
               );
               // selectedMultipleImage = [];
               Get.back();
@@ -244,6 +260,21 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
     setState(() {
       msglist = result.data?.data;
       itemCountt = result.data!.meta!.itemCount!.toInt();
+      for (var i in msglist!) {
+        if (i.chatRoomId == i.chatRoomId && i.senderId == 0) {
+          null;
+        } else {
+          chatRoomId = i.chatRoomId ?? 0;
+          idRoom = i.chatRoomId ?? 0;
+          pengirim = "${i.sender!.fullname}";
+          penerima = "${i.receiver!.fullname}";
+          pengirimId = i.senderId ?? 0;
+          penerimaId = i.receiverId ?? 0;
+          imagDoktor = "${i.sender!.mediaUserProfilePicture!.media!.path}";
+          imgUser = "${i.receiver!.mediaUserProfilePicture!.media!.path}";
+        }
+      }
+      print('chat room dan id ${chatRoomId} ${idRoom}');
 
       // itemCount.add(result.data!.meta.itemCount);
     });
@@ -460,7 +491,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
         await joinRoom(widget.roomCode);
         await readMessage(widget.roomCode);
 
-        await onlineClients(widget.receiverBy ?? '');
+        await onlineClients(penerima);
         await newMessagee();
         await myMessage();
         await typingIndicator();
@@ -529,916 +560,924 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        key: scaffoldKey,
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: greenColor,
-          automaticallyImplyLeading: false,
-          centerTitle: false,
-          title: clik
-              ? Image.asset(
-                  'assets/icons/logoheystetik.png',
-                  width: 108,
-                )
-              : Row(
-                  children: [
-                    Icon(Icons.arrow_back),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: searchController,
-                        onSubmitted: (String value) {
-                          getRequest(widget.roomCode, take, searchController.text);
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          // enabledBorder: OutlineInputBorder(
-                          //   // borderSide: BorderSide(
-                          //   //     width: 3,
-                          //   //     color: Colors.greenAccent), //<-- SEE HERE
-                          //   // borderRadius: BorderRadius.circular(50.0),
-                          // ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-          actions: [
-            InkWell(
-              onTap: () {
-                setState(() {
-                  clik = !clik;
-                });
-                print('test room code${widget.roomCode}');
-                print('test sender id${widget.senderId}');
-                print('test receiver id${widget.receiverId}');
-              },
-              child: Padding(
-                padding: lsymetric,
-                child: clik
-                    ? Icon(
-                        Icons.search,
-                        size: 30,
-                      )
-                    : Icon(
-                        Icons.keyboard_arrow_down,
-                        size: 30,
-                      ),
-              ),
-            )
-          ],
-          elevation: 0,
-          bottom: PreferredSize(
-            preferredSize: Size.fromHeight(75.0),
-            child: Container(
-              height: 75.0,
-              color: whiteColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+      key: scaffoldKey,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: greenColor,
+        automaticallyImplyLeading: false,
+        centerTitle: false,
+        title: clik
+            ? Image.asset(
+                'assets/icons/logoheystetik.png',
+                width: 108,
+              )
+            : Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
-                    child: Row(
-                      children: [
-                        InkWell(
-                            onTap: () async {
-                              Navigator.pop(context, 'refresh');
-                              selectedMultipleImage = [];
-                              fileImage = [];
-                              state.messageController.text = '';
-                              leaveRoom(widget.roomCode);
-                              close();
-                            },
-                            child: Icon(Icons.arrow_back)),
-                        const SizedBox(
-                          width: 21,
-                        ),
-                        Text(
-                          widget.receiverBy ?? '',
-                          style: blackTextStyle.copyWith(fontSize: 18),
-                        ),
-                        const SizedBox(
-                          width: 9,
-                        ),
-                        Spacer(),
-                        InkWell(
+                  Icon(Icons.arrow_back),
+                  SizedBox(
+                    width: 8,
+                  ),
+                  Expanded(
+                    child: TextField(
+                      controller: searchController,
+                      onSubmitted: (String value) {
+                        getRequest(widget.roomCode, take, searchController.text);
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search',
+                        // enabledBorder: OutlineInputBorder(
+                        //   // borderSide: BorderSide(
+                        //   //     width: 3,
+                        //   //     color: Colors.greenAccent), //<-- SEE HERE
+                        //   // borderRadius: BorderRadius.circular(50.0),
+                        // ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+        actions: [
+          InkWell(
+            onTap: () {
+              setState(() {
+                clik = !clik;
+              });
+            },
+            child: Padding(
+              padding: lsymetric,
+              child: clik
+                  ? Icon(
+                      Icons.search,
+                      size: 30,
+                    )
+                  : Icon(
+                      Icons.keyboard_arrow_down,
+                      size: 30,
+                    ),
+            ),
+          )
+        ],
+        elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(75.0),
+          child: Container(
+            height: 75.0,
+            color: whiteColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+                  child: Row(
+                    children: [
+                      InkWell(
                           onTap: () async {
-                            String refresh = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailPasienPage(id: widget.id ?? 0),
-                              ),
-                            );
-
-                            print('id ' + widget.id.toString());
-
-                            if (refresh == 'refresh') {
-                              setState(() {
-                                connectSocket(context);
-                              });
-                            }
+                            Navigator.pop(context);
+                            selectedMultipleImage = [];
+                            fileImage = [];
+                            state.messageController.text = '';
+                            leaveRoom(widget.roomCode);
+                            close();
                           },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 14),
-                            height: 25,
-                            decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(7)),
-                            child: Center(
-                              child: Text(
-                                'Detail Pasien',
-                                style: whiteTextStyle.copyWith(fontSize: 13),
-                              ),
+                          child: Icon(Icons.arrow_back)),
+                      const SizedBox(
+                        width: 21,
+                      ),
+                      Text(
+                        penerima,
+                        style: blackTextStyle.copyWith(fontSize: 18),
+                      ),
+                      const SizedBox(
+                        width: 9,
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DetailPasienPage(id: chatRoomId),
+                            ),
+                          ).then(
+                            (value) => setState(() {
+                              connectSocket(context);
+                            }),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 14),
+                          height: 25,
+                          decoration: BoxDecoration(color: greenColor, borderRadius: BorderRadius.circular(7)),
+                          child: Center(
+                            child: Text(
+                              'Detail Pasien',
+                              style: whiteTextStyle.copyWith(fontSize: 13),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 5),
-                    child: Obx(() => Text(
-                          state.isOnline.value && state.isTyping.value
-                              ? 'Mengetik . . .'
-                              : state.isOnline.value
-                                  ? 'Online'
-                                  : '',
-                          style: blackTextStyle.copyWith(fontSize: 13),
-                        )),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-        body: isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                controller: controller,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 50),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 20,
-                        width: 62,
-                        decoration: BoxDecoration(color: subwhiteColor, borderRadius: BorderRadius.circular(5)),
-                        child: Center(
-                          child: Text(
-                            'Hari Ini',
-                            style: blackTextStyle.copyWith(fontSize: 12),
-                          ),
-                        ),
                       ),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      // Obx(() => )
-                      widget.id == widget.roomId
-                          ? Container(
-                              // height: 1000,
-                              child: ListView.builder(
-                                  // controller: controller,
-                                  // reverse: true,
-                                  shrinkWrap: true,
-                                  itemCount: msglist!.length,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (buildex, index) {
-                                    var formatter = DateFormat('dd-MM-yyyy');
-                                    String formattedTime = DateFormat('HH:mm').format(DateTime.parse('${msglist![index].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)));
-
-                                    if (widget.id == widget.roomId && msglist![index].senderId == 0) {
-                                      return ChatLeft(
-                                        image: widget.image,
-                                        // nameDoctor: 'Rina Rasmalina',
-                                        timetitle: formattedTime,
-                                        color: subwhiteColor,
-                                        title: msglist![index].message,
-                                      );
-                                    } else if (msglist![index].senderId == widget.senderId && msglist![index].message == '####') {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                  widget.senderBy.toString(),
-                                                  style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                              ],
-                                            ),
-                                            Align(
-                                              alignment: Alignment.centerRight,
-                                              child: FutureBuilder(
-                                                future: state.detailConsultation(context, widget.id!),
-                                                builder: ((context, snapshot) {
-                                                  if (snapshot.connectionState == ConnectionState.waiting) {
-                                                    return Center(child: CircularProgressIndicator());
-                                                  }
-                                                  if (snapshot.connectionState == ConnectionState.done) {
-                                                    return Padding(
-                                                      padding: const EdgeInsets.only(top: 10),
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Container(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                                                            height: 43,
-                                                            width: 270,
-                                                            decoration: BoxDecoration(color: greenColor, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-                                                            child: Text(
-                                                              'Rekomendasi Dokter',
-                                                              style: whiteTextStyle.copyWith(fontSize: 15),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-                                                            // height: 299,
-                                                            width: 270,
-                                                            color: whiteColor,
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                const SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                const Text(
-                                                                  'Obat',
-                                                                  style: TextStyle(fontSize: 15),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Container(
-                                                                  margin: EdgeInsets.only(top: 10),
-                                                                  child: ListView.builder(
-                                                                      shrinkWrap: true,
-                                                                      itemCount: state.data.value.consultationRecipeDrug?.length,
-                                                                      itemBuilder: (context, index) {
-                                                                        return Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Expanded(
-                                                                                  child: Text(
-                                                                                    state.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
-                                                                                    style: grenTextStyle.copyWith(fontSize: 12),
-                                                                                  ),
-                                                                                ),
-                                                                                Expanded(
-                                                                                  child: Text(
-                                                                                    state.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
-                                                                                    maxLines: 1,
-                                                                                    overflow: TextOverflow.ellipsis,
-                                                                                    style: greyTextStyle,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                          ],
-                                                                        );
-                                                                      }),
-                                                                ),
-                                                                Divider(
-                                                                  thickness: 2,
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                const Text(
-                                                                  'Skincare',
-                                                                  style: TextStyle(fontSize: 15),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Container(
-                                                                  margin: EdgeInsets.only(top: 10),
-                                                                  child: ListView.builder(
-                                                                      shrinkWrap: true,
-                                                                      itemCount: state.data.value.consultationRecomendationSkincare?.length,
-                                                                      itemBuilder: (context, index) {
-                                                                        return Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Text(
-                                                                                  state.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
-                                                                                  style: grenTextStyle.copyWith(fontSize: 12),
-                                                                                ),
-                                                                                Text(
-                                                                                  state.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
-                                                                                  style: greyTextStyle,
-                                                                                )
-                                                                              ],
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                          ],
-                                                                        );
-                                                                      }),
-                                                                ),
-                                                                Divider(
-                                                                  thickness: 2,
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                const Text(
-                                                                  'Treatment',
-                                                                  style: TextStyle(fontSize: 15),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                Container(
-                                                                  margin: EdgeInsets.only(top: 10),
-                                                                  child: ListView.builder(
-                                                                      shrinkWrap: true,
-                                                                      itemCount: state.data.value.consultationRecomendationTreatment?.length,
-                                                                      itemBuilder: (context, index) {
-                                                                        return Column(
-                                                                          children: [
-                                                                            Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Text(
-                                                                                  state.data.value.consultationRecomendationTreatment?[index].name ?? '-',
-                                                                                  style: grenTextStyle.copyWith(fontSize: 12),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                            SizedBox(
-                                                                              height: 5,
-                                                                            ),
-                                                                          ],
-                                                                        );
-                                                                      }),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                const ButtonGreenWidget(title: 'Lihat Detail')
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }
-                                                  return Container();
-                                                }),
-                                              ),
-                                            ),
-                                            // Align(
-                                            //     alignment: Alignment.centerRight,
-                                            //     child: RekomendasiDokterWidget(id: widget.id!.toInt(),)),
-                                          ],
-                                        ),
-                                      );
-                                    } else if (msglist![index].senderId == widget.senderId && msglist![index].mediaChatMessages!.length == 0) {
-                                      return ChatRight(
-                                        imgUser: stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
-                                        // "${msglist?[index].mediaChatMessages } assets/images/doctor-img.png",
-                                        // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
-                                        nameUser: widget.senderBy,
-                                        timetitle: formattedTime,
-                                        color: subgreenColor,
-                                        title: msglist![index].message.toString(),
-                                      );
-                                    } else if (msglist![index].senderId == widget.senderId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: msglist![index].mediaChatMessages!.length == 1
-                                            ? Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment: MainAxisAlignment.end,
-                                                    children: [
-                                                      Text(
-                                                        widget.senderBy.toString(),
-                                                        style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      Image.network(
-                                                        stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
-                                                        width: 30,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets.symmetric(horizontal: 40),
-                                                    padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
-                                                    width: MediaQuery.of(context).size.width,
-                                                    decoration: BoxDecoration(
-                                                      color: subgreenColor,
-                                                      borderRadius: const BorderRadius.only(
-                                                        topLeft: Radius.circular(10),
-                                                        topRight: Radius.circular(0),
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
-                                                      ),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        GridView.builder(
-                                                          shrinkWrap: true,
-                                                          itemCount: msglist![index].mediaChatMessages!.length,
-                                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
-                                                          itemBuilder: (BuildContext context, count) {
-                                                            return Image.network(
-                                                              '${Global.FILE}/${msglist![index].mediaChatMessages![0].media!.path!}',
-                                                            );
-                                                          },
-                                                        ),
-                                                        SizedBox(height: 10),
-                                                        Text(
-                                                          msglist![index].message.toString(),
-                                                          style: greyTextStyle.copyWith(
-                                                            fontSize: 15,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          children: [
-                                                            Image.asset(
-                                                              'assets/images/logo_cheac_wa.png',
-                                                              width: 14,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 2,
-                                                            ),
-                                                            Text(formattedTime, style: subGreyTextStyle)
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : msglist![index].mediaChatMessages!.length > 1
-                                                ? Column(
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
-                                                        children: [
-                                                          Text(
-                                                            widget.senderBy.toString(),
-                                                            style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Image.asset(
-                                                            'assets/images/doctor-img.png'.toString(),
-                                                            width: 30,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Stack(
-                                                        children: [
-                                                          Container(
-                                                            margin: const EdgeInsets.symmetric(horizontal: 40),
-                                                            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
-                                                            width: MediaQuery.of(context).size.width,
-                                                            decoration: BoxDecoration(
-                                                              color: subgreenColor,
-                                                              borderRadius: const BorderRadius.only(
-                                                                topLeft: Radius.circular(10),
-                                                                topRight: Radius.circular(0),
-                                                                bottomRight: Radius.circular(10),
-                                                                bottomLeft: Radius.circular(10),
-                                                              ),
-                                                            ),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                GridView.builder(
-                                                                  shrinkWrap: true,
-                                                                  itemCount: msglist![index].mediaChatMessages!.length,
-                                                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
-                                                                  itemBuilder: (BuildContext context, count) {
-                                                                    return Image.network(
-                                                                      '${Global.FILE}/${msglist![index].mediaChatMessages![count].media!.path!}',
-                                                                    );
-                                                                  },
-                                                                ),
-                                                                SizedBox(height: 10),
-                                                                Text(
-                                                                  msglist![index].message.toString(),
-                                                                  style: greyTextStyle.copyWith(
-                                                                    fontSize: 15,
-                                                                  ),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                                  children: [
-                                                                    Image.asset(
-                                                                      'assets/images/logo_cheac_wa.png',
-                                                                      width: 14,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 2,
-                                                                    ),
-                                                                    Text(formattedTime, style: subGreyTextStyle)
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            top: 50,
-                                                            left: 80,
-                                                            child: Container(
-                                                              width: 200,
-                                                              child: ElevatedButton(
-                                                                style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: Colors.grey.withOpacity(0.5), // background
-                                                                ),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: ((context) => PreviewImage(
-                                                                            path: msglist![index].mediaChatMessages,
-                                                                            senderId: widget.senderBy ?? '',
-                                                                          )),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Text('+1'),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  )
-                                                : ChatRight(
-                                                    imgUser: stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
-
-                                                    // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
-                                                    nameUser: widget.senderBy,
-                                                    timetitle: formattedTime,
-                                                    color: subgreenColor,
-                                                    title: msglist![index].message.toString(),
-                                                  ),
-                                      );
-                                    } else if (msglist![index].senderId == widget.receiverId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(top: 10),
-                                        child: msglist![index].mediaChatMessages?.length == 1
-                                            ? Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Text(
-                                                        widget.receiverBy.toString(),
-                                                        style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                      ),
-                                                      Text(
-                                                        msglist![index].mediaChatMessages!.length.toString(),
-                                                        style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 10,
-                                                      ),
-                                                      // Image.asset(
-                                                      //   'assets/images/doctor-img.png'
-                                                      //       .toString(),
-                                                      //   width: 30,
-                                                      // ),
-                                                    ],
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets.symmetric(horizontal: 40),
-                                                    padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
-                                                    width: MediaQuery.of(context).size.width,
-                                                    decoration: BoxDecoration(
-                                                      color: subwhiteColor,
-                                                      borderRadius: const BorderRadius.only(
-                                                        topLeft: Radius.circular(0),
-                                                        topRight: Radius.circular(10),
-                                                        bottomRight: Radius.circular(10),
-                                                        bottomLeft: Radius.circular(10),
-                                                      ),
-                                                    ),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        GridView.builder(
-                                                          shrinkWrap: true,
-                                                          itemCount: msglist![index].mediaChatMessages!.length,
-                                                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
-                                                          itemBuilder: (BuildContext context, count) {
-                                                            return Image.network(
-                                                              '${Global.FILE}/' + msglist![index].mediaChatMessages![0].media!.path!.toString(),
-                                                            );
-                                                          },
-                                                        ),
-                                                        SizedBox(height: 10),
-                                                        Text(
-                                                          msglist![index].message.toString(),
-                                                          style: greyTextStyle.copyWith(
-                                                            fontSize: 15,
-                                                          ),
-                                                        ),
-                                                        Row(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          children: [
-                                                            Image.asset(
-                                                              'assets/images/logo_cheac_wa.png',
-                                                              width: 14,
-                                                            ),
-                                                            const SizedBox(
-                                                              width: 2,
-                                                            ),
-                                                            Text(formattedTime, style: subGreyTextStyle)
-                                                          ],
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              )
-                                            : msglist![index].mediaChatMessages?.length != 1
-                                                ? Column(
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Text(
-                                                            widget.receiverBy.toString(),
-                                                            style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                          ),
-                                                          Text(
-                                                            msglist![index].mediaChatMessages!.length.toString(),
-                                                            style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                                          ),
-                                                          const SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          // Image.asset(
-                                                          //   'assets/images/doctor-img.png'
-                                                          //       .toString(),
-                                                          //   width: 30,
-                                                          // ),
-                                                        ],
-                                                      ),
-                                                      Stack(
-                                                        children: [
-                                                          Container(
-                                                            margin: const EdgeInsets.symmetric(horizontal: 40),
-                                                            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
-                                                            width: MediaQuery.of(context).size.width,
-                                                            decoration: BoxDecoration(
-                                                              color: subwhiteColor,
-                                                              borderRadius: const BorderRadius.only(
-                                                                topLeft: Radius.circular(0),
-                                                                topRight: Radius.circular(10),
-                                                                bottomRight: Radius.circular(10),
-                                                                bottomLeft: Radius.circular(10),
-                                                              ),
-                                                            ),
-                                                            child: Column(
-                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                              children: [
-                                                                GridView.builder(
-                                                                  shrinkWrap: true,
-                                                                  itemCount: msglist![index].mediaChatMessages?.length,
-                                                                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
-                                                                  itemBuilder: (BuildContext context, count) {
-                                                                    return Column(
-                                                                      children: [
-                                                                        Image.network(
-                                                                          '${Global.FILE}/' + msglist![index].mediaChatMessages![count].media!.path!,
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                  },
-                                                                ),
-                                                                SizedBox(height: 10),
-                                                                Text(
-                                                                  msglist![index].message.toString(),
-                                                                  style: greyTextStyle.copyWith(
-                                                                    fontSize: 15,
-                                                                  ),
-                                                                ),
-                                                                Row(
-                                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                                  children: [
-                                                                    Image.asset(
-                                                                      'assets/images/logo_cheac_wa.png',
-                                                                      width: 14,
-                                                                    ),
-                                                                    const SizedBox(
-                                                                      width: 2,
-                                                                    ),
-                                                                    Text(formattedTime, style: subGreyTextStyle)
-                                                                  ],
-                                                                )
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            top: 50,
-                                                            left: 80,
-                                                            child: Container(
-                                                              width: 200,
-                                                              child: ElevatedButton(
-                                                                style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: Colors.grey.withOpacity(0.5), // background
-                                                                ),
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: ((context) => PreviewImage(
-                                                                            path: msglist![index].mediaChatMessages,
-                                                                            senderId: widget.receiverBy.toString(),
-                                                                          )),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Text(msglist![index].mediaChatMessages!.length.toString()),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  )
-                                                : ChatLeft(
-                                                    image: widget.image,
-                                                    nameDoctor: widget.receiverBy,
-                                                    timetitle: formattedTime,
-                                                    color: subwhiteColor,
-                                                    title: msglist![index].message.toString(),
-                                                  ),
-                                      );
-                                    } else if (msglist![index].senderId == widget.receiverId) {
-                                      return ChatLeft(
-                                        image: widget.image,
-                                        // imgUser: 'assets/images/doctor-img.png',
-                                        // imgData: 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][0]['media']['path'],
-                                        nameDoctor: widget.receiverBy,
-                                        timetitle: formattedTime,
-                                        color: subwhiteColor,
-                                        title: msglist![index].message.toString(),
-                                      );
-                                    } else {
-                                      Container();
-                                    }
-                                  }),
-                            )
-                          : Container(),
-                      FutureBuilder(
-                          future: state.getDetailConsltation(context, widget.id!),
-                          builder: (context, snapshot) {
-                            if (state.status.value == 'SELESAI') {
-                              return Container(
-                                height: 30,
-                                width: double.infinity,
-                                margin: EdgeInsets.only(top: 20),
-                                color: Colors.grey,
-                                child: Center(
-                                  child: Text(
-                                    "Konsultasi selesai di ${state.endDate.value}",
-                                    style: whiteTextStyle.copyWith(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return SizedBox();
-                            }
-                          })
                     ],
                   ),
                 ),
-              ),
-        bottomNavigationBar: FutureBuilder(
-            future: state.getDetailConsltation(context, widget.id!),
-            builder: (context, snapshot) {
-              if (state.status.value != 'SELESAI') {
-                return ChatBottomNavigator(
-                  textC: state.messageController,
-                  roomId: widget.roomId,
-                  senderId: widget.senderId,
-                  receiverId: widget.receiverId,
-                  roomCode: widget.roomCode,
-                  senderBy: widget.senderBy,
-                  receiverBy: widget.receiverBy,
-                  id: widget.id,
-                  socket: _socket,
-                  sendMsg: () {
-                    sendMessage(
-                      widget.roomId ?? 0,
-                      widget.roomId ?? 0,
-                      widget.senderId ?? 0,
-                      widget.receiverId ?? 0,
-                      widget.roomCode,
-                      state.messageController.text,
-                      widget.senderBy ?? '',
-                      widget.receiverBy ?? '',
-                    );
-                  },
-                  onChanged: (value) {
-                    if (state.messageController.text == '/') {
-                      setState(() {
-                        isSuggestion = true;
-                      });
-                      scaffoldKey.currentState!.showBottomSheet(
-                        (context) => Visibility(
-                          visible: isSuggestion,
-                          child: Container(
-                            height: 150,
-                            width: 420,
-                            decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(7))),
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: Get.put(DoctorConsultationController()).quickReplyChat.length,
-                                itemBuilder: ((context, index) {
-                                  return GestureDetector(
-                                    onTap: () async {
-                                      String desc = Get.put(DoctorConsultationController()).quickReplyChat[index]['message'];
-                                      await sendMessage(
-                                        widget.roomId ?? 0,
-                                        widget.roomId ?? 0,
-                                        widget.senderId ?? 0,
-                                        widget.receiverId ?? 0,
-                                        widget.roomCode,
-                                        desc,
-                                        widget.senderBy ?? '',
-                                        widget.receiverBy ?? '',
-                                      );
-
-                                      Get.back();
-                                      setState(() {
-                                        isSuggestion = false;
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(Get.put(DoctorConsultationController()).quickReplyChat[index]['shortcut']),
-                                    ),
-                                  );
-                                })),
-                          ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 5),
+                  child: Obx(() => Text(
+                        state.isOnline.value && state.isTyping.value
+                            ? 'Mengetik . . .'
+                            : state.isOnline.value
+                                ? 'Online'
+                                : '',
+                        style: blackTextStyle.copyWith(fontSize: 13),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : SingleChildScrollView(
+              controller: controller,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 50),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 62,
+                      decoration: BoxDecoration(color: subwhiteColor, borderRadius: BorderRadius.circular(5)),
+                      child: Center(
+                        child: Text(
+                          'Hari Ini',
+                          style: blackTextStyle.copyWith(fontSize: 12),
                         ),
-                      );
-                    } else if (state.messageController.text.isEmpty) {
-                      Get.back();
-                      setState(() {
-                        isSuggestion = false;
-                      });
-                    }
-                  },
-                  onCamera: () {
-                    openCamera(
-                      widget.roomId ?? 0,
-                      widget.roomId ?? 0,
-                      widget.senderId ?? 0,
-                      widget.receiverId ?? 0,
-                      widget.roomCode,
-                      widget.senderBy ?? '',
-                      widget.receiverBy ?? '',
+                      ),
+                    ),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    // Obx(() => )
+                    idRoom == chatRoomId
+                        ? Container(
+                            // height: 1000,
+                            child: ListView.builder(
+                                // controller: controller,
+                                shrinkWrap: true,
+                                itemCount: msglist!.length,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (buildex, index) {
+                                  String formattedTime = DateFormat('HH:mm').format(DateTime.parse('${msglist![index].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)));
+                                  String namesImgDoktor = getInitials(msglist?[index].sender?.fullname ?? '-');
+                                  String namesImguser = getInitials(msglist?[index].receiver?.fullname ?? '-');
+
+                                  if (idRoom == chatRoomId && msglist![index].senderId == 0) {
+                                    return ChatSystem(
+                                      // image: widget.image,
+                                      timetitle: formattedTime,
+                                      // color: subwhiteColor,
+                                      title: msglist![index].message,
+                                    );
+                                  } else if (msglist![index].senderId == pengirimId && msglist![index].message == '#####') {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                pengirim,
+                                                style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                            ],
+                                          ),
+                                          Align(
+                                            alignment: Alignment.centerRight,
+                                            child: FutureBuilder(
+                                              future: state.detailConsultation(context, widget.id ?? 0),
+                                              builder: ((context, snapshot) {
+                                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                                  return Center(child: CircularProgressIndicator());
+                                                }
+                                                if (snapshot.connectionState == ConnectionState.done) {
+                                                  return Padding(
+                                                    padding: const EdgeInsets.only(top: 10),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Container(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                                          height: 43,
+                                                          width: 270,
+                                                          decoration: BoxDecoration(color: greenColor, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+                                                          child: Text(
+                                                            'Rekomendasi Dokter',
+                                                            style: whiteTextStyle.copyWith(fontSize: 15),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                                                          // height: 299,
+                                                          width: 270,
+                                                          color: whiteColor,
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                            children: [
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const Text(
+                                                                'Obat',
+                                                                style: TextStyle(fontSize: 15),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(top: 10),
+                                                                child: ListView.builder(
+                                                                    shrinkWrap: true,
+                                                                    itemCount: state.data.value.consultationRecipeDrug?.length,
+                                                                    itemBuilder: (context, index) {
+                                                                      return Column(
+                                                                        children: [
+                                                                          Row(
+                                                                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Expanded(
+                                                                                child: Text(
+                                                                                  state.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
+                                                                                  style: grenTextStyle.copyWith(fontSize: 12),
+                                                                                ),
+                                                                              ),
+                                                                              Expanded(
+                                                                                child: Text(
+                                                                                  state.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                  maxLines: 1,
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  style: greyTextStyle,
+                                                                                ),
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    }),
+                                                              ),
+                                                              Divider(
+                                                                thickness: 2,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const Text(
+                                                                'Skincare',
+                                                                style: TextStyle(fontSize: 15),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(top: 10),
+                                                                child: ListView.builder(
+                                                                    shrinkWrap: true,
+                                                                    itemCount: state.data.value.consultationRecomendationSkincare?.length,
+                                                                    itemBuilder: (context, index) {
+                                                                      return Column(
+                                                                        children: [
+                                                                          Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Text(
+                                                                                state.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
+                                                                                style: grenTextStyle.copyWith(fontSize: 12),
+                                                                              ),
+                                                                              Text(
+                                                                                state.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                style: greyTextStyle,
+                                                                              )
+                                                                            ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    }),
+                                                              ),
+                                                              Divider(
+                                                                thickness: 2,
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const Text(
+                                                                'Treatment',
+                                                                style: TextStyle(fontSize: 15),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              Container(
+                                                                margin: EdgeInsets.only(top: 10),
+                                                                child: ListView.builder(
+                                                                    shrinkWrap: true,
+                                                                    itemCount: state.data.value.consultationRecomendationTreatment?.length,
+                                                                    itemBuilder: (context, index) {
+                                                                      return Column(
+                                                                        children: [
+                                                                          Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                            children: [
+                                                                              Text(
+                                                                                state.data.value.consultationRecomendationTreatment?[index].treatmentType ?? '-',
+                                                                                style: grenTextStyle.copyWith(fontSize: 12),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height: 5,
+                                                                          ),
+                                                                        ],
+                                                                      );
+                                                                    }),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              const ButtonGreenWidget(title: 'Lihat Detail')
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                }
+                                                return Container();
+                                              }),
+                                            ),
+                                          ),
+                                          // Align(
+                                          //     alignment: Alignment.centerRight,
+                                          //     child: RekomendasiDokterWidget(id: widget.id!.toInt(),)),
+                                        ],
+                                      ),
+                                    );
+                                  } else if (msglist![index].senderId == pengirimId && msglist![index].mediaChatMessages!.length == 0) {
+                                    return ChatRight(
+                                      imgUser: imagDoktor != "" ? '${Global.FILE}/$imagDoktor' : namesImgDoktor,
+                                      // "${msglist?[index].mediaChatMessages } assets/images/doctor-img.png",
+                                      // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
+                                      nameUser: pengirim,
+                                      timetitle: formattedTime,
+                                      color: subgreenColor,
+                                      title: msglist![index].message.toString(),
+                                    );
+                                  } else if (msglist![index].senderId == pengirimId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: msglist![index].mediaChatMessages!.length == 1
+                                          ? Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.end,
+                                                  children: [
+                                                    Text(
+                                                      pengirim,
+                                                      style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    Image.network(
+                                                      stateProfile.imgNetwork.value != "" ? '${Global.FILE}/${stateProfile.imgNetwork.value}' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                                      width: 30,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                  padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                  width: MediaQuery.of(context).size.width,
+                                                  decoration: BoxDecoration(
+                                                    color: subgreenColor,
+                                                    borderRadius: const BorderRadius.only(
+                                                      topLeft: Radius.circular(10),
+                                                      topRight: Radius.circular(0),
+                                                      bottomRight: Radius.circular(10),
+                                                      bottomLeft: Radius.circular(10),
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      GridView.builder(
+                                                        shrinkWrap: true,
+                                                        itemCount: msglist![index].mediaChatMessages!.length,
+                                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                        itemBuilder: (BuildContext context, count) {
+                                                          return Image.network(
+                                                            '${Global.FILE}/${msglist![index].mediaChatMessages![0].media!.path!}',
+                                                          );
+                                                        },
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Text(
+                                                        msglist![index].message.toString(),
+                                                        style: greyTextStyle.copyWith(
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          Image.asset(
+                                                            'assets/images/logo_cheac_wa.png',
+                                                            width: 14,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 2,
+                                                          ),
+                                                          Text(formattedTime, style: subGreyTextStyle)
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : msglist![index].mediaChatMessages!.length > 1
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment: MainAxisAlignment.end,
+                                                      children: [
+                                                        Text(
+                                                          pengirim,
+                                                          style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        Image.asset(
+                                                          'assets/images/doctor-img.png'.toString(),
+                                                          width: 30,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Stack(
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                          padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                          width: MediaQuery.of(context).size.width,
+                                                          decoration: BoxDecoration(
+                                                            color: subgreenColor,
+                                                            borderRadius: const BorderRadius.only(
+                                                              topLeft: Radius.circular(10),
+                                                              topRight: Radius.circular(0),
+                                                              bottomRight: Radius.circular(10),
+                                                              bottomLeft: Radius.circular(10),
+                                                            ),
+                                                          ),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              GridView.builder(
+                                                                shrinkWrap: true,
+                                                                itemCount: msglist![index].mediaChatMessages!.length,
+                                                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                                itemBuilder: (BuildContext context, count) {
+                                                                  return Image.network(
+                                                                    '${Global.FILE}/${msglist![index].mediaChatMessages![count].media!.path!}',
+                                                                  );
+                                                                },
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                msglist![index].message.toString(),
+                                                                style: greyTextStyle.copyWith(
+                                                                  fontSize: 15,
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  Image.asset(
+                                                                    'assets/images/logo_cheac_wa.png',
+                                                                    width: 14,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 2,
+                                                                  ),
+                                                                  Text(formattedTime, style: subGreyTextStyle)
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Positioned(
+                                                          top: 50,
+                                                          left: 80,
+                                                          child: Container(
+                                                            width: 200,
+                                                            child: ElevatedButton(
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.grey.withOpacity(0.5), // background
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: ((context) => PreviewImage(
+                                                                          path: msglist![index].mediaChatMessages,
+                                                                          senderId: pengirim,
+                                                                        )),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: Text('+1'),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
+                                              : ChatRight(
+                                                  imgUser: imagDoktor != "" ? '${Global.FILE}/$imagDoktor' : namesImgDoktor,
+
+                                                  // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
+                                                  nameUser: pengirim,
+                                                  timetitle: formattedTime,
+                                                  color: subgreenColor,
+                                                  title: msglist![index].message.toString(),
+                                                ),
+                                    );
+                                  } else if (msglist![index].senderId == penerimaId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(top: 10),
+                                      child: msglist![index].mediaChatMessages?.length == 1
+                                          ? Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      penerima,
+                                                      style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                                    ),
+                                                    Text(
+                                                      msglist![index].mediaChatMessages!.length.toString(),
+                                                      style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    // Image.asset(
+                                                    //   'assets/images/doctor-img.png'
+                                                    //       .toString(),
+                                                    //   width: 30,
+                                                    // ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                  padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                  width: MediaQuery.of(context).size.width,
+                                                  decoration: BoxDecoration(
+                                                    color: subwhiteColor,
+                                                    borderRadius: const BorderRadius.only(
+                                                      topLeft: Radius.circular(0),
+                                                      topRight: Radius.circular(10),
+                                                      bottomRight: Radius.circular(10),
+                                                      bottomLeft: Radius.circular(10),
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      GridView.builder(
+                                                        shrinkWrap: true,
+                                                        itemCount: msglist![index].mediaChatMessages!.length,
+                                                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                        itemBuilder: (BuildContext context, count) {
+                                                          return Image.network(
+                                                            '${Global.FILE}/' + msglist![index].mediaChatMessages![0].media!.path!.toString(),
+                                                          );
+                                                        },
+                                                      ),
+                                                      SizedBox(height: 10),
+                                                      Text(
+                                                        msglist![index].message.toString(),
+                                                        style: greyTextStyle.copyWith(
+                                                          fontSize: 15,
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        children: [
+                                                          Image.asset(
+                                                            'assets/images/logo_cheac_wa.png',
+                                                            width: 14,
+                                                          ),
+                                                          const SizedBox(
+                                                            width: 2,
+                                                          ),
+                                                          Text(formattedTime, style: subGreyTextStyle)
+                                                        ],
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )
+                                          : msglist![index].mediaChatMessages?.length != 1
+                                              ? Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        Text(
+                                                          penerima,
+                                                          style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                                        ),
+                                                        Text(
+                                                          msglist![index].mediaChatMessages!.length.toString(),
+                                                          style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                                        ),
+                                                        const SizedBox(
+                                                          width: 10,
+                                                        ),
+                                                        // Image.asset(
+                                                        //   'assets/images/doctor-img.png'
+                                                        //       .toString(),
+                                                        //   width: 30,
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                    Stack(
+                                                      children: [
+                                                        Container(
+                                                          margin: const EdgeInsets.symmetric(horizontal: 40),
+                                                          padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+                                                          width: MediaQuery.of(context).size.width,
+                                                          decoration: BoxDecoration(
+                                                            color: subwhiteColor,
+                                                            borderRadius: const BorderRadius.only(
+                                                              topLeft: Radius.circular(0),
+                                                              topRight: Radius.circular(10),
+                                                              bottomRight: Radius.circular(10),
+                                                              bottomLeft: Radius.circular(10),
+                                                            ),
+                                                          ),
+                                                          child: Column(
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              GridView.builder(
+                                                                shrinkWrap: true,
+                                                                itemCount: msglist![index].mediaChatMessages?.length,
+                                                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, crossAxisSpacing: 4.0, mainAxisSpacing: 4.0),
+                                                                itemBuilder: (BuildContext context, count) {
+                                                                  return Column(
+                                                                    children: [
+                                                                      Image.network(
+                                                                        '${Global.FILE}/' + msglist![index].mediaChatMessages![count].media!.path!,
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                },
+                                                              ),
+                                                              SizedBox(height: 10),
+                                                              Text(
+                                                                msglist![index].message.toString(),
+                                                                style: greyTextStyle.copyWith(
+                                                                  fontSize: 15,
+                                                                ),
+                                                              ),
+                                                              Row(
+                                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                                children: [
+                                                                  Image.asset(
+                                                                    'assets/images/logo_cheac_wa.png',
+                                                                    width: 14,
+                                                                  ),
+                                                                  const SizedBox(
+                                                                    width: 2,
+                                                                  ),
+                                                                  Text(formattedTime, style: subGreyTextStyle)
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        Positioned(
+                                                          top: 50,
+                                                          left: 80,
+                                                          child: Container(
+                                                            width: 200,
+                                                            child: ElevatedButton(
+                                                              style: ElevatedButton.styleFrom(
+                                                                backgroundColor: Colors.grey.withOpacity(0.5), // background
+                                                              ),
+                                                              onPressed: () {
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                    builder: ((context) => PreviewImage(
+                                                                          path: msglist![index].mediaChatMessages,
+                                                                          senderId: penerima,
+                                                                        )),
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: Text(msglist![index].mediaChatMessages!.length.toString()),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                )
+                                              : ChatLeft(
+                                                  image: imgUser != "" ? '${Global.FILE}/$imgUser' : namesImguser,
+                                                  nameDoctor: penerima,
+                                                  timetitle: formattedTime,
+                                                  color: subwhiteColor,
+                                                  title: msglist![index].message.toString(),
+                                                ),
+                                    );
+                                  } else if (msglist![index].senderId == penerimaId) {
+                                    return ChatLeft(
+                                      image: imgUser != "" ? '${Global.FILE}/$imgUser' : namesImguser,
+                                      // imgUser: 'assets/images/doctor-img.png',
+                                      // imgData: 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][0]['media']['path'],
+                                      nameDoctor: penerima,
+                                      timetitle: formattedTime,
+                                      color: subwhiteColor,
+                                      title: msglist![index].message.toString(),
+                                    );
+                                  } else {
+                                    Container();
+                                  }
+                                }),
+                          )
+                        : Container(),
+                    FutureBuilder(
+                        future: state.getDetailConsltation(context, widget.id ?? 0),
+                        builder: (context, snapshot) {
+                          if (state.status.value == 'SELESAI') {
+                            return Container(
+                              height: 30,
+                              width: double.infinity,
+                              margin: EdgeInsets.only(top: 20),
+                              color: Colors.grey,
+                              child: Center(
+                                child: Text(
+                                  "Konsultasi selesai di ${state.endDate.value}",
+                                  style: whiteTextStyle.copyWith(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            );
+                          } else {
+                            return SizedBox();
+                          }
+                        })
+                  ],
+                ),
+              ),
+            ),
+      bottomNavigationBar: FutureBuilder(
+          future: state.getDetailConsltation(context, widget.id ?? 0),
+          builder: (context, snapshot) {
+            if (state.status.value != 'SELESAI') {
+              return ChatBottomNavigator(
+                textC: state.messageController,
+                roomId: chatRoomId,
+                senderId: pengirimId,
+                receiverId: penerimaId,
+                roomCode: widget.roomCode,
+                senderBy: pengirim,
+                receiverBy: penerima,
+                id: chatRoomId,
+                socket: _socket,
+                sendMsg: () {
+                  sendMessage(
+                    chatRoomId,
+                    chatRoomId,
+                    pengirimId,
+                    penerimaId,
+                    widget.roomCode,
+                    state.messageController.text.isNotEmpty ? state.messageController.text : '',
+                    pengirim,
+                    penerima,
+                  );
+                },
+                onChanged: (value) {
+                  if (state.messageController.text == '/') {
+                    setState(() {
+                      isSuggestion = true;
+                    });
+                    scaffoldKey.currentState!.showBottomSheet(
+                      (context) => Visibility(
+                        visible: isSuggestion,
+                        child: Container(
+                          height: 150,
+                          width: 420,
+                          decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(7), topRight: Radius.circular(7))),
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: Get.put(DoctorConsultationController()).quickReplyChat.length,
+                              itemBuilder: ((context, index) {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    String desc = Get.put(DoctorConsultationController()).quickReplyChat[index]['message'];
+                                    await sendMessage(
+                                      chatRoomId,
+                                      chatRoomId,
+                                      pengirimId,
+                                      penerimaId,
+                                      widget.roomCode,
+                                      desc,
+                                      pengirim,
+                                      penerima,
+                                      // widget.roomId ?? 0,
+                                      // widget.roomId ?? 0,
+                                      // widget.senderId ?? 0,
+                                      // widget.receiverId ?? 0,
+                                      // widget.roomCode,
+                                      // desc,
+                                      // widget.senderBy ?? '',
+                                      // widget.receiverBy ?? '',
+                                    );
+
+                                    Get.back();
+                                    setState(() {
+                                      isSuggestion = false;
+                                    });
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(Get.put(DoctorConsultationController()).quickReplyChat[index]['shortcut']),
+                                  ),
+                                );
+                              })),
+                        ),
+                      ),
                     );
-                  },
-                  onGallery: () {
-                    selectImageMultiple(
-                      widget.roomId ?? 0,
-                      widget.roomId ?? 0,
-                      widget.senderId ?? 0,
-                      widget.receiverId ?? 0,
-                      widget.roomCode,
-                      widget.senderBy ?? '',
-                      widget.receiverBy ?? '',
-                    );
-                  },
-                );
-              } else {
-                return SizedBox();
-              }
-            }));
+                  } else if (state.messageController.text.isEmpty) {
+                    Get.back();
+                    setState(() {
+                      isSuggestion = false;
+                    });
+                  }
+                },
+                onCamera: () {
+                  openCamera(
+                    chatRoomId,
+                    chatRoomId,
+                    pengirimId,
+                    penerimaId,
+                    widget.roomCode,
+                    pengirim,
+                    penerima,
+                    // widget.roomId ?? 0,
+                    // widget.roomId ?? 0,
+                    // widget.senderId ?? 0,
+                    // widget.receiverId ?? 0,
+                    // widget.roomCode,
+                    // widget.senderBy ?? '',
+                    // widget.receiverBy ?? '',
+                  );
+                },
+                onGallery: () {
+                  selectImageMultiple(
+                    chatRoomId,
+                    chatRoomId,
+                    pengirimId,
+                    penerimaId,
+                    widget.roomCode,
+                    pengirim,
+                    penerima,
+                  );
+                },
+              );
+            } else {
+              return SizedBox();
+            }
+          }),
+    );
   }
 }

@@ -31,8 +31,7 @@ class HomePageDoctor extends StatefulWidget {
 
 class _HomePageDoctorState extends State<HomePageDoctor> {
   final DoctorHomeController state = Get.put(DoctorHomeController());
-  final DoctorProfileController stateProfile =
-      Get.put(DoctorProfileController());
+  final DoctorProfileController stateProfile = Get.put(DoctorProfileController());
   final NotificationController stateNotif = Get.put(NotificationController());
 
   IO.Socket? _socket;
@@ -47,8 +46,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
 
       if (message.notification != null) {
         state.isNotifications.value = true;
-        print(
-            'Message also contained a notification: ${message.notification?.toMap()}');
+        print('Message also contained a notification: ${message.notification?.toMap()}');
       }
     });
   }
@@ -115,22 +113,14 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                       borderRadius: BorderRadius.circular(50),
                                       image: DecorationImage(
                                         fit: BoxFit.cover,
-                                        image: stateProfile.imgNetwork.value !=
-                                                ""
-                                            ? NetworkImage(
-                                                    '${Global.FILE}/${stateProfile.imgNetwork.value}')
-                                                as ImageProvider
-                                            : AssetImage(
-                                                'assets/images/profiledummy.png'),
+                                        image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, left: 15),
+                                    padding: const EdgeInsets.only(top: 15, left: 15),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           'Hai,',
@@ -145,13 +135,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                         ),
                                         Obx(
                                           () => Text(
-                                            stateProfile.profileData.value
-                                                        .data !=
-                                                    null
-                                                ? stateProfile.profileData.value
-                                                    .data!.fullname
-                                                    .toString()
-                                                : '-',
+                                            stateProfile.profileData.value.data != null ? stateProfile.profileData.value.data!.fullname.toString() : '-',
                                             style: TextStyle(
                                               fontWeight: bold,
                                               fontFamily: 'ProximaNova',
@@ -171,8 +155,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NotificationDoctorPage(),
+                                    builder: (context) => const NotificationDoctorPage(),
                                   ),
                                 );
                               },
@@ -240,8 +223,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                         ],
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: paddingL, bottom: paddingL),
+                        padding: const EdgeInsets.only(top: paddingL, bottom: paddingL),
                         child: Center(
                           child: state.startTime.value.isEmpty
                               ? Text(
@@ -564,8 +546,7 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                             )
                           : ListView.builder(
                               shrinkWrap: true,
-                              keyboardDismissBehavior:
-                                  ScrollViewKeyboardDismissBehavior.onDrag,
+                              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: state.totalFindSchedule.value,
                               itemBuilder: (BuildContext context, int i) {
@@ -578,12 +559,10 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(15),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '${state.findSchedule.value?.data!.data?[i].customer?.fullname}',
@@ -595,34 +574,25 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               ),
                                             ),
                                             Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      vertical: 10),
+                                              padding: const EdgeInsets.symmetric(vertical: 10),
                                               child: Row(
                                                 children: [
                                                   Container(
                                                     height: 10,
                                                     width: 10,
                                                     decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              5),
-                                                      color: fromCssColor(
-                                                          '#1ACE42'),
+                                                      borderRadius: BorderRadius.circular(5),
+                                                      color: fromCssColor('#1ACE42'),
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 5),
+                                                    padding: const EdgeInsets.only(left: 5),
                                                     child: Text(
                                                       "${DateFormat('HH:mm').format(DateTime.parse('${state.findSchedule.value!.data!.data![i].createdAt}').toUtc().add(Duration(hours: 7, minutes: 00)))} WIB",
                                                       // '${CurrentTime.timeChat(state.findSchedule.value!.data!.data![i].createdAt.toString())} WIB',
                                                       style: TextStyle(
-                                                        color: fromCssColor(
-                                                            '#6B6B6B'),
-                                                        fontFamily:
-                                                            'ProximaNova',
+                                                        color: fromCssColor('#6B6B6B'),
+                                                        fontFamily: 'ProximaNova',
                                                         fontSize: 13,
                                                       ),
                                                     ),
@@ -631,53 +601,31 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 5),
+                                              padding: const EdgeInsets.only(bottom: 5),
                                               child: Text(
                                                 // 'test',
                                                 'Category: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.name}',
-                                                style: TextStyle(
-                                                    fontFamily: 'ProximaNova',
-                                                    fontSize: 11,
-                                                    color: fromCssColor(
-                                                        '#A3A3A3')),
+                                                style: TextStyle(fontFamily: 'ProximaNova', fontSize: 11, color: fromCssColor('#A3A3A3')),
                                               ),
                                             ),
                                             Text(
                                               // 'topic',
                                               'Topic: ${state.findSchedule.value?.data!.data?[i].transactionConsultation?.medicalHistory?.interestCondition?.concern?.segment}',
-                                              style: TextStyle(
-                                                  fontFamily: 'ProximaNova',
-                                                  fontSize: 11,
-                                                  color:
-                                                      fromCssColor('#A3A3A3')),
+                                              style: TextStyle(fontFamily: 'ProximaNova', fontSize: 11, color: fromCssColor('#A3A3A3')),
                                             ),
                                           ],
                                         ),
-                                        state.findSchedule.value!.data!.data![i]
-                                                    .status ==
-                                                'PENDING'
+                                        state.findSchedule.value!.data!.data![i].status == 'PENDING'
                                             ? InkWell(
                                                 onTap: () {
-                                                  state.postApprove(
-                                                      context,
-                                                      state.findSchedule.value!
-                                                          .data!.data![i].id!
-                                                          .toInt());
+                                                  state.postApprove(context, state.findSchedule.value!.data!.data![i].id!.toInt());
                                                   setState(() {
-                                                    state
-                                                        .findSchedule
-                                                        .value!
-                                                        .data!
-                                                        .data![i]
-                                                        .status = 'DIAMBIL';
+                                                    state.findSchedule.value!.data!.data![i].status = 'DIAMBIL';
 
                                                     showDialog(
                                                       context: context,
-                                                      builder: (context) =>
-                                                          AlertWidget(
-                                                        subtitle:
-                                                            'Silahkan Review Terlebih Dahulu Untuk Memulai Chat Dengan Customer',
+                                                      builder: (context) => AlertWidget(
+                                                        subtitle: 'Silahkan Review Terlebih Dahulu Untuk Memulai Chat Dengan Customer',
                                                       ),
                                                     );
                                                   });
@@ -686,19 +634,15 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                   height: 35,
                                                   width: 80,
                                                   decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color:
-                                                        fromCssColor('#5DA89C'),
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    color: fromCssColor('#5DA89C'),
                                                   ),
                                                   child: Center(
                                                     child: Text(
                                                       'Terima',
                                                       style: TextStyle(
                                                         fontWeight: bold,
-                                                        fontFamily:
-                                                            'ProximaNova',
+                                                        fontFamily: 'ProximaNova',
                                                         fontSize: 13,
                                                         color: Colors.white,
                                                       ),
@@ -706,27 +650,21 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                   ),
                                                 ),
                                               )
-                                            : state.findSchedule.value!.data!
-                                                        .data![i].status ==
-                                                    'DIAMBIL'
+                                            : state.findSchedule.value!.data!.data![i].status == 'DIAMBIL'
                                                 ? InkWell(
                                                     child: Container(
                                                       height: 35,
                                                       width: 80,
                                                       decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(10),
-                                                        color: fromCssColor(
-                                                            '#FFC36A'),
+                                                        borderRadius: BorderRadius.circular(10),
+                                                        color: fromCssColor('#FFC36A'),
                                                       ),
                                                       child: Center(
                                                         child: Text(
                                                           'Diambil',
                                                           style: TextStyle(
                                                             fontWeight: bold,
-                                                            fontFamily:
-                                                                'ProximaNova',
+                                                            fontFamily: 'ProximaNova',
                                                             fontSize: 13,
                                                             color: Colors.white,
                                                           ),
@@ -738,19 +676,15 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                                     height: 35,
                                                     width: 80,
                                                     decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      color: fromCssColor(
-                                                          '#6B6B6B'),
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      color: fromCssColor('#6B6B6B'),
                                                     ),
                                                     child: Center(
                                                       child: Text(
                                                         'Expired',
                                                         style: TextStyle(
                                                           fontWeight: bold,
-                                                          fontFamily:
-                                                              'ProximaNova',
+                                                          fontFamily: 'ProximaNova',
                                                           fontSize: 13,
                                                           color: Colors.white,
                                                         ),

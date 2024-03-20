@@ -35,8 +35,7 @@ class OnboardingChat2 extends StatelessWidget {
                   height: 30,
                   width: 30,
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                        image: AssetImage('assets/images/profiledummy.png')),
+                    image: const DecorationImage(image: AssetImage('assets/images/profiledummy.png')),
                     borderRadius: BorderRadius.circular(25),
                   ),
                 ),
@@ -165,11 +164,12 @@ class DoctorChat extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => ChatCostomerPage(
                 roomCode: roomCode,
-                sendBy: sendBy,
-                receiverBy: nametile,
-                roomId: roomId,
-                senderId: senderId,
-                receiverId: receiverId,
+                id: roomId,
+                // sendBy: sendBy,
+                // receiverBy: nametile,
+                // roomId: roomId,
+                // senderId: senderId,
+                // receiverId: receiverId,
               ),
             ),
           );
@@ -235,12 +235,10 @@ class DoctorChat extends StatelessWidget {
                           horizontal: 7,
                           vertical: 2,
                         ),
-                        decoration: BoxDecoration(
-                            color: greenColor, shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
                         child: Text(
                           pesanChat.toString(),
-                          style: whiteTextStyle.copyWith(
-                              fontSize: 12, color: whiteColor),
+                          style: whiteTextStyle.copyWith(fontSize: 12, color: whiteColor),
                         ),
                       )
                     : Container(),

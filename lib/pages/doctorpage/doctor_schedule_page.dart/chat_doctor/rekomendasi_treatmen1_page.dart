@@ -54,6 +54,8 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                   MaterialPageRoute(builder: (BuildContext context) => const RekomendasiTreatmen2Page()),
                 ).then((value) => setState(() {
                       state.getRecipeTreatement(context, 1);
+                      state.methodsTreatment = [];
+                      stateDoctor.listTreatmentNote = [];
                     }));
               },
               backgroundColor: greenColor,
@@ -225,7 +227,7 @@ class _RekomendasiTreatmen1PageState extends State<RekomendasiTreatmen1Page> {
                                   return Padding(
                                     padding: EdgeInsets.symmetric(vertical: 10),
                                     child: Center(
-                                      child: CircularProgressIndicator(),
+                                      child: SizedBox(),
                                     ),
                                   );
                                 }

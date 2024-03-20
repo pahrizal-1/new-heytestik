@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart
 import 'package:heystetik_mobileapps/controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_doctor_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
+import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 import 'package:heystetik_mobileapps/pages/home/notifikasion_page.dart';
 import 'package:heystetik_mobileapps/pages/onboarding/splash_screen_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
@@ -22,6 +23,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:provider/provider.dart';
 
+import 'core/local_storage.dart';
 import 'firebase_options.dart';
 
 @pragma('vm:entry-point')
@@ -46,7 +48,19 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     Get.to(() => const TabBarCustomer(currentIndex: 1));
   } else if (message.data['type'] == "CHAT") {
     print('INI NOTIF CHAT');
-    Get.to(() => const TabBarCustomer(currentIndex: 1));
+    int? roleId = await LocalStorage().getRoleID();
+    if (roleId == 2) {
+      print('masuk ke doctor');
+      Get.to(
+        () => ChatDoctorPage(
+          roomCode: message.data['room_code'],
+          id: message.data['consultation_id'],
+        ),
+      );
+    } else if (roleId == 3) {
+      print('masuk ke customer');
+      Get.to(() => const TabBarCustomer(currentIndex: 1));
+    }
   } else if (message.data['type'] == "STREAM_LIKE" || message.data['type'] == "STREAM_COMMENT" || message.data['type'] == "STREAM_COMMENT_LIKE" || message.data['type'] == "STREAM_COMMENT_REPLY" || message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" || message.data['type'] == "STREAM_VOTE") {
     print("INI NOTIF ${message.data['type']}");
     Get.to(

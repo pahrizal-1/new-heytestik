@@ -3,6 +3,58 @@ import 'package:heystetik_mobileapps/core/global.dart';
 
 import '../theme/theme.dart';
 
+class ChatSystem extends StatelessWidget {
+  final String? title;
+  final String? timetitle;
+
+  const ChatSystem({
+    Key? key,
+    this.title,
+    this.timetitle,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 40),
+            padding: const EdgeInsets.only(left: 12, top: 11, right: 12, bottom: 7),
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: subwhiteColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(0),
+                topRight: Radius.circular(10),
+                bottomRight: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title!,
+                  style: greyTextStyle.copyWith(
+                    fontSize: 15,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [Text(timetitle!, style: subGreyTextStyle)],
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ChatLeft extends StatelessWidget {
   final String? image;
   final String? nameDoctor;
@@ -129,19 +181,34 @@ class ChatRight extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Container(
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      '${imgUser}',
+              imgUser!.contains('${Global.FILE}')
+                  ? Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            '${imgUser}',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  : Container(
+                      width: 30,
+                      height: 30,
+                      decoration: BoxDecoration(
+                        color: greenColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          imgUser!,
+                          style: whiteTextStyle,
+                        ),
+                      ),
                     ),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              )
               // imgUser != null
               //     ? Image.network(
               //         '${imgUser}',
