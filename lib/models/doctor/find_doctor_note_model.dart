@@ -47,30 +47,7 @@ class Data {
   List<ConsultationRecomendationTreatment>? consultationRecomendationTreatment;
   List<ConsultationRecipeDrugs>? consultationRecipeDrug;
 
-  Data(
-      {this.id,
-      this.doctorId,
-      this.customerId,
-      this.transactionConsultationId,
-      this.consultationDoctorScheduleId,
-      this.medicalHistoryId,
-      this.code,
-      this.duration,
-      this.endDate,
-      this.status,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.customer,
-      this.doctor,
-      this.chatRoom,
-      this.medicalHistory,
-      this.consultationDoctorNote,
-      this.consultationRecomendationSkincare,
-      this.consultationRecomendationTreatment,
-      this.consultationRecipeDrug});
+  Data({this.id, this.doctorId, this.customerId, this.transactionConsultationId, this.consultationDoctorScheduleId, this.medicalHistoryId, this.code, this.duration, this.endDate, this.status, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.customer, this.doctor, this.chatRoom, this.medicalHistory, this.consultationDoctorNote, this.consultationRecomendationSkincare, this.consultationRecomendationTreatment, this.consultationRecipeDrug});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -88,30 +65,21 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    customer =
-        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
+    customer = json['customer'] != null ? Customer.fromJson(json['customer']) : null;
     doctor = json['doctor'] != null ? Doctor.fromJson(json['doctor']) : null;
-    chatRoom =
-        json['chat_room'] != null ? ChatRoom.fromJson(json['chat_room']) : null;
-    medicalHistory = json['medical_history'] != null
-        ? MedicalHistory.fromJson(json['medical_history'])
-        : null;
-    consultationDoctorNote = json['consultation_doctor_note'] != null
-        ? ConsultationDoctorNote.fromJson(json['consultation_doctor_note'])
-        : null;
+    chatRoom = json['chat_room'] != null ? ChatRoom.fromJson(json['chat_room']) : null;
+    medicalHistory = json['medical_history'] != null ? MedicalHistory.fromJson(json['medical_history']) : null;
+    consultationDoctorNote = json['consultation_doctor_note'] != null ? ConsultationDoctorNote.fromJson(json['consultation_doctor_note']) : null;
     if (json['consultation_recomendation_skincare'] != null) {
       consultationRecomendationSkincare = <ConsultationRecomendationSkincare>[];
       json['consultation_recomendation_skincare'].forEach((v) {
-        consultationRecomendationSkincare!
-            .add(ConsultationRecomendationSkincare.fromJson(v));
+        consultationRecomendationSkincare!.add(ConsultationRecomendationSkincare.fromJson(v));
       });
     }
     if (json['consultation_recomendation_treatment'] != null) {
-      consultationRecomendationTreatment =
-          <ConsultationRecomendationTreatment>[];
+      consultationRecomendationTreatment = <ConsultationRecomendationTreatment>[];
       json['consultation_recomendation_treatment'].forEach((v) {
-        consultationRecomendationTreatment!
-            .add(ConsultationRecomendationTreatment.fromJson(v));
+        consultationRecomendationTreatment!.add(ConsultationRecomendationTreatment.fromJson(v));
       });
     }
     if (json['consultation_recipe_drug'] != null) {
@@ -155,16 +123,13 @@ class Data {
       data['consultation_doctor_note'] = consultationDoctorNote!.toJson();
     }
     if (consultationRecomendationSkincare != null) {
-      data['consultation_recomendation_skincare'] =
-          consultationRecomendationSkincare!.map((v) => v.toJson()).toList();
+      data['consultation_recomendation_skincare'] = consultationRecomendationSkincare!.map((v) => v.toJson()).toList();
     }
     if (consultationRecomendationTreatment != null) {
-      data['consultation_recomendation_treatment'] =
-          consultationRecomendationTreatment!.map((v) => v.toJson()).toList();
+      data['consultation_recomendation_treatment'] = consultationRecomendationTreatment!.map((v) => v.toJson()).toList();
     }
     if (consultationRecipeDrug != null) {
-      data['consultation_recipe_drug'] =
-          consultationRecipeDrug!.map((v) => v.toJson()).toList();
+      data['consultation_recipe_drug'] = consultationRecipeDrug!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -215,50 +180,7 @@ class Customer {
   dynamic deletedAt;
   dynamic refreshToken;
 
-  Customer(
-      {this.id,
-      this.fullname,
-      this.username,
-      this.email,
-      this.password,
-      this.noPhone,
-      this.gender,
-      this.address,
-      this.photoProfile,
-      this.referralCode,
-      this.userCode,
-      this.roleId,
-      this.verificationCodePhone,
-      this.verificationCodeEmail,
-      this.provinceId,
-      this.cityId,
-      this.dob,
-      this.bio,
-      this.finishRegister,
-      this.verifiedEmailAt,
-      this.verifiedPhoneAt,
-      this.verifiedAccountAt,
-      this.education,
-      this.practiceLocation,
-      this.joinDate,
-      this.title,
-      this.sip,
-      this.str,
-      this.ktpNo,
-      this.ktpImage,
-      this.npwpNo,
-      this.npwpImage,
-      this.specialist,
-      this.rating,
-      this.statusSchedule,
-      this.since,
-      this.start,
-      this.until,
-      this.isActive,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.refreshToken});
+  Customer({this.id, this.fullname, this.username, this.email, this.password, this.noPhone, this.gender, this.address, this.photoProfile, this.referralCode, this.userCode, this.roleId, this.verificationCodePhone, this.verificationCodeEmail, this.provinceId, this.cityId, this.dob, this.bio, this.finishRegister, this.verifiedEmailAt, this.verifiedPhoneAt, this.verifiedAccountAt, this.education, this.practiceLocation, this.joinDate, this.title, this.sip, this.str, this.ktpNo, this.ktpImage, this.npwpNo, this.npwpImage, this.specialist, this.rating, this.statusSchedule, this.since, this.start, this.until, this.isActive, this.createdAt, this.updatedAt, this.deletedAt, this.refreshToken});
 
   Customer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -400,50 +322,7 @@ class Doctor {
   dynamic deletedAt;
   dynamic refreshToken;
 
-  Doctor(
-      {this.id,
-      this.fullname,
-      this.username,
-      this.email,
-      this.password,
-      this.noPhone,
-      this.gender,
-      this.address,
-      this.photoProfile,
-      this.referralCode,
-      this.userCode,
-      this.roleId,
-      this.verificationCodePhone,
-      this.verificationCodeEmail,
-      this.provinceId,
-      this.cityId,
-      this.dob,
-      this.bio,
-      this.finishRegister,
-      this.verifiedEmailAt,
-      this.verifiedPhoneAt,
-      this.verifiedAccountAt,
-      this.education,
-      this.practiceLocation,
-      this.joinDate,
-      this.title,
-      this.sip,
-      this.str,
-      this.ktpNo,
-      this.ktpImage,
-      this.npwpNo,
-      this.npwpImage,
-      this.specialist,
-      this.rating,
-      this.statusSchedule,
-      this.since,
-      this.start,
-      this.until,
-      this.isActive,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.refreshToken});
+  Doctor({this.id, this.fullname, this.username, this.email, this.password, this.noPhone, this.gender, this.address, this.photoProfile, this.referralCode, this.userCode, this.roleId, this.verificationCodePhone, this.verificationCodeEmail, this.provinceId, this.cityId, this.dob, this.bio, this.finishRegister, this.verifiedEmailAt, this.verifiedPhoneAt, this.verifiedAccountAt, this.education, this.practiceLocation, this.joinDate, this.title, this.sip, this.str, this.ktpNo, this.ktpImage, this.npwpNo, this.npwpImage, this.specialist, this.rating, this.statusSchedule, this.since, this.start, this.until, this.isActive, this.createdAt, this.updatedAt, this.deletedAt, this.refreshToken});
 
   Doctor.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -552,17 +431,7 @@ class ChatRoom {
   String? updatedAt;
   dynamic deletedAt;
 
-  ChatRoom(
-      {this.id,
-      this.doctorId,
-      this.customerId,
-      this.code,
-      this.ended,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  ChatRoom({this.id, this.doctorId, this.customerId, this.code, this.ended, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   ChatRoom.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -606,18 +475,7 @@ class MedicalHistory {
   InterestCondition? interestCondition;
   List<MedicalHistoryItems>? medicalHistoryItems;
 
-  MedicalHistory(
-      {this.id,
-      this.customerId,
-      this.interestConditionId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.mediaMedicalHistories,
-      this.interestCondition,
-      this.medicalHistoryItems});
+  MedicalHistory({this.id, this.customerId, this.interestConditionId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.mediaMedicalHistories, this.interestCondition, this.medicalHistoryItems});
 
   MedicalHistory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -634,9 +492,7 @@ class MedicalHistory {
         mediaMedicalHistories!.add(MediaMedicalHistories.fromJson(v));
       });
     }
-    interestCondition = json['interest_condition'] != null
-        ? InterestCondition.fromJson(json['interest_condition'])
-        : null;
+    interestCondition = json['interest_condition'] != null ? InterestCondition.fromJson(json['interest_condition']) : null;
     if (json['medical_history_items'] != null) {
       medicalHistoryItems = <MedicalHistoryItems>[];
       json['medical_history_items'].forEach((v) {
@@ -656,15 +512,13 @@ class MedicalHistory {
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
     if (mediaMedicalHistories != null) {
-      data['media_medical_histories'] =
-          mediaMedicalHistories!.map((v) => v.toJson()).toList();
+      data['media_medical_histories'] = mediaMedicalHistories!.map((v) => v.toJson()).toList();
     }
     if (interestCondition != null) {
       data['interest_condition'] = interestCondition!.toJson();
     }
     if (medicalHistoryItems != null) {
-      data['medical_history_items'] =
-          medicalHistoryItems!.map((v) => v.toJson()).toList();
+      data['medical_history_items'] = medicalHistoryItems!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -681,16 +535,7 @@ class MediaMedicalHistories {
   dynamic deletedAt;
   Media? media;
 
-  MediaMedicalHistories(
-      {this.id,
-      this.mediaId,
-      this.medicalHistoryId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaMedicalHistories({this.id, this.mediaId, this.medicalHistoryId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaMedicalHistories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -735,19 +580,7 @@ class Media {
   String? updatedAt;
   dynamic deletedAt;
 
-  Media(
-      {this.id,
-      this.filename,
-      this.ext,
-      this.size,
-      this.mime,
-      this.path,
-      this.destination,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Media({this.id, this.filename, this.ext, this.size, this.mime, this.path, this.destination, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -793,16 +626,7 @@ class InterestCondition {
   dynamic deletedAt;
   Category? category;
 
-  InterestCondition(
-      {this.id,
-      this.interestConditionsCategoryId,
-      this.name,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.category});
+  InterestCondition({this.id, this.interestConditionsCategoryId, this.name, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.category});
 
   InterestCondition.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -813,8 +637,7 @@ class InterestCondition {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    category =
-        json['category'] != null ? Category.fromJson(json['category']) : null;
+    category = json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -843,14 +666,7 @@ class Category {
   String? updatedAt;
   dynamic deletedAt;
 
-  Category(
-      {this.id,
-      this.name,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Category({this.id, this.name, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -889,19 +705,7 @@ class MedicalHistoryItems {
   InterestConditionsAnswer? interestConditionsAnswer;
   InterestConditionsQuestion? interestConditionsQuestion;
 
-  MedicalHistoryItems(
-      {this.id,
-      this.medicalHistoryId,
-      this.interestConditionQuestionId,
-      this.interestConditionAnswerId,
-      this.answerDescription,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.interestConditionsAnswer,
-      this.interestConditionsQuestion});
+  MedicalHistoryItems({this.id, this.medicalHistoryId, this.interestConditionQuestionId, this.interestConditionAnswerId, this.answerDescription, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.interestConditionsAnswer, this.interestConditionsQuestion});
 
   MedicalHistoryItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -914,13 +718,8 @@ class MedicalHistoryItems {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    interestConditionsAnswer = json['interest_conditions_answer'] != null
-        ? InterestConditionsAnswer.fromJson(json['interest_conditions_answer'])
-        : null;
-    interestConditionsQuestion = json['interest_conditions_question'] != null
-        ? InterestConditionsQuestion.fromJson(
-            json['interest_conditions_question'])
-        : null;
+    interestConditionsAnswer = json['interest_conditions_answer'] != null ? InterestConditionsAnswer.fromJson(json['interest_conditions_answer']) : null;
+    interestConditionsQuestion = json['interest_conditions_question'] != null ? InterestConditionsQuestion.fromJson(json['interest_conditions_question']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -939,8 +738,7 @@ class MedicalHistoryItems {
       data['interest_conditions_answer'] = interestConditionsAnswer!.toJson();
     }
     if (interestConditionsQuestion != null) {
-      data['interest_conditions_question'] =
-          interestConditionsQuestion!.toJson();
+      data['interest_conditions_question'] = interestConditionsQuestion!.toJson();
     }
     return data;
   }
@@ -957,16 +755,7 @@ class InterestConditionsAnswer {
   dynamic deletedAt;
   int? interestConditionsQuestionId;
 
-  InterestConditionsAnswer(
-      {this.id,
-      this.name,
-      this.position,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.interestConditionsQuestionId});
+  InterestConditionsAnswer({this.id, this.name, this.position, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.interestConditionsQuestionId});
 
   InterestConditionsAnswer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1007,17 +796,7 @@ class InterestConditionsQuestion {
   String? updatedAt;
   dynamic deletedAt;
 
-  InterestConditionsQuestion(
-      {this.id,
-      this.name,
-      this.type,
-      this.typeAnswer,
-      this.interestConditionsId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  InterestConditionsQuestion({this.id, this.name, this.type, this.typeAnswer, this.interestConditionsId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   InterestConditionsQuestion.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1061,18 +840,7 @@ class ConsultationDoctorNote {
   String? updatedAt;
   dynamic deletedAt;
 
-  ConsultationDoctorNote(
-      {this.id,
-      this.consultationId,
-      this.indication,
-      this.diagnosisPossibilty,
-      this.diagnosisSecondary,
-      this.suggestion,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  ConsultationDoctorNote({this.id, this.consultationId, this.indication, this.diagnosisPossibilty, this.diagnosisSecondary, this.suggestion, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   ConsultationDoctorNote.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1118,18 +886,7 @@ class ConsultationRecomendationSkincare {
   dynamic deletedAt;
   Product? product;
 
-  ConsultationRecomendationSkincare(
-      {this.id,
-      this.consultationId,
-      this.productId,
-      this.qty,
-      this.notes,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.product});
+  ConsultationRecomendationSkincare({this.id, this.consultationId, this.productId, this.qty, this.notes, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.product});
 
   ConsultationRecomendationSkincare.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1142,8 +899,7 @@ class ConsultationRecomendationSkincare {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    product =
-        json['product'] != null ? Product.fromJson(json['product']) : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -1194,34 +950,7 @@ class Product {
   DrugDetail? drugDetail;
   List<MediaProducts>? mediaProducts;
 
-  Product(
-      {this.id,
-      this.name,
-      this.type,
-      this.category,
-      this.display,
-      this.hasVariant,
-      this.minOrder,
-      this.price,
-      this.productIsActive,
-      this.productStock,
-      this.productTreshold,
-      this.productSku,
-      this.rating,
-      this.shippingProductWeight,
-      this.shippingProductWeightType,
-      this.shippingProductSizeLength,
-      this.shippingProductSizeWidth,
-      this.shippingProductSizeHeight,
-      this.shipping,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.skincareDetail,
-      this.drugDetail,
-      this.mediaProducts});
+  Product({this.id, this.name, this.type, this.category, this.display, this.hasVariant, this.minOrder, this.price, this.productIsActive, this.productStock, this.productTreshold, this.productSku, this.rating, this.shippingProductWeight, this.shippingProductWeightType, this.shippingProductSizeLength, this.shippingProductSizeWidth, this.shippingProductSizeHeight, this.shipping, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.skincareDetail, this.drugDetail, this.mediaProducts});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1248,12 +977,8 @@ class Product {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    skincareDetail = json['skincare_detail'] != null
-        ? SkincareDetail.fromJson(json['skincare_detail'])
-        : null;
-    drugDetail = json['drug_detail'] != null
-        ? DrugDetail.fromJson(json['drug_detail'])
-        : null;
+    skincareDetail = json['skincare_detail'] != null ? SkincareDetail.fromJson(json['skincare_detail']) : null;
+    drugDetail = json['drug_detail'] != null ? DrugDetail.fromJson(json['drug_detail']) : null;
     if (json['media_products'] != null) {
       mediaProducts = <MediaProducts>[];
       json['media_products'].forEach((v) {
@@ -1321,25 +1046,7 @@ class SkincareDetail {
   String? updatedAt;
   dynamic deletedAt;
 
-  SkincareDetail(
-      {this.id,
-      this.productId,
-      this.brand,
-      this.description,
-      this.specificationTexture,
-      this.specificationBpom,
-      this.specificationNetto,
-      this.specificationNettoType,
-      this.specificationExpired,
-      this.specificationPackagingType,
-      this.specificationIngredients,
-      this.specificationHowToUse,
-      this.specificationStorageAdvice,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  SkincareDetail({this.id, this.productId, this.brand, this.description, this.specificationTexture, this.specificationBpom, this.specificationNetto, this.specificationNettoType, this.specificationExpired, this.specificationPackagingType, this.specificationIngredients, this.specificationHowToUse, this.specificationStorageAdvice, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   SkincareDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1408,27 +1115,7 @@ class DrugDetail {
   String? updatedAt;
   dynamic deletedAt;
 
-  DrugDetail(
-      {this.id,
-      this.productId,
-      this.manufacture,
-      this.indication,
-      this.contradiction,
-      this.description,
-      this.specificationForm,
-      this.specificationClassification,
-      this.specificationType,
-      this.specificationPackaging,
-      this.specificationCategory,
-      this.specificationBpom,
-      this.specificationIngredients,
-      this.specificationDose,
-      this.specificationSpecialAttention,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  DrugDetail({this.id, this.productId, this.manufacture, this.indication, this.contradiction, this.description, this.specificationForm, this.specificationClassification, this.specificationType, this.specificationPackaging, this.specificationCategory, this.specificationBpom, this.specificationIngredients, this.specificationDose, this.specificationSpecialAttention, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   DrugDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1490,16 +1177,7 @@ class MediaProducts {
   dynamic deletedAt;
   Media? media;
 
-  MediaProducts(
-      {this.id,
-      this.mediaId,
-      this.productId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaProducts({this.id, this.mediaId, this.productId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaProducts.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1533,73 +1211,36 @@ class MediaProducts {
 class ConsultationRecomendationTreatment {
   int? id;
   int? consultationId;
-  String? name;
-  String? cost;
-  String? recoveryTime;
-  String? type;
-  dynamic createdBy;
-  dynamic updatedBy;
+  String? treatmentType;
+  Null? createdBy;
+  Null? updatedBy;
   String? createdAt;
   String? updatedAt;
-  dynamic deletedAt;
-  List<ConsultationRecomendationTreatmentClinics>?
-      consultationRecomendationTreatmentClinics;
+  Null? deletedAt;
 
-  ConsultationRecomendationTreatment(
-      {this.id,
-      this.consultationId,
-      this.name,
-      this.cost,
-      this.recoveryTime,
-      this.type,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.consultationRecomendationTreatmentClinics});
+  ConsultationRecomendationTreatment({this.id, this.consultationId, this.treatmentType, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   ConsultationRecomendationTreatment.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     consultationId = json['consultation_id'];
-    name = json['name'];
-    cost = json['cost'];
-    recoveryTime = json['recovery_time'];
-    type = json['type'];
+    treatmentType = json['treatment_type'];
     createdBy = json['created_by'];
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    if (json['consultation_recomendation_treatment_clinics'] != null) {
-      consultationRecomendationTreatmentClinics =
-          <ConsultationRecomendationTreatmentClinics>[];
-      json['consultation_recomendation_treatment_clinics'].forEach((v) {
-        consultationRecomendationTreatmentClinics!
-            .add(ConsultationRecomendationTreatmentClinics.fromJson(v));
-      });
-    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['consultation_id'] = consultationId;
-    data['name'] = name;
-    data['cost'] = cost;
-    data['recovery_time'] = recoveryTime;
-    data['type'] = type;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (consultationRecomendationTreatmentClinics != null) {
-      data['consultation_recomendation_treatment_clinics'] =
-          consultationRecomendationTreatmentClinics!
-              .map((v) => v.toJson())
-              .toList();
-    }
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['consultation_id'] = this.consultationId;
+    data['treatment_type'] = this.treatmentType;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }
@@ -1619,21 +1260,7 @@ class ConsultationRecipeDrugs {
   String? updatedAt;
   dynamic deletedAt;
   Product? product;
-  ConsultationRecipeDrugs(
-      {this.id,
-      this.consultationId,
-      this.productId,
-      this.customerId,
-      this.notes,
-      this.redeemAmount,
-      this.remainingRedeemAmount,
-      this.dueDate,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.product});
+  ConsultationRecipeDrugs({this.id, this.consultationId, this.productId, this.customerId, this.notes, this.redeemAmount, this.remainingRedeemAmount, this.dueDate, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.product});
 
   ConsultationRecipeDrugs.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1649,8 +1276,7 @@ class ConsultationRecipeDrugs {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    product =
-        json['product'] != null ? Product.fromJson(json['product']) : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -1687,23 +1313,11 @@ class ConsultationRecomendationTreatmentClinics {
   dynamic deletedAt;
   Clinic? clinic;
 
-  ConsultationRecomendationTreatmentClinics(
-      {this.id,
-      this.consultationRecomendationTreatmentId,
-      this.consultationId,
-      this.clinicId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.clinic});
+  ConsultationRecomendationTreatmentClinics({this.id, this.consultationRecomendationTreatmentId, this.consultationId, this.clinicId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.clinic});
 
-  ConsultationRecomendationTreatmentClinics.fromJson(
-      Map<String, dynamic> json) {
+  ConsultationRecomendationTreatmentClinics.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    consultationRecomendationTreatmentId =
-        json['consultation_recomendation_treatment_id'];
+    consultationRecomendationTreatmentId = json['consultation_recomendation_treatment_id'];
     consultationId = json['consultation_id'];
     clinicId = json['clinic_id'];
     createdBy = json['created_by'];
@@ -1717,8 +1331,7 @@ class ConsultationRecomendationTreatmentClinics {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['consultation_recomendation_treatment_id'] =
-        consultationRecomendationTreatmentId;
+    data['consultation_recomendation_treatment_id'] = consultationRecomendationTreatmentId;
     data['consultation_id'] = consultationId;
     data['clinic_id'] = clinicId;
     data['created_by'] = createdBy;
@@ -1770,42 +1383,7 @@ class Clinic {
   MediaClinicLogo? mediaClinicLogo;
   List<MediaClinics>? mediaClinics;
 
-  Clinic(
-      {this.id,
-      this.name,
-      this.address,
-      this.pinpointLatitude,
-      this.pinpointLongitude,
-      this.pinpointAddress,
-      this.provinceId,
-      this.cityId,
-      this.postalCode,
-      this.registrationNumber,
-      this.phone,
-      this.email,
-      this.description,
-      this.companyName,
-      this.companyAddress,
-      this.companyCityId,
-      this.companyProvinceId,
-      this.companyPostalCode,
-      this.npwp,
-      this.picName,
-      this.picPhone,
-      this.contractExpiredDate,
-      this.status,
-      this.rating,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.city,
-      this.province,
-      this.cityCompany,
-      this.provinceCompany,
-      this.mediaClinicLogo,
-      this.mediaClinics});
+  Clinic({this.id, this.name, this.address, this.pinpointLatitude, this.pinpointLongitude, this.pinpointAddress, this.provinceId, this.cityId, this.postalCode, this.registrationNumber, this.phone, this.email, this.description, this.companyName, this.companyAddress, this.companyCityId, this.companyProvinceId, this.companyPostalCode, this.npwp, this.picName, this.picPhone, this.contractExpiredDate, this.status, this.rating, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.city, this.province, this.cityCompany, this.provinceCompany, this.mediaClinicLogo, this.mediaClinics});
 
   Clinic.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1838,17 +1416,10 @@ class Clinic {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     city = json['city'] != null ? City.fromJson(json['city']) : null;
-    province =
-        json['province'] != null ? Province.fromJson(json['province']) : null;
-    cityCompany = json['city_company'] != null
-        ? City.fromJson(json['city_company'])
-        : null;
-    provinceCompany = json['province_company'] != null
-        ? Province.fromJson(json['province_company'])
-        : null;
-    mediaClinicLogo = json['media_clinic_logo'] != null
-        ? MediaClinicLogo.fromJson(json['media_clinic_logo'])
-        : null;
+    province = json['province'] != null ? Province.fromJson(json['province']) : null;
+    cityCompany = json['city_company'] != null ? City.fromJson(json['city_company']) : null;
+    provinceCompany = json['province_company'] != null ? Province.fromJson(json['province_company']) : null;
+    mediaClinicLogo = json['media_clinic_logo'] != null ? MediaClinicLogo.fromJson(json['media_clinic_logo']) : null;
     if (json['media_clinics'] != null) {
       mediaClinics = <MediaClinics>[];
       json['media_clinics'].forEach((v) {
@@ -1918,13 +1489,7 @@ class City {
   String? updatedAt;
   dynamic deletedAt;
 
-  City(
-      {this.id,
-      this.name,
-      this.provincesId,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  City({this.id, this.name, this.provincesId, this.createdAt, this.updatedAt, this.deletedAt});
 
   City.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1954,8 +1519,7 @@ class Province {
   String? updatedAt;
   dynamic deletedAt;
 
-  Province(
-      {this.id, this.name, this.createdAt, this.updatedAt, this.deletedAt});
+  Province({this.id, this.name, this.createdAt, this.updatedAt, this.deletedAt});
 
   Province.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -1987,16 +1551,7 @@ class MediaClinics {
   dynamic deletedAt;
   Media? media;
 
-  MediaClinics(
-      {this.id,
-      this.mediaId,
-      this.clinicId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaClinics({this.id, this.mediaId, this.clinicId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaClinics.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -2038,16 +1593,7 @@ class MediaClinicLogo {
   dynamic deletedAt;
   Media? media;
 
-  MediaClinicLogo(
-      {this.id,
-      this.mediaId,
-      this.clinicId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaClinicLogo({this.id, this.mediaId, this.clinicId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaClinicLogo.fromJson(Map<String, dynamic> json) {
     id = json['id'];

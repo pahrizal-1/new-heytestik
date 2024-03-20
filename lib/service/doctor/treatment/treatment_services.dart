@@ -34,6 +34,7 @@ class TreatmentServices extends ProviderClass {
       },
       headers: {'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}'},
     );
+    print('ressp ${response}');
     return TreatmentReccommendationModel.fromJson(response);
   }
 

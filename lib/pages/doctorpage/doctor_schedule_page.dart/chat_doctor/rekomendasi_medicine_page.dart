@@ -21,8 +21,7 @@ class RecomendationDrug extends StatefulWidget {
 class _RecomendationDrugState extends State<RecomendationDrug> {
   final ScrollController scrollController = ScrollController();
   final DrugController solutionController = Get.put(DrugController());
-  final DoctorConsultationController stateDoctor =
-      Get.put(DoctorConsultationController());
+  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
   int page = 1;
   List<Drug.Data2> drugs = [];
   List toogle = [];
@@ -83,14 +82,12 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
             const Spacer(),
             InkWell(
               onTap: () {
-                if (stateDoctor.listObat.isNotEmpty &&
-                    stateDoctor.notesMedicine.isNotEmpty) {
-                  Navigator.pop(context, 'refresh');
+                if (stateDoctor.listObat.isNotEmpty && stateDoctor.notesMedicine.isNotEmpty) {
+                  Navigator.pop(context);
                 } else {
                   showDialog(
                     context: context,
-                    builder: (context) => AlertWidget(
-                        subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
+                    builder: (context) => AlertWidget(subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
                   );
                 }
               },
@@ -158,19 +155,19 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                     const SizedBox(
                       height: 12,
                     ),
-                    Row(
-                      children: [
-                        CardSearch(
-                          title: 'Jerawat',
-                        ),
-                        SizedBox(
-                          width: 11,
-                        ),
-                        CardSearch(
-                          title: 'Kulit Kusam',
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     CardSearch(
+                    //       title: 'Jerawat',
+                    //     ),
+                    //     SizedBox(
+                    //       width: 11,
+                    //     ),
+                    //     CardSearch(
+                    //       title: 'Kulit Kusam',
+                    //     ),
+                    //   ],
+                    // ),
                     const SizedBox(
                       height: 12,
                     ),
@@ -234,8 +231,7 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 29),
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 8),
+                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                         color: borderColor,
@@ -243,30 +239,18 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                                       ),
                                       borderRadius: BorderRadius.circular(7)),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
                                           Container(
                                             height: 75,
                                             width: 75,
                                             decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 0.5,
-                                                  color: borderColor),
+                                              border: Border.all(width: 0.5, color: borderColor),
                                               image: DecorationImage(
-                                                image: drugs[
-                                                            index]
-                                                        .mediaProducts!
-                                                        .isNotEmpty
-                                                    ? NetworkImage(
-                                                            '${Global.FILE}/${drugs[index].mediaProducts![0].media?.path}')
-                                                        as ImageProvider
-                                                    : AssetImage(
-                                                        'assets/images/penting1.png'),
+                                                image: drugs[index].mediaProducts!.isNotEmpty ? NetworkImage('${Global.FILE}/${drugs[index].mediaProducts![0].media?.path}') as ImageProvider : AssetImage('assets/images/penting1.png'),
                                               ),
                                             ),
                                           ),
@@ -274,19 +258,12 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                                             width: 8,
                                           ),
                                           Container(
-                                            constraints: const BoxConstraints(
-                                                maxWidth: 180),
+                                            constraints: const BoxConstraints(maxWidth: 180),
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 RichText(
-                                                  text: TextSpan(
-                                                      text:
-                                                          drugs[index].name,
-                                                      style: grenTextStyle
-                                                          .copyWith(
-                                                              fontSize: 15)),
+                                                  text: TextSpan(text: drugs[index].name, style: grenTextStyle.copyWith(fontSize: 15)),
                                                 ),
                                                 const SizedBox(
                                                   height: 2,
@@ -294,27 +271,21 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                                                 Text(
                                                   'Cleanser',
                                                   maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
                                                   style: subTitleTextStyle,
                                                 ),
                                                 Text(
                                                   'Penggunaan: Pagi & Malam',
                                                   maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                                  overflow: TextOverflow.ellipsis,
                                                   style: subTitleTextStyle,
                                                 ),
                                                 const SizedBox(
                                                   height: 4,
                                                 ),
                                                 Text(
-                                                  'Rp.' +
-                                                      drugs[index]
-                                                          .price
-                                                          .toString(),
-                                                  style: blackTextStyle
-                                                      .copyWith(fontSize: 13),
+                                                  'Rp.' + drugs[index].price.toString(),
+                                                  style: blackTextStyle.copyWith(fontSize: 13),
                                                 ),
                                               ],
                                             ),
@@ -329,37 +300,19 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                                                   print(drugs[index]);
                                                   if (toogle.contains(index)) {
                                                     toogle.remove(index);
-                                                    stateDoctor.listObat
-                                                        .removeAt(index);
-                                                    stateDoctor.notesMedicine
-                                                        .removeAt(stateDoctor
-                                                                .notesMedicine
-                                                                .length -
-                                                            1);
+                                                    stateDoctor.listObat.removeAt(index);
+                                                    stateDoctor.notesMedicine.removeAt(stateDoctor.notesMedicine.length - 1);
                                                   } else {
-                                                    print(drugs[index]
-                                                        .mediaProducts?[0]
-                                                        .media
-                                                        ?.path);
+                                                    print(drugs[index].mediaProducts?[0].media?.path);
                                                     toogle.add(index);
                                                     stateDoctor.listObat.add({
                                                       'id': drugs[index].id,
-                                                      'name':
-                                                          drugs[index].name,
-                                                      'image': drugs[index]
-                                                          .mediaProducts?[0]
-                                                          .media
-                                                          ?.path,
-                                                      'penggunaan': drugs[
-                                                                  index]
-                                                              .drugDetail
-                                                              ?.specificationDose ??
-                                                          '-',
-                                                      'harga': drugs[index]
-                                                          .price,
+                                                      'name': drugs[index].name,
+                                                      'image': drugs[index].mediaProducts?[0].media?.path,
+                                                      'penggunaan': drugs[index].drugDetail?.specificationDose ?? '-',
+                                                      'harga': drugs[index].price,
                                                     });
-                                                    stateDoctor.notesMedicine.add(
-                                                        TextEditingController());
+                                                    stateDoctor.notesMedicine.add(TextEditingController());
                                                   }
                                                   // if (toogle.contains(index)) {
                                                   //   toogle.remove(index);
@@ -401,23 +354,12 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                                             child: Container(
                                                 height: 29,
                                                 width: 40,
-                                                decoration: BoxDecoration(
-                                                    color:
-                                                        toogle.contains(index)
-                                                            ? whiteColor
-                                                            : greenColor,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            9),
-                                                    border: Border.all(
-                                                        color: greenColor)),
+                                                decoration: BoxDecoration(color: toogle.contains(index) ? whiteColor : greenColor, borderRadius: BorderRadius.circular(9), border: Border.all(color: greenColor)),
                                                 child: toogle.contains(index)
                                                     ? Center(
                                                         child: Text(
                                                           '-',
-                                                          style: grenTextStyle
-                                                              .copyWith(
-                                                                  fontSize: 20),
+                                                          style: grenTextStyle.copyWith(fontSize: 20),
                                                         ),
                                                       )
                                                     : Icon(

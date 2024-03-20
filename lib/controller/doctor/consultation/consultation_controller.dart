@@ -23,10 +23,13 @@ import 'package:intl/intl.dart';
 import '../../../core/convert_date.dart';
 import '../../../models/doctor/detail_constultation_model.dart' as DetailConstultaion;
 import '../../../models/doctor/find_doctor_note_model.dart' as DoctorNote;
+import '../../../pages/doctorpage/doctor_schedule_page.dart/chat_doctor/chat_doctor.dart';
 import '../../../service/doctor/recent_chat/recent_chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'package:heystetik_mobileapps/service/doctor/consultation/consultation_service.dart';
+
+import '../treatment_recommendation/treatment_recommendation_controller.dart';
 
 class DoctorConsultationController extends StateClass {
   RxInt wigetIndex = 0.obs;
@@ -78,9 +81,12 @@ class DoctorConsultationController extends StateClass {
 
   TextEditingController messageController = TextEditingController();
   TextEditingController indicationController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
   TextEditingController diagnosisPossibilityController = TextEditingController();
   TextEditingController diagnosisSecondaryController = TextEditingController();
   TextEditingController suggestionController = TextEditingController();
+  RxString selectedGender = ''.obs;
 
   RxList diagnosisPossibility = [].obs;
   RxList diagnosisSecondary = [].obs;
@@ -95,6 +101,7 @@ class DoctorConsultationController extends StateClass {
   RxList listPreAssesmentImage = [].obs;
   List listSkincare = [].obs;
   List listTreatmentNote = [].obs;
+  List<String> listTreatmentMethods = [];
   List listTreatment = [].obs;
   List listObat = [].obs;
   List<int>? listItemCount = [1];
@@ -104,6 +111,10 @@ class DoctorConsultationController extends StateClass {
 
   void clearData() {
     indicationController.clear();
+    nameController.clear();
+    selectedGender.value = '';
+    ageController.clear();
+    suggestionController.clear();
     diagnosisPossibilityController.clear();
     diagnosisSecondaryController.clear();
     diagnosisSecondary.value = [];
@@ -367,10 +378,7 @@ class DoctorConsultationController extends StateClass {
     // });
   }
 
-  postDoctorNote(
-    BuildContext context,
-    int id,
-  ) async {
+  postDoctorNote(BuildContext context, int id, bool isProfileVerified, String roomCode, int idConsul) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       if (indicationController.text.isEmpty) {
@@ -379,40 +387,88 @@ class DoctorConsultationController extends StateClass {
           message: 'Gejala harus diisi',
         );
       }
+      print('bol ${isProfileVerified}');
+      int ages = int.parse(ageController.text);
 
-      var data = {
-        'indication': indicationController.text,
-        'diagnosis_possibility': diagnosisPossibility,
-        'diagnosis_secondary': diagnosisSecondary,
-        'suggestion': suggestionController.text,
-        'recomendation_skincare_items': [
-          for (var i = 0; i < listSkincare.length; i++) {"skincare_id": listSkincare[i]['id'], "notes": notesSkincare[i].text, "qty": listItemCount![i]}
-        ],
-        'recomendation_treatment_items': [
-          for (var i in listTreatmentNote)
-            {
-              "name": i['name'],
-              "cost": i['cost'],
-              "recovery_time": i['recovery_time'],
-              "type": i['type'],
-              "clinics": [
-                for (var clinic in i['clinics']) {"clinic_id": clinic['clinic']['id']}
-              ]
-            }
-        ],
-        'recipe_drug_items': [
-          for (var i = 0; i < listObat.length; i++) {"drug_id": listObat[i]['id'], "notes": notesMedicine[i].text},
-        ]
-      };
-      print('masyk sini');
+      if (isProfileVerified == true) {
+        var data = {
+          'profile_verified': false,
+          'name': nameController.text,
+          'gender': selectedGender.value,
+          'age': ages,
+          'indication': indicationController.text,
+          'diagnosis_possibility': diagnosisPossibility,
+          'diagnosis_secondary': diagnosisSecondary,
+          'suggestion': suggestionController.text,
+          'recomendation_skincare_items': [
+            for (var i = 0; i < listSkincare.length; i++) {"skincare_id": listSkincare[i]['id'], "notes": notesSkincare[i].text, "qty": listItemCount![i]}
+          ],
+          'recomendation_treatment_types': [
+            for (var i in listTreatmentMethods) i,
+          ],
+          'recipe_drug_items': [
+            for (var i = 0; i < listObat.length; i++) {"drug_id": listObat[i]['id'], "notes": notesMedicine[i].text},
+          ]
+        };
+        print("MASUK SINI ${data}");
 
-      var postNote = await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
-
-      if (postNote['success'] != true && postNote['message'] != 'Success') {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: postNote['message'],
+        var postNote = await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
+        print('masyk sini ga ${postNote}');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatDoctorPage(
+              roomCode: roomCode,
+              id: idConsul,
+            ),
+          ),
         );
+        clearData();
+
+        if (postNote['success'] != true && postNote['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: postNote['message'],
+          );
+        }
+      } else {
+        var data = {
+          'profile_verified': true,
+          'indication': indicationController.text,
+          'diagnosis_possibility': diagnosisPossibility,
+          'diagnosis_secondary': diagnosisSecondary,
+          'suggestion': suggestionController.text,
+          'recomendation_skincare_items': [
+            for (var i = 0; i < listSkincare.length; i++) {"skincare_id": listSkincare[i]['id'], "notes": notesSkincare[i].text, "qty": listItemCount![i]}
+          ],
+          'recomendation_treatment_types': [
+            for (var i in listTreatmentMethods) "${i}",
+          ],
+          'recipe_drug_items': [
+            for (var i = 0; i < listObat.length; i++) {"drug_id": listObat[i]['id'], "notes": notesMedicine[i].text},
+          ]
+        };
+        print("MASUK SINI ${data}");
+
+        var postNote = await ConsultationDoctorScheduleServices().postDoctorNote(data, id);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChatDoctorPage(
+              roomCode: roomCode,
+              id: idConsul,
+            ),
+          ),
+        );
+        clearData();
+        print('masyk sini ga ${postNote}');
+
+        if (postNote['success'] != true && postNote['message'] != 'Success') {
+          throw ErrorConfig(
+            cause: ErrorConfig.anotherUnknow,
+            message: postNote['message'],
+          );
+        }
       }
     });
     isLoading.value = false;

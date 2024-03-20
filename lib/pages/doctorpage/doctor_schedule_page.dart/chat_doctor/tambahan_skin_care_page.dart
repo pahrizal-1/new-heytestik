@@ -136,17 +136,15 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                             onFieldSubmitted: (v) {
                               if (searchController.text == '') {
                                 setState(() {
-                                  context.read<SkincareRecommendationController>().getSkincare(
+                                  context.read<SkincareRecommendationController>().refresh(
                                         context,
-                                        state.currentPage.value,
                                         search: '',
                                       );
                                 });
                               } else {
                                 setState(() {
-                                  context.read<SkincareRecommendationController>().getSkincare(
+                                  context.read<SkincareRecommendationController>().refresh(
                                         context,
-                                        state.currentPage.value,
                                         search: searchController.text,
                                       );
                                 });
@@ -177,9 +175,18 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const FilterPage(),
+                                builder: (context) => const FilterPageSkincare(),
                               ),
-                            ).then((value) => {print('hey')});
+                            ).then((value) => {
+                                  setState(() {
+                                    context.read<SkincareRecommendationController>().refresh(
+                                          context,
+                                          search: '',
+                                          filterBrand: state.filterBrand,
+                                          filterProduct: state.filterProduct,
+                                        );
+                                  })
+                                });
                           },
                           child: Image.asset(
                             'assets/icons/corong.png',
@@ -218,20 +225,18 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                                     onPressed: () {
                                       if (searchController.text == '') {
                                         setState(() {
-                                          context.read<SkincareRecommendationController>().getSkincare(
+                                          context.read<SkincareRecommendationController>().refresh(
                                                 context,
-                                                state.currentPage.value,
                                                 search: '',
                                               );
                                         });
                                       } else {
                                         setState(() {
-                                          context.read<SkincareRecommendationController>().getSkincare(
+                                          context.read<SkincareRecommendationController>().refresh(
                                                 context,
-                                                state.currentPage.value,
-                                                search: searchController.text,
+                                                search: '',
                                               );
-                                          searchController.text = '';
+                                          searchController.clear();
                                         });
                                       }
                                     },
@@ -254,9 +259,21 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text(
-                          'Sort by',
-                          style: greyTextStyle.copyWith(fontWeight: bold),
+                        InkWell(
+                          onTap: () {
+                            List data = ['kiehel', 'isipharma'];
+                            var params;
+                            for (var i in data) print("log[] : $i");
+                            params = {
+                              "name": 'product',
+                              "log[]": [for (var b in data) "$b"],
+                            };
+                            print('hasil ${params}');
+                          },
+                          child: Text(
+                            'Sort by',
+                            style: greyTextStyle.copyWith(fontWeight: bold),
+                          ),
                         ),
                         const SizedBox(
                           width: 10,
@@ -303,7 +320,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                                   // height: 200,
                                   child: ListView.builder(
                                     shrinkWrap: true,
-                                    itemCount: state.hasMore.value ? state.solutionSkincare.length + 1 : state.solutionSkincare.length,
+                                    itemCount: state.hasMore.value ? state.solutionSkincare.length + 1 : state.solutionSkincare.length + 0,
                                     physics: ClampingScrollPhysics(),
                                     itemBuilder: ((context, index) {
                                       if (index < state.solutionSkincare.length) {
@@ -374,7 +391,7 @@ class _TambahanSkinCareState extends State<TambahanSkinCare> {
                                         return Padding(
                                           padding: EdgeInsets.symmetric(vertical: 10),
                                           child: Center(
-                                            child: CircularProgressIndicator(),
+                                            child: SizedBox(),
                                           ),
                                         );
                                       }

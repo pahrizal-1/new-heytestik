@@ -4,7 +4,9 @@ import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/
 import 'package:heystetik_mobileapps/pages/doctorpage/tambah_treatment_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../controller/doctor/treatment/treatment_doctor_controller.dart';
 import '../../../../controller/doctor/treatment_recommendation/treatment_recommendation_controller.dart';
 import '../../settings_doctor/add_treatment_page.dart';
 import 'package:get/get.dart';
@@ -18,11 +20,25 @@ class RekomendasiTreatmen2Page extends StatefulWidget {
 
 class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
   final TreatmentRecommendationController state = Get.put(TreatmentRecommendationController());
+  final TreatmentDoctorController stateTreatment = Get.put(TreatmentDoctorController());
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    state.methodsTreatment = [];
     state.dataTreatmentItems = [];
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      context.read<TreatmentRecommendationController>().refreshTreatmentType(
+            context,
+          );
+    });
+    scrollController.addListener(() async {
+      context.read<TreatmentRecommendationController>().loadMoreTreatmentType(
+            context,
+            scrollController,
+          );
+    });
   }
 
   @override
@@ -67,7 +83,6 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
               InkWell(
                 onTap: () {
                   state.postTreatment(context);
-                  for (var i in state.dataTreatmentItems) print('sss' + i.toString());
                 },
                 child: Text(
                   'SIMPAN',
@@ -155,13 +170,29 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                 const SizedBox(
                   height: 40,
                 ),
-                state.dataTreatmentItems.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: state.dataTreatmentItems.length,
-                        itemBuilder: (BuildContext context, int index) {
+                Text(
+                  'Resep Rekomendasi',
+                  style: TextStyle(
+                    fontFamily: 'ProximaNova',
+                    fontSize: 14,
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w400,
+                    color: fromCssColor('#A3A3A3'),
+                  ),
+                ),
+                // state.listOfTreatment.isNotEmpty
+                const SizedBox(
+                  height: 20,
+                ),
+                Consumer<TreatmentRecommendationController>(
+                  builder: (_, state, __) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: state.hasMore.value ? state.listOfTreatment.length + 1 : state.listOfTreatment.length + 0,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index < state.listOfTreatment.length) {
                           return Column(
                             children: [
                               Container(
@@ -176,7 +207,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                           constraints: BoxConstraints(maxWidth: 160),
                                           child: RichText(
                                             text: TextSpan(
-                                              text: state.dataTreatmentItems[index]['name'],
+                                              text: state.listOfTreatment[index].treatmentType,
                                               style: TextStyle(
                                                 fontFamily: 'ProximaNova',
                                                 color: greenColor,
@@ -216,7 +247,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                state.dataTreatmentItems[index]['cost'],
+                                                state.listOfTreatment[index].cost.toString(),
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -259,7 +290,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                state.dataTreatmentItems[index]['recovery_time'],
+                                                state.listOfTreatment[index].recoveryTime.toString(),
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -302,7 +333,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                               // color: Colors.amberAccent,
 
                                               child: Text(
-                                                state.dataTreatmentItems[index]['type'],
+                                                state.listOfTreatment[index].method.toString(),
                                                 style: TextStyle(
                                                   fontFamily: 'ProximaNova',
                                                   fontSize: 12,
@@ -322,7 +353,7 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                                       onTap: () {
                                         setState(() {
                                           // print('ind ${index}');
-                                          state.dataTreatmentItems.removeAt(index);
+                                          state.listOfTreatment.removeAt(index);
                                         });
                                       },
                                       child: Container(
@@ -348,19 +379,19 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                               )
                             ],
                           );
-                        },
-                      )
-                    : Container(),
-                Text(
-                  'Resep Rekomendasi',
-                  style: TextStyle(
-                    fontFamily: 'ProximaNova',
-                    fontSize: 14,
-                    letterSpacing: 0.2,
-                    fontWeight: FontWeight.w400,
-                    color: fromCssColor('#A3A3A3'),
-                  ),
+                        } else {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Center(
+                              child: SizedBox(),
+                            ),
+                          );
+                        }
+                      },
+                    );
+                  },
                 ),
+                // : Container(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -375,6 +406,12 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                     ).then(
                       (value) => setState(() {
                         state.dataTreatmentItems;
+                        stateTreatment.filterMethods = [];
+                        stateTreatment.toggleMethods = [];
+                        context.read<TreatmentRecommendationController>().refreshTreatmentType(
+                              context,
+                              methods: state.methodsTreatment,
+                            );
                       }),
                     );
                     // Navigator.push(

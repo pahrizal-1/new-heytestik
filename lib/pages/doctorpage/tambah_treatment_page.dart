@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/widget/produk_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../widget/filter_treatment_widgets.dart';
+import 'doctor_schedule_page.dart/chat_doctor/filter_page.dart';
 
 class TambahTreatmentCatatanDoktor extends StatefulWidget {
   const TambahTreatmentCatatanDoktor({super.key});
@@ -84,7 +85,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
             const Spacer(),
             InkWell(
               onTap: () {
-                if (stateDoctor.listTreatmentNote.isNotEmpty || stateTreatment.dataTreatmentItems.isNotEmpty) {
+                if (stateDoctor.listTreatmentMethods.isNotEmpty || stateTreatment.methodsTreatment.isNotEmpty) {
                   Navigator.pop(
                     context,
                   );
@@ -123,11 +124,11 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                             onFieldSubmitted: (v) {
                               if (searchController.text == '') {
                                 setState(() {
-                                  state.getAllTreatment(context, 1, search: '');
+                                  context.read<TreatmentDoctorController>().refresh(context, search: '');
                                 });
                               } else {
                                 setState(() {
-                                  state.getAllTreatment(context, 1, search: searchController.text);
+                                  context.read<TreatmentDoctorController>().refresh(context, search: searchController.text);
                                 });
                               }
                             },
@@ -153,42 +154,20 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                         ),
                         InkWell(
                           onTap: () async {
-                            return showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(25),
-                                  topStart: Radius.circular(25),
-                                ),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const FilterPageTreatment(),
                               ),
-                              builder: (context) => FilterAllTreatmentWidget(),
-                            ).then((value) async {
-                              if (value['promo'] == true) {
-                                treatments.clear();
-                                page = 1;
-                                setState(() {});
-                              } else {
-                                filter['treatment_type[]'] = value['treatment'];
-                                filter['order_by'] = value['orderBy'];
-                                filter['open_now'] = value['openNow'];
-                                filter['min_price'] = value['minPrice'];
-                                filter['max_price'] = value['maxPrice'];
-
-                                treatments.clear();
-                                page = 1;
-                                // treatments.addAll(
-                                //   await stateTreatment.getAllTreatment(
-                                //     context,
-                                //     page,
-                                //     search: search,
-                                //     filter: filter,
-                                //   ),
-                                // );
-                              }
-                              setState(() {});
-                            });
+                            ).then((value) => setState(() {
+                                  print('state.total ${state.totalPage.value} ${state.currentPage.value}');
+                                  context.read<TreatmentDoctorController>().refresh(
+                                        context,
+                                        // 1,
+                                        // search: '',
+                                        methods: state.filterMethods,
+                                      );
+                                }));
                           },
                           child: Image.asset(
                             'assets/icons/corong.png',
@@ -201,6 +180,57 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                     const SizedBox(
                       height: 12,
                     ),
+                    searchController.text == ''
+                        ? SizedBox()
+                        : Container(
+                            height: 35,
+                            // width: 130,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2),
+                              color: greenColor.withOpacity(0.2),
+                              border: Border.all(
+                                color: greenColor,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(searchController.text),
+                                  // SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                  IconButton(
+                                    iconSize: 14,
+                                    onPressed: () {
+                                      if (searchController.text == '') {
+                                        setState(() {
+                                          context.read<TreatmentDoctorController>().refresh(
+                                                context,
+                                                search: '',
+                                              );
+                                        });
+                                      } else {
+                                        setState(() {
+                                          context.read<TreatmentDoctorController>().refresh(
+                                                context,
+                                                search: '',
+                                              );
+                                          searchController.clear();
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                    ),
+                                  ),
+                                  // Spacer(),
+                                  // Container(),
+                                ],
+                              ),
+                            ),
+                          ),
                     const SizedBox(
                       height: 12,
                     ),
@@ -259,49 +289,56 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                   child: ListView.builder(
                                       // controller: scrollController,
                                       shrinkWrap: true,
-                                      itemCount: state.hasMore.value ? state.dataTreatment.length + 1 : state.dataTreatment.length,
+                                      itemCount: state.hasMore.value ? state.listOfTreatment.length + 1 : state.listOfTreatment.length + 0,
                                       physics: ClampingScrollPhysics(),
                                       itemBuilder: (context, i) {
-                                        if (i < state.dataTreatment.length) {
+                                        if (i < state.listOfTreatment.length) {
                                           return ProductTreatmentDoctor(
-                                            treatmentData: state.dataTreatment[i],
-                                            namaKlinik: state.dataTreatment[i].clinic?.name ?? '-',
-                                            recovTime: state.dataTreatment[i].downtime ?? '-',
-                                            typeTreatment: state.dataTreatment[i].treatmentType ?? '-',
-                                            namaTreatmen: state.dataTreatment[i].name ?? '-',
-                                            diskonProduk: '0',
-                                            hargaDiskon: '0',
-                                            harga: state.dataTreatment[i].price!.toString(),
-                                            urlImg: state.dataTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.dataTreatment[i].mediaTreatments![0].media!.path!}",
-                                            rating: '${state.dataTreatment[i].rating} (0k)',
-                                            km: '${state.dataTreatment[i].distance ?? '0'} km',
-                                            lokasiKlinik: state.dataTreatment[i].clinic?.city?.name ?? '-',
+                                            treatmentData: state.listOfTreatment[i],
+                                            namaKlinik: state.listOfTreatment[i].clinics?.map((e) => e.name).toList().toString() ?? '-',
+                                            // namaKlinik: state.listOfTreatment[i].clinic?.name ?? '-',
+                                            recovTime: state.listOfTreatment[i].recoveryTime ?? '-',
+                                            typeTreatment: state.listOfTreatment[i].method ?? '-',
+                                            namaTreatmen: state.listOfTreatment[i].treatmentType ?? '-',
+                                            // diskonProduk: '0',
+                                            // hargaDiskon: '0',
+                                            harga: "${state.listOfTreatment[i].cost}",
+                                            // urlImg: state.listOfTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.listOfTreatment[i].mediaTreatments![0].media!.path!}",
+                                            // rating: '${state.listOfTreatment[i].rating} (0k)',
+                                            // km: '${state.listOfTreatment[i].distance ?? '0'} km',
+                                            // lokasiKlinik: state.listOfTreatment[i].clinic?.city?.name ?? '-',
                                             iconPlus: InkWell(
                                               onTap: () {
                                                 if (toogle.contains(i)) {
                                                   setState(() {
                                                     toogle.remove(i);
-                                                    stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
-                                                    stateTreatment.dataTreatmentItems.remove(stateTreatment.dataTreatmentItems[i]);
+                                                    // stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
+                                                    stateDoctor.listTreatmentMethods.remove(stateDoctor.listTreatmentMethods[i]);
+                                                    stateTreatment.methodsTreatment.remove(stateTreatment.methodsTreatment[i]);
                                                     print('delete ${stateDoctor.listTreatmentNote}');
                                                   });
                                                 } else {
                                                   setState(() {
                                                     toogle.add(i);
-                                                    stateDoctor.listTreatmentNote.add({
-                                                      'name': state.dataTreatment[i].name ?? '-',
-                                                      'cost': state.dataTreatment[i].price!.toString(),
-                                                      'recovery_time': state.dataTreatment[i].downtime ?? '-',
-                                                      'type': state.dataTreatment[i].treatmentType ?? '-',
-                                                      'clinic_id': state.dataTreatment[i].clinicId ?? 1,
-                                                    });
-                                                    stateTreatment.dataTreatmentItems.add({
-                                                      'name': state.dataTreatment[i].name ?? '-',
-                                                      'cost': state.dataTreatment[i].price!.toString(),
-                                                      'recovery_time': state.dataTreatment[i].downtime ?? '-',
-                                                      'type': state.dataTreatment[i].treatmentType ?? '-',
-                                                      'clinic_id': state.dataTreatment[i].clinicId ?? 1,
-                                                    });
+                                                    stateDoctor.listTreatmentMethods.add(state.listOfTreatment[i].treatmentType.toString());
+                                                    // stateDoctor.listTreatmentNote.add({
+                                                    //   'treatment_type': state.listOfTreatment[i].treatmentType,
+                                                    //   // 'name': state.listOfTreatment[i].name ?? '-',
+                                                    //   // 'cost': state.listOfTreatment[i].price!.toString(),
+                                                    //   // 'recovery_time': state.listOfTreatment[i].downtime ?? '-',
+                                                    //   // 'type': state.listOfTreatment[i].treatmentType ?? '-',
+                                                    //   // 'clinic_id': state.listOfTreatment[i].clinicId ?? 1,
+                                                    // });
+                                                    stateTreatment.methodsTreatment.add(state.listOfTreatment[i].treatmentType.toString());
+                                                    // stateTreatment.methodsTreatment.add({
+                                                    //   'treatment_type': "state.listOfTreatment[i].treatmentType",
+
+                                                    //   // 'name': state.listOfTreatment[i].name ?? '-',
+                                                    //   // 'cost': state.listOfTreatment[i].price!.toString(),
+                                                    //   // 'recovery_time': state.listOfTreatment[i].downtime ?? '-',
+                                                    //   // 'type': state.listOfTreatment[i].treatmentType ?? '-',
+                                                    //   // 'clinic_id': state.listOfTreatment[i].clinicId ?? 1,
+                                                    // });
 
                                                     print('list ${stateDoctor.listTreatmentNote}');
                                                     // stateDoctor.listTreatmentNote.add();
@@ -334,7 +371,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                           return Padding(
                                             padding: EdgeInsets.symmetric(vertical: 10),
                                             child: Center(
-                                              child: CircularProgressIndicator(),
+                                              child: SizedBox(),
                                             ),
                                           );
                                         }

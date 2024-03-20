@@ -7,6 +7,8 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 
 import '../../../models/doctor/treatment_recommendation_doctor/clinics_model.dart';
 import '../../../models/doctor/treatment_recommendation_doctor/treatment_recommendation_model.dart';
+import '../../../models/doctor/treatment_type_model.dart';
+import '../../../service/customer/solution/treatment_service.dart';
 import '../../../service/doctor/treatment/treatment_services.dart';
 import '../consultation/consultation_controller.dart';
 
@@ -38,6 +40,82 @@ class TreatmentRecommendationController extends StateClass {
   var hasMore = true.obs;
   RxInt currentPage = 1.obs;
   RxInt totalPage = 1.obs;
+
+  RxList<DataObject> listOfTreatment = List<DataObject>.empty(growable: true).obs;
+  Rx<TreatmentTypeModel> responseTreatmentType = TreatmentTypeModel().obs;
+  List<String> methodsTreatment = [];
+
+  Future<List<DataObject>> getAllTreatmentType(
+    BuildContext context,
+    int page, {
+    String? search,
+    Map<String, dynamic>? filter,
+    List<String>? methods,
+  }) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      responseTreatmentType.value = await TreatmentService().getAllTreatmentType(
+        page,
+        search: search,
+        filter: filter,
+        methods: methods,
+      );
+      listOfTreatment.addAll(responseTreatmentType.value.data!.data!);
+      currentPage.value++;
+      if (page > totalPage.value) {
+        hasMore.value = false;
+      }
+      totalPage.value = responseTreatmentType.value.data!.meta!.pageCount!.toInt();
+      for (var i in responseTreatmentType.value.data!.data!) print('datlper ${i.treatmentType}');
+
+      notifyListeners();
+    });
+    isLoading.value = false;
+    return listOfTreatment;
+  }
+
+  Future refreshTreatmentType(
+    BuildContext context, {
+    List<String>? methods,
+    String? search,
+  }) async {
+    currentPage.value = 1;
+    hasMore.value = true;
+    listOfTreatment.value = [];
+    totalPage.value = 1;
+
+    if (methods == null) {
+      null;
+    } else {
+      await getAllTreatmentType(
+        context,
+        currentPage.value,
+        search: search,
+        methods: methods,
+      );
+    }
+    // await getAllTreatment(context, currentPage.value);
+    notifyListeners();
+  }
+
+  Future loadMoreTreatmentType(BuildContext context, ScrollController scrollController) async {
+    // scrollController.hasClients;
+    print('kesini ga ${currentPage.value}');
+    if (currentPage.value <= totalPage.value) {
+      if (scrollController.position.maxScrollExtent == scrollController.position.pixels && hasMore.value) {
+        await getAllTreatmentType(
+          context,
+          currentPage.value,
+        );
+        //  await getAllTreatment(
+        //   context,
+        //   currentPage.value,
+        // );
+      }
+    } else {
+      null;
+    }
+  }
 
   Future<List<Data2>> getRecipeTreatement(
     BuildContext context,
@@ -109,20 +187,21 @@ class TreatmentRecommendationController extends StateClass {
       var data = {
         "title": titleController.text,
         "subtitle": subtitleController.text,
-        for (var i in dataTreatmentItems)
-          "recipe_recomendation_treatment_items": [
-            {
-              "name": i['name'],
-              "cost": i['cost'],
-              "recovery_time": i['recovery_time'],
-              "type": i['type'],
-              "clinics": [
-                {
-                  "clinic_id": i['clinic_id'],
-                },
-              ]
-            }
-          ]
+        "treatment_types": [for (var i in methodsTreatment) i]
+        // for (var i in listOfTreatment)
+        //   "recipe_recomendation_treatment_items": [
+        //     {
+        //       "name": i.treatmentType,
+        //       "cost": i.cost,
+        //       "recovery_time": i.recoveryTime,
+        //       "type": i.method,
+        //       "clinics": [
+        //         {
+        //           "clinic_id": i.clinics,
+        //         },
+        //       ]
+        //     }
+        //   ]
         // for (var i in dataTreatmentItems) "recipe_recomendation_treatment_items": [i]
       };
       var response = await TreatmentServices().postTreatmentRecommendation(data);
@@ -137,10 +216,12 @@ class TreatmentRecommendationController extends StateClass {
       for (var i in dataTreatmentItems) {
         stateDoctor.listTreatmentNote.add(i);
       }
-      Navigator.pop(context, 'refresh');
+      Navigator.pop(
+        Get.context!,
+      );
       titleController.clear();
       subtitleController.clear();
-      dataTreatmentItems = [];
+      methodsTreatment = [];
     });
     isLoading.value = false;
   }

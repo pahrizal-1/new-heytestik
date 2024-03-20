@@ -13,13 +13,11 @@ class RekomendasiDokterWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<RekomendasiDokterWidget> createState() =>
-      _RekomendasiDokterWidgetState();
+  State<RekomendasiDokterWidget> createState() => _RekomendasiDokterWidgetState();
 }
 
 class _RekomendasiDokterWidgetState extends State<RekomendasiDokterWidget> {
-  final DoctorConsultationController state =
-      Get.put(DoctorConsultationController());
+  final DoctorConsultationController state = Get.put(DoctorConsultationController());
 
   @override
   void initState() {
@@ -40,11 +38,7 @@ class _RekomendasiDokterWidgetState extends State<RekomendasiDokterWidget> {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
             height: 43,
             width: 270,
-            decoration: BoxDecoration(
-                color: greenColor,
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10))),
+            decoration: BoxDecoration(color: greenColor, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
             child: Text(
               'Rekomendasi Dokter',
               style: whiteTextStyle.copyWith(fontSize: 15),
@@ -79,20 +73,11 @@ class _RekomendasiDokterWidgetState extends State<RekomendasiDokterWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                state.data.value.consultationRecipeDrug?[index]
-                                        .product?.name ??
-                                    '-',
+                                state.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
                                 style: grenTextStyle.copyWith(fontSize: 12),
                               ),
                               Text(
-                                state
-                                        .data
-                                        .value
-                                        .consultationRecipeDrug?[index]
-                                        .product
-                                        ?.drugDetail
-                                        ?.specificationDose ??
-                                    '-',
+                                state.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
                                 style: greyTextStyle,
                               )
                             ],
@@ -116,37 +101,20 @@ class _RekomendasiDokterWidgetState extends State<RekomendasiDokterWidget> {
                     padding: const EdgeInsets.only(left: 10),
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.data.value
-                            .consultationRecomendationSkincare?.length,
+                        itemCount: state.data.value.consultationRecomendationSkincare?.length,
                         itemBuilder: ((context, index) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    state
-                                            .data
-                                            .value
-                                            .consultationRecomendationSkincare?[
-                                                index]
-                                            .product
-                                            ?.name ??
-                                        '',
+                                    state.data.value.consultationRecomendationSkincare?[index].product?.name ?? '',
                                     style: grenTextStyle.copyWith(fontSize: 12),
                                   ),
                                   Text(
-                                    state
-                                            .data
-                                            .value
-                                            .consultationRecomendationSkincare?[
-                                                index]
-                                            .product
-                                            ?.drugDetail
-                                            ?.specificationDose ??
-                                        '',
+                                    state.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '',
                                     style: greyTextStyle,
                                   )
                                 ],
@@ -168,20 +136,13 @@ class _RekomendasiDokterWidgetState extends State<RekomendasiDokterWidget> {
                     padding: const EdgeInsets.only(left: 10),
                     child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.data.value
-                            .consultationRecomendationTreatment?.length,
+                        itemCount: state.data.value.consultationRecomendationTreatment?.length,
                         itemBuilder: (context, index) {
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                state
-                                        .data
-                                        .value
-                                        .consultationRecomendationTreatment?[
-                                            index]
-                                        .name ??
-                                    '',
+                                state.data.value.consultationRecomendationTreatment?[index].treatmentType ?? '',
                                 style: grenTextStyle.copyWith(fontSize: 12),
                               ),
                               const SizedBox(

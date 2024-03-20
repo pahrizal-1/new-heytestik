@@ -23,9 +23,9 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<SkincareRecommendationController>().refresh(context);
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   context.read<SkincareRecommendationController>().refresh(context);
+    // });
   }
 
   @override
@@ -444,13 +444,16 @@ class _RekomendasiSkincare2PageState extends State<RekomendasiSkincare2Page> {
               ),
               ButtonGreenWidget(
                 title: '+ Tambah Skincare',
-                onPressed: () async {
-                  String refresh = await Navigator.push(context, MaterialPageRoute(builder: ((context) => TambahanSkinCare())));
-                  if (refresh == 'refresh') {
-                    setState(() {
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: ((context) => TambahanSkinCare()))).then(
+                    (value) => setState(() {
                       state.dataSkincare;
-                    });
-                  }
+                      state.filterBrand = [];
+                      state.filterProduct = [];
+                      state.toggleBrand = [];
+                      state.toggleProduct = [];
+                    }),
+                  );
                   //   showModalBottomSheet(
                   //     context: context,
                   //     backgroundColor: Colors.white,
