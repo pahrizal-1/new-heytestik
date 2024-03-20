@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unrelated_type_equality_checks
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, unrelated_type_equality_checks, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
@@ -11,13 +11,16 @@ import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:heystetik_mobileapps/models/customer/interest_conditions_model.dart';
 
 class PertanyaanAwalPage extends StatefulWidget {
   final int? interestConditionId;
   final String title;
-  const PertanyaanAwalPage({
+  Data detail;
+  PertanyaanAwalPage({
     required this.interestConditionId,
     required this.title,
+    required this.detail,
     super.key,
   });
 
@@ -462,6 +465,7 @@ class _PertanyaanAwalPageState extends State<PertanyaanAwalPage> {
                                               interestConditionId: widget
                                                   .interestConditionId!
                                                   .toInt(),
+                                              detail: widget.detail,
                                             ),
                                           );
                                         },

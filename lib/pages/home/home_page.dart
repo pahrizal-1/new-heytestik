@@ -190,7 +190,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         ),
                       ));
                     }
-                    return snapshot.data!.record!.isEmpty
+                    return snapshot.data?.record?.isEmpty ?? false
                         ? shimmerWidget(
                             child: Padding(
                             padding: const EdgeInsets.only(
@@ -454,7 +454,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                   );
                 }
 
-                return snapshot.data!.data!.isEmpty
+                return snapshot.data?.data?.isEmpty ?? false
                     ? shimmerWidget(
                         child: CarouselSlider(
                           options: CarouselOptions(height: 184.0),
@@ -501,7 +501,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                           height: 130,
                           autoPlay: true,
                         ),
-                        items: snapshot.data!.data!.map<Widget>((value) {
+                        items: snapshot.data?.data?.map<Widget>((value) {
                           return Builder(
                             builder: (BuildContext context) {
                               return InkWell(
@@ -1070,7 +1070,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         ),
                       ));
                     }
-                    return snapshot.data!.record!.isEmpty
+                    return snapshot.data?.record?.isEmpty ?? false
                         ? shimmerWidget(
                             child: Padding(
                             padding: const EdgeInsets.only(
@@ -1313,7 +1313,7 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
                         ),
                       ));
                     }
-                    return snapshot.data!.record!.isEmpty
+                    return snapshot.data?.record?.isEmpty ?? false
                         ? shimmerWidget(
                             child: Padding(
                             padding: const EdgeInsets.only(
