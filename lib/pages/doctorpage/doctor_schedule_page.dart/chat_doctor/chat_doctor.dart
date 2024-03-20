@@ -761,7 +761,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                                           Align(
                                             alignment: Alignment.centerRight,
                                             child: FutureBuilder(
-                                              future: state.detailConsultation(context, chatRoomId),
+                                              future: state.detailConsultation(context, widget.id ?? 0),
                                               builder: ((context, snapshot) {
                                                 if (snapshot.connectionState == ConnectionState.waiting) {
                                                   return Center(child: CircularProgressIndicator());
