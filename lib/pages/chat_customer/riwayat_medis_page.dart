@@ -136,18 +136,37 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  RichText(
-                    text: const TextSpan(
-                      text: 'Kirimkan foto wajahmu ya :) Privasimu terjaga.',
-                      style: TextStyle(
-                        fontFamily: 'ProximaNova',
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        height: 1.2,
-                        fontSize: 15,
+                  if (widget.detail.concern?.segment == "Korektif Wajah")
+                    RichText(
+                      text: const TextSpan(
+                        text: 'Kirimkan foto wajahmu ya :) Privasimu terjaga.',
+                        style: TextStyle(
+                          fontFamily: 'ProximaNova',
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          height: 1.2,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+                  else
+                    state.imageCondition.isNotEmpty
+                        ? const SizedBox(
+                            height: 15,
+                          )
+                        : RichText(
+                            text: const TextSpan(
+                              text:
+                                  'Kirimkan foto berdasarkan concern-mu ya :) Tenang, privasimu terjaga 👍🏻',
+                              style: TextStyle(
+                                fontFamily: 'ProximaNova',
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                height: 1.2,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
                   const SizedBox(
                     height: 15,
                   ),
