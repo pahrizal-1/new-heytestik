@@ -9,7 +9,6 @@ import 'package:heystetik_mobileapps/controller/customer/solution/ulasan_produk_
 import 'package:heystetik_mobileapps/controller/customer/solution/wishlist_produk_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/konsultasi_promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
@@ -1021,6 +1020,7 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     onTap: () {
                       List product = [
                         {
+                          "type": 'SKINCARE',
                           "productId": stateSkincare.skincareDetail.value.id,
                           "productName":
                               stateSkincare.skincareDetail.value.name,

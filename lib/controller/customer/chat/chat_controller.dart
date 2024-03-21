@@ -401,6 +401,7 @@ class CustomerChatController extends StateClass {
 
       for (int i = 0; i < data.value.consultationRecipeDrug!.length; i++) {
         listObat.value.add({
+          "type": data.value.consultationRecipeDrug![i].product?.type ?? "",
           "productId": data.value.consultationRecipeDrug![i].productId,
           "productName":
               data.value.consultationRecipeDrug![i].product?.name ?? '-',
@@ -418,6 +419,9 @@ class CustomerChatController extends StateClass {
           i < data.value.consultationRecomendationSkincare!.length;
           i++) {
         listSkincare.value.add({
+          "type":
+              data.value.consultationRecomendationSkincare![i].product?.type ??
+                  "",
           "productId":
               data.value.consultationRecomendationSkincare![i].productId,
           "productName":

@@ -30,6 +30,44 @@ class _ProdukPromoPageState extends State<ProdukPromoPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      print("prod ${stateOrder.listProductItem.length}");
+      print("prod ${stateOrder.listProductItem}");
+      var skincare = stateOrder.listProductItem.firstWhereOrNull(
+        (item) => item['type'] == 'SKINCARE',
+      );
+      var drugs = stateOrder.listProductItem.firstWhereOrNull(
+        (item) => item['type'] == 'DRUGS',
+      );
+      if (skincare != null && drugs != null) {
+        param = {
+          'type[]': [
+            'All Solution Voucher',
+            'Product Voucher',
+            'Skincare Voucher',
+            'Medicine Voucher'
+          ]
+        };
+      } else {
+        if (skincare != null) {
+          param = {
+            'type[]': [
+              'All Solution Voucher',
+              'Product Voucher',
+              'Skincare Voucher'
+            ]
+          };
+        }
+        if (drugs != null) {
+          param = {
+            'type[]': [
+              'All Solution Voucher',
+              'Product Voucher',
+              'Medicine Voucher'
+            ]
+          };
+        }
+      }
+
       data.addAll(
           await stateVoucher.getAvailableVoucherModel(context, param: param));
       find.clear();

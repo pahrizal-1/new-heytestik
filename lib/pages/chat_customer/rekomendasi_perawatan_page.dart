@@ -23,7 +23,8 @@ class RekomendasiPerawatan1Page extends StatefulWidget {
   const RekomendasiPerawatan1Page({required this.id, super.key});
 
   @override
-  State<RekomendasiPerawatan1Page> createState() => _RekomendasiPerawatan1PageState();
+  State<RekomendasiPerawatan1Page> createState() =>
+      _RekomendasiPerawatan1PageState();
 }
 
 class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
@@ -45,10 +46,12 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: showDaftarRekomandasi
-          ? state.data.value.consultationRecipeDrug!.isEmpty && state.data.value.consultationRecomendationSkincare!.isEmpty
+          ? state.data.value.consultationRecipeDrug!.isEmpty &&
+                  state.data.value.consultationRecomendationSkincare!.isEmpty
               ? null
               : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 25, vertical: 16),
                   child: Wrap(
                     children: [
                       Row(
@@ -72,7 +75,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                     state.totalAmount.value,
                                     0,
                                   ),
-                                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                                  style:
+                                      blackHigtTextStyle.copyWith(fontSize: 20),
                                 ),
                               ),
                               const SizedBox(
@@ -88,16 +92,22 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  if (state.listObatSelected.isEmpty && state.listSkincareSelected.isEmpty || state.totalAmount.value <= 0) {
+                                  if (state.listObatSelected.isEmpty &&
+                                          state.listSkincareSelected.isEmpty ||
+                                      state.totalAmount.value <= 0) {
                                     showDialog(
                                       context: context,
                                       builder: (context) => AlertWidget(
-                                        subtitle: 'Harap pilih produk terlebih dahulu',
+                                        subtitle:
+                                            'Harap pilih produk terlebih dahulu',
                                       ),
                                     );
                                     return;
                                   }
-                                  var list = [...state.listObatSelected.value, ...state.listSkincareSelected.value];
+                                  var list = [
+                                    ...state.listObatSelected.value,
+                                    ...state.listSkincareSelected.value
+                                  ];
 
                                   Get.to(() => PembayaranProduk(
                                         pesan: list,
@@ -152,11 +162,24 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 Obx(
                   () => Padding(
                     padding: EdgeInsets.only(
-                      top: state.data.value.consultationRecipeDrug!.isEmpty && state.data.value.consultationRecomendationSkincare!.isEmpty && state.data.value.consultationRecomendationTreatment!.isEmpty ? 70 : 0,
+                      top: state.data.value.consultationRecipeDrug!.isEmpty &&
+                              state.data.value
+                                  .consultationRecomendationSkincare!.isEmpty &&
+                              state.data.value
+                                  .consultationRecomendationTreatment!.isEmpty
+                          ? 70
+                          : 0,
                     ),
                     child: Column(
                       children: [
-                        state.data.value.consultationRecipeDrug!.isEmpty && state.data.value.consultationRecomendationSkincare!.isEmpty && state.data.value.consultationRecomendationTreatment!.isEmpty
+                        state.data.value.consultationRecipeDrug!.isEmpty &&
+                                state
+                                    .data
+                                    .value
+                                    .consultationRecomendationSkincare!
+                                    .isEmpty &&
+                                state.data.value
+                                    .consultationRecomendationTreatment!.isEmpty
                             ? Column(
                                 children: [
                                   Container(
@@ -164,7 +187,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                     width: 259,
                                     decoration: const BoxDecoration(
                                       image: DecorationImage(
-                                        image: AssetImage('assets/images/rekomendasi1.png'),
+                                        image: AssetImage(
+                                            'assets/images/rekomendasi1.png'),
                                       ),
                                     ),
                                   ),
@@ -173,7 +197,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                                   ),
                                   Text(
                                     'Yuk, chat dengan Dokter sekarang untuk mendapatkan rekomendasi perawatan terbaik untukmu :)',
-                                    style: blackTextStyle.copyWith(fontSize: 15),
+                                    style:
+                                        blackTextStyle.copyWith(fontSize: 15),
                                     textAlign: TextAlign.center,
                                   ),
                                   const SizedBox(
@@ -240,7 +265,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
           SizedBox(
             height: 10,
           ),
-          if (DateTime.parse(state.data.value.endDate.toString()).isBefore(DateTime.now()))
+          if (DateTime.parse(state.data.value.endDate.toString())
+              .isBefore(DateTime.now()))
             Container(
               padding: EdgeInsets.only(
                 left: 5,
@@ -264,7 +290,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 ],
               ),
             ),
-          if (DateTime.parse(state.data.value.endDate.toString()).isBefore(DateTime.now()))
+          if (DateTime.parse(state.data.value.endDate.toString())
+              .isBefore(DateTime.now()))
             SizedBox(
               height: 14,
             ),
@@ -360,7 +387,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                     children: [
                       RichText(
                         text: const TextSpan(
-                          text: 'Hai! Rekomendasi perawatan buat kamu sudah selesai :)',
+                          text:
+                              'Hai! Rekomendasi perawatan buat kamu sudah selesai :)',
                           style: TextStyle(
                             fontFamily: 'ProximaNova',
                             color: Colors.white,
@@ -375,7 +403,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       ),
                       RichText(
                         text: const TextSpan(
-                          text: 'Kamu bisa menebus skincare & obat, serta melakukan perawatan yang telah dokter rekomendasikan sekarang!',
+                          text:
+                              'Kamu bisa menebus skincare & obat, serta melakukan perawatan yang telah dokter rekomendasikan sekarang!',
                           style: TextStyle(
                             fontFamily: 'ProximaNova',
                             color: Colors.white,
@@ -394,7 +423,9 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                   height: 160,
                   width: 150,
                   decoration: const BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/images/dokter2.png'), fit: BoxFit.fill),
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/dokter2.png'),
+                        fit: BoxFit.fill),
                   ),
                 ),
               ),
@@ -428,7 +459,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                 Expanded(
                   child: RichText(
                     text: TextSpan(
-                      text: 'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga ${ConvertDate.defaultDate(state.data.value.endDate ?? '')}',
+                      text:
+                          'Kamu bisa tebus rekomendasi obat sebanyak 2 kali lagi.  Masa aktif rekomendasi dokter berlaku hingga ${ConvertDate.defaultDate(state.data.value.endDate ?? '')}',
                       style: TextStyle(
                         fontFamily: 'ProximaNova',
                         color: fromCssColor('#323232'),
@@ -492,13 +524,18 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       padding: const EdgeInsets.all(4),
                       height: 23,
                       decoration: BoxDecoration(
-                        color: state.isAllObatSelected.value ? greenColor : null,
+                        color:
+                            state.isAllObatSelected.value ? greenColor : null,
                         borderRadius: BorderRadius.circular(7),
                         border: Border.all(
-                          color: state.isAllObatSelected.value ? greenColor : greyColor,
+                          color: state.isAllObatSelected.value
+                              ? greenColor
+                              : greyColor,
                         ),
                       ),
-                      child: state.isAllObatSelected.value ? Image.asset('assets/icons/chek_new.png') : null,
+                      child: state.isAllObatSelected.value
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
                     ),
                   ),
                 ),
@@ -509,7 +546,11 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                   transform: Matrix4.translationValues(0, -3, 0),
                   child: const Text(
                     'Pilih semua',
-                    style: TextStyle(fontFamily: 'ProximaNova', fontSize: 15, letterSpacing: 0.5, color: Colors.black),
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                        color: Colors.black),
                   ),
                 ),
               ],
@@ -531,7 +572,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                   onTap: () {
                     Get.to(
                       () => DetailDrugPage(
-                        drugId: state.data.value.consultationRecipeDrug![index].productId!,
+                        drugId: state.data.value.consultationRecipeDrug![index]
+                            .productId!,
                       ),
                     );
                   },
@@ -577,7 +619,8 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
               children: [
                 InkWell(
                   onTap: () {
-                    state.onChecklistSkincare(state.listSkincare.value.length, true);
+                    state.onChecklistSkincare(
+                        state.listSkincare.value.length, true);
                     setState(() {});
                   },
                   child: Obx(
@@ -586,13 +629,19 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                       padding: const EdgeInsets.all(4),
                       height: 23,
                       decoration: BoxDecoration(
-                        color: state.isAllSkincareSelected.value ? greenColor : null,
+                        color: state.isAllSkincareSelected.value
+                            ? greenColor
+                            : null,
                         borderRadius: BorderRadius.circular(7),
                         border: Border.all(
-                          color: state.isAllSkincareSelected.value ? greenColor : greyColor,
+                          color: state.isAllSkincareSelected.value
+                              ? greenColor
+                              : greyColor,
                         ),
                       ),
-                      child: state.isAllSkincareSelected.value ? Image.asset('assets/icons/chek_new.png') : null,
+                      child: state.isAllSkincareSelected.value
+                          ? Image.asset('assets/icons/chek_new.png')
+                          : null,
                     ),
                   ),
                 ),
@@ -603,7 +652,11 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                   transform: Matrix4.translationValues(0, -3, 0),
                   child: const Text(
                     'Pilih semua',
-                    style: TextStyle(fontFamily: 'ProximaNova', fontSize: 15, letterSpacing: 0.5, color: Colors.black),
+                    style: TextStyle(
+                        fontFamily: 'ProximaNova',
+                        fontSize: 15,
+                        letterSpacing: 0.5,
+                        color: Colors.black),
                   ),
                 ),
               ],
@@ -619,25 +672,32 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.data.value.consultationRecomendationSkincare?.length,
+              itemCount:
+                  state.data.value.consultationRecomendationSkincare?.length,
               itemBuilder: (BuildContext context, index) {
                 return InkWell(
                   onTap: () {
                     Get.to(
                       () => DetailSkinCarePage(
-                        productId: state.data.value.consultationRecomendationSkincare![index].productId!,
+                        productId: state
+                            .data
+                            .value
+                            .consultationRecomendationSkincare![index]
+                            .productId!,
                       ),
                     );
                   },
                   child: ContainerProdukSkicare(
                     index: index,
-                    data: state.data.value.consultationRecomendationSkincare![index],
+                    data: state
+                        .data.value.consultationRecomendationSkincare![index],
                   ),
                 );
               },
             ),
           ),
-        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty) dividergreen(),
+        if (state.data.value.consultationRecomendationSkincare!.isNotEmpty)
+          dividergreen(),
         SizedBox(
           height: 15,
         ),
@@ -670,10 +730,12 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: state.data.value.consultationRecomendationTreatment?.length,
+              itemCount:
+                  state.data.value.consultationRecomendationTreatment?.length,
               itemBuilder: (BuildContext context, index) {
                 return ContainerTreatment(
-                  data: state.data.value.consultationRecomendationTreatment![index],
+                  data: state
+                      .data.value.consultationRecomendationTreatment![index],
                 );
               },
             ),
