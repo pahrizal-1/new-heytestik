@@ -9,17 +9,17 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 
 import '../../widget/button_widget.dart';
 
-class ExpiredPage extends StatefulWidget {
+class FailedPage extends StatefulWidget {
   bool isNotConsultation;
   String message;
-  ExpiredPage(
+  FailedPage(
       {this.isNotConsultation = false, required this.message, super.key});
 
   @override
-  State<ExpiredPage> createState() => _ExpiredPageState();
+  State<FailedPage> createState() => _ExpiredPageState();
 }
 
-class _ExpiredPageState extends State<ExpiredPage> {
+class _ExpiredPageState extends State<FailedPage> {
   Future<bool> onWillPop() async {
     showDialog(
       context: context,
@@ -53,7 +53,7 @@ class _ExpiredPageState extends State<ExpiredPage> {
                   height: spaceHeigt,
                 ),
                 Text(
-                  'Sesi pembayaran habis',
+                  'Pembayaran kamu gagal',
                   textAlign: TextAlign.center,
                   style: blackRegulerTextStyle.copyWith(
                     fontSize: 16,

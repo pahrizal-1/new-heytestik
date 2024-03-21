@@ -2,19 +2,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:grouped_list/grouped_list.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/alamat_page.dart';
-import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
+import 'package:heystetik_mobileapps/pages/solution/produk_promo_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
+import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
-
 import '../../theme/theme.dart';
 import '../../widget/produk_widget.dart';
 
@@ -32,10 +31,10 @@ class _CheckOutPageState extends State<CheckOutPage> {
   @override
   void initState() {
     super.initState();
-
     print("LIST awal ${state.listProductItem.length}");
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isLoading.value = true;
+      state.initCheckout();
       await state.selectAddress(context);
       await state.getPaymentmethod(context);
       if (state.addressId.value > 0) {
@@ -45,7 +44,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
           userAddressId: state.addressId.value,
         );
       }
-      state.totalAmountFunc();
       state.isLoading.value = false;
       print("LIST ini ${state.listProductItem.length}");
       setState(() {});
@@ -206,8 +204,6 @@ class _CheckOutPageState extends State<CheckOutPage> {
                       ),
                       ...state.listProductItem.map((e) {
                         return DetailProduk(
-                          // discon: '20%',
-                          // priceDiscon: 'Rp.800.000',
                           price:
                               CurrencyFormat.convertToIdr(e['totalPrice'], 0),
                           nameProduk: e['productName'],
@@ -271,6 +267,72 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           width: 30,
                         ),
                       ),
+                      InkWell(
+                        onTap: () {
+                          if (state.shippingId.value <= 0) {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertWidget(
+                                subtitle:
+                                    "Harap pilih pengiriman terlebih dahulu",
+                              ),
+                            );
+                            return;
+                          }
+                          Get.to(() => ProdukPromoPage());
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 9),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: borderColor),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
+                                'assets/icons/persen_icons.png',
+                                width: 30,
+                              ),
+                              const SizedBox(
+                                width: 17,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Obx(
+                                      () => Text(
+                                        (state.voucherName.value.isNotEmpty)
+                                            ? state.voucherName.value
+                                            : 'Pakai Voucher',
+                                        style: blackHigtTextStyle.copyWith(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    if (state.voucherName.value.isNotEmpty)
+                                      Text(
+                                        '1 voucher dipakai',
+                                        style: subTitleTextStyle.copyWith(
+                                            fontSize: 13),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                              const Spacer(),
+                              Icon(
+                                Icons.keyboard_arrow_right,
+                                size: 25,
+                                color: greenColor,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
                       Obx(
                         () => BoxPengriman(
                           type: 'Bank',
@@ -281,252 +343,31 @@ class _CheckOutPageState extends State<CheckOutPage> {
                               ? 'Pilih Metode Pembayaran'
                               : state.bankName.value,
                           onTap: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              enableDrag: false,
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadiusDirectional.only(
-                                  topEnd: Radius.circular(25),
-                                  topStart: Radius.circular(25),
+                            if (state.shippingId.value <= 0) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertWidget(
+                                  subtitle:
+                                      "Harap pilih pengiriman terlebih dahulu",
                                 ),
-                              ),
-                              builder: (context) => Wrap(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 60,
-                                          left: 10,
-                                          right: 10,
-                                          bottom: 60,
-                                        ),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 20,
-                                                ),
-                                                InkWell(
-                                                  onTap: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Image.asset(
-                                                    'assets/icons/danger-icons.png',
-                                                    width: 20,
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 17,
-                                                ),
-                                                Text(
-                                                  'Pilih Metode Pembayaran',
-                                                  style: blackHigtTextStyle
-                                                      .copyWith(fontSize: 20),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 40,
-                                            ),
-                                            state.getPaymentMethod.isEmpty
-                                                ? Center(
-                                                    child: Text(
-                                                      'Belum ada motode pembayaran',
-                                                      style: TextStyle(
-                                                        fontFamily:
-                                                            'ProximaNova',
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                  )
-                                                : GroupedListView<Data, String>(
-                                                    elements: state
-                                                        .getPaymentMethod
-                                                        .toList(),
-                                                    groupBy: (element) =>
-                                                        element.segment
-                                                            .toString(),
-                                                    groupComparator: (value1,
-                                                            value2) =>
-                                                        value2
-                                                            .compareTo(value1),
-                                                    order: GroupedListOrder.ASC,
-                                                    useStickyGroupSeparators:
-                                                        true,
-                                                    shrinkWrap: true,
-                                                    keyboardDismissBehavior:
-                                                        ScrollViewKeyboardDismissBehavior
-                                                            .onDrag,
-                                                    physics:
-                                                        const NeverScrollableScrollPhysics(),
-                                                    groupSeparatorBuilder:
-                                                        (String value) =>
-                                                            Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        dividergreen(),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 10,
-                                                                  top: 10,
-                                                                  left: 20,
-                                                                  right: 20),
-                                                          child: Text(
-                                                            value,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    itemBuilder: (c, element) {
-                                                      return InkWell(
-                                                        onTap: () {
-                                                          if (element
-                                                              .isActive!) {
-                                                            state.idPayment
-                                                                    .value =
-                                                                element.id!
-                                                                    .toInt();
-                                                            state.paymentMethod
-                                                                .value = element
-                                                                    .method ??
-                                                                '-';
-                                                            state.bankName
-                                                                    .value =
-                                                                element.name ??
-                                                                    '-';
-                                                            state.paymentType
-                                                                    .value =
-                                                                element.type ??
-                                                                    '-';
-                                                            state.bankImage
-                                                                .value = element
-                                                                    .mediaPaymentMethod
-                                                                    ?.media
-                                                                    ?.path ??
-                                                                '';
-
-                                                            Get.back();
-                                                          }
-                                                        },
-                                                        child: Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  right: 20,
-                                                                  top: 10,
-                                                                  bottom: 10,
-                                                                  left: 20),
-                                                          height: 35,
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .start,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  Image.network(
-                                                                    '${Global.FILE}/${element.mediaPaymentMethod!.media!.path.toString()}',
-                                                                    width: 40,
-                                                                    height: 35,
-                                                                  ),
-                                                                  const SizedBox(
-                                                                    width: 19,
-                                                                  ),
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    children: [
-                                                                      Text(
-                                                                        element.name ??
-                                                                            '-',
-                                                                        style: blackTextStyle
-                                                                            .copyWith(
-                                                                          fontSize:
-                                                                              15,
-                                                                          color: element.isActive!
-                                                                              ? blackColor
-                                                                              : greyColor,
-                                                                        ),
-                                                                      ),
-                                                                      Text(
-                                                                        element.isActive!
-                                                                            ? element.description ??
-                                                                                '-'
-                                                                            : 'Tidak tersedia untuk transaksi ini',
-                                                                        style: blackRegulerTextStyle.copyWith(
-                                                                            fontSize:
-                                                                                12),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                  const Spacer(),
-                                                                  element.isActive!
-                                                                      ? Obx(
-                                                                          () =>
-                                                                              Icon(
-                                                                            state.idPayment.value == element.id
-                                                                                ? Icons.radio_button_on
-                                                                                : Icons.circle_outlined,
-                                                                            size:
-                                                                                23,
-                                                                            color: state.idPayment.value == element.id
-                                                                                ? greenColor
-                                                                                : blackColor,
-                                                                          ),
-                                                                        )
-                                                                      : Container(),
-                                                                ],
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
+                              );
+                              return;
+                            }
+                            showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                enableDrag: false,
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusDirectional.only(
+                                    topEnd: Radius.circular(25),
+                                    topStart: Radius.circular(25),
                                   ),
-                                ],
-                              ),
-                            );
+                                ),
+                                builder: (context) => CardBankProduk());
                           },
                           width: 30,
                         ),
-                      ),
-                      BoxPengriman(
-                        type: 'Promo',
-                        urlIcons: 'assets/icons/persen_icons.png',
-                        title: 'Lebih Hemat Pake Promo',
-                        onTap: () {},
-                        width: 30,
                       ),
                     ],
                   ),
@@ -547,17 +388,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                         'Rincian Pembayaran',
                         style: blackHigtTextStyle.copyWith(fontSize: 18),
                       ),
-                      const SizedBox(
-                        height: 26,
-                      ),
                       Obx(
                         () => TextBoldSpacebetwen(
-                          title: 'Total Produk',
+                          title: 'Total Harga Produk',
                           title1: '',
                           title2: CurrencyFormat.convertToIdr(
-                            state.totalAmountProduct.value,
-                            0,
-                          ),
+                              state.totalAmountProduct.value, 0),
                         ),
                       ),
                       Obx(
@@ -565,40 +401,33 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           title: 'Biaya Pengiriman',
                           title1: '',
                           title2: CurrencyFormat.convertToIdr(
-                            state.shippingPrice.value,
-                            0,
-                          ),
+                              state.shippingPrice.value, 0),
                         ),
                       ),
-                      const TextBoldSpacebetwen(
-                        title: 'Biaya Pembayaran',
-                        title1: '',
-                        title2: '-',
+                      Obx(
+                        () => TextBoldSpacebetwen(
+                          title:
+                              'Diskon Voucher ${state.isOngkir.value ? 'Ongkir' : ''}',
+                          title1: '',
+                          title2:
+                              "${CurrencyFormat.convertToIdr(state.totalDiscount.value, 0)} ${state.discountPercentage.value == 0 ? '' : '(${state.discountPercentage.value}%)'}",
+                        ),
                       ),
-                      const TextBoldSpacebetwen(
-                        title: 'Diskon Promo',
-                        title1: '',
-                        title2: '-',
+                      Obx(
+                        () => TextBoldSpacebetwen(
+                          title: 'Biaya Transaksi',
+                          title1: '',
+                          title2: CurrencyFormat.convertToIdr(
+                              state.transactionFee.value, 0),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'PPN',
-                            style: subGreyTextStyle.copyWith(
-                                fontSize: 15,
-                                color: Color(0XFF323232),
-                                fontWeight: regular),
-                          ),
-                          Text(
-                            'Gratis',
-                            style: blackHigtTextStyle.copyWith(
-                                fontSize: 15, color: redColor),
-                          ),
-                        ],
+                      Obx(
+                        () => TextBoldSpacebetwen(
+                          title: 'Tax',
+                          title1: '',
+                          title2:
+                              CurrencyFormat.convertToIdr(state.tax.value, 0),
+                        ),
                       ),
                       const SizedBox(
                         height: 11,
@@ -611,9 +440,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           title: 'Total Tagihan',
                           title1: '',
                           title2: CurrencyFormat.convertToIdr(
-                            state.totalAmount.value,
-                            0,
-                          ),
+                              state.totalPaid.value, 0),
                         ),
                       ),
                     ],
@@ -643,24 +470,12 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           'Total ${state.listProductItem.length} Produk',
                           style: blackRegulerTextStyle,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Obx(
-                              () => Text(
-                                CurrencyFormat.convertToIdr(
-                                  state.totalAmount.value,
-                                  0,
-                                ),
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 20),
-                              ),
-                            ),
-                            const Icon(
-                              Icons.keyboard_arrow_up,
-                            )
-                          ],
+                        Obx(
+                          () => Text(
+                            CurrencyFormat.convertToIdr(
+                                state.totalPaid.value, 0),
+                            style: blackHigtTextStyle.copyWith(fontSize: 20),
+                          ),
                         ),
                       ],
                     ),

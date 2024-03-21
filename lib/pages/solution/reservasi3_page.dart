@@ -3,30 +3,29 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
-
-import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/selesai_pembayaran_treatment_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/treatment_promo_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
-
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
+import '../../controller/customer/transaction/order/order_treatment_controller.dart';
 
 // ignore: must_be_immutable
 class Resevasi3Page extends StatefulWidget {
   int pax;
   String tgl;
   final Data2 treatment;
-  Resevasi3Page(
-      {required this.pax,
-      required this.tgl,
-      required this.treatment,
-      super.key});
+  Resevasi3Page({
+    required this.pax,
+    required this.tgl,
+    required this.treatment,
+    super.key,
+  });
 
   @override
   State<Resevasi3Page> createState() => _Resevasi3PageState();
@@ -39,6 +38,8 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      state.totalPrice.value =
+          (widget.treatment.price! * widget.pax).toDouble();
       state.initPayment(context);
     });
   }
@@ -78,43 +79,6 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       'Selesaikan dalam',
-                    //       style: blackHigtTextStyle.copyWith(fontSize: 18),
-                    //     ),
-                    //     const Spacer(),
-                    //     Container(
-                    //       padding: const EdgeInsets.symmetric(horizontal: 10),
-                    //       width: 105,
-                    //       height: 23,
-                    //       decoration: BoxDecoration(
-                    //         color: const Color(0xffA72424),
-                    //         borderRadius: BorderRadius.circular(25),
-                    //       ),
-                    //       child: Row(
-                    //         children: [
-                    //           Image.asset(
-                    //             'assets/icons/logojam.png',
-                    //             width: 10,
-                    //             color: whiteColor,
-                    //           ),
-                    //           const SizedBox(
-                    //             width: 7,
-                    //           ),
-                    //           Text(
-                    //             '17 : 12 : 00',
-                    //             style: whiteTextStyle.copyWith(fontSize: 13),
-                    //           ),
-                    //         ],
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // const SizedBox(
-                    //   height: 16,
-                    // ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -184,7 +148,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const PromoPage(),
+                      builder: (context) => TreatmentPromoPage(),
                     ),
                   );
                 },
@@ -210,18 +174,29 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                       const SizedBox(
                         width: 12,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Kamu bisa hemat Rp 25.000',
-                            style: blackTextStyle.copyWith(fontSize: 15),
-                          ),
-                          Text(
-                            '1 voucher dipakai',
-                            style: subTitleTextStyle.copyWith(fontSize: 13),
-                          ),
-                        ],
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Obx(
+                              () => Text(
+                                (state.voucherName.value.isNotEmpty)
+                                    ? state.voucherName.value
+                                    : 'Pakai Voucher',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: medium,
+                                ),
+                              ),
+                            ),
+                            if (state.voucherName.value.isNotEmpty)
+                              Text(
+                                '1 voucher dipakai',
+                                style: subTitleTextStyle.copyWith(fontSize: 13),
+                              ),
+                          ],
+                        ),
                       ),
                       const Spacer(),
                       const Icon(Icons.keyboard_arrow_right)
@@ -230,59 +205,63 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                 ),
               ),
               CardTreatmentBank(),
-              Padding(
-                padding: lsymetric.copyWith(top: 22, bottom: 22),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Ringkasan Pembayaran',
-                      style: blackTextStyle.copyWith(fontSize: 18),
-                    ),
-                    const SizedBox(
-                      height: 27,
-                    ),
-                    TextSpaceBetween(
-                      title: 'Total Perawatan',
-                      title2: CurrencyFormat.convertToIdr(
-                          widget.treatment.price! * widget.pax, 0),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Biaya Jasa Aplikasi',
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 14,
-                              color: const Color(0XFF323232),
-                              fontWeight: regular),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Image.asset(
-                          'assets/icons/alert.png',
-                          width: 11,
-                        ),
-                        const Spacer(),
-                        Text(
-                          'Rp0',
-                          style: subGreyTextStyle.copyWith(fontSize: 14),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    const TextSpaceBetween(
-                      title: 'Biaya Pembayaran',
-                      title2: 'Rp0',
-                    )
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: lsymetric.copyWith(top: 22, bottom: 22),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(
+              //         'Ringkasan Pembayaran',
+              //         style: blackTextStyle.copyWith(fontSize: 18),
+              //       ),
+              //       const SizedBox(
+              //         height: 27,
+              //       ),
+              //       Obx(
+              //         () => TextSpaceBetween(
+              //           title: 'Total Perawatan',
+              //           title2: CurrencyFormat.convertToIdr(
+              //             state.totalPrice.value,
+              //             0,
+              //           ),
+              //         ),
+              //       ),
+              //       const SizedBox(
+              //         height: 12,
+              //       ),
+              //       Row(
+              //         children: [
+              //           Text(
+              //             'Biaya Jasa Aplikasi',
+              //             style: subGreyTextStyle.copyWith(
+              //                 fontSize: 14,
+              //                 color: const Color(0XFF323232),
+              //                 fontWeight: regular),
+              //           ),
+              //           const SizedBox(
+              //             width: 4,
+              //           ),
+              //           Image.asset(
+              //             'assets/icons/alert.png',
+              //             width: 11,
+              //           ),
+              //           const Spacer(),
+              //           Text(
+              //             'Rp0',
+              //             style: subGreyTextStyle.copyWith(fontSize: 14),
+              //           ),
+              //         ],
+              //       ),
+              //       const SizedBox(
+              //         height: 12,
+              //       ),
+              //       const TextSpaceBetween(
+              //         title: 'Biaya Pembayaran',
+              //         title2: 'Rp0',
+              //       )
+              //     ],
+              //   ),
+              // ),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 23, vertical: 15),
@@ -419,7 +398,7 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Total Perawatan',
+              'Total Bayar',
               style: blackRegulerTextStyle,
             ),
             const SizedBox(
@@ -427,10 +406,14 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
             ),
             Row(
               children: [
-                Text(
-                  CurrencyFormat.convertToIdr(
-                      widget.treatment.price! * widget.pax, 0),
-                  style: blackHigtTextStyle.copyWith(fontSize: 20),
+                Obx(
+                  () => Text(
+                    CurrencyFormat.convertToIdr(
+                      state.totalPaid.value,
+                      0,
+                    ),
+                    style: blackHigtTextStyle.copyWith(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(
                   width: 12,
@@ -486,7 +469,6 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                           treatment: widget.treatment,
                           orderId: state.orderId.value,
                           bankImage: state.bankImage.value,
-                          // bank: state.bank.value,
                           expireTime: state.expireTime.value,
                           pax: widget.pax,
                           paymentMethodId: state.idPayment.value,
@@ -586,9 +568,11 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
               ),
               Obx(
                 () => Text(
-                  stateTreatment.phone.value,
+                  "+62${stateTreatment.phone.value}",
                   style: blackRegulerTextStyle.copyWith(
-                      fontSize: 15, color: blackColor),
+                    fontSize: 15,
+                    color: blackColor,
+                  ),
                 ),
               ),
             ],
@@ -639,57 +623,84 @@ class _Resevasi3PageState extends State<Resevasi3Page> {
                 ),
               ),
               const SizedBox(
-                height: 13,
+                height: 10,
               ),
               Text(
                 'Harga',
                 style: subTitleTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
-                height: 13,
+                height: 5,
               ),
-              TextBoldSpacebetwen(
-                title: '${widget.treatment.name} ${widget.pax} pax',
-                title2: CurrencyFormat.convertToIdr(
-                    widget.treatment.price! * widget.pax, 0),
-                title1: '',
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: '${widget.treatment.name} ${widget.pax} pax',
+                  title2:
+                      CurrencyFormat.convertToIdr(state.totalPrice.value, 0),
+                  title1: '',
+                ),
               ),
               const SizedBox(
-                height: 18,
+                height: 5,
               ),
               dividergrey(),
               const SizedBox(
-                height: 18,
+                height: 5,
               ),
               Text(
                 'Biaya Lainnya',
                 style: subTitleTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
-                height: 12,
+                height: 5,
               ),
-              const TextBoldSpacebetwen(
-                title: 'Pajak',
-                title2: 'Termasuk',
-                title1: '',
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Biaya transaksi',
-                title2: 'Rp0',
-                title1: '',
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Tax',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.tax.value,
+                    0,
+                  ),
+                  title1: '',
+                ),
               ),
               const SizedBox(
-                height: 19,
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Diskon Voucher',
+                  title2:
+                      "${CurrencyFormat.convertToIdr(state.totalDiscount.value, 0)} ${state.discountPercentage.value == 0 ? '' : '(${state.discountPercentage.value}%)'}",
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya transaksi',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionFee.value,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               dividergrey(),
-              TextBoldSpacebetwen(
-                title: 'Total Pembayaran',
-                title2: CurrencyFormat.convertToIdr(
-                    widget.treatment.price! * widget.pax, 0),
-                title1: '',
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Total Pembayaran',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.totalPaid.value,
+                    0,
+                  ),
+                  title1: '',
+                ),
               ),
             ],
           ),

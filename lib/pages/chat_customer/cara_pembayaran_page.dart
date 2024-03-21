@@ -52,11 +52,6 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
   Data? method;
   List<bool> isVisibility = [];
 
-  String paymentType = '-';
-  String billerCode = '-';
-  String billerKey = '-';
-  String virtualAccount = '-';
-
   @override
   void initState() {
     super.initState();
@@ -71,22 +66,10 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
 
       if (widget.transactionType == "Konsultasi") {
         await stateConsultation.getTransactionStatus(context, widget.orderId);
-        paymentType = stateConsultation.paymentType.value;
-        billerCode = stateConsultation.billerCode.value;
-        billerKey = stateConsultation.billerKey.value;
-        virtualAccount = stateConsultation.virtualAccount.value;
       } else if (widget.transactionType == "Produk") {
         await stateProduk.getTransactionStatus(context, widget.orderId);
-        paymentType = stateProduk.paymentType.value;
-        billerCode = stateProduk.billerCode.value;
-        billerKey = stateProduk.billerKey.value;
-        virtualAccount = stateProduk.virtualAccount.value;
       } else if (widget.transactionType == "Treatment") {
         await stateTreatment.getTransactionStatus(context, widget.orderId);
-        paymentType = stateTreatment.paymentType.value;
-        billerCode = stateTreatment.billerCode.value;
-        billerKey = stateTreatment.billerKey.value;
-        virtualAccount = stateTreatment.virtualAccount.value;
       }
       state.isMinorLoading.value = false;
       setState(() {});
@@ -102,7 +85,25 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
           ),
-          builder: (context) => const TransaksiMoreDialog(),
+          builder: (context) => TransaksiKonsultasiDialog(
+            methode: method?.name ?? "",
+            totalFee: stateConsultation
+                    .transactionStatus.value.data?.transaction?.totalFee ??
+                0,
+            tax: stateConsultation
+                    .transactionStatus.value.data?.transaction?.tax ??
+                0,
+            totalDiscount: stateConsultation
+                    .transactionStatus.value.data?.transaction?.totalDiscount ??
+                0,
+            totalPaid: stateConsultation
+                    .transactionStatus.value.data?.transaction?.totalPaid ??
+                0,
+            transactionFee: stateConsultation.transactionStatus.value.data
+                    ?.transaction?.transactionFee ??
+                0,
+            discountPercentage: 0,
+          ),
         );
         break;
       case 'Treatment':
@@ -124,12 +125,12 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
     }
   }
 
-  Widget detailTreatment(BuildContext context) {
+  Widget detailTreatment(context) {
     return Wrap(
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 36, bottom: 40),
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -165,60 +166,167 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                 ),
               ),
               const SizedBox(
-                height: 13,
+                height: 10,
               ),
               Text(
                 'Harga',
                 style: subTitleTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
-                height: 13,
+                height: 5,
               ),
-              TextBoldSpacebetwen(
-                title: '${widget.treatment?.name} ${widget.pax} pax',
-                title2: CurrencyFormat.convertToIdr(
-                    widget.treatment!.price! * widget.pax!, 0),
-                title1: '',
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: '${widget.treatment?.name} ${widget.pax} pax',
+                  title2: CurrencyFormat.convertToIdr(
+                      stateTreatment.transactionStatus.value.data?.transaction
+                          ?.totalPrice,
+                      0),
+                  title1: '',
+                ),
               ),
               const SizedBox(
-                height: 18,
+                height: 5,
               ),
               dividergrey(),
               const SizedBox(
-                height: 18,
+                height: 5,
               ),
               Text(
                 'Biaya Lainnya',
                 style: subTitleTextStyle.copyWith(fontSize: 15),
               ),
               const SizedBox(
-                height: 12,
+                height: 5,
               ),
-              const TextBoldSpacebetwen(
-                title: 'Pajak',
-                title2: 'Termasuk',
-                title1: '',
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              const TextBoldSpacebetwen(
-                title: 'Biaya transaksi',
-                title2: 'Rp0',
-                title1: '',
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Tax',
+                  title2: CurrencyFormat.convertToIdr(
+                    stateTreatment
+                        .transactionStatus.value.data?.transaction?.tax,
+                    0,
+                  ),
+                  title1: '',
+                ),
               ),
               const SizedBox(
-                height: 19,
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Diskon Voucher',
+                  title2: CurrencyFormat.convertToIdr(
+                      stateTreatment.transactionStatus.value.data?.transaction
+                          ?.totalDiscount,
+                      0),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya transaksi',
+                  title2: CurrencyFormat.convertToIdr(
+                    stateTreatment.transactionStatus.value.data?.transaction
+                        ?.transactionFee,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
               ),
               dividergrey(),
-              TextBoldSpacebetwen(
-                title: 'Total Pembayaran',
-                title2: CurrencyFormat.convertToIdr(
-                    widget.treatment!.price! * widget.pax!, 0),
-                title1: '',
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Total Pembayaran',
+                  title2: CurrencyFormat.convertToIdr(
+                    stateTreatment
+                        .transactionStatus.value.data?.transaction?.totalPaid,
+                    0,
+                  ),
+                  title1: '',
+                ),
               ),
             ],
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget virtualAccount(String vaNumber) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const TextSpaceBetween(
+              title: 'Nomor Virtual Account',
+              title2: '',
+            ),
+            InkWell(
+              onTap: () {
+                SocialShare.copyToClipboard(
+                  text: vaNumber.toString(),
+                );
+                SnackbarWidget.getSuccessSnackbar(
+                  context,
+                  "Berhasil",
+                  "Berhasil disalin",
+                );
+              },
+              child: Row(
+                children: [
+                  SelectableText(
+                    vaNumber.toString(),
+                    style: blackTextStyle.copyWith(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Image.asset(
+                    'assets/icons/salin_icons.png',
+                    width: 14,
+                  )
+                ],
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget billerCode(String billCode, String billKey) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const TextSpaceBetween(
+              title: 'Biller Code',
+              title2: '',
+            ),
+            SelectableText(
+              billCode,
+              style: blackTextStyle.copyWith(fontSize: 15),
+            ),
+            const TextSpaceBetween(
+              title: 'Biller Key',
+              title2: '',
+            ),
+            SelectableText(
+              billKey,
+              style: blackTextStyle.copyWith(fontSize: 15),
+            )
+          ],
         ),
       ],
     );
@@ -248,7 +356,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                   Row(
                     children: [
                       Text(
-                        method?.name ?? '-',
+                        method?.name ?? '',
                         style: blackTextStyle.copyWith(fontSize: 15),
                       ),
                       const Spacer(),
@@ -264,75 +372,81 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                   const Divider(
                     thickness: 2,
                   ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if (paymentType == "bank_transfer")
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TextSpaceBetween(
-                              title: 'Nomor Virtual Account',
-                              title2: '',
-                            ),
-                            SelectableText(
-                              virtualAccount,
-                              style: blackTextStyle.copyWith(fontSize: 15),
-                            )
-                          ],
-                        )
-                      else if (paymentType == "echannel")
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TextSpaceBetween(
-                              title: 'Biller Code',
-                              title2: '',
-                            ),
-                            SelectableText(
-                              billerCode,
-                              style: blackTextStyle.copyWith(fontSize: 15),
-                            ),
-                            const TextSpaceBetween(
-                              title: 'Biller Key',
-                              title2: '',
-                            ),
-                            SelectableText(
-                              billerKey,
-                              style: blackTextStyle.copyWith(fontSize: 15),
-                            ),
-                          ],
-                        ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () {
-                          SocialShare.copyToClipboard(
-                            text: virtualAccount,
-                          );
-
-                          SnackbarWidget.getSuccessSnackbar(
-                            context,
-                            "Berhasil",
-                            "Berhasil disalin",
-                          );
-                        },
-                        child: Text(
-                          'Salin',
-                          style: grenTextStyle.copyWith(fontSize: 14),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Image.asset(
-                        'assets/icons/salin_icons.png',
-                        width: 14,
-                      )
-                    ],
-                  ),
+                  if (widget.transactionType != "Konsultasi")
+                    const SizedBox(
+                      height: 21,
+                    ),
+                  if (widget.transactionType == "Treatment")
+                    Obx(() {
+                      switch (stateTreatment
+                          .transactionStatus.value.data?.paymentMethod) {
+                        case 'EWALLET':
+                          return Container();
+                        case 'FREE':
+                          return Container();
+                        case 'VIRTUAL_ACCOUNT':
+                          if (stateTreatment
+                                      .transactionStatus
+                                      .value
+                                      .data
+                                      ?.transaction
+                                      ?.paymentMethod
+                                      ?.paymentGateway ==
+                                  "Midtrans" &&
+                              stateTreatment.transactionStatus.value.data
+                                      ?.paymentMethod ==
+                                  "VIRTUAL_ACCOUNT" &&
+                              stateTreatment.transactionStatus.value.data
+                                      ?.paymentType ==
+                                  "MANDIRI") {
+                            return billerCode(
+                                stateTreatment.transactionStatus.value.data
+                                        ?.transaction?.billerCode
+                                        .toString() ??
+                                    "",
+                                stateTreatment.transactionStatus.value.data
+                                        ?.transaction?.billKey
+                                        .toString() ??
+                                    "");
+                          } else {
+                            return virtualAccount(stateTreatment
+                                    .transactionStatus
+                                    .value
+                                    .data
+                                    ?.transaction
+                                    ?.vaNumber
+                                    .toString() ??
+                                "");
+                          }
+                        case 'QR_CODE':
+                          return Container();
+                        case 'BANK_TRANSFER_MANUAL_VERIFICATION':
+                          return Container();
+                        default:
+                          return Container();
+                      }
+                    }),
+                  if (widget.transactionType == "Produk")
+                    Obx(() {
+                      switch (stateProduk
+                          .transactionStatus.value.data?.paymentMethod) {
+                        case 'EWALLET':
+                          return Container();
+                        case 'FREE':
+                          return Container();
+                        case 'VIRTUAL_ACCOUNT':
+                          return virtualAccount(stateProduk.transactionStatus
+                                  .value.data?.transaction?.vaNumber
+                                  .toString() ??
+                              "");
+                        case 'QR_CODE':
+                          return Container();
+                        case 'BANK_TRANSFER_MANUAL_VERIFICATION':
+                          return Container();
+                        default:
+                          return Container();
+                      }
+                    }),
                   const SizedBox(
                     height: 18,
                   ),
@@ -346,23 +460,33 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                             title: 'Total Pembayaran',
                             title2: '',
                           ),
-                          Row(
-                            children: [
-                              Text(
-                                CurrencyFormat.convertToIdr(
-                                  widget.totalPaid,
-                                  0,
+                          InkWell(
+                            onTap: () {
+                              SocialShare.copyToClipboard(
+                                text: widget.totalPaid.toString(),
+                              );
+                              SnackbarWidget.getSuccessSnackbar(
+                                context,
+                                "Berhasil",
+                                "Berhasil disalin",
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  CurrencyFormat.convertToIdr(
+                                      widget.totalPaid, 0),
+                                  style: blackTextStyle.copyWith(fontSize: 15),
                                 ),
-                                style: blackTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Image.asset(
-                                'assets/icons/salin_icons.png',
-                                width: 14,
-                              )
-                            ],
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                Image.asset(
+                                  'assets/icons/salin_icons.png',
+                                  width: 14,
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),

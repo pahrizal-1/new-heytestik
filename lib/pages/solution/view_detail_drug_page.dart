@@ -798,6 +798,7 @@ class _DetailDrugPageState extends State<DetailDrugPage> {
                             onTap: () {
                               List product = [
                                 {
+                                  "type": 'DRUGS',
                                   "productId": stateDrug.drugDetail.value.id,
                                   "productName":
                                       stateDrug.drugDetail.value.name,

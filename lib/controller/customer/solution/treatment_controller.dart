@@ -21,7 +21,7 @@ class TreatmentController extends StateClass {
   RxInt index = 0.obs;
   RxInt pax = 0.obs;
   var dataUser;
-  RxString fullName = ''.obs;
+  RxString fullName = '-'.obs;
   RxString phone = '-'.obs;
   var hasMore = true.obs;
 

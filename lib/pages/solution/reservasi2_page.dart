@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_treatmetment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_treatment_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/treatment_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
@@ -224,7 +224,7 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
                 ),
                 Obx(
                   () => Text(
-                    stateTreatment.phone.value,
+                    "+62${stateTreatment.phone.value}",
                     style: blackHigtTextStyle.copyWith(fontSize: 15),
                   ),
                 ),
@@ -422,7 +422,7 @@ class _Reservasi2PageState extends State<Reservasi2Page> {
 
                 if (cekJadwal()) {
                   Get.to(
-                    Resevasi3Page(
+                    () => Resevasi3Page(
                       pax: stateTreatment.pax.value,
                       tgl: ConvertDate.normalDate(stateOrder.arrivalDate.value),
                       treatment: widget.treatment,

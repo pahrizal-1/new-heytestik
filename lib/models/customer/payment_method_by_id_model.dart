@@ -13,8 +13,8 @@ class PaymentMethodByIdModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['success'] = success;
-    data['message'] = message;
+    data['success'] = this.success;
+    data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -26,7 +26,12 @@ class Data {
   int? id;
   String? name;
   String? method;
+  String? paymentGateway;
   String? type;
+  String? channelCode;
+  String? transactionFeeType;
+  int? transactionFeePercentage;
+  dynamic transactionFeeFixAmount;
   dynamic accountNumber;
   String? segment;
   String? description;
@@ -43,7 +48,12 @@ class Data {
       {this.id,
       this.name,
       this.method,
+      this.paymentGateway,
       this.type,
+      this.channelCode,
+      this.transactionFeeType,
+      this.transactionFeePercentage,
+      this.transactionFeeFixAmount,
       this.accountNumber,
       this.segment,
       this.description,
@@ -60,7 +70,12 @@ class Data {
     id = json['id'];
     name = json['name'];
     method = json['method'];
+    paymentGateway = json['payment_gateway'];
     type = json['type'];
+    channelCode = json['channel_code'];
+    transactionFeeType = json['transaction_fee_type'];
+    transactionFeePercentage = json['transaction_fee_percentage'];
+    transactionFeeFixAmount = json['transaction_fee_fix_amount'];
     accountNumber = json['account_number'];
     segment = json['segment'];
     description = json['description'];
@@ -83,24 +98,29 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['name'] = name;
-    data['method'] = method;
-    data['type'] = type;
-    data['account_number'] = accountNumber;
-    data['segment'] = segment;
-    data['description'] = description;
-    data['is_active'] = isActive;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (mediaPaymentMethod != null) {
-      data['media_payment_method'] = mediaPaymentMethod!.toJson();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['method'] = this.method;
+    data['payment_gateway'] = this.paymentGateway;
+    data['type'] = this.type;
+    data['channel_code'] = this.channelCode;
+    data['transaction_fee_type'] = this.transactionFeeType;
+    data['transaction_fee_percentage'] = this.transactionFeePercentage;
+    data['transaction_fee_fix_amount'] = this.transactionFeeFixAmount;
+    data['account_number'] = this.accountNumber;
+    data['segment'] = this.segment;
+    data['description'] = this.description;
+    data['is_active'] = this.isActive;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.mediaPaymentMethod != null) {
+      data['media_payment_method'] = this.mediaPaymentMethod!.toJson();
     }
-    if (howToPays != null) {
-      data['how_to_pays'] = howToPays!.map((v) => v.toJson()).toList();
+    if (this.howToPays != null) {
+      data['how_to_pays'] = this.howToPays!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -142,16 +162,16 @@ class MediaPaymentMethod {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['media_id'] = mediaId;
-    data['payment_method_id'] = paymentMethodId;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
-    if (media != null) {
-      data['media'] = media!.toJson();
+    data['id'] = this.id;
+    data['media_id'] = this.mediaId;
+    data['payment_method_id'] = this.paymentMethodId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.media != null) {
+      data['media'] = this.media!.toJson();
     }
     return data;
   }
@@ -202,18 +222,18 @@ class Media {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['filename'] = filename;
-    data['ext'] = ext;
-    data['size'] = size;
-    data['mime'] = mime;
-    data['path'] = path;
-    data['destination'] = destination;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
+    data['id'] = this.id;
+    data['filename'] = this.filename;
+    data['ext'] = this.ext;
+    data['size'] = this.size;
+    data['mime'] = this.mime;
+    data['path'] = this.path;
+    data['destination'] = this.destination;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }
@@ -254,15 +274,15 @@ class HowToPays {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['payment_method_id'] = paymentMethodId;
-    data['name'] = name;
-    data['steps'] = steps;
-    data['created_by'] = createdBy;
-    data['updated_by'] = updatedBy;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    data['deleted_at'] = deletedAt;
+    data['id'] = this.id;
+    data['payment_method_id'] = this.paymentMethodId;
+    data['name'] = this.name;
+    data['steps'] = this.steps;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
     return data;
   }
 }

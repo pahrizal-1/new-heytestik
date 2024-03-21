@@ -1,26 +1,37 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_product_controller.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 
 import 'Text_widget.dart';
 
-class TransaksiMoreDialog extends StatefulWidget {
-  const TransaksiMoreDialog({super.key});
+class TransaksiKonsultasiDialog extends StatelessWidget {
+  String methode;
+  int totalFee;
+  int totalDiscount;
+  int? discountPercentage;
+  int tax;
+  int transactionFee;
+  int totalPaid;
+  TransaksiKonsultasiDialog({
+    super.key,
+    required this.methode,
+    required this.totalFee,
+    required this.totalDiscount,
+    this.discountPercentage = 0,
+    required this.tax,
+    required this.transactionFee,
+    required this.totalPaid,
+  });
 
-  @override
-  State<TransaksiMoreDialog> createState() => _TransaksiMoreDialogState();
-}
-
-class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(30),
         child: Container(
-          height: 280,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: whiteColor,
@@ -63,12 +74,12 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
                       style: greyTextStyle.copyWith(fontSize: 15),
                     ),
                   ),
-                  // Expanded(
-                  //   child: Text(
-                  //     'Metode Pembayaran',
-                  //     style: greyTextStyle.copyWith(fontSize: 15),
-                  //   ),
-                  // ),
+                  Expanded(
+                    child: Text(
+                      methode,
+                      style: blackHigtTextStyle.copyWith(fontSize: 15),
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -82,29 +93,49 @@ class _TransaksiMoreDialogState extends State<TransaksiMoreDialog> {
               ),
               TextBoldSpacebetwen(
                 title: 'Biaya Sesi',
-                title2: 'Rp45.000',
+                title2: CurrencyFormat.convertToIdr(totalFee, 0),
                 title1: ' 30 Menit',
               ),
               SizedBox(
-                height: 18,
+                height: 10,
               ),
               TextBoldSpacebetwen(
                 title: 'Diskon Voucher',
-                title2: 'Rp0',
+                title2:
+                    "${CurrencyFormat.convertToIdr(totalDiscount, 0)} ${discountPercentage == 0 ? '' : '($discountPercentage%)'}",
                 title1: '',
               ),
               SizedBox(
-                height: 18,
+                height: 10,
+              ),
+              TextBoldSpacebetwen(
+                title: 'Tax',
+                title2: CurrencyFormat.convertToIdr(tax, 0),
+                title1: '',
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              TextBoldSpacebetwen(
+                title: 'Biaya Transaksi',
+                title2: CurrencyFormat.convertToIdr(
+                  transactionFee,
+                  0,
+                ),
+                title1: '',
+              ),
+              SizedBox(
+                height: 10,
               ),
               Divider(
                 thickness: 3,
               ),
               SizedBox(
-                height: 18,
+                height: 5,
               ),
               TextBoldSpacebetwen(
                 title: 'Total Tagihan',
-                title2: 'Rp45.000',
+                title2: CurrencyFormat.convertToIdr(totalPaid, 0),
                 title1: '',
               ),
             ],
@@ -172,12 +203,7 @@ class _PilihPengirimMoreDialogState extends State<PilihPengirimMoreDialog> {
                     return InkWell(
                       onTap: () {
                         if (element.isActive!) {
-                          state.shippingId.value = element.id!;
-                          state.shippingName.value = element.name!;
-                          state.shippingDesc.value = element.description!;
-                          state.shippingPrice.value = element.price!;
-
-                          state.totalAmountFunc();
+                          state.shipping(element);
                           setState(() {});
                           Get.back();
                         }
