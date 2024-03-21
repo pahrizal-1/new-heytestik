@@ -203,14 +203,7 @@ class _PilihPengirimMoreDialogState extends State<PilihPengirimMoreDialog> {
                     return InkWell(
                       onTap: () {
                         if (element.isActive!) {
-                          state.shippingId.value = element.id!;
-                          state.shippingName.value = element.name!;
-                          state.shippingDesc.value = element.description!;
-                          state.shippingPrice.value = element.price!.toDouble();
-                          state.shippingPriceSet.value =
-                              element.price!.toDouble();
-                          state.totalAmountFunc();
-                          state.shipping();
+                          state.shipping(element);
                           setState(() {});
                           Get.back();
                         }

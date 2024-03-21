@@ -474,28 +474,28 @@ class _SelesaiPembayaranProdukPageState
                                     ),
                                   ),
                                   const Spacer(),
-                                  InkWell(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                        isDismissible: false,
-                                        context: context,
-                                        backgroundColor: Colors.white,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadiusDirectional.only(
-                                            topEnd: Radius.circular(25),
-                                            topStart: Radius.circular(25),
-                                          ),
-                                        ),
-                                        builder: (context) => detail(context),
-                                      );
-                                    },
-                                    child: Text(
-                                      'Lihat Detail',
-                                      style:
-                                          grenTextStyle.copyWith(fontSize: 14),
-                                    ),
-                                  ),
+                                  // InkWell(
+                                  //   onTap: () {
+                                  //     showModalBottomSheet(
+                                  //       isDismissible: false,
+                                  //       context: context,
+                                  //       backgroundColor: Colors.white,
+                                  //       shape: const RoundedRectangleBorder(
+                                  //         borderRadius:
+                                  //             BorderRadiusDirectional.only(
+                                  //           topEnd: Radius.circular(25),
+                                  //           topStart: Radius.circular(25),
+                                  //         ),
+                                  //       ),
+                                  //       builder: (context) => detail(context),
+                                  //     );
+                                  //   },
+                                  //   child: Text(
+                                  //     'Lihat detail',
+                                  //     style:
+                                  //         grenTextStyle.copyWith(fontSize: 14),
+                                  //   ),
+                                  // ),
                                   const SizedBox(
                                     width: 8,
                                   ),
