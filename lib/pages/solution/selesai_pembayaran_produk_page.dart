@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
+// ignore_for_file: must_be_immutable, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'dart:async';
 
@@ -55,27 +55,32 @@ class _SelesaiPembayaranProdukPageState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isLoading.value = true;
       method = await all.getPaymentmethod(context, widget.paymentMethodId);
-      print("widget.orderId ${widget.orderId}");
-      await state.getTransactionStatus(context, widget.orderId.toString());
-      state.isLoading.value = false;
-      setTime();
-      startTimer();
-      setState(() {});
+      await state
+          .getTransactionStatus(context, widget.orderId.toString())
+          .then((value) {
+        state.isLoading.value = false;
+        setTime();
+        startTimer();
+        setState(() {});
+      });
     });
   }
 
   setTime() {
     DateTime today = DateTime.now();
-    print('now $today');
-    print('expirytime ${state.expirytime.value}');
-    DateTime tdata = DateTime.parse(state.expirytime.value);
-    print('data $tdata');
-
-    var mundur = tdata.difference(today);
-    print('mundur $mundur');
-    print('inMilliseconds ${mundur.inSeconds}');
-    myDuration = Duration(seconds: mundur.inSeconds);
-    print('myDuration $myDuration');
+    print('expirytime 11 ${state.expirytime.value}');
+    if (state.expirytime.value != '' ||
+        state.expirytime.value != null ||
+        state.expirytime.value.isNotEmpty) {
+      print('expirytime 22 ${state.expirytime.value}');
+      DateTime tdata = DateTime.parse(state.expirytime.value);
+      print('data $tdata');
+      var mundur = tdata.difference(today);
+      print('mundur $mundur');
+      print('inMilliseconds ${mundur.inSeconds}');
+      myDuration = Duration(seconds: mundur.inSeconds);
+      print('myDuration $myDuration');
+    }
   }
 
   /// Timer related methods ///
@@ -121,6 +126,111 @@ class _SelesaiPembayaranProdukPageState
     return Future.value(false);
   }
 
+  Widget eWallet() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const TextSpaceBetween(
+              title: 'Klik Bayar untuk pembayaran',
+              title2: '',
+            ),
+            InkWell(
+              onTap: () async {
+                await state.launchURL(
+                  state.transactionStatus.value.data!.actions![0].url
+                      .toString(),
+                );
+              },
+              child: Text(
+                ' Bayar',
+                style: grenTextStyle.copyWith(
+                  fontSize: 15,
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget virtualAccount() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const TextSpaceBetween(
+              title: 'Nomor Virtual Account',
+              title2: '',
+            ),
+            InkWell(
+              onTap: () {
+                SocialShare.copyToClipboard(
+                  text: state.transactionStatus.value.data?.vaNumber.toString(),
+                );
+                SnackbarWidget.getSuccessSnackbar(
+                  context,
+                  "Berhasil",
+                  "Berhasil disalin",
+                );
+              },
+              child: Row(
+                children: [
+                  SelectableText(
+                    state.transactionStatus.value.data!.vaNumber,
+                    style: blackTextStyle.copyWith(fontSize: 15),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Image.asset(
+                    'assets/icons/salin_icons.png',
+                    width: 14,
+                  )
+                ],
+              ),
+            )
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget billerCode() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const TextSpaceBetween(
+              title: 'Biller Code',
+              title2: '',
+            ),
+            SelectableText(
+              state.transactionStatus.value.data?.billCode,
+              style: blackTextStyle.copyWith(fontSize: 15),
+            ),
+            const TextSpaceBetween(
+              title: 'Biller Key',
+              title2: '',
+            ),
+            SelectableText(
+              state.transactionStatus.value.data?.billKey,
+              style: blackTextStyle.copyWith(fontSize: 15),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
@@ -156,10 +266,16 @@ class _SelesaiPembayaranProdukPageState
               const SizedBox(
                 width: 11,
               ),
-              Text(
-                method?.name ?? '-',
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-              ),
+              Obx(() {
+                if (!state.isLoading.value) {
+                  return Text(
+                    method?.name ?? '',
+                    style:
+                        whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                  );
+                }
+                return Container();
+              })
             ],
           ),
         ),
@@ -193,7 +309,7 @@ class _SelesaiPembayaranProdukPageState
                                 title2: '',
                               ),
                               Text(
-                                state.expirytime.value != '-'
+                                state.expirytime.value != ''
                                     ? ConvertDate.transactionDate(
                                         state.expirytime.value,
                                       )
@@ -263,66 +379,119 @@ class _SelesaiPembayaranProdukPageState
                           const SizedBox(
                             height: 18,
                           ),
+                          Obx(() {
+                            switch (state
+                                .transactionStatus.value.data?.paymentMethod) {
+                              case 'EWALLET':
+                                return eWallet();
+                              case 'FREE':
+                                return Container();
+                              case 'VIRTUAL_ACCOUNT':
+                                if (state
+                                            .transactionStatus
+                                            .value
+                                            .data
+                                            ?.transaction
+                                            ?.paymentMethod
+                                            ?.paymentGateway ==
+                                        "Midtrans" &&
+                                    state.transactionStatus.value.data
+                                            ?.paymentMethod ==
+                                        "VIRTUAL_ACCOUNT" &&
+                                    state.transactionStatus.value.data
+                                            ?.paymentType ==
+                                        "MANDIRI") {
+                                  return billerCode();
+                                } else {
+                                  return virtualAccount();
+                                }
+                              case 'QR_CODE':
+                                return Container();
+                              case 'BANK_TRANSFER_MANUAL_VERIFICATION':
+                                return Container();
+                              default:
+                                return Container();
+                            }
+                          }),
+                          const SizedBox(
+                            height: 18,
+                          ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (state.paymentType.value ==
-                                      "bank_transfer")
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const TextSpaceBetween(
-                                          title: 'Nomor Virtual Account',
-                                          title2: '',
-                                        ),
-                                        SelectableText(
-                                          state.virtualAccount.value,
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    )
-                                  else if (state.paymentType.value ==
-                                      "echannel")
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const TextSpaceBetween(
-                                          title: 'Biller Code',
-                                          title2: '',
-                                        ),
-                                        SelectableText(
-                                          state.billerCode.value,
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        ),
-                                        const TextSpaceBetween(
-                                          title: 'Biller Key',
-                                          title2: '',
-                                        ),
-                                        SelectableText(
-                                          state.billerKey.value,
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    ),
-                                  const Spacer(),
                                   InkWell(
                                     onTap: () {
                                       SocialShare.copyToClipboard(
-                                        text: state.virtualAccount.value,
+                                        text: state.transactionStatus.value.data
+                                                ?.transaction?.totalPaid
+                                                .toString() ??
+                                            "0",
                                       );
-                                      SnackbarWidget.getSuccessSnackbar(context,
-                                          "Berhasil", "Berhasil disalin");
+                                      SnackbarWidget.getSuccessSnackbar(
+                                        context,
+                                        "Berhasil",
+                                        "Berhasil disalin",
+                                      );
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const TextSpaceBetween(
+                                          title: 'Total Pembayaran',
+                                          title2: '',
+                                        ),
+                                        Row(
+                                          children: [
+                                            Obx(
+                                              () => Text(
+                                                CurrencyFormat.convertToIdr(
+                                                    state
+                                                            .transactionStatus
+                                                            .value
+                                                            .data
+                                                            ?.transaction
+                                                            ?.totalPaid ??
+                                                        0,
+                                                    0),
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 15),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/salin_icons.png',
+                                              width: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        isDismissible: false,
+                                        context: context,
+                                        backgroundColor: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.only(
+                                            topEnd: Radius.circular(25),
+                                            topStart: Radius.circular(25),
+                                          ),
+                                        ),
+                                        builder: (context) => detail(context),
+                                      );
                                     },
                                     child: Text(
-                                      'Salin',
+                                      'Lihat Detail',
                                       style:
                                           grenTextStyle.copyWith(fontSize: 14),
                                     ),
@@ -330,45 +499,8 @@ class _SelesaiPembayaranProdukPageState
                                   const SizedBox(
                                     width: 8,
                                   ),
-                                  Image.asset(
-                                    'assets/icons/salin_icons.png',
-                                    width: 14,
-                                  )
                                 ],
                               ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 18,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const TextSpaceBetween(
-                                title: 'Total Pembayaran',
-                                title2: '',
-                              ),
-                              Row(
-                                children: [
-                                  state.grossAmount.value == '-'
-                                      ? Container()
-                                      : Text(
-                                          CurrencyFormat.convertToIdr(
-                                              double.parse(
-                                                  state.grossAmount.value),
-                                              0),
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Image.asset(
-                                    'assets/icons/salin_icons.png',
-                                    width: 14,
-                                  )
-                                ],
-                              )
                             ],
                           ),
                           const SizedBox(
@@ -385,14 +517,9 @@ class _SelesaiPembayaranProdukPageState
                               Get.to(() => CaraPembayaranPage(
                                     id: widget.paymentMethodId,
                                     orderId: widget.orderId.toString(),
-                                    totalPaid: int.parse(
-                                        double.parse(state.grossAmount.value)
-                                            .round()
-                                            .toString()),
-                                    // vaNumber: state.virtualAccount.value,
-                                    // paymentType: state.paymentType.value,
-                                    // billerCode: state.billerCode.value,
-                                    // billerKey: state.billerKey.value,
+                                    totalPaid: state.transactionStatus.value
+                                            .data?.transaction?.totalPaid ??
+                                        0,
                                     transactionType: 'Produk',
                                   ));
                             },
@@ -442,6 +569,138 @@ class _SelesaiPembayaranProdukPageState
           ),
         ),
       ),
+    );
+  }
+
+  Widget detail(BuildContext context) {
+    return Wrap(
+      children: [
+        // Padding(
+        //   padding:
+        //       const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Row(
+        //         children: [
+        //           InkWell(
+        //             onTap: () {
+        //               Navigator.pop(context);
+        //             },
+        //             child: Image.asset(
+        //               'assets/icons/danger-icons.png',
+        //               width: 20,
+        //             ),
+        //           ),
+        //           const SizedBox(
+        //             width: 19,
+        //           ),
+        //           Text(
+        //             'Detail Harga',
+        //             style: blackTextStyle.copyWith(
+        //               fontSize: 18,
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //       const SizedBox(
+        //         height: 22,
+        //       ),
+        //       Text(
+        //         '${widget.treatment.clinic?.name}',
+        //         style: blackTextStyle.copyWith(
+        //           fontSize: 15,
+        //         ),
+        //       ),
+        //       const SizedBox(
+        //         height: 10,
+        //       ),
+        //       Text(
+        //         'Harga',
+        //         style: subTitleTextStyle.copyWith(fontSize: 15),
+        //       ),
+        //       const SizedBox(
+        //         height: 5,
+        //       ),
+        //       Obx(
+        //         () => TextBoldSpacebetwen(
+        //           title: '${widget.treatment.name} ${widget.pax} pax',
+        //           title2: CurrencyFormat.convertToIdr(
+        //               state.transactionStatus.value.data?.transaction
+        //                   ?.totalPrice,
+        //               0),
+        //           title1: '',
+        //         ),
+        //       ),
+        //       const SizedBox(
+        //         height: 5,
+        //       ),
+        //       dividergrey(),
+        //       const SizedBox(
+        //         height: 5,
+        //       ),
+        //       Text(
+        //         'Biaya Lainnya',
+        //         style: subTitleTextStyle.copyWith(fontSize: 15),
+        //       ),
+        //       const SizedBox(
+        //         height: 5,
+        //       ),
+        //       Obx(
+        //         () => TextBoldSpacebetwen(
+        //           title: 'Tax',
+        //           title2: CurrencyFormat.convertToIdr(
+        //             state.transactionStatus.value.data?.transaction?.tax,
+        //             0,
+        //           ),
+        //           title1: '',
+        //         ),
+        //       ),
+        //       const SizedBox(
+        //         height: 5,
+        //       ),
+        //       Obx(
+        //         () => TextBoldSpacebetwen(
+        //           title: 'Diskon Voucher',
+        //           title2: CurrencyFormat.convertToIdr(
+        //               state.transactionStatus.value.data?.transaction
+        //                   ?.totalDiscount,
+        //               0),
+        //           title1: '',
+        //         ),
+        //       ),
+        //       const SizedBox(
+        //         height: 5,
+        //       ),
+        //       Obx(
+        //         () => TextBoldSpacebetwen(
+        //           title: 'Biaya transaksi',
+        //           title2: CurrencyFormat.convertToIdr(
+        //             state.transactionStatus.value.data?.transaction
+        //                 ?.transactionFee,
+        //             0,
+        //           ),
+        //           title1: '',
+        //         ),
+        //       ),
+        //       const SizedBox(
+        //         height: 10,
+        //       ),
+        //       dividergrey(),
+        //       Obx(
+        //         () => TextBoldSpacebetwen(
+        //           title: 'Total Pembayaran',
+        //           title2: CurrencyFormat.convertToIdr(
+        //             state.transactionStatus.value.data?.transaction?.totalPaid,
+        //             0,
+        //           ),
+        //           title1: '',
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
+      ],
     );
   }
 }
