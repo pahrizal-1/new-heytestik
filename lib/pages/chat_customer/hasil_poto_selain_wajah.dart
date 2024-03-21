@@ -81,7 +81,7 @@ class _HasilPotoSelainWajahState extends State<HasilPotoSelainWajah> {
         children: [
           if (state.isGallery.value)
             Text(
-              'Wajah depan',
+              'Foto',
               style: whiteTextStyle.copyWith(
                 fontWeight: regular,
                 fontSize: 20,

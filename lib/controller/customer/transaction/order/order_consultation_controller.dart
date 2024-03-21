@@ -15,6 +15,8 @@ import 'package:heystetik_mobileapps/service/customer/interest_conditions/intere
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:heystetik_mobileapps/models/customer/available_voucher_model.dart'
+    as Available;
 
 class OrderConsultationController extends StateClass {
   RxString fullName = ''.obs;
@@ -60,8 +62,17 @@ class OrderConsultationController extends StateClass {
   RxString paymentType = ''.obs;
   RxString bankImage = ''.obs;
   RxString orderId = ''.obs;
-  // RxString bank = ''.obs;
   RxString expireTime = ''.obs;
+
+  RxInt voucherId = 0.obs;
+  RxInt discountPercentage = 0.obs;
+  RxDouble totalPaidSet = 0.0.obs;
+  RxDouble totalPaid = 0.0.obs;
+  RxDouble transactionFee = 0.0.obs;
+  RxDouble tax = 0.0.obs;
+  RxDouble totalDiscount = 0.0.obs;
+  RxDouble totalFee = 45000.0.obs;
+  RxString voucherName = "".obs;
 
   clearVariabel() {
     fullName.value = '';
@@ -80,18 +91,167 @@ class OrderConsultationController extends StateClass {
 
     listsAnswer.clear();
     answerSelect = [];
-
+    imageCondition.clear();
     initialConditionFrontFace == null;
     initialConditionRightSide == null;
     initialConditionLeftSide == null;
     initialConditionProblemPart == null;
     getPaymentMethod.value.clear();
+    clearPaymentMethod();
+    defaultVoucher();
+    orderId.value = '';
+    expireTime.value = '';
+  }
+
+  void voucher(Available.Data2 voucher) {
+    voucherName.value = voucher.name ?? "";
+    voucherId.value = voucher.id!;
+    if (voucher.promotionType == "Discount") {
+      if (voucher.discountType == "Fix Amount") {
+        print("Fix Amount ${voucher.discountFixAmount!}");
+        discountPercentage.value = 0;
+        // TOTAL DISKON = discountFixAmount
+        totalDiscount.value = voucher.discountFixAmount!.toDouble();
+        // LANGSUNG DIKURANG SAJA
+        totalPaid.value = totalFee.value - totalDiscount.value;
+      } else if (voucher.discountType == "Percentage") {
+        print("Percentage ${voucher.discountPercentage!}");
+        // PERSENTASE DISKON
+        discountPercentage.value = voucher.discountPercentage!;
+        // BERAPA TOTAL DISKONNYA
+        totalDiscount.value =
+            totalFee.value * (voucher.discountPercentage! / 100);
+        // KALO discount_percentage_maximum_amount TIDAK NULL
+        if (voucher.discountPercentageMaximumAmount != null) {
+          // CEK TOTAL DISKON APA LEBIH DARI discount_percentage_maximum_amount
+          if (totalDiscount.value >
+              (voucher.discountPercentageMaximumAmount ?? 0.0)) {
+            // JIKA IYA, MAKA TOTAL DISKON = discount_percentage_maximum_amount
+            totalDiscount.value =
+                (voucher.discountPercentageMaximumAmount ?? 0.0).toDouble();
+            // RUBAH PERSENTASE DISKON SESUAI discount_percentage_maximum_amount
+            discountPercentage.value =
+                ((totalDiscount.value / totalFee.value) * 100).toInt();
+          }
+        }
+        // TOTAL FEE DIKURANG TOTAL DISKON
+        totalPaid.value = totalFee.value - totalDiscount.value;
+      } else {
+        if (voucher.discountFixAmount != null) {
+          print("Else Fix Amount ${voucher.discountFixAmount!}");
+          discountPercentage.value = 0;
+          // TOTAL DISKON = discountFixAmount
+          totalDiscount.value = voucher.discountFixAmount!.toDouble();
+          // LANGSUNG DIKURANG SAJA
+          totalPaid.value = totalFee.value - totalDiscount.value;
+        } else if (voucher.discountPercentage != null) {
+          print("Else Percentage ${voucher.discountPercentage!}");
+          // PERSENTASE DISKON
+          discountPercentage.value = voucher.discountPercentage!;
+          // BERAPA TOTAL DISKONNYA
+          totalDiscount.value =
+              totalFee.value * (voucher.discountPercentage! / 100);
+          // KALO discount_percentage_maximum_amount TIDAK NULL
+          if (voucher.discountPercentageMaximumAmount != null) {
+            // CEK TOTAL DISKON APA LEBIH DARI discount_percentage_maximum_amount
+            if (totalDiscount.value >
+                (voucher.discountPercentageMaximumAmount ?? 0)) {
+              // JIKA IYA, MAKA TOTAL DISKON = discount_percentage_maximum_amount
+              totalDiscount.value =
+                  (voucher.discountPercentageMaximumAmount ?? 0.0).toDouble();
+              // RUBAH PERSENTASE DISKON SESUAI discount_percentage_maximum_amount
+              discountPercentage.value =
+                  ((totalDiscount.value / totalFee.value) * 100).toInt();
+            }
+          }
+          // TOTAL FEE DIKURANG TOTAL DISKON
+          totalPaid.value = totalFee.value - totalDiscount.value;
+        } else {}
+      }
+      // UNTUK NYIMPAN totalPaidSet HASIL KALKULASI TANPA transactionFee
+      totalPaidSet.value = totalPaid.value;
+      // SET NOL LAGI idPayment
+      clearPaymentMethod();
+      orderId.value = '';
+      transactionFee.value = 0;
+    }
+
+    if (totalPaid.value <= 0) {
+      freeVoucher();
+    }
+  }
+
+  void defaultVoucher() {
+    voucherId.value = 0;
+    voucherName.value = '';
+    discountPercentage.value = 0;
+    transactionFee.value = 0;
+    tax.value = 0;
+    totalPaidSet.value = totalFee.value;
+    totalPaid.value = totalFee.value;
+    transactionFee.value = 0;
+    totalDiscount.value = 0;
+  }
+
+  void clearPaymentMethod() {
     idPayment.value = 0;
     paymentMethod.value = '';
     paymentType.value = '';
-    orderId.value = '';
-    // bank.value = '';
-    expireTime.value = '';
+    bankImage.value = '';
+  }
+
+  void freeVoucher() {
+    print("DAPET FREE VOUCHER");
+    idPayment.value = 7;
+    paymentMethod.value = 'FREE';
+    paymentType.value = 'FREE_VOUCHER';
+    bankImage.value =
+        'payment-method/payment-method-1710954414770-05ccwbos35.png';
+  }
+
+  void transactionFeeFunct(PaymentMethod.Data fee) {
+    double paid = totalPaidSet.value;
+    double transactionFeeFixAmount = 0.0;
+    double transactionFeePercentage = 0.0;
+    if (paid <= 0) {
+      print("NOLLLLLL");
+      // KALO TOTAL PAIDNYA KURANG DARI 0.0, MAKA transactionFee juga 0
+      transactionFee.value = 0;
+      paid = 0;
+      freeVoucher();
+    } else {
+      if (fee.transactionFeeType == "PERCENTAGE_FIX_AMOUNT") {
+        transactionFeePercentage = paid * (fee.transactionFeePercentage! / 100);
+        print("PERCENTAGE_FIX_AMOUNT $transactionFeePercentage");
+        transactionFeeFixAmount = fee.transactionFeeFixAmount!.toDouble();
+        print("PERCENTAGE_FIX_AMOUNT $transactionFeeFixAmount");
+        transactionFee.value =
+            transactionFeePercentage + transactionFeeFixAmount;
+        print("PERCENTAGE_FIX_AMOUNT $transactionFee");
+        paid = paid + transactionFee.value;
+        print("PERCENTAGE_FIX_AMOUNT $paid");
+      } else if (fee.transactionFeeType == "FIX_AMOUNT") {
+        print("FIX AMOUNT ${fee.transactionFeeFixAmount!.toDouble()}");
+        transactionFeeFixAmount = fee.transactionFeeFixAmount!.toDouble();
+        print("FIX_AMOUNT $transactionFeeFixAmount");
+        transactionFee.value = transactionFeeFixAmount;
+        paid = paid + transactionFee.value;
+      } else if (fee.transactionFeeType == "PERCENTAGE") {
+        print("PERCENTAGE ${fee.transactionFeePercentage}");
+        print("PERCENTAGE ${(fee.transactionFeePercentage! / 100)}");
+        transactionFeePercentage = paid * (fee.transactionFeePercentage! / 100);
+        print("PERCENTAGE $transactionFeePercentage");
+        transactionFee.value = transactionFeePercentage;
+        paid = paid + transactionFee.value;
+      } else {
+        print("ELSE");
+      }
+    }
+    totalPaid.value = paid;
+    print("HASIL ${totalPaid.value}");
+    if (totalPaid.value <= 0) {
+      freeVoucher();
+    }
   }
 
   getInterestConditions(BuildContext context) async {
@@ -192,15 +352,15 @@ class OrderConsultationController extends StateClass {
     fullName.value = dataUser['fullname'];
     getPaymentMethod.value.clear();
     await getPaymentmethod(context);
-    idPayment.value = 0;
-    paymentMethod.value = '';
-    paymentType.value = '';
+    clearPaymentMethod();
+    defaultVoucher();
     isLoading.value = false;
   }
 
   getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      var res = await TransactionService().paymentMethod();
+      Map<String, dynamic> filter = {"method[]": "EWALLET"};
+      var res = await TransactionService().paymentMethod(filter: filter);
       getPaymentMethod.value = res.data!;
     });
   }
@@ -211,7 +371,6 @@ class OrderConsultationController extends StateClass {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List paramAnswer = [];
       orderId.value = '';
-      // bank.value = '';
       expireTime.value = '';
 
       for (int i = 0; i < listsAnswer.length; i++) {
@@ -261,11 +420,17 @@ class OrderConsultationController extends StateClass {
         'medical_history_item': paramAnswer,
         'files': files,
         'payment_method': paymentMethod.toString(),
-        'payment_type': paymentType.toString()
+        'payment_type': paymentType.toString(),
+        'voucher_id': voucherId.value <= 0 ? null : voucherId.value,
+        'total_fee': totalFee.value.round(),
+        'total_discount': totalDiscount.value.round(),
+        'tax': tax.value.round(),
+        'transaction_fee': transactionFee.value.round(),
+        'total_paid': totalPaid.value.round(),
       };
 
       print('reqOrder $reqOrder');
-
+      // return;
       var res = await TransactionService().orderConsultation(reqOrder);
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(

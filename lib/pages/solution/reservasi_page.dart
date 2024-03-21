@@ -205,7 +205,7 @@ class _ReservasiPageState extends State<ReservasiPage> {
                       style: blackTextStyle.copyWith(fontSize: 13),
                     ),
                   ),
-                  const Icon(Icons.keyboard_arrow_down)
+                  // const Icon(Icons.keyboard_arrow_down)
                 ],
               ),
               const SizedBox(
@@ -215,7 +215,7 @@ class _ReservasiPageState extends State<ReservasiPage> {
                 title: 'Pesan',
                 onPressed: () {
                   if (stateTreatment.pax.value > 0) {
-                    Get.to(Reservasi2Page(
+                    Get.to(()=>Reservasi2Page(
                       treatment: widget.treatment,
                     ));
                     return;

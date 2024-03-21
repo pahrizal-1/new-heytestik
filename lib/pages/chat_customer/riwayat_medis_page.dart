@@ -44,6 +44,7 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      state.imageCondition.clear();
       setState(() {
         frontFace = state.initialConditionFrontFace;
         rightSide = state.initialConditionRightSide;
@@ -274,14 +275,16 @@ class _RiwayatMedis7PageState extends State<RiwayatMedis7Page> {
                           } else {
                             state.isGallery.value = true;
                             var img = await state.pickImageFromGalery();
-                            var result =
-                                await Get.to(() => HasilPotoSelainWajah(
-                                      img: img,
-                                    ));
-                            if (result != null) {
-                              setState(() {
-                                state.imageCondition.add(result);
-                              });
+                            if (img != null) {
+                              var result =
+                                  await Get.to(() => HasilPotoSelainWajah(
+                                        img: img,
+                                      ));
+                              if (result != null) {
+                                setState(() {
+                                  state.imageCondition.add(result);
+                                });
+                              }
                             }
                           }
                           state.isGallery.value = false;

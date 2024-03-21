@@ -1,7 +1,6 @@
-// ignore_for_file: must_be_immutable, use_build_context_synchronously
+// ignore_for_file: must_be_immutable, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_consultation_controller.dart';
@@ -23,14 +22,12 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.
 
 class SelesaikanPembayaranKonsultasiPage extends StatefulWidget {
   bool isWillPop;
-  // String bank;
   String bankImage;
   String orderId;
   String expireTime;
   int paymentMethodId;
   SelesaikanPembayaranKonsultasiPage({
     required this.isWillPop,
-    // this.bank = '',
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
@@ -58,29 +55,35 @@ class _SelesaikanPembayaranKonsultasiState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isLoading.value = true;
-      method = await all.getPaymentmethod(context, widget.paymentMethodId);
-      // state.bank.value = widget.bank;
       state.expirytime.value = widget.expireTime;
-      await state.getTransactionStatus(context, widget.orderId);
-      state.isLoading.value = false;
-      setTime();
-      startTimer();
       setState(() {});
+      method = await all.getPaymentmethod(context, widget.paymentMethodId);
+      setState(() {});
+      await state.getTransactionStatus(context, widget.orderId).then((value) {
+        state.isLoading.value = false;
+        setTime();
+        startTimer();
+        setState(() {});
+      });
+      // state.isLoading.value = false;
     });
   }
 
   setTime() {
     DateTime today = DateTime.now();
-    print('now $today');
-    print('expirytime ${state.expirytime.value}');
-    DateTime tdata = DateTime.parse(state.expirytime.value);
-    print('data $tdata');
-
-    var mundur = tdata.difference(today);
-    print('mundur $mundur');
-    print('inMilliseconds ${mundur.inSeconds}');
-    myDuration = Duration(seconds: mundur.inSeconds);
-    print('myDuration $myDuration');
+    print('expirytime 11 ${state.expirytime.value}');
+    if (state.expirytime.value != '' ||
+        state.expirytime.value != null ||
+        state.expirytime.value.isNotEmpty) {
+      print('expirytime 22 ${state.expirytime.value}');
+      DateTime tdata = DateTime.parse(state.expirytime.value);
+      print('data $tdata');
+      var mundur = tdata.difference(today);
+      print('mundur $mundur');
+      print('inMilliseconds ${mundur.inSeconds}');
+      myDuration = Duration(seconds: mundur.inSeconds);
+      print('myDuration $myDuration');
+    }
   }
 
   /// Timer related methods ///
@@ -161,10 +164,16 @@ class _SelesaikanPembayaranKonsultasiState
               const SizedBox(
                 width: 11,
               ),
-              Text(
-                method?.name ?? '-',
-                style: whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
-              ),
+              Obx(() {
+                if (!state.isLoading.value) {
+                  return Text(
+                    method?.name ?? '',
+                    style:
+                        whiteTextStyle.copyWith(fontSize: 20, fontWeight: bold),
+                  );
+                }
+                return Container();
+              })
             ],
           ),
         ),
@@ -197,13 +206,15 @@ class _SelesaikanPembayaranKonsultasiState
                                 title: 'Batas Akhir Pembayaran',
                                 title2: '',
                               ),
-                              Text(
-                                state.expirytime.value.isNotEmpty
-                                    ? ConvertDate.transactionDate(
-                                        state.expirytime.value,
-                                      )
-                                    : '-',
-                                style: blackTextStyle.copyWith(fontSize: 14),
+                              Obx(
+                                () => Text(
+                                  state.expirytime.value.isNotEmpty
+                                      ? ConvertDate.transactionDate(
+                                          state.expirytime.value,
+                                        )
+                                      : '-',
+                                  style: blackTextStyle.copyWith(fontSize: 14),
+                                ),
                               )
                             ],
                           ),
@@ -249,7 +260,7 @@ class _SelesaikanPembayaranKonsultasiState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                method?.name ?? '-',
+                                method?.name ?? '',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
@@ -272,72 +283,28 @@ class _SelesaikanPembayaranKonsultasiState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  if (state.paymentType.value ==
-                                      "bank_transfer")
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const TextSpaceBetween(
-                                          title: 'Nomor Virtual Account',
-                                          title2: '',
-                                        ),
-                                        SelectableText(
-                                          state.virtualAccount.value,
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    )
-                                  else if (state.paymentType.value ==
-                                      "echannel")
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const TextSpaceBetween(
-                                          title: 'Biller Code',
-                                          title2: '',
-                                        ),
-                                        SelectableText(
-                                          state.billerCode.value,
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        ),
-                                        const TextSpaceBetween(
-                                          title: 'Biller Key',
-                                          title2: '',
-                                        ),
-                                        SelectableText(
-                                          state.billerKey.value,
-                                          style: blackTextStyle.copyWith(
-                                              fontSize: 15),
-                                        )
-                                      ],
-                                    ),
-                                  const Spacer(),
+                                  const TextSpaceBetween(
+                                    title: 'Klik Bayar untuk pembayaran',
+                                    title2: '',
+                                  ),
                                   InkWell(
-                                    onTap: () {
-                                      SocialShare.copyToClipboard(
-                                        text: state.virtualAccount.value,
+                                    onTap: () async {
+                                      await state.launchURL(
+                                        state.transactionStatus.value.data!
+                                            .actions![0].url
+                                            .toString(),
                                       );
-                                      SnackbarWidget.getSuccessSnackbar(context,
-                                          "Berhasil", "Berhasil disalin");
                                     },
                                     child: Text(
-                                      'Salin',
-                                      style:
-                                          grenTextStyle.copyWith(fontSize: 14),
+                                      ' Bayar',
+                                      style: grenTextStyle.copyWith(
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Image.asset(
-                                    'assets/icons/salin_icons.png',
-                                    width: 14,
                                   )
                                 ],
                               ),
@@ -352,36 +319,56 @@ class _SelesaikanPembayaranKonsultasiState
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const TextSpaceBetween(
-                                        title: 'Total Pembayaran',
-                                        title2: '',
-                                      ),
-                                      Row(
-                                        children: [
-                                          state.grossAmount.value == '-'
-                                              ? Container()
-                                              : Text(
-                                                  CurrencyFormat.convertToIdr(
-                                                      double.parse(state
-                                                          .grossAmount.value),
-                                                      0),
-                                                  style: blackTextStyle
-                                                      .copyWith(fontSize: 15),
-                                                ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/salin_icons.png',
-                                            width: 14,
-                                          )
-                                        ],
-                                      )
-                                    ],
+                                  InkWell(
+                                    onTap: () {
+                                      SocialShare.copyToClipboard(
+                                        text: state.transactionStatus.value.data
+                                                ?.transaction?.totalPaid
+                                                .toString() ??
+                                            "0",
+                                      );
+                                      SnackbarWidget.getSuccessSnackbar(
+                                        context,
+                                        "Berhasil",
+                                        "Berhasil disalin",
+                                      );
+                                    },
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const TextSpaceBetween(
+                                          title: 'Total Pembayaran',
+                                          title2: '',
+                                        ),
+                                        Row(
+                                          children: [
+                                            Obx(
+                                              () => Text(
+                                                CurrencyFormat.convertToIdr(
+                                                    state
+                                                            .transactionStatus
+                                                            .value
+                                                            .data
+                                                            ?.transaction
+                                                            ?.totalPaid ??
+                                                        0,
+                                                    0),
+                                                style: blackTextStyle.copyWith(
+                                                    fontSize: 15),
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              width: 8,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/salin_icons.png',
+                                              width: 14,
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
                                   const Spacer(),
                                   InkWell(
@@ -394,7 +381,41 @@ class _SelesaikanPembayaranKonsultasiState
                                               topRight: Radius.circular(20)),
                                         ),
                                         builder: (context) =>
-                                            const TransaksiMoreDialog(),
+                                            TransaksiKonsultasiDialog(
+                                          methode: method?.name ?? "",
+                                          totalFee: state
+                                                  .transactionStatus
+                                                  .value
+                                                  .data
+                                                  ?.transaction
+                                                  ?.totalFee ??
+                                              0,
+                                          tax: state.transactionStatus.value
+                                                  .data?.transaction?.tax ??
+                                              0,
+                                          totalDiscount: state
+                                                  .transactionStatus
+                                                  .value
+                                                  .data
+                                                  ?.transaction
+                                                  ?.totalDiscount ??
+                                              0,
+                                          totalPaid: state
+                                                  .transactionStatus
+                                                  .value
+                                                  .data
+                                                  ?.transaction
+                                                  ?.totalPaid ??
+                                              0,
+                                          transactionFee: state
+                                                  .transactionStatus
+                                                  .value
+                                                  .data
+                                                  ?.transaction
+                                                  ?.transactionFee ??
+                                              0,
+                                          discountPercentage: 0,
+                                        ),
                                       );
                                     },
                                     child: Text(
@@ -424,15 +445,9 @@ class _SelesaikanPembayaranKonsultasiState
                               Get.to(() => CaraPembayaranPage(
                                     id: widget.paymentMethodId,
                                     orderId: widget.orderId,
-                                    totalPaid: int.parse(
-                                      double.parse(state.grossAmount.value)
-                                          .round()
-                                          .toString(),
-                                    ),
-                                    // vaNumber: state.virtualAccount.value,
-                                    // paymentType: state.paymentType.value,
-                                    // billerCode: state.billerCode.value,
-                                    // billerKey: state.billerKey.value,
+                                    totalPaid: state.transactionStatus.value
+                                            .data?.transaction?.totalPaid ??
+                                        0,
                                     transactionType: 'Konsultasi',
                                   ));
                             },
@@ -442,7 +457,7 @@ class _SelesaikanPembayaranKonsultasiState
                                 style: grenTextStyle.copyWith(fontSize: 15),
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
@@ -474,7 +489,9 @@ class _SelesaikanPembayaranKonsultasiState
                             title: 'Saya sudah melakukan pembayaran',
                             onPressed: () async {
                               await state.getTransactionStatus(
-                                  context, widget.orderId);
+                                context,
+                                widget.orderId,
+                              );
                             },
                           )
                         ],

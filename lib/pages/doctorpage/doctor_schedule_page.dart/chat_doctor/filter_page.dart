@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/filter2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -114,7 +113,8 @@ class FilterPage extends StatelessWidget {
                           fillColor: greenColor,
                           hoverColor: greenColor,
                           hintText: 'Min.',
-                          hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
+                          hintStyle:
+                              TextStyle(color: subgreyColor, fontSize: 12),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -148,7 +148,8 @@ class FilterPage extends StatelessWidget {
                           fillColor: greenColor,
                           hoverColor: greenColor,
                           hintText: 'Max',
-                          hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
+                          hintStyle:
+                              TextStyle(color: subgreyColor, fontSize: 12),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -318,7 +319,8 @@ class _FilterPageTreatmentState extends State<FilterPageTreatment> {
                             setState(() {
                               state.toggleMethods.remove(item);
                               state.filterMethods.remove("$item");
-                              print('data ${state.toggleMethods} dan selected ${state.filterMethods}');
+                              print(
+                                  'data ${state.toggleMethods} dan selected ${state.filterMethods}');
                             });
                           } else {
                             setState(() {
@@ -329,9 +331,12 @@ class _FilterPageTreatmentState extends State<FilterPageTreatment> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: state.toggleMethods.contains(item) ? Color(0xff24A7A0) : Colors.white10,
+                            color: state.toggleMethods.contains(item)
+                                ? Color(0xff24A7A0)
+                                : Colors.white10,
                             border: Border.all(color: Colors.green),
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
                           // you can change margin to increase spacing between containers
                           margin: const EdgeInsets.all(3),
@@ -369,7 +374,8 @@ class _FilterPageTreatmentState extends State<FilterPageTreatment> {
                           fillColor: greenColor,
                           hoverColor: greenColor,
                           hintText: 'Min.',
-                          hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
+                          hintStyle:
+                              TextStyle(color: subgreyColor, fontSize: 12),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -403,7 +409,8 @@ class _FilterPageTreatmentState extends State<FilterPageTreatment> {
                           fillColor: greenColor,
                           hoverColor: greenColor,
                           hintText: 'Max',
-                          hintStyle: TextStyle(color: subgreyColor, fontSize: 12),
+                          hintStyle:
+                              TextStyle(color: subgreyColor, fontSize: 12),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 color: greenColor,
@@ -490,9 +497,26 @@ class FilterPageSkincare extends StatefulWidget {
 
 class _FilterPageSkincareState extends State<FilterPageSkincare> {
   final InterestController state = Get.put(InterestController());
-  final SkincareRecommendationController stateBrand = Get.put(SkincareRecommendationController());
+  final SkincareRecommendationController stateBrand =
+      Get.put(SkincareRecommendationController());
   List<Data2>? data = [];
-  List fu = ['Packing & Unpacking', 'Cleaning', 'Painting', 'Heavy Lifting', 'Shopping', 'Watching Netflix', 'sadfdsfe eaf', 'ewfsfeagga,' 'gegea', 'gaegaewgv ewaggaa aweegaage', 'safa asdfesadfv esfsdf', 'sadfdsfe eaf', 'ewfsfeagga,' 'gegea', 'awfgraga wsg sfage aegea', 'gaegaewgv ewaggaa aweegaage', 'asdfehtrbfawefa garevaa aewf a'];
+  List fu = [
+    'Packing & Unpacking',
+    'Cleaning',
+    'Painting',
+    'Heavy Lifting',
+    'Shopping',
+    'Watching Netflix',
+    'sadfdsfe eaf',
+    'ewfsfeagga,' 'gegea',
+    'gaegaewgv ewaggaa aweegaage',
+    'safa asdfesadfv esfsdf',
+    'sadfdsfe eaf',
+    'ewfsfeagga,' 'gegea',
+    'awfgraga wsg sfage aegea',
+    'gaegaewgv ewaggaa aweegaage',
+    'asdfehtrbfawefa garevaa aewf a'
+  ];
 
   @override
   void initState() {
@@ -585,7 +609,8 @@ class _FilterPageSkincareState extends State<FilterPageSkincare> {
                             setState(() {
                               stateBrand.toggleBrand.remove(item.brand);
                               stateBrand.filterBrand.remove("${item.brand}");
-                              print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
+                              print(
+                                  'data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
                             });
                           } else {
                             setState(() {
@@ -596,9 +621,12 @@ class _FilterPageSkincareState extends State<FilterPageSkincare> {
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            color: stateBrand.toggleBrand.contains(item.brand)
+                                ? Color(0xff24A7A0)
+                                : Colors.white10,
                             border: Border.all(color: Colors.green),
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
                           // you can change margin to increase spacing between containers
                           margin: const EdgeInsets.all(3),
@@ -636,21 +664,26 @@ class _FilterPageSkincareState extends State<FilterPageSkincare> {
                             setState(() {
                               stateBrand.toggleProduct.remove(item.id);
                               stateBrand.filterProduct.remove("${item.value}");
-                              print('data ${stateBrand.toggleProduct} dan selected ${stateBrand.filterProduct}');
+                              print(
+                                  'data ${stateBrand.toggleProduct} dan selected ${stateBrand.filterProduct}');
                             });
                           } else {
                             setState(() {
                               stateBrand.toggleProduct.add(item.id);
                               stateBrand.filterProduct.add("${item.value}");
-                              print('data ${stateBrand.toggleProduct} dan selected ${stateBrand.filterProduct}');
+                              print(
+                                  'data ${stateBrand.toggleProduct} dan selected ${stateBrand.filterProduct}');
                             });
                           }
                         },
                         child: Container(
                           decoration: BoxDecoration(
-                            color: stateBrand.toggleProduct.contains(item.id) ? Color(0xff24A7A0) : Colors.white10,
+                            color: stateBrand.toggleProduct.contains(item.id)
+                                ? Color(0xff24A7A0)
+                                : Colors.white10,
                             border: Border.all(color: Colors.green),
-                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
                           ),
                           // you can change margin to increase spacing between containers
                           margin: const EdgeInsets.all(3),

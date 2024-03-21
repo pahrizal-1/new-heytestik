@@ -3,7 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_consultation_controller.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/promo_page.dart';
+import 'package:heystetik_mobileapps/core/currency_format.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/konsultasi_promo_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/selesai_pembayaran_konsultasi_page.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
@@ -29,6 +30,7 @@ class RingkasanPembayaranPage extends StatefulWidget {
 class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
   final OrderConsultationController state =
       Get.put(OrderConsultationController());
+
   @override
   void initState() {
     super.initState();
@@ -160,9 +162,11 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                           ),
                         ],
                       ),
-                      Text(
-                        'Rp45.000',
-                        style: blackHigtTextStyle.copyWith(fontSize: 15),
+                      Obx(
+                        () => Text(
+                          CurrencyFormat.convertToIdr(state.totalFee.value, 0),
+                          style: blackHigtTextStyle.copyWith(fontSize: 15),
+                        ),
                       ),
                     ],
                   ),
@@ -178,19 +182,21 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const PromoPage(),
+                          builder: (context) => KonsultasiPromoPage(),
                         ),
                       );
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 15, vertical: 14),
+                      padding: EdgeInsets.all(12),
                       height: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
                         color: whiteColor,
-                        border: Border.all(color: Color(0xffCCCCCC), width: 1),
+                        border: Border.all(
+                          color: Color(0xffCCCCCC),
+                          width: 1,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -198,13 +204,36 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text(
-                            'Pakai Voucher',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 12,
-                              fontWeight: medium,
-                            ),
-                          ),
+                          Obx(() {
+                            if (state.voucherName.value.isNotEmpty) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.voucherName.value,
+                                    style: blackTextStyle.copyWith(
+                                      fontSize: 12,
+                                      fontWeight: medium,
+                                    ),
+                                  ),
+                                  Text(
+                                    '1 voucher dipakai',
+                                    style: subTitleTextStyle.copyWith(
+                                        fontSize: 13),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Text(
+                                'Pakai Voucher',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 12,
+                                  fontWeight: medium,
+                                ),
+                              );
+                            }
+                          }),
                           Spacer(),
                           Icon(
                             Icons.keyboard_arrow_right,
@@ -242,15 +271,31 @@ class _RingkasanPembayaranPageState extends State<RingkasanPembayaranPage> {
                                   topLeft: Radius.circular(20),
                                   topRight: Radius.circular(20)),
                             ),
-                            builder: (context) => const TransaksiMoreDialog(),
+                            builder: (context) => Obx(
+                              () => TransaksiKonsultasiDialog(
+                                methode: state.paymentType.value,
+                                totalFee: state.totalFee.value.round(),
+                                tax: state.tax.value.round(),
+                                totalDiscount:
+                                    state.totalDiscount.value.round(),
+                                totalPaid: state.totalPaid.value.round(),
+                                transactionFee:
+                                    state.transactionFee.value.round(),
+                                discountPercentage:
+                                    state.discountPercentage.value,
+                              ),
+                            ),
                           );
                         },
                         child: Row(
                           children: [
-                            Text(
-                              'Rp45.000',
-                              style: blackHigtTextStyle.copyWith(
-                                fontSize: 20,
+                            Obx(
+                              () => Text(
+                                CurrencyFormat.convertToIdr(
+                                    state.totalPaid.value, 0),
+                                style: blackHigtTextStyle.copyWith(
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                             Icon(
