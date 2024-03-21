@@ -19,8 +19,7 @@ import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.da
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treatment;
+import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart' as Treatment;
 
 class TransaksiKonsultan extends StatelessWidget {
   final String namaDokter;
@@ -75,13 +74,7 @@ class TransaksiKonsultan extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
-        decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(7),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)
-            ]),
+        decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(7), boxShadow: [BoxShadow(color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)]),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -116,8 +109,7 @@ class TransaksiKonsultan extends StatelessWidget {
                         ],
                       )
                     : Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
                           color: progres == 'Menunggu Pembayaran'
                               ? const Color.fromARGB(255, 255, 204, 170)
@@ -169,9 +161,7 @@ class TransaksiKonsultan extends StatelessWidget {
                               width: 37,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(4),
-                                image: DecorationImage(
-                                    image: NetworkImage(img),
-                                    fit: BoxFit.cover),
+                                image: DecorationImage(image: NetworkImage(img), fit: BoxFit.cover),
                               ),
                             ),
                       const SizedBox(
@@ -220,8 +210,7 @@ class TransaksiKonsultan extends StatelessWidget {
                               Get.to(() => UlasanSetingsPage());
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 22, vertical: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
                               decoration: BoxDecoration(
                                 color: greenColor,
                                 borderRadius: BorderRadius.circular(7),
@@ -246,8 +235,7 @@ class TransaksiKonsultan extends StatelessWidget {
                           );
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: greenColor),
@@ -274,8 +262,7 @@ class TransaksiKonsultan extends StatelessWidget {
                               ));
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: greenColor),
@@ -333,12 +320,16 @@ class TransaksiProduk extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
         decoration: BoxDecoration(
-            color: whiteColor,
-            borderRadius: BorderRadius.circular(7),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)
-            ]),
+          color: whiteColor,
+          borderRadius: BorderRadius.circular(7),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade600,
+              spreadRadius: 0.5,
+              blurRadius: 1,
+            )
+          ],
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -364,10 +355,7 @@ class TransaksiProduk extends StatelessWidget {
                         children: [
                           Text('Bayar Sebelum'),
                           Text(
-                            product!.paymentExpiryTime == null
-                                ? ''
-                                : ConvertDate.payBefore(
-                                    product!.paymentExpiryTime ?? '-'),
+                            product!.paymentExpiryTime == null ? '' : ConvertDate.payBefore(product!.paymentExpiryTime ?? '-'),
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: const Color.fromARGB(255, 255, 102, 0),
@@ -376,43 +364,27 @@ class TransaksiProduk extends StatelessWidget {
                         ],
                       )
                     : Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                            color: product?.orderStatus.toString() ==
-                                        'NEW_ORDER' ||
-                                    product?.orderStatus.toString() ==
-                                        'DELIVERY_PROCESS' ||
-                                    product?.orderStatus.toString() ==
-                                        'IN_DELIVERY'
+                            color: product?.orderStatus.toString() == 'NEW_ORDER' || product?.orderStatus.toString() == 'DELIVERY_PROCESS' || product?.orderStatus.toString() == 'IN_DELIVERY'
                                 ? const Color.fromARGB(255, 255, 204, 170)
-                                : product?.orderStatus.toString() ==
-                                        'ORDER_COMPLETED'
+                                : product?.orderStatus.toString() == 'ORDER_COMPLETED'
                                     ? subgreenColor
                                     : subgreenColor,
                             borderRadius: BorderRadius.circular(7)),
                         child: Text(
-                          product?.orderStatus.toString() == 'NEW_ORDER' ||
-                                  product?.orderStatus.toString() ==
-                                      'DELIVERY_PROCESS'
+                          product?.orderStatus.toString() == 'NEW_ORDER' || product?.orderStatus.toString() == 'DELIVERY_PROCESS'
                               ? 'Pesanan Diproses'
                               : product?.orderStatus.toString() == 'IN_DELIVERY'
                                   ? 'Pesanan Dikirim'
-                                  : product?.orderStatus.toString() ==
-                                          'ORDER_COMPLETED'
+                                  : product?.orderStatus.toString() == 'ORDER_COMPLETED'
                                       ? 'Selesai'
                                       : 'Selesai',
                           style: grenTextStyle.copyWith(
                             fontSize: 10,
-                            color: product?.orderStatus.toString() ==
-                                        'NEW_ORDER' ||
-                                    product?.orderStatus.toString() ==
-                                        'DELIVERY_PROCESS' ||
-                                    product?.orderStatus.toString() ==
-                                        'IN_DELIVERY'
+                            color: product?.orderStatus.toString() == 'NEW_ORDER' || product?.orderStatus.toString() == 'DELIVERY_PROCESS' || product?.orderStatus.toString() == 'IN_DELIVERY'
                                 ? const Color.fromARGB(255, 255, 102, 0)
-                                : product?.orderStatus.toString() ==
-                                        'ORDER_COMPLETED'
+                                : product?.orderStatus.toString() == 'ORDER_COMPLETED'
                                     ? greenColor
                                     : greenColor,
                           ),
@@ -433,8 +405,7 @@ class TransaksiProduk extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4),
                       image: DecorationImage(
-                        image: NetworkImage(
-                            '${Global.FILE}/${product!.transactionProductItems?[0].product!.mediaProducts?[0].media?.path}'),
+                        image: NetworkImage('${Global.FILE}/${product!.transactionProductItems?[0].product!.mediaProducts?[0].media?.path}'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -446,8 +417,7 @@ class TransaksiProduk extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product!.transactionProductItems?[0].product?.name ??
-                            '-',
+                        product!.transactionProductItems?[0].product?.name ?? '-',
                         style: blackHigtTextStyle.copyWith(fontSize: 13),
                       ),
                       Text(
@@ -494,8 +464,7 @@ class TransaksiProduk extends StatelessWidget {
                               Get.to(() => UlasanSetingsPage());
                             },
                             child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 22, vertical: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
                               decoration: BoxDecoration(
                                 color: greenColor,
                                 borderRadius: BorderRadius.circular(7),
@@ -516,19 +485,14 @@ class TransaksiProduk extends StatelessWidget {
                 product?.status.toString() == 'SELESAI'
                     ? InkWell(
                         onTap: () {
-                          if (product!
-                                  .transactionProductItems?[0].product?.type ==
-                              'DRUGS') {
+                          if (product!.transactionProductItems?[0].product?.type == 'DRUGS') {
                             Get.to(() => const DrugSolutionsPage());
-                          } else if (product!
-                                  .transactionProductItems?[0].product?.type ==
-                              'SKINCARE') {
+                          } else if (product!.transactionProductItems?[0].product?.type == 'SKINCARE') {
                             Get.to(() => const SolutionSkincare1Page());
                           }
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: greenColor),
@@ -554,8 +518,7 @@ class TransaksiProduk extends StatelessWidget {
                               ));
                         },
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5),
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: whiteColor,
                             border: Border.all(color: greenColor),
@@ -619,13 +582,7 @@ class TransaksiTreatment extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 11),
-      decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(7),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)
-          ]),
+      decoration: BoxDecoration(color: whiteColor, borderRadius: BorderRadius.circular(7), boxShadow: [BoxShadow(color: Colors.grey.shade600, spreadRadius: 0.5, blurRadius: 1)]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -660,8 +617,7 @@ class TransaksiTreatment extends StatelessWidget {
                       ],
                     )
                   : Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                       decoration: BoxDecoration(
                         color: progres == 'Menunggu Pembayaran'
                             ? const Color.fromARGB(255, 255, 204, 170)
@@ -759,8 +715,7 @@ class TransaksiTreatment extends StatelessWidget {
                             Get.to(() => UlasanSetingsPage());
                           },
                           child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 22, vertical: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 5),
                             decoration: BoxDecoration(
                               color: greenColor,
                               borderRadius: BorderRadius.circular(7),
@@ -786,8 +741,7 @@ class TransaksiTreatment extends StatelessWidget {
                         // ));
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
                           color: whiteColor,
                           border: Border.all(color: greenColor),
@@ -820,8 +774,7 @@ class TransaksiTreatment extends StatelessWidget {
                             ));
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
                           color: whiteColor,
                           border: Border.all(color: greenColor),

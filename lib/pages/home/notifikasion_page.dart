@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/notification/notification_controller.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/komentar_stream_page.dart';
+import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../models/customer/notification.dart';
@@ -89,6 +90,18 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                         } else if (notifications[index].type == "CHAT") {
                           print("CHAT");
                           Get.to(() => const TabBarCustomer(currentIndex: 1));
+                        } else if (notifications[index].type ==
+                            "STREAM_NEW_FOLLOWER") {
+                          Get.to(
+                            () => UserFollowedStreamPage(
+                              username: notifications[index]
+                                  .data['follower_username']
+                                  .toString(),
+                              fullname: notifications[index]
+                                  .data['follower_username']
+                                  .toString(),
+                            ),
+                          );
                         } else if (notifications[index].type == "STREAM_LIKE" ||
                             notifications[index].type == "STREAM_COMMENT" ||
                             notifications[index].type ==
@@ -97,7 +110,9 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                                 "STREAM_COMMENT_REPLY" ||
                             notifications[index].type ==
                                 "STREAM_COMMENT_REPLY_LIKE" ||
-                            notifications[index].type == "STREAM_VOTE") {
+                            notifications[index].type == "STREAM_VOTE" ||
+                            notifications[index].type ==
+                                "STREAM_USER_ACTIVITY") {
                           print(notifications[index].type);
                           Get.to(
                             () => KomentarStreamPage(

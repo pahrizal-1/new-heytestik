@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/networking_config.dart';
 import 'package:heystetik_mobileapps/core/provider_class.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_transaksi_produk_model.dart';
+import 'package:heystetik_mobileapps/models/customer/invoice.dart';
 import 'package:heystetik_mobileapps/models/customer/order_consultation_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_product_model.dart';
 import 'package:heystetik_mobileapps/models/customer/order_treatment_model.dart';
@@ -18,8 +22,7 @@ import 'package:heystetik_mobileapps/models/customer/transaction_status_model.da
 import 'package:ua_client_hints/ua_client_hints.dart';
 
 class TransactionService extends ProviderClass {
-  TransactionService()
-      : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
+  TransactionService() : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
   Future<PaymentMethodModel> paymentMethod() async {
     var response = await networkingConfig.doGet(
@@ -30,6 +33,18 @@ class TransactionService extends ProviderClass {
       },
     );
     return PaymentMethodModel.fromJson(response);
+  }
+
+  Future<dynamic> getInvoice(String invoiceType, String transactionID) async {
+    var response = await networkingConfig.doGet(
+      '/invoice/$invoiceType/$transactionID/download',
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+      responseType: ResponseType.bytes,
+    );
+    return response;
   }
 
   Future<PaymentMethodByIdModel> paymentMethodById(int id) async {
@@ -125,8 +140,7 @@ class TransactionService extends ProviderClass {
     return TransactionHistoryModel.fromJson(response);
   }
 
-  Future<TransactionStatusModel> transactionStatusConsultation(
-      String orderId) async {
+  Future<TransactionStatusModel> transactionStatusConsultation(String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/CONSULTATION.$orderId/status',
       headers: {
@@ -148,8 +162,7 @@ class TransactionService extends ProviderClass {
     return TransactionHistoryConsultationModel.fromJson(response);
   }
 
-  Future<TransactionStatusModel> transactionStatusTreatment(
-      String orderId) async {
+  Future<TransactionStatusModel> transactionStatusTreatment(String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/TREATMENT.$orderId/status',
       headers: {
@@ -171,8 +184,7 @@ class TransactionService extends ProviderClass {
     return TransactionHistoryTreatmentModel.fromJson(response);
   }
 
-  Future<TransactionStatusModel> transactionStatusProduct(
-      String orderId) async {
+  Future<TransactionStatusModel> transactionStatusProduct(String orderId) async {
     var response = await networkingConfig.doGet(
       '/transaction/PRODUCT.$orderId/status',
       headers: {
@@ -183,8 +195,7 @@ class TransactionService extends ProviderClass {
     return TransactionStatusModel.fromJson(response);
   }
 
-  Future<DetailTransaksiProdukModel> detailTransaksiProduk(
-      String transactionId) async {
+  Future<DetailTransaksiProdukModel> detailTransaksiProduk(String transactionId) async {
     var response = await networkingConfig.doGet(
       '/transaction/$transactionId/product',
       headers: {
@@ -192,6 +203,7 @@ class TransactionService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
+    print(transactionId);
     return DetailTransaksiProdukModel.fromJson(response);
   }
 
