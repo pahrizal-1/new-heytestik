@@ -6,69 +6,36 @@ import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_status_model.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/expired_page.dart';
+import 'package:heystetik_mobileapps/pages/chat_customer/failed_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HistoryProductController extends StateClass {
   Rx<TransactionStatusModel> transactionStatus =
       TransactionStatusModel.fromJson({}).obs;
 
-  RxString paymentType = '-'.obs;
-  RxString billerCode = '-'.obs;
-  RxString billerKey = '-'.obs;
-  RxString virtualAccount = '-'.obs;
-  RxString expirytime = '-'.obs;
-  RxString grossAmount = '-'.obs;
-  RxString statusTransaction = '-'.obs;
+  RxString expirytime = ''.obs;
 
-  getTransactionStatus(BuildContext context, String orderId) async {
+  launchURL(String url) async {
+    final Uri urlParse = Uri.parse(url);
+    if (!await launchUrl(urlParse)) {
+      throw Exception('Could not launch $urlParse');
+    }
+  }
+
+  Future<void> getTransactionStatus(
+      BuildContext context, String orderId) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       transactionStatus.value =
           await TransactionService().transactionStatusProduct(orderId);
 
-      print("transactionStatus ${transactionStatus.value}");
-
-      if (transactionStatus.value.success! &&
-          transactionStatus.value.message == 'Success') {
-        if (transactionStatus.value.data!.paymentType == 'echannel') {
-          paymentType.value = 'echannel';
-          billerCode.value = transactionStatus.value.data?.billerCode ?? '-';
-          billerKey.value = transactionStatus.value.data?.billKey ?? '-';
-          virtualAccount.value = "${billerCode.value} ${billerKey.value}";
-        } else if (transactionStatus.value.data!.paymentType ==
-            'bank_transfer') {
-          paymentType.value = 'bank_transfer';
-          virtualAccount.value =
-              transactionStatus.value.data?.vaNumbers?[0].vaNumber ?? '-';
-        } else {
-          print("BUKAN KEDUANYA");
-          paymentType.value = '111111111111';
-          virtualAccount.value = "111111111111";
-        }
-        expirytime.value = transactionStatus.value.data?.expiryTime ?? '-';
-        grossAmount.value = transactionStatus.value.data?.grossAmount ?? '-';
-        statusTransaction.value =
-            transactionStatus.value.data?.transactionStatus ?? '-';
-
-        if (statusTransaction.value == 'pending') {
-          // showDialog(
-          //   context: context,
-          //   builder: (context) => AlertWidget(
-          //       subtitle:
-          //           'Silahkan bayar terlebih dahulu sebelum waktu pembayaran habis :)'),
-          // );
-          return;
-        }
-        if (statusTransaction.value == 'expire') {
-          Get.offAll(() => ExpiredPage(
-                isNotConsultation: true,
-                message: '',
-              ));
-          return;
-        }
-        if (statusTransaction.value == 'settlement') {
+      switch (transactionStatus.value.data?.paymentStatus) {
+        case 'SUCCEEDED':
+          print("SUCCEEDED");
+          expirytime.value = '';
           Get.offAll(() => SuccessPage(
                 isNotConsultation: true,
                 orderId: orderId,
@@ -76,25 +43,54 @@ class HistoryProductController extends StateClass {
               ));
           showDialog(
             context: context,
-            builder: (context) => AletTranSaksiProduct(
+            builder: (context) => AletTranSaksiTreatMent(
               title1: 'Pembayaranmu Berhasil',
-              title2: 'Silakan tunggu konfirmasinya ya',
+              title2: 'Silahkan tunggu konfirmasinya ya',
             ),
           );
-          return;
-        }
-      } else if (transactionStatus.value.message == 'Transaction is expire') {
-        Get.back();
-        Get.offAll(() => ExpiredPage(
-              isNotConsultation: true,
-              message: transactionStatus.value.message.toString(),
-            ));
-        return;
-      } else {
-        throw ErrorConfig(
-          cause: ErrorConfig.anotherUnknow,
-          message: transactionStatus.value.message.toString(),
-        );
+          break;
+        case 'PENDING':
+          print("PENDING");
+          expirytime.value = transactionStatus.value.data?.expiryTime ?? '';
+          if (transactionStatus.value.data!.paymentMethod == 'EWALLET') {
+            // await _launchURL(
+            //   transactionStatus.value.data!.actions![0].url.toString(),
+            // );
+          } else if (transactionStatus.value.data!.paymentMethod ==
+              'VIRTUAL_ACCOUNT') {
+          } else if (transactionStatus.value.data!.paymentMethod ==
+              'BANK_TRANSFER_MANUAL_VERIFICATION') {
+          } else if (transactionStatus.value.data!.paymentMethod == 'QR_CODE') {
+          } else if (transactionStatus.value.data!.paymentMethod == 'FREE') {}
+          break;
+        case 'FAILED':
+          print("FAILED");
+          Get.offAll(() => FailedPage(
+                isNotConsultation: true,
+                message: "FAILED",
+              ));
+          break;
+        case 'EXPIRED':
+          print("EXPIRED");
+          Get.offAll(() => ExpiredPage(
+                isNotConsultation: true,
+                message: 'EXPIRED',
+              ));
+          break;
+        case 'UNKNOWN':
+          print("UNKNOWN");
+          Get.offAll(() => FailedPage(
+                isNotConsultation: true,
+                message: "UNKNOWN",
+              ));
+          break;
+        default:
+          print("DEFAULT");
+          Get.offAll(() => FailedPage(
+                isNotConsultation: true,
+                message: "ERROR TIDAK DIKETAHUI",
+              ));
+          break;
       }
     });
     isLoading.value = false;
