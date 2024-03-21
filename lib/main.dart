@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_doctor_controller.dart';
@@ -68,13 +69,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
         fullname: message.data['follower_username'].toString(),
       ),
     );
-  } else if (message.data['type'] == "STREAM_LIKE" ||
-      message.data['type'] == "STREAM_COMMENT" ||
-      message.data['type'] == "STREAM_COMMENT_LIKE" ||
-      message.data['type'] == "STREAM_COMMENT_REPLY" ||
-      message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
-      message.data['type'] == "STREAM_VOTE" ||
-      message.data['type'] == "STREAM_USER_ACTIVITY") {
+  } else if (message.data['type'] == "STREAM_LIKE" || message.data['type'] == "STREAM_COMMENT" || message.data['type'] == "STREAM_COMMENT_LIKE" || message.data['type'] == "STREAM_COMMENT_REPLY" || message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" || message.data['type'] == "STREAM_VOTE" || message.data['type'] == "STREAM_USER_ACTIVITY") {
     print("INI NOTIF ${message.data['type']}");
     Get.to(
       () => KomentarStreamPage(
@@ -94,15 +89,12 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   playSound: true,
 );
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -115,10 +107,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -127,7 +116,7 @@ void main() async {
     sound: true,
   );
 
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     print("ON MESSAGE OPENED APP");
     print("NOTIF DI TAP NIHH ${message.toMap()}");
     print('SISISI ${message.data}');
@@ -147,22 +136,20 @@ void main() async {
       Get.to(() => const TabBarCustomer(currentIndex: 1));
     } else if (message.data['type'] == "CHAT") {
       print('INI NOTIF CHAT');
-      Get.to(() => const TabBarCustomer(currentIndex: 1));
-    } else if (message.data['type'] == "STREAM_NEW_FOLLOWER") {
-      print('INI NOTIF STREAM_NEW_FOLLOWER');
-      Get.to(
-        () => UserFollowedStreamPage(
-          username: message.data['follower_username'].toString(),
-          fullname: message.data['follower_username'].toString(),
-        ),
-      );
-    } else if (message.data['type'] == "STREAM_LIKE" ||
-        message.data['type'] == "STREAM_COMMENT" ||
-        message.data['type'] == "STREAM_COMMENT_LIKE" ||
-        message.data['type'] == "STREAM_COMMENT_REPLY" ||
-        message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
-        message.data['type'] == "STREAM_VOTE" ||
-        message.data['type'] == "STREAM_USER_ACTIVITY") {
+      int? roleId = await LocalStorage().getRoleID();
+      if (roleId == 2) {
+        print('masuk ke doctor');
+        Get.to(
+          () => ChatDoctorPage(
+            roomCode: message.data['room_code'],
+            id: message.data['consultation_id'],
+          ),
+        );
+      } else if (roleId == 3) {
+        print('masuk ke customer');
+        Get.to(() => const TabBarCustomer(currentIndex: 1));
+      }
+    } else if (message.data['type'] == "STREAM_LIKE" || message.data['type'] == "STREAM_COMMENT" || message.data['type'] == "STREAM_COMMENT_LIKE" || message.data['type'] == "STREAM_COMMENT_REPLY" || message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" || message.data['type'] == "STREAM_VOTE") {
       print("INI NOTIF ${message.data['type']}");
       Get.to(
         () => KomentarStreamPage(
@@ -195,8 +182,7 @@ void main() async {
     // print('SUSUSU JENIS ${message.data['type']}');
 
     if (message.notification != null) {
-      print(
-          'Message also contained a notification: ${message.notification?.toMap()}');
+      print('Message also contained a notification: ${message.notification?.toMap()}');
       Get.put(DoctorHomeController()).isNotifications.value = true;
     }
 
@@ -249,6 +235,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<TreatmentRecommendationController>(
             create: (context) => TreatmentRecommendationController(),
+          ),
+          ChangeNotifierProvider<DrugController>(
+            create: (context) => DrugController(),
           ),
         ],
         child: GetMaterialApp(

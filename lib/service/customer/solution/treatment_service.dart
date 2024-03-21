@@ -45,6 +45,9 @@ class TreatmentService extends ProviderClass {
     String? search,
     Map<String, dynamic>? filter,
     List<String>? methods,
+    List<String>? treatmentType,
+    int? minPrice,
+    int? maxPrice,
   }) async {
     Map<String, dynamic> params = {
       "page": page,
@@ -52,8 +55,8 @@ class TreatmentService extends ProviderClass {
       "search": search,
       // "treatment_type[]": "",
 
-      // "min_price": "",
-      // "max_price": "",
+      "min_price": minPrice,
+      "max_price": maxPrice,
     };
     if (filter != null) {
       params.addAll(filter);
@@ -61,10 +64,20 @@ class TreatmentService extends ProviderClass {
 
     if (methods != null) {
       params.addAll({
-        "treatment_type[]": [
+        "method[]": [
           for (var method in methods) "$method",
         ]
       });
+    }
+
+    if (treatmentType != null) {
+      params.addAll(
+        {
+          "treatment_type[]": [
+            for (var treatment in treatmentType) "$treatment",
+          ],
+        },
+      );
     }
 
     print("params getAllTreatment $params");

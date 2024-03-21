@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/models/drug_model.dart' as Drug;
 import 'package:heystetik_mobileapps/widget/filter_tambah_obat.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../controller/doctor/consultation/consultation_controller.dart';
 import '../../../../core/global.dart';
@@ -28,24 +29,21 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
   bool isSelcted = false;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      drugs.addAll(await solutionController.getDrug(context, page));
-
-      setState(() {});
-    });
-    scrollController.addListener(() {
-      if (scrollController.position.atEdge) {
-        bool isTop = scrollController.position.pixels == 0;
-        if (!isTop) {
-          page += 1;
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-            drugs.addAll(await solutionController.getDrug(context, page));
-            setState(() {});
-          });
-        }
-      }
-    });
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      context.read<DrugController>().refreshDrug(
+            context,
+          );
+    });
+    scrollController.addListener(() async {
+      context.read<DrugController>().loadMoreDrug(
+            context,
+            scrollController,
+          );
+    });
+    setState(() {});
+
+    print('testing ');
   }
 
   @override
@@ -217,165 +215,175 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 20),
-                        Container(
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: drugs.length,
-                            itemBuilder: (ctx, index) {
-                              // String? img;
-                              // for (var i
-                              //     in drugs[index].mediaProducts!.length) {
-                              //   img = i;
-                              // }
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 29),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: borderColor,
-                                        width: 0.3,
-                                      ),
-                                      borderRadius: BorderRadius.circular(7)),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            height: 75,
-                                            width: 75,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(width: 0.5, color: borderColor),
-                                              image: DecorationImage(
-                                                image: drugs[index].mediaProducts!.isNotEmpty ? NetworkImage('${Global.FILE}/${drugs[index].mediaProducts![0].media?.path}') as ImageProvider : AssetImage('assets/images/penting1.png'),
-                                              ),
+                        Consumer<DrugController>(
+                          builder: (_, state, __) {
+                            return Container(
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: ClampingScrollPhysics(),
+                                itemCount: state.hasMore.value ? state.listOfDrug.length + 1 : state.listOfDrug.length + 0,
+                                itemBuilder: (ctx, index) {
+                                  // String? img;
+                                  // for (var i
+                                  //     in drugs[index].mediaProducts!.length) {
+                                  //   img = i;
+                                  // }
+                                  if (index < state.listOfDrug.length) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 29),
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: borderColor,
+                                              width: 0.3,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            width: 8,
-                                          ),
-                                          Container(
-                                            constraints: const BoxConstraints(maxWidth: 180),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                            borderRadius: BorderRadius.circular(7)),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
                                               children: [
-                                                RichText(
-                                                  text: TextSpan(text: drugs[index].name, style: grenTextStyle.copyWith(fontSize: 15)),
+                                                Container(
+                                                  height: 75,
+                                                  width: 75,
+                                                  decoration: BoxDecoration(
+                                                    border: Border.all(width: 0.5, color: borderColor),
+                                                    image: DecorationImage(
+                                                      image: state.listOfDrug[index].mediaProducts!.isNotEmpty ? NetworkImage('${Global.FILE}/${state.listOfDrug[index].mediaProducts![0].media?.path}') as ImageProvider : AssetImage('assets/images/penting1.png'),
+                                                    ),
+                                                  ),
                                                 ),
                                                 const SizedBox(
-                                                  height: 2,
+                                                  width: 8,
                                                 ),
-                                                Text(
-                                                  'Cleanser',
-                                                  maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: subTitleTextStyle,
+                                                Container(
+                                                  constraints: const BoxConstraints(maxWidth: 180),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      RichText(
+                                                        text: TextSpan(text: state.listOfDrug[index].name, style: grenTextStyle.copyWith(fontSize: 15)),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 2,
+                                                      ),
+                                                      Text(
+                                                        'Cleanser',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: subTitleTextStyle,
+                                                      ),
+                                                      Text(
+                                                        'Penggunaan: Pagi & Malam',
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: subTitleTextStyle,
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 4,
+                                                      ),
+                                                      Text(
+                                                        'Rp.' + state.listOfDrug[index].price.toString(),
+                                                        style: blackTextStyle.copyWith(fontSize: 13),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
-                                                Text(
-                                                  'Penggunaan: Pagi & Malam',
-                                                  maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  style: subTitleTextStyle,
-                                                ),
-                                                const SizedBox(
-                                                  height: 4,
-                                                ),
-                                                Text(
-                                                  'Rp.' + drugs[index].price.toString(),
-                                                  style: blackTextStyle.copyWith(fontSize: 13),
+                                                const Spacer(),
+                                                InkWell(
+                                                  onTap: () {
+                                                    print(index);
+                                                    setState(
+                                                      () {
+                                                        // var dv = json.decode(state.listOfDrug[index].toString());
+                                                        print(state.listOfDrug[index]);
+                                                        if (toogle.contains(index)) {
+                                                          toogle.remove(index);
+                                                          stateDoctor.listObat.removeAt(index);
+                                                          stateDoctor.notesMedicine.removeAt(stateDoctor.notesMedicine.length - 1);
+                                                        } else {
+                                                          print(state.listOfDrug[index].mediaProducts?[0].media?.path);
+                                                          toogle.add(index);
+                                                          stateDoctor.listObat.add({
+                                                            'id': state.listOfDrug[index].id,
+                                                            'name': state.listOfDrug[index].name,
+                                                            'image': state.listOfDrug[index].mediaProducts?[0].media?.path,
+                                                            'penggunaan': state.listOfDrug[index].drugDetail?.specificationDose ?? '-',
+                                                            'harga': state.listOfDrug[index].price,
+                                                          });
+                                                          stateDoctor.notesMedicine.add(TextEditingController());
+                                                        }
+                                                        // if (toogle.contains(index)) {
+                                                        //   toogle.remove(index);
+                                                        //   stateDoctor.listObat
+                                                        //       .remove(solutionController.listOfDrug[index]);
+                                                        //   stateDoctor.notesSkincare
+                                                        //       .removeAt(stateDoctor
+                                                        //               .notesSkincare
+                                                        //               .length -
+                                                        //           1);
+                                                        //   stateDoctor.listItemCount!
+                                                        //       .removeAt(stateDoctor
+                                                        //               .listItemCount!
+                                                        //               .length -
+                                                        //           1);
+                                                        //   print(stateDoctor
+                                                        //       .listItemCount!
+                                                        //       .toString());
+                                                        // } else {
+                                                        //   toogle.add(index);
+                                                        //   stateDoctor.listObat.add(
+                                                        //       state.solutionSkincare[
+                                                        //               index]
+                                                        //           .toJson());
+                                                        //   stateDoctor.notesSkincare.add(
+                                                        //       TextEditingController());
+                                                        //   stateDoctor.listItemCount =
+                                                        //       List.generate(
+                                                        //           state.solutionSkincare
+                                                        //               .length,
+                                                        //           (_) => 1);
+                                                        //   print(stateDoctor
+                                                        //       .listItemCount!
+                                                        //       .toString());
+                                                        // }
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Container(
+                                                      height: 29,
+                                                      width: 40,
+                                                      decoration: BoxDecoration(color: toogle.contains(index) ? whiteColor : greenColor, borderRadius: BorderRadius.circular(9), border: Border.all(color: greenColor)),
+                                                      child: toogle.contains(index)
+                                                          ? Center(
+                                                              child: Text(
+                                                                '-',
+                                                                style: grenTextStyle.copyWith(fontSize: 20),
+                                                              ),
+                                                            )
+                                                          : Icon(
+                                                              Icons.add,
+                                                              color: whiteColor,
+                                                            )),
                                                 ),
                                               ],
                                             ),
-                                          ),
-                                          const Spacer(),
-                                          InkWell(
-                                            onTap: () {
-                                              print(index);
-                                              setState(
-                                                () {
-                                                  // var dv = json.decode(drugs[index].toString());
-                                                  print(drugs[index]);
-                                                  if (toogle.contains(index)) {
-                                                    toogle.remove(index);
-                                                    stateDoctor.listObat.removeAt(index);
-                                                    stateDoctor.notesMedicine.removeAt(stateDoctor.notesMedicine.length - 1);
-                                                  } else {
-                                                    print(drugs[index].mediaProducts?[0].media?.path);
-                                                    toogle.add(index);
-                                                    stateDoctor.listObat.add({
-                                                      'id': drugs[index].id,
-                                                      'name': drugs[index].name,
-                                                      'image': drugs[index].mediaProducts?[0].media?.path,
-                                                      'penggunaan': drugs[index].drugDetail?.specificationDose ?? '-',
-                                                      'harga': drugs[index].price,
-                                                    });
-                                                    stateDoctor.notesMedicine.add(TextEditingController());
-                                                  }
-                                                  // if (toogle.contains(index)) {
-                                                  //   toogle.remove(index);
-                                                  //   stateDoctor.listObat
-                                                  //       .remove(drugs[index]);
-                                                  //   stateDoctor.notesSkincare
-                                                  //       .removeAt(stateDoctor
-                                                  //               .notesSkincare
-                                                  //               .length -
-                                                  //           1);
-                                                  //   stateDoctor.listItemCount!
-                                                  //       .removeAt(stateDoctor
-                                                  //               .listItemCount!
-                                                  //               .length -
-                                                  //           1);
-                                                  //   print(stateDoctor
-                                                  //       .listItemCount!
-                                                  //       .toString());
-                                                  // } else {
-                                                  //   toogle.add(index);
-                                                  //   stateDoctor.listObat.add(
-                                                  //       state.solutionSkincare[
-                                                  //               index]
-                                                  //           .toJson());
-                                                  //   stateDoctor.notesSkincare.add(
-                                                  //       TextEditingController());
-                                                  //   stateDoctor.listItemCount =
-                                                  //       List.generate(
-                                                  //           state.solutionSkincare
-                                                  //               .length,
-                                                  //           (_) => 1);
-                                                  //   print(stateDoctor
-                                                  //       .listItemCount!
-                                                  //       .toString());
-                                                  // }
-                                                },
-                                              );
-                                            },
-                                            child: Container(
-                                                height: 29,
-                                                width: 40,
-                                                decoration: BoxDecoration(color: toogle.contains(index) ? whiteColor : greenColor, borderRadius: BorderRadius.circular(9), border: Border.all(color: greenColor)),
-                                                child: toogle.contains(index)
-                                                    ? Center(
-                                                        child: Text(
-                                                          '-',
-                                                          style: grenTextStyle.copyWith(fontSize: 20),
-                                                        ),
-                                                      )
-                                                    : Icon(
-                                                        Icons.add,
-                                                        color: whiteColor,
-                                                      )),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                    );
+                                  } else {
+                                    return Center(
+                                      child: Text('data'),
+                                    );
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                        )
                       ],
                     ),
                   ),

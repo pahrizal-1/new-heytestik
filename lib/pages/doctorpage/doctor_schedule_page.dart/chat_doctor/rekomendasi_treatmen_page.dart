@@ -408,10 +408,22 @@ class _RekomendasiTreatmen2PageState extends State<RekomendasiTreatmen2Page> {
                         state.dataTreatmentItems;
                         stateTreatment.filterMethods = [];
                         stateTreatment.toggleMethods = [];
+                        stateTreatment.minPriceController.clear();
+                        stateTreatment.maxPriceController.clear();
+                        stateTreatment.toogle = [];
+                        print('state ${state.methodsTreatment}');
                         context.read<TreatmentRecommendationController>().refreshTreatmentType(
                               context,
-                              methods: state.methodsTreatment,
+                              treatmentType: state.methodsTreatment,
                             );
+                        // if (state.methodsTreatment.isEmpty) {
+                        //   state.listOfTreatment.value = [];
+                        // } else {
+                        //   context.read<TreatmentRecommendationController>().refreshTreatmentType(
+                        //         context,
+                        //         treatmentType: state.methodsTreatment,
+                        //       );
+                        // }
                       }),
                     );
                     // Navigator.push(

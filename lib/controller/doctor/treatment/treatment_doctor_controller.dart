@@ -20,6 +20,9 @@ class TreatmentDoctorController extends StateClass {
   RxInt totalPage = 1.obs;
   List<String> filterMethods = [];
   List toggleMethods = [];
+  TextEditingController minPriceController = TextEditingController();
+  TextEditingController maxPriceController = TextEditingController();
+  List toogle = [];
 
   Future<List<DataObject>> getAllTreatmentType(
     BuildContext context,
@@ -27,6 +30,9 @@ class TreatmentDoctorController extends StateClass {
     String? search,
     Map<String, dynamic>? filter,
     List<String>? methods,
+    List<String>? treatmentType,
+    int? minPrice,
+    int? maxPrice,
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -35,6 +41,9 @@ class TreatmentDoctorController extends StateClass {
         search: search,
         filter: filter,
         methods: methods ?? [],
+        // treatmentType: treatmentType ?? [],
+        minPrice: minPrice != null ? minPrice : null,
+        maxPrice: maxPrice != null ? maxPrice : null,
       );
       print('current ${currentPage.value}');
       print('pages ${totalPage.value}');
@@ -93,6 +102,9 @@ class TreatmentDoctorController extends StateClass {
   Future refresh(
     BuildContext context, {
     List<String>? methods,
+    // List<String>? treatmentType,
+    int? minPrice,
+    int? maxPrice,
     String? search,
   }) async {
     currentPage.value = 1;
@@ -106,6 +118,9 @@ class TreatmentDoctorController extends StateClass {
       currentPage.value,
       search: search,
       methods: methods,
+      // treatmentType: treatmentType,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
     );
     // await getAllTreatment(context, currentPage.value);
     notifyListeners();
