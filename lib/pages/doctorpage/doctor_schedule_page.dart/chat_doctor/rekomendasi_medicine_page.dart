@@ -23,6 +23,8 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
   final ScrollController scrollController = ScrollController();
   final DrugController solutionController = Get.put(DrugController());
   final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
+  TextEditingController searchController = TextEditingController();
+
   int page = 1;
   List<Drug.Data2> drugs = [];
   List toogle = [];
@@ -60,6 +62,14 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
               onTap: () {
                 toogle = [];
                 stateDoctor.listObat = [];
+                solutionController.minPriceController.clear();
+                solutionController.maxPriceController.clear();
+                solutionController.toggleGolonganObat = [];
+                solutionController.toggleBentukObat = [];
+                solutionController.toggleKemasanObat = [];
+                solutionController.filterGolonganObat = [];
+                solutionController.filterBentukObat = [];
+                solutionController.filterKemasanObat = [];
                 Navigator.pop(
                   context,
                 );
@@ -113,6 +123,18 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                       children: [
                         Expanded(
                           child: TextFormField(
+                            controller: searchController,
+                            onFieldSubmitted: (v) {
+                              if (searchController.text == '') {
+                                setState(() {
+                                  context.read<DrugController>().refreshDrug(context, search: '');
+                                });
+                              } else {
+                                setState(() {
+                                  context.read<DrugController>().refreshDrug(context, search: searchController.text);
+                                });
+                              }
+                            },
                             decoration: InputDecoration(
                               isDense: true,
                               fillColor: Color(0xffF1F1F1),
@@ -140,7 +162,16 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                               MaterialPageRoute(
                                 builder: (context) => const FilterTambahObat(),
                               ),
-                            );
+                            ).then((value) {
+                              context.read<DrugController>().refreshDrug(
+                                    context,
+                                    minPrice: solutionController.minPriceController.text.isEmpty ? null : int.parse(solutionController.minPriceController.text),
+                                    maxPrice: solutionController.maxPriceController.text.isEmpty ? null : int.parse(solutionController.maxPriceController.text),
+                                    category: solutionController.filterKemasanObat,
+                                    classification: solutionController.filterGolonganObat,
+                                    form: solutionController.filterBentukObat,
+                                  );
+                            });
                           },
                           child: Image.asset(
                             'assets/icons/corong.png',
@@ -153,19 +184,57 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                     const SizedBox(
                       height: 12,
                     ),
-                    // Row(
-                    //   children: [
-                    //     CardSearch(
-                    //       title: 'Jerawat',
-                    //     ),
-                    //     SizedBox(
-                    //       width: 11,
-                    //     ),
-                    //     CardSearch(
-                    //       title: 'Kulit Kusam',
-                    //     ),
-                    //   ],
-                    // ),
+                    searchController.text == ''
+                        ? SizedBox()
+                        : Container(
+                            height: 35,
+                            // width: 130,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(2),
+                              color: greenColor.withOpacity(0.2),
+                              border: Border.all(
+                                color: greenColor,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(searchController.text),
+                                  // SizedBox(
+                                  //   width: 10,
+                                  // ),
+                                  IconButton(
+                                    iconSize: 14,
+                                    onPressed: () {
+                                      if (searchController.text == '') {
+                                        setState(() {
+                                          context.read<DrugController>().refreshDrug(
+                                                context,
+                                                search: '',
+                                              );
+                                        });
+                                      } else {
+                                        setState(() {
+                                          context.read<DrugController>().refreshDrug(
+                                                context,
+                                                search: '',
+                                              );
+                                          searchController.clear();
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.close,
+                                    ),
+                                  ),
+                                  // Spacer(),
+                                  // Container(),
+                                ],
+                              ),
+                            ),
+                          ),
                     const SizedBox(
                       height: 12,
                     ),
@@ -191,7 +260,7 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                             );
                           },
                           child: Text(
-                            'Brand',
+                            searchController.text,
                             style: blackTextStyle.copyWith(fontWeight: bold),
                           ),
                         )
@@ -376,7 +445,7 @@ class _RecomendationDrugState extends State<RecomendationDrug> {
                                     );
                                   } else {
                                     return Center(
-                                      child: Text('data'),
+                                      child: SizedBox(),
                                     );
                                   }
                                 },

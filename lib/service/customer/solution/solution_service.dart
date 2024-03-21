@@ -195,12 +195,16 @@ class SolutionService extends ProviderClass {
     List<String>? category,
     List<String>? classification,
     List<String>? form,
+    int? minPrice,
+    int? maxPrice,
   }) async {
     Map<String, dynamic> params = {
       "page": page,
       "take": 10,
       "search": search,
       "order": "desc",
+      "min_price": minPrice,
+      "max_price": maxPrice,
     };
 
     if (filter != null) {

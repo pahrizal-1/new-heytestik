@@ -42,8 +42,8 @@ class TreatmentDoctorController extends StateClass {
         filter: filter,
         methods: methods ?? [],
         // treatmentType: treatmentType ?? [],
-        minPrice: minPrice != null ? minPrice : null,
-        maxPrice: maxPrice != null ? maxPrice : null,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
       );
       print('current ${currentPage.value}');
       print('pages ${totalPage.value}');

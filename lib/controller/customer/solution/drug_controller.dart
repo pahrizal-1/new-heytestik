@@ -25,6 +25,8 @@ class DrugController extends StateClass {
   List toggleBentukObat = [];
   List<String> filterKemasanObat = [];
   List toggleKemasanObat = [];
+  TextEditingController minPriceController = TextEditingController();
+  TextEditingController maxPriceController = TextEditingController();
 
   CartController state = CartController();
   RxBool isLoadingDetailDrug = false.obs;
@@ -58,6 +60,8 @@ class DrugController extends StateClass {
     List<String>? category,
     List<String>? classification,
     List<String>? form,
+    int? minPrice,
+    int? maxPrice,
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -67,6 +71,8 @@ class DrugController extends StateClass {
         category: category,
         classification: classification,
         form: form,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
       );
       print('var data ${category}');
       listOfDrug.addAll(responseDrugModel.value.data!.data!);
@@ -88,6 +94,8 @@ class DrugController extends StateClass {
     List<String>? category,
     List<String>? classification,
     List<String>? form,
+    int? minPrice,
+    int? maxPrice,
     String? search,
   }) async {
     currentPage.value = 1;
@@ -102,6 +110,8 @@ class DrugController extends StateClass {
       category: category,
       classification: classification,
       form: form,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
     );
 
     // if (category == null || classification == null || form == null) {
