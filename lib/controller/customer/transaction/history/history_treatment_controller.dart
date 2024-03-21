@@ -81,7 +81,7 @@ class HistoryTreatmentController extends StateClass {
             context: context,
             builder: (context) => AletTranSaksiTreatMent(
               title1: 'Pembayaranmu Berhasil',
-              title2: 'Silakan tunggu konfirmasinya ya',
+              title2: 'Silahkan tunggu konfirmasinya ya',
             ),
           );
           break;

@@ -7,7 +7,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
-import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
+import '../controller/customer/transaction/order/order_treatment_controller.dart';
 
 class CardBankProduk extends StatefulWidget {
   const CardBankProduk({super.key});
@@ -103,87 +103,106 @@ class _CardBankProdukState extends State<CardBankProduk> {
                               ],
                             ),
                             itemBuilder: (c, element) {
-                              return InkWell(
-                                onTap: () {
-                                  if (element.isActive ?? false) {
-                                    state.idPayment.value = element.id!.toInt();
-                                    state.paymentMethod.value =
-                                        element.method ?? '-';
-                                    state.bankName.value = element.name ?? '-';
-                                    state.paymentType.value =
-                                        element.type ?? '-';
-                                    state.bankImage.value = element
-                                            .mediaPaymentMethod?.media?.path ??
-                                        '';
-                                    state.transactionFeeFunct(element);
-                                    Get.back();
-                                  }
-                                },
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      right: 20, top: 10, bottom: 10, left: 20),
-                                  height: 35,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Image.network(
-                                            '${Global.FILE}/${element.mediaPaymentMethod?.media?.path.toString()}',
-                                            width: 40,
-                                            height: 35,
-                                          ),
-                                          const SizedBox(
-                                            width: 19,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                element.name ?? '-',
-                                                style: blackTextStyle.copyWith(
-                                                  fontSize: 15,
-                                                  color:
-                                                      element.isActive ?? false
-                                                          ? blackColor
-                                                          : greyColor,
+                              return (element.isDisplayed ?? false)
+                                  ? InkWell(
+                                      onTap: () {
+                                        if (element.isActive ?? false) {
+                                          state.idPayment.value =
+                                              element.id!.toInt();
+                                          state.paymentMethod.value =
+                                              element.method ?? '-';
+                                          state.bankName.value =
+                                              element.name ?? '-';
+                                          state.paymentType.value =
+                                              element.type ?? '-';
+                                          state.bankImage.value = element
+                                                  .mediaPaymentMethod
+                                                  ?.media
+                                                  ?.path ??
+                                              '';
+                                          state.transactionFeeFunct(element);
+                                          Get.back();
+                                        }
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.only(
+                                            right: 20,
+                                            top: 10,
+                                            bottom: 10,
+                                            left: 20),
+                                        height: 35,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Image.network(
+                                                  '${Global.FILE}/${element.mediaPaymentMethod?.media?.path.toString()}',
+                                                  width: 40,
+                                                  height: 35,
                                                 ),
-                                              ),
-                                              Text(
+                                                const SizedBox(
+                                                  width: 19,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      element.name ?? '-',
+                                                      style: blackTextStyle
+                                                          .copyWith(
+                                                        fontSize: 15,
+                                                        color:
+                                                            element.isActive ??
+                                                                    false
+                                                                ? blackColor
+                                                                : greyColor,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      element.isActive ?? false
+                                                          ? element
+                                                                  .description ??
+                                                              '-'
+                                                          : 'Tidak tersedia untuk transaksi ini',
+                                                      style:
+                                                          blackRegulerTextStyle
+                                                              .copyWith(
+                                                                  fontSize: 12),
+                                                    )
+                                                  ],
+                                                ),
+                                                const Spacer(),
                                                 element.isActive ?? false
-                                                    ? element.description ?? '-'
-                                                    : 'Tidak tersedia untuk transaksi ini',
-                                                style: blackRegulerTextStyle
-                                                    .copyWith(fontSize: 12),
-                                              )
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          element.isActive ?? false
-                                              ? Obx(
-                                                  () => Icon(
-                                                    state.idPayment.value ==
-                                                            element.id
-                                                        ? Icons.radio_button_on
-                                                        : Icons.circle_outlined,
-                                                    size: 23,
-                                                    color:
-                                                        state.idPayment.value ==
-                                                                element.id
-                                                            ? greenColor
-                                                            : blackColor,
-                                                  ),
-                                                )
-                                              : Container(),
-                                        ],
+                                                    ? Obx(
+                                                        () => Icon(
+                                                          state.idPayment
+                                                                      .value ==
+                                                                  element.id
+                                                              ? Icons
+                                                                  .radio_button_on
+                                                              : Icons
+                                                                  .circle_outlined,
+                                                          size: 23,
+                                                          color: state.idPayment
+                                                                      .value ==
+                                                                  element.id
+                                                              ? greenColor
+                                                              : blackColor,
+                                                        ),
+                                                      )
+                                                    : Container(),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              );
+                                    )
+                                  : Container();
                             },
                           ),
                   ],

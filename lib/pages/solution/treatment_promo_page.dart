@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_treatmetment_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/transaction/order/order_treatment_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/voucher/voucher_controller.dart';
 import 'package:heystetik_mobileapps/models/customer/available_voucher_model.dart'
     as Available;

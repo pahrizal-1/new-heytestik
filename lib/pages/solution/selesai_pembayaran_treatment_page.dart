@@ -317,7 +317,7 @@ class _SelesaikanPembayaranTreatmentPageState
                                 title2: '',
                               ),
                               Text(
-                                state.expirytime.value != '-'
+                                state.expirytime.value != ''
                                     ? ConvertDate.transactionDate(
                                         state.expirytime.value,
                                       )
@@ -522,16 +522,16 @@ class _SelesaikanPembayaranTreatmentPageState
                           ),
                           InkWell(
                             onTap: () {
-                              Get.to(CaraPembayaranPage(
-                                id: widget.paymentMethodId,
-                                orderId: widget.orderId,
-                                totalPaid: state.transactionStatus.value.data
-                                        ?.transaction?.totalPaid ??
-                                    0,
-                                transactionType: 'Treatment',
-                                treatment: widget.treatment,
-                                pax: widget.pax,
-                              ));
+                              Get.to(() => CaraPembayaranPage(
+                                    id: widget.paymentMethodId,
+                                    orderId: widget.orderId,
+                                    totalPaid: state.transactionStatus.value
+                                            .data?.transaction?.totalPaid ??
+                                        0,
+                                    transactionType: 'Treatment',
+                                    treatment: widget.treatment,
+                                    pax: widget.pax,
+                                  ));
                             },
                             child: Center(
                               child: Text(
@@ -571,7 +571,9 @@ class _SelesaikanPembayaranTreatmentPageState
                             title: 'Saya sudah melakukan pembayaran',
                             onPressed: () async {
                               await state.getTransactionStatus(
-                                  context, widget.orderId);
+                                context,
+                                widget.orderId,
+                              );
                             },
                           ),
                         ],

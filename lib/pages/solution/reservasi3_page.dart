@@ -13,7 +13,7 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/card_bank_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import '../../controller/customer/transaction/order/order_treatmetment_controller.dart';
+import '../../controller/customer/transaction/order/order_treatment_controller.dart';
 
 // ignore: must_be_immutable
 class Resevasi3Page extends StatefulWidget {
