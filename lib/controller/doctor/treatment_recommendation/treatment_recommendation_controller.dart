@@ -50,7 +50,8 @@ class TreatmentRecommendationController extends StateClass {
     int page, {
     String? search,
     Map<String, dynamic>? filter,
-    List<String>? methods,
+    // List<String>? methods,
+    List<String>? treatmentType,
   }) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -58,7 +59,8 @@ class TreatmentRecommendationController extends StateClass {
         page,
         search: search,
         filter: filter,
-        methods: methods,
+        // methods: methods,
+        treatmentType: treatmentType,
       );
       listOfTreatment.addAll(responseTreatmentType.value.data!.data!);
       currentPage.value++;
@@ -76,7 +78,7 @@ class TreatmentRecommendationController extends StateClass {
 
   Future refreshTreatmentType(
     BuildContext context, {
-    List<String>? methods,
+    List<String>? treatmentType,
     String? search,
   }) async {
     currentPage.value = 1;
@@ -84,14 +86,14 @@ class TreatmentRecommendationController extends StateClass {
     listOfTreatment.value = [];
     totalPage.value = 1;
 
-    if (methods == null) {
+    if (treatmentType == null) {
       null;
     } else {
       await getAllTreatmentType(
         context,
         currentPage.value,
         search: search,
-        methods: methods,
+        treatmentType: treatmentType,
       );
     }
     // await getAllTreatment(context, currentPage.value);

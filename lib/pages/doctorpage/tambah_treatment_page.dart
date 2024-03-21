@@ -31,7 +31,6 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
   int rating = 0;
   int page = 1;
   List<Data2> treatments = [];
-  List toogle = [];
   String? search;
   Map<String, dynamic> filter = {};
 
@@ -65,6 +64,11 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
             InkWell(
               onTap: () {
                 // stateDoctor.listTreatmentNote = [];
+                state.toogle = [];
+                setState(() {
+                  stateTreatment.methodsTreatment = [];
+                  stateTreatment.listOfTreatment.value = [];
+                });
                 Navigator.pop(
                   context,
                 );
@@ -165,6 +169,8 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                         context,
                                         // 1,
                                         // search: '',
+                                        minPrice: state.minPriceController.text.isEmpty ? null : int.parse(state.minPriceController.text),
+                                        maxPrice: state.maxPriceController.text.isEmpty ? null : int.parse(state.maxPriceController.text),
                                         methods: state.filterMethods,
                                       );
                                 }));
@@ -309,9 +315,9 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                             // lokasiKlinik: state.listOfTreatment[i].clinic?.city?.name ?? '-',
                                             iconPlus: InkWell(
                                               onTap: () {
-                                                if (toogle.contains(i)) {
+                                                if (state.toogle.contains(i)) {
                                                   setState(() {
-                                                    toogle.remove(i);
+                                                    state.toogle.remove(i);
                                                     // stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
                                                     stateDoctor.listTreatmentMethods.remove(stateDoctor.listTreatmentMethods[i]);
                                                     stateTreatment.methodsTreatment.remove(stateTreatment.methodsTreatment[i]);
@@ -319,28 +325,11 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                                   });
                                                 } else {
                                                   setState(() {
-                                                    toogle.add(i);
+                                                    state.toogle.add(i);
                                                     stateDoctor.listTreatmentMethods.add(state.listOfTreatment[i].treatmentType.toString());
-                                                    // stateDoctor.listTreatmentNote.add({
-                                                    //   'treatment_type': state.listOfTreatment[i].treatmentType,
-                                                    //   // 'name': state.listOfTreatment[i].name ?? '-',
-                                                    //   // 'cost': state.listOfTreatment[i].price!.toString(),
-                                                    //   // 'recovery_time': state.listOfTreatment[i].downtime ?? '-',
-                                                    //   // 'type': state.listOfTreatment[i].treatmentType ?? '-',
-                                                    //   // 'clinic_id': state.listOfTreatment[i].clinicId ?? 1,
-                                                    // });
                                                     stateTreatment.methodsTreatment.add(state.listOfTreatment[i].treatmentType.toString());
-                                                    // stateTreatment.methodsTreatment.add({
-                                                    //   'treatment_type': "state.listOfTreatment[i].treatmentType",
 
-                                                    //   // 'name': state.listOfTreatment[i].name ?? '-',
-                                                    //   // 'cost': state.listOfTreatment[i].price!.toString(),
-                                                    //   // 'recovery_time': state.listOfTreatment[i].downtime ?? '-',
-                                                    //   // 'type': state.listOfTreatment[i].treatmentType ?? '-',
-                                                    //   // 'clinic_id': state.listOfTreatment[i].clinicId ?? 1,
-                                                    // });
-
-                                                    print('list ${stateDoctor.listTreatmentNote}');
+                                                    print('list ${stateTreatment.methodsTreatment}');
                                                     // stateDoctor.listTreatmentNote.add();
                                                   });
                                                 }
@@ -353,7 +342,7 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                                   borderRadius: BorderRadius.circular(9),
                                                   border: Border.all(color: greenColor),
                                                 ),
-                                                child: toogle.contains(i)
+                                                child: state.toogle.contains(i)
                                                     ? Center(
                                                         child: Text(
                                                           '-',

@@ -365,6 +365,7 @@ class _FilterPageTreatmentState extends State<FilterPageTreatment> {
                       height: 30,
                       child: TextFormField(
                         keyboardType: TextInputType.number,
+                        controller: state.minPriceController,
                         decoration: InputDecoration(
                           fillColor: greenColor,
                           hoverColor: greenColor,
@@ -398,6 +399,7 @@ class _FilterPageTreatmentState extends State<FilterPageTreatment> {
                     child: Container(
                       height: 30,
                       child: TextFormField(
+                        controller: state.maxPriceController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           fillColor: greenColor,

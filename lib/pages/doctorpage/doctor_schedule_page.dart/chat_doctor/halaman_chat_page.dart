@@ -11,6 +11,7 @@ import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/global.dart';
+import '../../../../core/local_storage.dart';
 import '../../../../service/doctor/consultation/notif_service.dart';
 import '../../../../theme/theme.dart';
 import 'chat_doctor.dart';

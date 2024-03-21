@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/chat_doctor/filter2_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/card_widget.dart';
@@ -16,7 +17,10 @@ class FilterTambahObat extends StatefulWidget {
 
 class _FilterTambahObatState extends State<FilterTambahObat> {
   final InterestController state = Get.put(InterestController());
+  final DrugController stateDrug = Get.put(DrugController());
   List<Data2>? data = [];
+  List<Data2>? golonganObat = [];
+  List<Data2>? kemasanObat = [];
 
   @override
   void initState() {
@@ -24,6 +28,12 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       data?.addAll(
         await state.lookupSkinGoalsFilter(context, "MEDICINE_CLASSIFICATIONS"),
+      );
+      golonganObat?.addAll(
+        await state.lookupGolonganObat(context, "MEDICINE_FORM"),
+      );
+      kemasanObat?.addAll(
+        await state.lookupKemasanObat(context, "MEDICINE_PACKAGING"),
       );
       setState(() {});
     });
@@ -43,6 +53,12 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
               children: [
                 InkWell(
                   onTap: () {
+                    stateDrug.toggleGolonganObat = [];
+                    stateDrug.toggleBentukObat = [];
+                    stateDrug.toggleKemasanObat = [];
+                    stateDrug.filterGolonganObat = [];
+                    stateDrug.filterBentukObat = [];
+                    stateDrug.filterKemasanObat = [];
                     Navigator.pop(context);
                   },
                   child: const Icon(
@@ -101,24 +117,27 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                     for (var item in state.lookupSkinFilter)
                       InkWell(
                         onTap: () {
-                          // if (stateBrand.toggleBrand.contains(item.brand)) {
-                          //   setState(() {
-                          //     stateBrand.toggleBrand.remove(item.brand);
-                          //     stateBrand.filterBrand.remove("${item.brand}");
-                          //     print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
-                          //   });
-                          // } else {
-                          //   setState(() {
-                          //     stateBrand.toggleBrand.add(item.brand);
-                          //     stateBrand.filterBrand.add("${item.brand}");
-                          //   });
-                          // }
+                          if (stateDrug.toggleGolonganObat.contains(item.value)) {
+                            print('state ${item.value}');
+                            setState(() {
+                              stateDrug.toggleGolonganObat.remove(item.value);
+                              stateDrug.filterGolonganObat.remove("${item.value}");
+                              print('data ${stateDrug.toggleGolonganObat} dan selected ${stateDrug.filterGolonganObat}');
+                            });
+                          } else {
+                            print('state ${item.value}');
+
+                            setState(() {
+                              stateDrug.toggleGolonganObat.add(item.value);
+                              stateDrug.filterGolonganObat.add("${item.value}");
+                            });
+                          }
                         },
                         child: Container(
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.white10,
-                            // color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            // color: Colors.white10,
+                            color: stateDrug.toggleGolonganObat.contains(item.value) ? Color(0xff24A7A0) : Colors.white10,
                             border: Border.all(color: Colors.green),
                             borderRadius: const BorderRadius.all(Radius.circular(5)),
                           ),
@@ -135,7 +154,7 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                 height: 30,
               ),
               Text(
-                "Golongan Obat",
+                "Bentuk Obat",
                 style: TextStyle(
                   fontFamily: "Proximanova",
                   fontSize: 20,
@@ -147,14 +166,42 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
               SizedBox(
                 height: 16,
               ),
-              Wrap(
-                children: [
-                  CardFilter(title: "Tablet"),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  CardFilter(title: "Oles")
-                ],
+              Container(
+                // height: 180.0,
+                child: Wrap(
+                  children: [
+                    for (var item in state.lookupGolonganObatFilter)
+                      InkWell(
+                        onTap: () {
+                          // if (stateBrand.toggleBrand.contains(item.brand)) {
+                          //   setState(() {
+                          //     stateBrand.toggleBrand.remove(item.brand);
+                          //     stateBrand.filterBrand.remove("${item.brand}");
+                          //     print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
+                          //   });
+                          // } else {
+                          //   setState(() {
+                          //     stateBrand.toggleBrand.add(item.brand);
+                          //     stateBrand.filterBrand.add("${item.brand}");
+                          //   });
+                          // }
+                        },
+                        child: Container(
+                          // height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white10,
+                            // color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            border: Border.all(color: Colors.green),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          // you can change margin to increase spacing between containers
+                          margin: const EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(5),
+                          child: Text("${item.value}"),
+                        ),
+                      ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 39,
@@ -172,14 +219,42 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
               SizedBox(
                 height: 16,
               ),
-              Wrap(
-                children: [
-                  CardFilter(title: "Botol"),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  CardFilter(title: "Brister")
-                ],
+              Container(
+                // height: 180.0,
+                child: Wrap(
+                  children: [
+                    for (var item in state.lookupKemasanObatFilter)
+                      InkWell(
+                        onTap: () {
+                          // if (stateBrand.toggleBrand.contains(item.brand)) {
+                          //   setState(() {
+                          //     stateBrand.toggleBrand.remove(item.brand);
+                          //     stateBrand.filterBrand.remove("${item.brand}");
+                          //     print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
+                          //   });
+                          // } else {
+                          //   setState(() {
+                          //     stateBrand.toggleBrand.add(item.brand);
+                          //     stateBrand.filterBrand.add("${item.brand}");
+                          //   });
+                          // }
+                        },
+                        child: Container(
+                          // height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white10,
+                            // color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            border: Border.all(color: Colors.green),
+                            borderRadius: const BorderRadius.all(Radius.circular(5)),
+                          ),
+                          // you can change margin to increase spacing between containers
+                          margin: const EdgeInsets.all(3),
+                          padding: const EdgeInsets.all(5),
+                          child: Text("${item.value}"),
+                        ),
+                      ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 30,

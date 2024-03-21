@@ -6,6 +6,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/auth/login_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/register/register_controller.dart';
+import 'package:heystetik_mobileapps/controller/customer/solution/drug_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/home/home_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/skincare_recommendations/skincare_recommendations_controller.dart';
 import 'package:heystetik_mobileapps/controller/doctor/treatment/treatment_doctor_controller.dart';
@@ -108,7 +109,7 @@ void main() async {
     sound: true,
   );
 
-  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     print("ON MESSAGE OPENED APP");
     print("NOTIF DI TAP NIHH ${message.toMap()}");
     print('SISISI ${message.data}');
@@ -128,7 +129,19 @@ void main() async {
       Get.to(() => const TabBarCustomer(currentIndex: 1));
     } else if (message.data['type'] == "CHAT") {
       print('INI NOTIF CHAT');
-      Get.to(() => const TabBarCustomer(currentIndex: 1));
+      int? roleId = await LocalStorage().getRoleID();
+      if (roleId == 2) {
+        print('masuk ke doctor');
+        Get.to(
+          () => ChatDoctorPage(
+            roomCode: message.data['room_code'],
+            id: message.data['consultation_id'],
+          ),
+        );
+      } else if (roleId == 3) {
+        print('masuk ke customer');
+        Get.to(() => const TabBarCustomer(currentIndex: 1));
+      }
     } else if (message.data['type'] == "STREAM_LIKE" || message.data['type'] == "STREAM_COMMENT" || message.data['type'] == "STREAM_COMMENT_LIKE" || message.data['type'] == "STREAM_COMMENT_REPLY" || message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" || message.data['type'] == "STREAM_VOTE") {
       print("INI NOTIF ${message.data['type']}");
       Get.to(
@@ -215,6 +228,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<TreatmentRecommendationController>(
             create: (context) => TreatmentRecommendationController(),
+          ),
+          ChangeNotifierProvider<DrugController>(
+            create: (context) => DrugController(),
           ),
         ],
         child: GetMaterialApp(

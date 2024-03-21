@@ -1005,7 +1005,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                             stateTreatment.methodsTreatment = [];
                             context.read<TreatmentRecommendationController>().refreshTreatmentType(
                                   context,
-                                  methods: state.listTreatmentMethods,
+                                  treatmentType: state.listTreatmentMethods,
                                 );
                           })
                         });
@@ -1034,7 +1034,7 @@ class _CatatanDocterState extends State<CatatanDocter> {
                           stateTreatment.methodsTreatment = [];
                           context.read<TreatmentRecommendationController>().refreshTreatmentType(
                                 context,
-                                methods: state.listTreatmentMethods,
+                                treatmentType: state.listTreatmentMethods,
                               );
                         }),
                       );

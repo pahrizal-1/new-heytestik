@@ -27,6 +27,14 @@ class InterestController extends StateClass {
   RxList<String> sexuallySkinDiseases = <String>[].obs;
   TextEditingController searchController = TextEditingController();
   RxList<Data2> lookupSkinFilter = List<Data2>.empty().obs;
+  RxList<Data2> lookupGolonganObatFilter = List<Data2>.empty().obs;
+  RxList<Data2> lookupKemasanObatFilter = List<Data2>.empty().obs;
+  List<String> golonganObatFilter = [];
+  List<String> bentukObatFilter = [];
+  List<String> kemasanObatFilter = [];
+  List toggleGolonganObat = [];
+  List toggleBentukObat = [];
+  List toggleKemasanObat = [];
 
   Future<List<Data2>> lookupSkinGoals(BuildContext context, String category) async {
     isLoading.value = true;
@@ -49,6 +57,28 @@ class InterestController extends StateClass {
     });
     isLoading.value = false;
     return lookupSkinFilter;
+  }
+
+  Future<List<Data2>> lookupGolonganObat(BuildContext context, String category) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await InterestService().lookupSkinGoals(category);
+      print(jsonDecode(jsonEncode(res)));
+      lookupGolonganObatFilter.value = res.data!.data!;
+    });
+    isLoading.value = false;
+    return lookupGolonganObatFilter;
+  }
+
+  Future<List<Data2>> lookupKemasanObat(BuildContext context, String category) async {
+    isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      var res = await InterestService().lookupSkinGoals(category);
+      print(jsonDecode(jsonEncode(res)));
+      lookupKemasanObatFilter.value = res.data!.data!;
+    });
+    isLoading.value = false;
+    return lookupKemasanObatFilter;
   }
 
   beautifulProfile(BuildContext context, {required Function() doInPost}) async {

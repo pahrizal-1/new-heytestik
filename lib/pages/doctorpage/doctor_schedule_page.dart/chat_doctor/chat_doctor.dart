@@ -657,7 +657,7 @@ class _ChatDoctorPageState extends State<ChatDoctorPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => DetailPasienPage(id: chatRoomId),
+                              builder: (context) => DetailPasienPage(id: widget.id ?? 0),
                             ),
                           ).then(
                             (value) => setState(() {

@@ -192,12 +192,36 @@ class SolutionService extends ProviderClass {
     int page, {
     String? search,
     Map<String, dynamic>? filter,
+    List<String>? category,
+    List<String>? classification,
+    List<String>? form,
   }) async {
-    Map<String, dynamic> params = {"page": page, "take": 10, "search": search, "order": "desc"};
+    Map<String, dynamic> params = {
+      "page": page,
+      "take": 10,
+      "search": search,
+      "order": "desc",
+    };
 
     if (filter != null) {
       params.addAll(filter);
     }
+    if (category != null) {
+      params.addAll({
+        "category[]": [for (var i in category) "$i"]
+      });
+    }
+    if (classification != null) {
+      params.addAll({
+        "classification[]": [for (var i in classification) "$i"]
+      });
+    }
+    if (form != null) {
+      params.addAll({
+        "form[]": [for (var i in form) "$i"]
+      });
+    }
+
     print("params $params");
     var response = await networkingConfig.doGet(
       '/solution/drug',
