@@ -21,9 +21,15 @@ class TransactionService extends ProviderClass {
   TransactionService()
       : super(networkingConfig: NetworkingConfig(baseUrl: Global.BASE_API));
 
-  Future<PaymentMethodModel> paymentMethod() async {
+  Future<PaymentMethodModel> paymentMethod(
+      {Map<String, dynamic>? filter}) async {
+    Map<String, dynamic>? params = {};
+    if (filter != null) {
+      params.addAll(filter);
+    }
     var response = await networkingConfig.doGet(
       '/payment-method',
+      params: params,
       headers: {
         'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
         'User-Agent': await userAgent(),
@@ -33,6 +39,7 @@ class TransactionService extends ProviderClass {
   }
 
   Future<PaymentMethodByIdModel> paymentMethodById(int id) async {
+    print("widget.paymentMethodId $id");
     var response = await networkingConfig.doGet(
       '/payment-method/$id',
       headers: {

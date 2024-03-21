@@ -15,6 +15,8 @@ import 'package:heystetik_mobileapps/service/customer/address/address_service.da
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
     as PaymentMethod;
+import 'package:heystetik_mobileapps/models/customer/available_voucher_model.dart'
+    as Available;
 
 class OrderProductController extends StateClass {
   final CartController cart = Get.put(CartController());
@@ -31,7 +33,8 @@ class OrderProductController extends StateClass {
   RxInt shippingId = 0.obs;
   RxString shippingName = ''.obs;
   RxString shippingDesc = ''.obs;
-  RxInt shippingPrice = 0.obs;
+  RxDouble shippingPriceSet = 0.0.obs;
+  RxDouble shippingPrice = 0.0.obs;
 
   RxList<Address.Data> getAddress = List<Address.Data>.empty().obs;
   RxInt addressId = 0.obs;
@@ -49,6 +52,16 @@ class OrderProductController extends StateClass {
 
   RxBool isLoadingShipping = false.obs;
 
+  RxInt voucherId = 0.obs;
+  RxInt discountPercentage = 0.obs;
+  RxDouble totalPaidSet = 0.0.obs;
+  RxDouble totalPaid = 0.0.obs;
+  RxDouble transactionFee = 0.0.obs;
+  RxDouble tax = 0.0.obs;
+  RxDouble totalDiscount = 0.0.obs;
+  RxDouble totalPrice = 45000.0.obs;
+  RxString voucherName = "".obs;
+
   Future<void> initPayment(BuildContext context, List pesan) async {
     isLoading.value = true;
 
@@ -56,26 +69,6 @@ class OrderProductController extends StateClass {
     listProductItem.clear();
     totalAmountProduct.value = 0;
     totalAmount.value = 0;
-
-    //
-    addressId.value = 0;
-    recipientName.value = '';
-    recipientPhone.value = '';
-    address.value = '';
-    noteForCourier.value = '';
-
-    //
-    shippingId.value = 0;
-    shippingName.value = '';
-    shippingDesc.value = '';
-    shippingPrice.value = 0;
-
-    //
-    idPayment.value = 0;
-    paymentMethod.value = '';
-    paymentType.value = '';
-    bankImage.value = '';
-    bankName.value = '';
 
     print("PESAN ${pesan.length}");
     listProductItem.addAll(pesan);
@@ -89,11 +82,200 @@ class OrderProductController extends StateClass {
     isLoading.value = false;
   }
 
+  void initCheckout() {
+    //
+    addressId.value = 0;
+    recipientName.value = '';
+    recipientPhone.value = '';
+    address.value = '';
+    noteForCourier.value = '';
+
+    //
+    shippingId.value = 0;
+    shippingName.value = '';
+    shippingDesc.value = '';
+    shippingPrice.value = 0.0;
+    shippingPriceSet.value = 0.0;
+
+    //
+    idPayment.value = 0;
+    paymentMethod.value = '';
+    paymentType.value = '';
+    bankImage.value = '';
+    bankName.value = '';
+
+    //
+    totalPrice.value = totalAmountProduct.value.toDouble();
+    voucherId.value = 0;
+    voucherName.value = '';
+    discountPercentage.value = 0;
+    transactionFee.value = 0;
+    tax.value = 0;
+    totalPaidSet.value = totalPrice.value;
+    totalPaid.value = totalPrice.value;
+    transactionFee.value = 0;
+    totalDiscount.value = 0;
+  }
+
   Future<void> getPaymentmethod(BuildContext context) async {
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await TransactionService().paymentMethod();
       getPaymentMethod.value = res.data!;
     });
+  }
+
+  void voucher(Available.Data2 voucher) {
+    voucherName.value = voucher.name ?? "";
+    voucherId.value = voucher.id!;
+    if (voucher.promotionType == "Discount") {
+      // shippingPrice SET LAGI JADI HARGA ASLI
+      shippingPrice.value = shippingPriceSet.value;
+      if (voucher.discountType == "Fix Amount") {
+        print("Fix Amount ${voucher.discountFixAmount!}");
+        discountPercentage.value = 0;
+        // TOTAL DISKON = discountFixAmount
+        totalDiscount.value = voucher.discountFixAmount!.toDouble();
+        // LANGSUNG DIKURANG SAJA
+        totalPaid.value =
+            (totalPrice.value + shippingPrice.value) - totalDiscount.value;
+      } else if (voucher.discountType == "Percentage") {
+        print("Percentage ${voucher.discountPercentage!}");
+        // PERSENTASE DISKON
+        discountPercentage.value = voucher.discountPercentage!;
+        // BERAPA TOTAL DISKONNYA
+        totalDiscount.value = (totalPrice.value + shippingPrice.value) *
+            (voucher.discountPercentage! / 100);
+        // KALO discount_percentage_maximum_amount TIDAK NULL
+        if (voucher.discountPercentageMaximumAmount != null) {
+          // CEK TOTAL DISKON APA LEBIH DARI discount_percentage_maximum_amount
+          if (totalDiscount.value >
+              (voucher.discountPercentageMaximumAmount ?? 0.0)) {
+            // JIKA IYA, MAKA TOTAL DISKON = discount_percentage_maximum_amount
+            totalDiscount.value =
+                (voucher.discountPercentageMaximumAmount ?? 0.0).toDouble();
+            // RUBAH PERSENTASE DISKON SESUAI discount_percentage_maximum_amount
+            discountPercentage.value = ((totalDiscount.value /
+                        (totalPrice.value + shippingPrice.value)) *
+                    100)
+                .toInt();
+          }
+        }
+        // TOTAL FEE DIKURANG TOTAL DISKON
+        totalPaid.value =
+            (totalPrice.value + shippingPrice.value) - totalDiscount.value;
+      } else {
+        if (voucher.discountFixAmount != null) {
+          print("Else Fix Amount ${voucher.discountFixAmount!}");
+          discountPercentage.value = 0;
+          // TOTAL DISKON = discountFixAmount
+          totalDiscount.value = voucher.discountFixAmount!.toDouble();
+          // LANGSUNG DIKURANG SAJA
+          totalPaid.value =
+              (totalPrice.value + shippingPrice.value) - totalDiscount.value;
+        } else if (voucher.discountPercentage != null) {
+          print("Else Percentage ${voucher.discountPercentage!}");
+          // PERSENTASE DISKON
+          discountPercentage.value = voucher.discountPercentage!;
+          // BERAPA TOTAL DISKONNYA
+          totalDiscount.value = (totalPrice.value + shippingPrice.value) *
+              (voucher.discountPercentage! / 100);
+          // KALO discount_percentage_maximum_amount TIDAK NULL
+          if (voucher.discountPercentageMaximumAmount != null) {
+            // CEK TOTAL DISKON APA LEBIH DARI discount_percentage_maximum_amount
+            if (totalDiscount.value >
+                (voucher.discountPercentageMaximumAmount ?? 0.0)) {
+              // JIKA IYA, MAKA TOTAL DISKON = discount_percentage_maximum_amount
+              totalDiscount.value =
+                  (voucher.discountPercentageMaximumAmount ?? 0.0).toDouble();
+              // RUBAH PERSENTASE DISKON SESUAI discount_percentage_maximum_amount
+              discountPercentage.value = ((totalDiscount.value /
+                          (totalPrice.value + shippingPrice.value)) *
+                      100)
+                  .toInt();
+            }
+          }
+          // TOTAL FEE DIKURANG TOTAL DISKON
+          totalPaid.value =
+              (totalPrice.value + shippingPrice.value) - totalDiscount.value;
+        } else {}
+      }
+    } else if (voucher.promotionType == "Free Shipping") {
+      if (voucher.freeShippingAmount != null) {
+        print("Free Shipping ${voucher.freeShippingAmount!}");
+        discountPercentage.value = 0;
+        // TOTAL DISKON = freeShippingAmount
+        totalDiscount.value = voucher.freeShippingAmount!.toDouble();
+        // JIKA KURANG MAKA KASIH 0 shippingPrice
+        if (shippingPriceSet.value < totalDiscount.value) {
+          totalDiscount.value = shippingPriceSet.value;
+          shippingPrice.value = 0.0;
+        } else {
+          // LANGSUNG DIKURANG SAJA
+          shippingPrice.value = shippingPrice.value - totalDiscount.value;
+          // TOTAL FEE DIKURANG TOTAL freeShippingAmount
+          totalPaid.value = totalPrice.value + shippingPrice.value;
+        }
+      } else {}
+    }
+    // UNTUK NYIMPAN totalPaidSet HASIL KALKULASI TANPA transactionFee
+    totalPaidSet.value = totalPaid.value;
+    // SET NOL LAGI idPayment
+    idPayment.value = 0;
+    paymentMethod.value = '';
+    paymentType.value = '';
+    bankImage.value = '';
+    bankName.value = '';
+    orderId.value = '';
+    transactionFee.value = 0;
+  }
+
+  // CEK LAGI INI
+  void shipping() {
+    totalPaid.value = totalPrice.value + shippingPrice.value;
+    // UNTUK NYIMPAN totalPaidSet HASIL KALKULASI TANPA transactionFee
+    totalPaidSet.value = totalPaid.value;
+  }
+
+  void transactionFeeFunct(PaymentMethod.Data fee) {
+    double paid = totalPaidSet.value;
+    double transactionFeeFixAmount = 0.0;
+    double transactionFeePercentage = 0.0;
+    if (paid <= 0) {
+      // KALO TOTAL PAIDNYA KURANG DARI 0.0, MAKA transactionFee juga 0
+      transactionFee.value = 0;
+      paid = 0;
+      print("NOLLLLLL");
+    } else {
+      if (fee.transactionFeeType == "PERCENTAGE_FIX_AMOUNT") {
+        transactionFeePercentage = paid * (fee.transactionFeePercentage! / 100);
+        print("PER $transactionFeePercentage");
+        transactionFeeFixAmount = fee.transactionFeeFixAmount!.toDouble();
+        print("PER $transactionFeeFixAmount");
+        transactionFee.value =
+            transactionFeePercentage + transactionFeeFixAmount;
+        print("PER $transactionFee");
+        paid = paid + transactionFee.value;
+        print("paid $paid");
+      } else if (fee.transactionFeeType == "FIX_AMOUNT") {
+        print("FIX AMOUNT ${fee.transactionFeeFixAmount!.toDouble()}");
+        transactionFeeFixAmount = fee.transactionFeeFixAmount!.toDouble();
+        print("FIX_AMOUNT $transactionFeeFixAmount");
+        transactionFee.value = transactionFeeFixAmount;
+        paid = paid + transactionFee.value;
+      } else if (fee.transactionFeeType == "PERCENTAGE") {
+        print("PERCENT1 ${fee.transactionFeePercentage}");
+        print("PERCENT2 ${(fee.transactionFeePercentage! / 100)}");
+        transactionFeePercentage = paid * (fee.transactionFeePercentage! / 100);
+        print("PERCENTAGE $transactionFeePercentage");
+        transactionFee.value = transactionFeePercentage;
+        paid = paid + transactionFee.value;
+      } else {
+        print("ELSE");
+      }
+    }
+
+    totalPaid.value = paid;
+    print("PER ${totalPaid.value}");
   }
 
   Future<void> selectAddress(BuildContext context) async {
@@ -162,7 +344,7 @@ class OrderProductController extends StateClass {
         shippingId.value = 0;
         shippingName.value = '';
         shippingDesc.value = '';
-        shippingPrice.value = 0;
+        shippingPrice.value = 0.0;
       }
     });
     isLoadingShipping.value = false;
@@ -180,7 +362,7 @@ class OrderProductController extends StateClass {
     shippingId.value = 0;
     shippingName.value = '';
     shippingDesc.value = '';
-    shippingPrice.value = 0;
+    shippingPrice.value = 0.0;
 
     addressId.value = 0;
     recipientName.value = '';
@@ -227,8 +409,7 @@ class OrderProductController extends StateClass {
   }
 
   totalAmountFunc() {
-    totalAmount.value =
-        totalAmountProduct.value + int.parse(shippingPrice.value.toString());
+    totalAmount.value = totalAmountProduct.value + shippingPrice.value.toInt();
   }
 
   Future<void> orderProduct(BuildContext context, bool isCart,
@@ -278,15 +459,19 @@ class OrderProductController extends StateClass {
         "payment_type": paymentType.toString(),
         "shipping_method_id": shippingId.value,
         "user_address_id": addressId.value,
-        "total_product_price": totalAmountProduct.value,
         "delivery_fee": shippingPrice.value,
-        "total_price": totalAmount.value
+        "total_price": totalPrice.value,
+        "voucher_id": voucherId.value <= 0 ? null : voucherId.value,
+        "total_discount": totalDiscount.value,
+        "tax": tax.value,
+        "transaction_fee": transactionFee.value,
+        "total_paid": totalPaid.value
       };
 
       debugPrint("req order $reqOrder");
 
       var res = await TransactionService().orderProduct(reqOrder);
-      debugPrint("req order ${jsonEncode(res)}");
+      debugPrint("res order ${jsonEncode(res)}");
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
