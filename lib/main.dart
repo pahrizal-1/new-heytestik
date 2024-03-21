@@ -192,9 +192,9 @@ void main() async {
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print('Got a message whilst in the foreground!');
     print("ON MESSAGE");
-    print("NOTIF DI TAP NIHH ${message.toMap()}");
-    print('SUSUSU ${message.data}');
-    print('SUSUSU JENIS ${message.data['type']}');
+    // print("NOTIF DI TAP NIHH ${message.toMap()}");
+    // print('SUSUSU ${message.data}');
+    // print('SUSUSU JENIS ${message.data['type']}');
 
     if (message.notification != null) {
       print(
