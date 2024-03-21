@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, invalid_use_of_protected_member
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,6 +18,8 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_model.dart'
     as PaymentMethod;
 import 'package:heystetik_mobileapps/models/customer/available_voucher_model.dart'
     as Available;
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 class OrderProductController extends StateClass {
   final CartController cart = Get.put(CartController());
@@ -410,6 +413,38 @@ class OrderProductController extends StateClass {
 
   totalAmountFunc() {
     totalAmount.value = totalAmountProduct.value + shippingPrice.value.toInt();
+  }
+
+  Future<void> getInvoice(
+      BuildContext context, String transactionID, String invoiceType,
+      {required Function() doInPost}) async {
+    try {
+      isMinorLoading.value = true;
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        try {
+          print("INI GIMANA SIH");
+          var res =
+              await TransactionService().getInvoice(invoiceType, transactionID);
+          print("INI SAMPE MANA INI");
+          var tempDir = await getTemporaryDirectory();
+          final fileName = '/invoice-$transactionID.pdf';
+          print("INI SAMPE SINI");
+          var file =
+              File(tempDir.path + fileName).openSync(mode: FileMode.write);
+          print(res.runtimeType);
+          file.writeFromSync(res);
+          print("INI SAMPE SINI");
+          await file.close();
+          print(fileName);
+          OpenFile.open(tempDir.path + fileName);
+        } catch (error) {
+          print(error);
+        }
+      });
+      isMinorLoading.value = false;
+    } catch (error) {
+      print(error);
+    }
   }
 
   Future<void> orderProduct(BuildContext context, bool isCart,

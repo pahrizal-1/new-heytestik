@@ -114,9 +114,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                   ),
                   Obx(
                     () => Text(
-                      state.data.value.transactionConsultation
-                              ?.consultationInvoice?.doctorAddress ??
-                          '-',
+                      state.data.value.transactionConsultation?.consultationInvoice?.doctorAddress ?? '-',
                       style: blackTextStyle.copyWith(fontSize: 8),
                     ),
                   ),
@@ -141,9 +139,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: state.data.value.transactionConsultation
-                                        ?.consultationInvoice?.customerName ??
-                                    '-',
+                                text: state.data.value.transactionConsultation?.consultationInvoice?.customerName ?? '-',
                                 style: blackHigtTextStyle.copyWith(fontSize: 8),
                               ),
                             ],
@@ -152,9 +148,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                       ),
                       Spacer(),
                       Text(
-                        state.data.value.transactionConsultation
-                                ?.consultationInvoice?.invoiceNumber ??
-                            '-',
+                        state.data.value.transactionConsultation?.consultationInvoice?.invoiceNumber ?? '-',
                         style: blackTextStyle.copyWith(fontSize: 8),
                         textAlign: TextAlign.start,
                       ),
@@ -175,9 +169,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: state.data.value.transactionConsultation
-                                        ?.consultationInvoice?.customerNpwp ??
-                                    '-',
+                                text: state.data.value.transactionConsultation?.consultationInvoice?.customerNpwp ?? '-',
                                 style: blackHigtTextStyle.copyWith(fontSize: 8),
                               ),
                             ],
@@ -186,11 +178,9 @@ class InvoiceHeystetikPage extends StatelessWidget {
                       ),
                       const Spacer(),
                       Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: borderColor)),
+                        decoration: BoxDecoration(border: Border.all(color: borderColor)),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 7, top: 7, bottom: 7, right: 7),
+                          padding: const EdgeInsets.only(left: 7, top: 7, bottom: 7, right: 7),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -204,15 +194,8 @@ class InvoiceHeystetikPage extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: state
-                                                .data
-                                                .value
-                                                .transactionConsultation
-                                                ?.consultationInvoice
-                                                ?.consultationId ??
-                                            '-',
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 8),
+                                        text: state.data.value.transactionConsultation?.consultationInvoice?.consultationId ?? '-',
+                                        style: blackHigtTextStyle.copyWith(fontSize: 8),
                                       ),
                                     ],
                                   ),
@@ -231,15 +214,8 @@ class InvoiceHeystetikPage extends StatelessWidget {
                                     ),
                                     children: [
                                       TextSpan(
-                                        text: ConvertDate.defaultDate(state
-                                                .data
-                                                .value
-                                                .transactionConsultation
-                                                ?.consultationInvoice
-                                                ?.consultationDate ??
-                                            ''),
-                                        style: blackHigtTextStyle.copyWith(
-                                            fontSize: 8),
+                                        text: ConvertDate.defaultDate(state.data.value.transactionConsultation?.consultationInvoice?.consultationDate ?? ''),
+                                        style: blackHigtTextStyle.copyWith(fontSize: 8),
                                       ),
                                     ],
                                   ),
@@ -282,19 +258,13 @@ class InvoiceHeystetikPage extends StatelessWidget {
                       Obx(
                         () => Text(
                           'Konsultasi dengan ${state.data.value.transactionConsultation?.consultationInvoice?.doctorName ?? '-'}\n${state.data.value.transactionConsultation?.consultationInvoice?.transactionDetail}',
-                          style:
-                              blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                          style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
                         ),
                       ),
                       Obx(
                         () => Text(
-                          CurrencyFormat.convertToIdr(
-                              state.data.value.transactionConsultation
-                                      ?.consultationInvoice?.totalFee ??
-                                  0,
-                              0),
-                          style:
-                              blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                          CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalFee ?? 0, 0),
+                          style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
                         ),
                       ),
                     ],
@@ -312,8 +282,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                       Obx(
                         () => Text(
                           '${CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalFee ?? 0, 0)}\n${CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalDiscount ?? 0, 0)}',
-                          style:
-                              blackRegulerTextStyle.copyWith(fontSize: 7.872),
+                          style: blackRegulerTextStyle.copyWith(fontSize: 7.872),
                           textAlign: TextAlign.end,
                         ),
                       ),
@@ -341,11 +310,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                         ),
                         Obx(
                           () => Text(
-                            CurrencyFormat.convertToIdr(
-                                state.data.value.transactionConsultation
-                                        ?.consultationInvoice?.totalPaid ??
-                                    0,
-                                0),
+                            CurrencyFormat.convertToIdr(state.data.value.transactionConsultation?.consultationInvoice?.totalPaid ?? 0, 0),
                             style: blackRegulerTextStyle.copyWith(
                               fontSize: 8,
                             ),
@@ -360,8 +325,7 @@ class InvoiceHeystetikPage extends StatelessWidget {
                   Obx(
                     () => Text(
                       'Invoice ini tidak membutuhkan stempel atau tanda tangan basah dan dibuat pada ${ConvertDate.defaultDate(state.data.value.transactionConsultation?.consultationInvoice?.createdAt ?? '')} pukul ${CurrentTime.timeChat(state.data.value.transactionConsultation?.consultationInvoice?.createdAt ?? '')}',
-                      style: blackRegulerTextStyle.copyWith(
-                          fontSize: 8, fontStyle: FontStyle.italic),
+                      style: blackRegulerTextStyle.copyWith(fontSize: 8, fontStyle: FontStyle.italic),
                     ),
                   ),
                   const SizedBox(
@@ -369,18 +333,15 @@ class InvoiceHeystetikPage extends StatelessWidget {
                   ),
                   Center(
                     child: RichText(
-                      text: TextSpan(
-                          text: 'Butuh bantuan? Hubungi kami di',
-                          style: blackRegulerTextStyle.copyWith(fontSize: 8),
-                          children: [
-                            TextSpan(
-                              text: ' info@heystetik.com',
-                              style: grenTextStyle.copyWith(
-                                fontSize: 8,
-                                fontWeight: regular,
-                              ),
-                            )
-                          ]),
+                      text: TextSpan(text: 'Butuh bantuan? Hubungi kami di', style: blackRegulerTextStyle.copyWith(fontSize: 8), children: [
+                        TextSpan(
+                          text: ' info@heystetik.com',
+                          style: grenTextStyle.copyWith(
+                            fontSize: 8,
+                            fontWeight: regular,
+                          ),
+                        )
+                      ]),
                     ),
                   ),
                 ],

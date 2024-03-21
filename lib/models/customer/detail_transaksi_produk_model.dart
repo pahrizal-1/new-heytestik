@@ -45,38 +45,41 @@ class Data {
   dynamic updatedBy;
   String? createdAt;
   String? updatedAt;
+  String? invoiceID;
   dynamic deletedAt;
   PaymentMethod? paymentMethod;
   List<TransactionProductItems>? transactionProductItems;
   ShippingProduct? shippingProduct;
 
-  Data(
-      {this.id,
-      this.userId,
-      this.totalPrice,
-      this.deliveryFee,
-      this.transactionFee,
-      this.tax,
-      this.totalDiscount,
-      this.totalPaid,
-      this.paymentMethodId,
-      this.orderId,
-      this.paymentStatus,
-      this.paymentExpiryTime,
-      this.paymentTime,
-      this.vaNumber,
-      this.billKey,
-      this.billerCode,
-      this.status,
-      this.orderStatus,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.paymentMethod,
-      this.transactionProductItems,
-      this.shippingProduct});
+  Data({
+    this.id,
+    this.userId,
+    this.totalPrice,
+    this.deliveryFee,
+    this.transactionFee,
+    this.tax,
+    this.totalDiscount,
+    this.totalPaid,
+    this.paymentMethodId,
+    this.orderId,
+    this.paymentStatus,
+    this.paymentExpiryTime,
+    this.paymentTime,
+    this.vaNumber,
+    this.billKey,
+    this.billerCode,
+    this.status,
+    this.orderStatus,
+    this.createdBy,
+    this.updatedBy,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.paymentMethod,
+    this.invoiceID,
+    this.transactionProductItems,
+    this.shippingProduct,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -101,19 +104,16 @@ class Data {
     updatedBy = json['updated_by'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    invoiceID = json['product_invoice']['invoice_number'];
     deletedAt = json['deleted_at'];
-    paymentMethod = json['payment_method'] != null
-        ? PaymentMethod.fromJson(json['payment_method'])
-        : null;
+    paymentMethod = json['payment_method'] != null ? PaymentMethod.fromJson(json['payment_method']) : null;
     if (json['transaction_product_items'] != null) {
       transactionProductItems = <TransactionProductItems>[];
       json['transaction_product_items'].forEach((v) {
         transactionProductItems!.add(TransactionProductItems.fromJson(v));
       });
     }
-    shippingProduct = json['shipping_product'] != null
-        ? ShippingProduct.fromJson(json['shipping_product'])
-        : null;
+    shippingProduct = json['shipping_product'] != null ? ShippingProduct.fromJson(json['shipping_product']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -145,8 +145,7 @@ class Data {
       data['payment_method'] = paymentMethod!.toJson();
     }
     if (transactionProductItems != null) {
-      data['transaction_product_items'] =
-          transactionProductItems!.map((v) => v.toJson()).toList();
+      data['transaction_product_items'] = transactionProductItems!.map((v) => v.toJson()).toList();
     }
     if (shippingProduct != null) {
       data['shipping_product'] = shippingProduct!.toJson();
@@ -172,22 +171,7 @@ class PaymentMethod {
   dynamic deletedAt;
   MediaPaymentMethod? mediaPaymentMethod;
 
-  PaymentMethod(
-      {this.id,
-      this.name,
-      this.method,
-      this.type,
-      this.transactionFee,
-      this.accountNumber,
-      this.segment,
-      this.description,
-      this.isActive,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.mediaPaymentMethod});
+  PaymentMethod({this.id, this.name, this.method, this.type, this.transactionFee, this.accountNumber, this.segment, this.description, this.isActive, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.mediaPaymentMethod});
 
   PaymentMethod.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -204,9 +188,7 @@ class PaymentMethod {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    mediaPaymentMethod = json['media_payment_method'] != null
-        ? MediaPaymentMethod.fromJson(json['media_payment_method'])
-        : null;
+    mediaPaymentMethod = json['media_payment_method'] != null ? MediaPaymentMethod.fromJson(json['media_payment_method']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -243,16 +225,7 @@ class MediaPaymentMethod {
   dynamic deletedAt;
   Media? media;
 
-  MediaPaymentMethod(
-      {this.id,
-      this.mediaId,
-      this.paymentMethodId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaPaymentMethod({this.id, this.mediaId, this.paymentMethodId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaPaymentMethod.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -297,19 +270,7 @@ class Media {
   String? updatedAt;
   dynamic deletedAt;
 
-  Media(
-      {this.id,
-      this.filename,
-      this.ext,
-      this.size,
-      this.mime,
-      this.path,
-      this.destination,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Media({this.id, this.filename, this.ext, this.size, this.mime, this.path, this.destination, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   Media.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -361,22 +322,7 @@ class TransactionProductItems {
   Product? product;
   dynamic productReview;
 
-  TransactionProductItems(
-      {this.id,
-      this.transactionProductId,
-      this.productId,
-      this.qty,
-      this.price,
-      this.discount,
-      this.subtotal,
-      this.note,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.product,
-      this.productReview});
+  TransactionProductItems({this.id, this.transactionProductId, this.productId, this.qty, this.price, this.discount, this.subtotal, this.note, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.product, this.productReview});
 
   TransactionProductItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -392,8 +338,7 @@ class TransactionProductItems {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    product =
-        json['product'] != null ? Product.fromJson(json['product']) : null;
+    product = json['product'] != null ? Product.fromJson(json['product']) : null;
     productReview = json['product_review'];
   }
 
@@ -512,9 +457,7 @@ class Product {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    skincareDetail = json['skincare_detail'] != null
-        ? SkincareDetail.fromJson(json['skincare_detail'])
-        : null;
+    skincareDetail = json['skincare_detail'] != null ? SkincareDetail.fromJson(json['skincare_detail']) : null;
     drugDetail = json['drug_detail'];
     if (json['media_products'] != null) {
       mediaProducts = <MediaProducts>[];
@@ -584,25 +527,7 @@ class SkincareDetail {
   String? updatedAt;
   dynamic deletedAt;
 
-  SkincareDetail(
-      {this.id,
-      this.productId,
-      this.brand,
-      this.description,
-      this.specificationTexture,
-      this.specificationBpom,
-      this.specificationNetto,
-      this.specificationNettoType,
-      this.specificationExpired,
-      this.specificationPackagingType,
-      this.specificationIngredients,
-      this.specificationHowToUse,
-      this.specificationStorageAdvice,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  SkincareDetail({this.id, this.productId, this.brand, this.description, this.specificationTexture, this.specificationBpom, this.specificationNetto, this.specificationNettoType, this.specificationExpired, this.specificationPackagingType, this.specificationIngredients, this.specificationHowToUse, this.specificationStorageAdvice, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   SkincareDetail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -660,16 +585,7 @@ class MediaProducts {
   dynamic deletedAt;
   Media? media;
 
-  MediaProducts(
-      {this.id,
-      this.mediaId,
-      this.productId,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt,
-      this.media});
+  MediaProducts({this.id, this.mediaId, this.productId, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt, this.media});
 
   MediaProducts.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -805,11 +721,8 @@ class ShippingProduct {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
-    shipper =
-        json['shipper'] != null ? Shipper.fromJson(json['shipper']) : null;
-    shippingMethod = json['shipping_method'] != null
-        ? ShippingMethod.fromJson(json['shipping_method'])
-        : null;
+    shipper = json['shipper'] != null ? Shipper.fromJson(json['shipper']) : null;
+    shippingMethod = json['shipping_method'] != null ? ShippingMethod.fromJson(json['shipping_method']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -875,24 +788,7 @@ class Shipper {
   String? updatedAt;
   dynamic deletedAt;
 
-  Shipper(
-      {this.id,
-      this.name,
-      this.phone,
-      this.email,
-      this.latitude,
-      this.longitude,
-      this.province,
-      this.city,
-      this.subdistrict,
-      this.zipCode,
-      this.address,
-      this.originCode,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Shipper({this.id, this.name, this.phone, this.email, this.latitude, this.longitude, this.province, this.city, this.subdistrict, this.zipCode, this.address, this.originCode, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   Shipper.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -950,18 +846,7 @@ class ShippingMethod {
   String? updatedAt;
   dynamic deletedAt;
 
-  ShippingMethod(
-      {this.id,
-      this.name,
-      this.provider,
-      this.description,
-      this.type,
-      this.providerServiceCode,
-      this.createdBy,
-      this.updatedBy,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  ShippingMethod({this.id, this.name, this.provider, this.description, this.type, this.providerServiceCode, this.createdBy, this.updatedBy, this.createdAt, this.updatedAt, this.deletedAt});
 
   ShippingMethod.fromJson(Map<String, dynamic> json) {
     id = json['id'];

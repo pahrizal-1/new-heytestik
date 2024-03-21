@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>891210093671-d770n7tjafd8522liuslfi8kotai7p1g.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.891210093671-d770n7tjafd8522liuslfi8kotai7p1g</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>891210093671-t02nn8g6mrdk5vh38thj2c1h1edm510l.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAk7NXQL1jyMKx61JaUswWp5vOm3lyz9wY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>891210093671</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.desacode.heystetik-mobile</string>
+	<key>PROJECT_ID</key>
+	<string>heystetik-fae95</string>
+	<key>STORAGE_BUCKET</key>
+	<string>heystetik-fae95.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:891210093671:ios:7840704926d66cde42f0c2</string>
+</dict>
+</plist>
