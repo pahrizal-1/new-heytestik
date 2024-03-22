@@ -82,7 +82,8 @@ class DoctorProfileController extends StateClass {
       var response = await profileService.getProfile();
       profileData.value = response;
       print('GetUserInfoDataDompet : ${profileData.value.data!.toJson()}');
-      imgNetwork.value = profileData.value.data!.mediaUserProfilePicture!.media!.path ?? '';
+      imgNetwork.value =
+          profileData.value.data!.mediaUserProfilePicture!.media!.path ?? '';
       print('imageeee : ${imgNetwork.value}');
 
       nama.text = profileData.value.data!.fullname ?? '-';
@@ -111,8 +112,10 @@ class DoctorProfileController extends StateClass {
 
   void onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     if (args.value is PickerDateRange) {
-      startPeriod.value = '${DateFormat('yyyy/MM/dd').format(args.value.startDate)}';
-      endPeriod.value = '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
+      startPeriod.value =
+          '${DateFormat('yyyy/MM/dd').format(args.value.startDate)}';
+      endPeriod.value =
+          '${DateFormat('yyyy/MM/dd').format(args.value.endDate ?? args.value.startDate)}';
 
       print('start date $startPeriod');
       print('end date $endPeriod');
@@ -127,7 +130,8 @@ class DoctorProfileController extends StateClass {
 
   Future getFilterStatistic() async {
     isLoading.value = true;
-    var response = await StatisticService().getStatistic(startPeriod.value, endPeriod.value);
+    var response = await StatisticService()
+        .getStatistic(startPeriod.value, endPeriod.value);
     // saldo.value = response;
     filtStatistic.add(response);
     for (var i in filtStatistic) {
@@ -315,7 +319,8 @@ class DoctorProfileController extends StateClass {
       }
 
       if (imagePath != null) {
-        dataProfile['files'] = await dio.MultipartFile.fromFile(imagePath!.path);
+        dataProfile['files'] =
+            await dio.MultipartFile.fromFile(imagePath!.path);
       }
 
       var response = await dio.Dio().patch(
@@ -387,10 +392,10 @@ class DoctorProfileController extends StateClass {
       int userID = await LocalStorage().getUserID() ?? 0;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await FirebaseMessaging.instance.unsubscribeFromTopic('all');
-        await FirebaseMessaging.instance.unsubscribeFromTopic(userID.toString());
+        await FirebaseMessaging.instance
+            .unsubscribeFromTopic(userID.toString());
       });
       Get.offAll(() => const LoginPageNew());
-      print('logout dokter');
     });
   }
 }

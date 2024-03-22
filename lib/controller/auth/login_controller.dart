@@ -65,7 +65,6 @@ class LoginController extends StateClass {
       await LocalStorage().setDataUser(dataUser: loginResponse['data']['user']);
       await LocalStorage()
           .setAccessToken(token: loginResponse['data']['token']);
-
       await LocalStorage()
           .setRoleID(roleID: loginResponse['data']['user']['roleId']);
       await LocalStorage()
