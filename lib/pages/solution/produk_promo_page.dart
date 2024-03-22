@@ -118,6 +118,7 @@ class _ProdukPromoPageState extends State<ProdukPromoPage> {
                     child: TextFormField(
                       controller: control,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintText: 'Masukkan kode voucher',
                       ),

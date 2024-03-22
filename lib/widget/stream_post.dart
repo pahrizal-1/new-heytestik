@@ -187,10 +187,10 @@ class _StreamPostPageState extends State<StreamPostPage> {
           if (widget.stream.postImage.isNotEmpty)
             CarouselSlider(
               options: CarouselOptions(
-                pauseAutoPlayInFiniteScroll: false,
+                pauseAutoPlayInFiniteScroll: true,
                 padEnds: false,
-                enableInfiniteScroll: true,
-                height: 300,
+                enableInfiniteScroll: false,
+                height: 400,
                 onPageChanged: (index, reason) =>
                     setState(() => activeIndex = index),
                 viewportFraction: 1,
@@ -208,7 +208,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitHeight,
                             image: NetworkImage(
                               "${Global.FILE}/$image",
                             ),

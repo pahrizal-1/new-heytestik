@@ -342,6 +342,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
                 CarouselSlider(
                   options: CarouselOptions(
                     initialPage: 1,
+                    height: 400,
                     enableInfiniteScroll: false,
                   ),
                   items: imagePath
@@ -722,7 +723,7 @@ class _BuatPostinganStreamState extends State<BuatPostinganStream> {
         children: [
           Positioned(
             top: 10,
-            left: 220,
+            left: 240,
             child: InkWell(
               onTap: () {
                 imagePath.removeWhere((item) {
