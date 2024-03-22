@@ -297,7 +297,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                           options: CarouselOptions(
                             padEnds: false,
                             enableInfiniteScroll: true,
-                            height: 300,
+                            height: 400,
                             onPageChanged: (index, reason) =>
                                 setState(() => activeIndex = index),
                             viewportFraction: 1,
@@ -311,7 +311,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                       horizontal: 5.0),
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
-                                      fit: BoxFit.cover,
+                                      fit: BoxFit.fitHeight,
                                       image: NetworkImage(
                                         "${Global.FILE}/$image",
                                       ),
