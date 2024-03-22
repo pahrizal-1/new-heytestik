@@ -82,8 +82,9 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
   String penerima = '';
   int pengirimId = 0;
   int penerimaId = 0;
-  String imagDoktor = '';
-  String imgUser = '';
+  String imagePengirim = '';
+  String imagePenerima = '';
+  int userID = 0;
 
   @override
   void initState() {
@@ -100,6 +101,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     //       setState(() {});
     //       take += 10;
     getRequest(widget.roomCode, take);
+    getCodeId();
     //     }
     //   },
     // );
@@ -110,6 +112,10 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
     // joinRoom(widget.roomCode);
     // readMessage(widget.roomCode);
     setState(() {});
+  }
+
+  Future getCodeId() async {
+    userID = await LocalStorage().getUserID() ?? 0;
   }
 
   getData() async {
@@ -167,12 +173,21 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
         } else {
           chatRoomId = i.chatRoomId ?? 0;
           idRoom = i.chatRoomId ?? 0;
-          pengirim = "${i.sender!.fullname}";
-          penerima = "${i.receiver!.fullname}";
-          pengirimId = i.senderId ?? 0;
-          penerimaId = i.receiverId ?? 0;
-          imagDoktor = "${i.sender!.mediaUserProfilePicture!.media!.path}";
-          imgUser = "${i.receiver!.mediaUserProfilePicture!.media!.path}";
+          if (userID == i.senderId) {
+            pengirim = "${i.sender!.fullname}";
+            pengirimId = i.senderId ?? 0;
+            imagePengirim = "${i.sender!.mediaUserProfilePicture!.media!.path}";
+          } else {
+            penerima = "${i.sender!.fullname}";
+            penerimaId = i.senderId ?? 0;
+            imagePenerima = "${i.sender!.mediaUserProfilePicture!.media!.path}";
+          }
+          // pengirim = "${i.sender!.fullname}";
+          // penerima = "${i.receiver!.fullname}";
+          // pengirimId = i.senderId ?? 0;
+          // penerimaId = i.receiverId ?? 0;
+          // imagePengirim = "${i.sender!.mediaUserProfilePicture!.media!.path}";
+          // imagePenerima = "${i.receiver!.mediaUserProfilePicture!.media!.path}";
         }
       }
     });
@@ -647,21 +662,21 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 
                                 if (widget.id == chatRoomId && msglist![index].senderId == 0) {
                                   return ChatSystem(
-                                    // image: imagDoktor,
+                                    // image: imagePengirim,
                                     // imgDoctor: 'assets/icons/logo.png',
                                     // nameDoctor: 'Rina Rasmalina',
                                     timetitle: formattedTime,
                                     title: msglist![index].message,
                                   );
-                                } else if (msglist![index].senderId == pengirimId && msglist![index].mediaChatMessages!.length == 0) {
+                                } else if (msglist![index].senderId == userID && msglist![index].mediaChatMessages!.length == 0) {
                                   return ChatRight(
-                                    imgUser: imgUser != "" ? '${Global.FILE}/$imgUser' : namesImguser,
+                                    imgUser: imagePenerima != "" ? '${Global.FILE}/$imagePenerima' : namesImguser,
                                     nameUser: pengirim,
                                     timetitle: formattedTime,
                                     color: subgreenColor,
                                     title: msglist![index].message.toString(),
                                   );
-                                } else if (msglist![index].senderId == pengirimId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
+                                } else if (msglist![index].senderId == userID && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: msglist![index].mediaChatMessages!.length == 1
@@ -678,7 +693,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                     width: 10,
                                                   ),
                                                   Image.network(
-                                                    imgUser != "" ? '${Global.FILE}/$imgUser' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
+                                                    imagePenerima != "" ? '${Global.FILE}/$imagePenerima' : 'https://cdn.hswstatic.com/gif/play/0b7f4e9b-f59c-4024-9f06-b3dc12850ab7-1920-1080.jpg',
                                                     width: 30,
                                                     fit: BoxFit.cover,
                                                   ),
@@ -835,8 +850,8 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 ],
                                               )
                                             : ChatRight(
-                                                imgUser: imgUser != "" ? '${Global.FILE}/$imgUser' : namesImguser,
-                                                // imgUser:
+                                                imgUser: imagePenerima != "" ? '${Global.FILE}/$imagePenerima' : namesImguser,
+                                                // imagePenerima:
                                                 //     'assets/images/doctor-img.png',
                                                 // imgData: msglist![index]['media_chat_messages'] != null ? 'https://heystetik.ahrulsyamil.com/files/' + msglist![index]['media_chat_messages'][index]['media']['path'] : '',
                                                 nameUser: pengirim,
@@ -845,7 +860,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 title: msglist![index].message.toString(),
                                               ),
                                   );
-                                } else if (msglist![index].senderId == penerimaId && msglist![index].message == '#####') {
+                                } else if (msglist![index].senderId == userID && msglist![index].message == '#####') {
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 10),
                                     child: Column(
@@ -1047,7 +1062,7 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                       ],
                                     ),
                                   );
-                                } else if (msglist![index].senderId == penerimaId && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
+                                } else if (msglist![index].senderId != userID && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
                                   return Padding(
                                     padding: EdgeInsets.only(top: 10),
                                     child: msglist![index].mediaChatMessages?.length == 1
@@ -1232,16 +1247,16 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 ],
                                               )
                                             : ChatLeft(
-                                                image: imagDoktor != "" ? '${Global.FILE}/$imagDoktor' : namesImgDoktor,
+                                                image: imagePengirim != "" ? '${Global.FILE}/$imagePengirim' : namesImgDoktor,
                                                 nameDoctor: penerima,
                                                 timetitle: formattedTime,
                                                 color: subwhiteColor,
                                                 title: msglist![index].message.toString(),
                                               ),
                                   );
-                                } else if (msglist?[index].senderId == penerimaId) {
+                                } else if (msglist?[index].senderId != userID) {
                                   return ChatLeft(
-                                    image: imagDoktor != "" ? '${Global.FILE}/$imagDoktor' : namesImgDoktor,
+                                    image: imagePengirim != "" ? '${Global.FILE}/$imagePengirim' : namesImgDoktor,
                                     nameDoctor: penerima,
                                     timetitle: formattedTime,
                                     color: subwhiteColor,

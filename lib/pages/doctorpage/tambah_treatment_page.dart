@@ -253,18 +253,9 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                         const SizedBox(
                           width: 10,
                         ),
-                        InkWell(
-                          onTap: () {
-                            // setState(
-                            //   () {
-                            //     isSelcted = !isSelcted;
-                            //   },
-                            // );
-                          },
-                          child: Text(
-                            '${searchController.text}',
-                            style: blackTextStyle.copyWith(fontWeight: bold),
-                          ),
+                        Text(
+                          '${searchController.text}',
+                          style: blackTextStyle.copyWith(fontWeight: bold),
                         )
                       ],
                     ),

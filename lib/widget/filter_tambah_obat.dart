@@ -173,24 +173,27 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                     for (var item in state.lookupGolonganObatFilter)
                       InkWell(
                         onTap: () {
-                          // if (stateBrand.toggleBrand.contains(item.brand)) {
-                          //   setState(() {
-                          //     stateBrand.toggleBrand.remove(item.brand);
-                          //     stateBrand.filterBrand.remove("${item.brand}");
-                          //     print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
-                          //   });
-                          // } else {
-                          //   setState(() {
-                          //     stateBrand.toggleBrand.add(item.brand);
-                          //     stateBrand.filterBrand.add("${item.brand}");
-                          //   });
-                          // }
+                          if (stateDrug.toggleBentukObat.contains(item.value)) {
+                            print('state ${item.value}');
+                            setState(() {
+                              stateDrug.toggleBentukObat.remove(item.value);
+                              stateDrug.filterBentukObat.remove("${item.value}");
+                              print('data ${stateDrug.toggleBentukObat} dan selected ${stateDrug.filterBentukObat}');
+                            });
+                          } else {
+                            print('state ${item.value}');
+
+                            setState(() {
+                              stateDrug.toggleBentukObat.add(item.value);
+                              stateDrug.filterBentukObat.add("${item.value}");
+                            });
+                          }
                         },
                         child: Container(
                           // height: 40,
                           decoration: BoxDecoration(
-                            color: Colors.white10,
-                            // color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            // color: Colors.white10,
+                            color: stateDrug.toggleBentukObat.contains(item.value) ? Color(0xff24A7A0) : Colors.white10,
                             border: Border.all(color: Colors.green),
                             borderRadius: const BorderRadius.all(Radius.circular(5)),
                           ),
@@ -226,24 +229,27 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                     for (var item in state.lookupKemasanObatFilter)
                       InkWell(
                         onTap: () {
-                          // if (stateBrand.toggleBrand.contains(item.brand)) {
-                          //   setState(() {
-                          //     stateBrand.toggleBrand.remove(item.brand);
-                          //     stateBrand.filterBrand.remove("${item.brand}");
-                          //     print('data ${stateBrand.toggleBrand} dan selected ${stateBrand.filterBrand}');
-                          //   });
-                          // } else {
-                          //   setState(() {
-                          //     stateBrand.toggleBrand.add(item.brand);
-                          //     stateBrand.filterBrand.add("${item.brand}");
-                          //   });
-                          // }
+                          if (stateDrug.toggleKemasanObat.contains(item.value)) {
+                            print('state ${item.value}');
+                            setState(() {
+                              stateDrug.toggleKemasanObat.remove(item.value);
+                              stateDrug.filterKemasanObat.remove("${item.value}");
+                              print('data ${stateDrug.toggleKemasanObat} dan selected ${stateDrug.filterKemasanObat}');
+                            });
+                          } else {
+                            print('state ${item.value}');
+
+                            setState(() {
+                              stateDrug.toggleKemasanObat.add(item.value);
+                              stateDrug.filterKemasanObat.add("${item.value}");
+                            });
+                          }
                         },
                         child: Container(
                           // height: 40,
                           decoration: BoxDecoration(
-                            color: Colors.white10,
-                            // color: stateBrand.toggleBrand.contains(item.brand) ? Color(0xff24A7A0) : Colors.white10,
+                            // color: Colors.white10,
+                            color: stateDrug.toggleKemasanObat.contains(item.value) ? Color(0xff24A7A0) : Colors.white10,
                             border: Border.all(color: Colors.green),
                             borderRadius: const BorderRadius.all(Radius.circular(5)),
                           ),
@@ -279,6 +285,7 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                       height: 30,
                       child: TextFormField(
                         keyboardType: TextInputType.number,
+                        controller: stateDrug.minPriceController,
                         decoration: InputDecoration(
                           fillColor: greenColor,
                           hoverColor: greenColor,
@@ -312,6 +319,7 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                     child: Container(
                       height: 30,
                       child: TextFormField(
+                        controller: stateDrug.maxPriceController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           fillColor: greenColor,
@@ -368,12 +376,7 @@ class _FilterTambahObatState extends State<FilterTambahObat> {
                     height: 35,
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const Filter2Page(),
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       style: TextButton.styleFrom(
                         backgroundColor: greenColor,
