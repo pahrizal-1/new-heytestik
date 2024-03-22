@@ -66,10 +66,16 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     Get.to(
       () => UserFollowedStreamPage(
         username: message.data['follower_username'].toString(),
-        fullname: message.data['follower_username'].toString(),
+        fullname: message.data['follower_fullname'].toString(),
       ),
     );
-  } else if (message.data['type'] == "STREAM_LIKE" || message.data['type'] == "STREAM_COMMENT" || message.data['type'] == "STREAM_COMMENT_LIKE" || message.data['type'] == "STREAM_COMMENT_REPLY" || message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" || message.data['type'] == "STREAM_VOTE" || message.data['type'] == "STREAM_USER_ACTIVITY") {
+  } else if (message.data['type'] == "STREAM_LIKE" ||
+      message.data['type'] == "STREAM_COMMENT" ||
+      message.data['type'] == "STREAM_COMMENT_LIKE" ||
+      message.data['type'] == "STREAM_COMMENT_REPLY" ||
+      message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
+      message.data['type'] == "STREAM_VOTE" ||
+      message.data['type'] == "STREAM_USER_ACTIVITY") {
     print("INI NOTIF ${message.data['type']}");
     Get.to(
       () => KomentarStreamPage(
@@ -89,12 +95,15 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
   playSound: true,
 );
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -107,7 +116,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.createNotificationChannel(channel);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
@@ -149,7 +161,20 @@ void main() async {
         print('masuk ke customer');
         Get.to(() => const TabBarCustomer(currentIndex: 1));
       }
-    } else if (message.data['type'] == "STREAM_LIKE" || message.data['type'] == "STREAM_COMMENT" || message.data['type'] == "STREAM_COMMENT_LIKE" || message.data['type'] == "STREAM_COMMENT_REPLY" || message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" || message.data['type'] == "STREAM_VOTE") {
+    } else if (message.data['type'] == "STREAM_NEW_FOLLOWER") {
+      print('INI NOTIF STREAM_NEW_FOLLOWER');
+      Get.to(
+        () => UserFollowedStreamPage(
+          username: message.data['follower_username'].toString(),
+          fullname: message.data['follower_fullname'].toString(),
+        ),
+      );
+    } else if (message.data['type'] == "STREAM_LIKE" ||
+        message.data['type'] == "STREAM_COMMENT" ||
+        message.data['type'] == "STREAM_COMMENT_LIKE" ||
+        message.data['type'] == "STREAM_COMMENT_REPLY" ||
+        message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
+        message.data['type'] == "STREAM_VOTE") {
       print("INI NOTIF ${message.data['type']}");
       Get.to(
         () => KomentarStreamPage(
@@ -182,7 +207,8 @@ void main() async {
     // print('SUSUSU JENIS ${message.data['type']}');
 
     if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification?.toMap()}');
+      print(
+          'Message also contained a notification: ${message.notification?.toMap()}');
       Get.put(DoctorHomeController()).isNotifications.value = true;
     }
 

@@ -98,7 +98,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
                                   .data['follower_username']
                                   .toString(),
                               fullname: notifications[index]
-                                  .data['follower_username']
+                                  .data['follower_fullname']
                                   .toString(),
                             ),
                           );
