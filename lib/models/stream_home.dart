@@ -2,7 +2,6 @@ class StreamHomeModel {
   final int id;
   final int userId;
   final String content;
-  // final String type;
   final String createdAt;
   final String visibility;
   final List<String> streamHashtags;
@@ -17,6 +16,7 @@ class StreamHomeModel {
   final int streamCommentReplies;
   final bool saved;
   final bool liked;
+  final bool voted;
   final bool follow;
   final int pollCount;
   final DateTime endTime;
@@ -26,7 +26,6 @@ class StreamHomeModel {
     required this.id,
     required this.userId,
     required this.content,
-    // required this.type,
     required this.createdAt,
     required this.visibility,
     required this.streamHashtags,
@@ -41,6 +40,7 @@ class StreamHomeModel {
     required this.saved,
     required this.follow,
     required this.liked,
+    required this.voted,
     required this.hashtags,
     required this.pollCount,
     required this.endTime,
@@ -73,7 +73,6 @@ class StreamHomeModel {
       id: json['id'],
       userId: json['user_id'],
       content: json['content'] ?? "",
-      // type: json['type'] ?? "",
       createdAt: json['created_at'] ?? "",
       visibility: json['visibility'] ?? "",
       streamHashtags: json['stream_hastags'] == null
@@ -82,7 +81,6 @@ class StreamHomeModel {
               .map((e) => "#${e['hashtag']['tag']}")
               .toList(),
       streamPollOptions: dataPolling,
-
       fullname: json['user']['fullname'] ?? "-",
       username: json['user']['username'] ?? "-",
       photoUser: json['user']['media_user_profile_picture'] != null
@@ -94,6 +92,7 @@ class StreamHomeModel {
       streamCommentReplies: json['_count']['stream_comment_replies'],
       saved: json['saved'],
       follow: json['follow'],
+      voted: json['voted'],
       liked: json['like'],
       hashtags: json['stream_hastags'] == null
           ? []
