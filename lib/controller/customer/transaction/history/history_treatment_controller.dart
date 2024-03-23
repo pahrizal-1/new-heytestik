@@ -24,6 +24,7 @@ class HistoryTreatmentController extends StateClass {
   Rx<TransactionStatusModel> transactionStatus =
       TransactionStatusModel.fromJson({}).obs;
   RxString expirytime = ''.obs;
+  RxBool qrCode = false.obs;
 
   Future<TransactionHistoryTreatmentModel?> getHistoryConsultation(
       BuildContext context) async {
@@ -97,6 +98,7 @@ class HistoryTreatmentController extends StateClass {
           } else if (transactionStatus.value.data!.paymentMethod ==
               'BANK_TRANSFER_MANUAL_VERIFICATION') {
           } else if (transactionStatus.value.data!.paymentMethod == 'QR_CODE') {
+            qrCode.value = true;
           } else if (transactionStatus.value.data!.paymentMethod == 'FREE') {}
           break;
         case 'FAILED':

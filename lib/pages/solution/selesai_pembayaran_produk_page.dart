@@ -13,6 +13,7 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:social_share/social_share.dart';
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
@@ -356,20 +357,32 @@ class _SelesaiPembayaranProdukPageState
                       padding: lsymetric.copyWith(top: 18, bottom: 18),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                method?.name ?? '-',
-                                style:
-                                    blackHigtTextStyle.copyWith(fontSize: 15),
-                              ),
-                              Image.network(
-                                '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
-                                width: 62,
-                              )
-                            ],
-                          ),
+                          Obx(() {
+                            if (state.qrCode.value) {
+                              return QrImageView(
+                                data: state
+                                    .transactionStatus.value.data?.qrString,
+                                version: QrVersions.auto,
+                                size: 200.0,
+                              );
+                            } else {
+                              return Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    method?.name ?? '',
+                                    style: blackHigtTextStyle.copyWith(
+                                        fontSize: 15),
+                                  ),
+                                  Image.network(
+                                    '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
+                                    width: 62,
+                                  )
+                                ],
+                              );
+                            }
+                          }),
                           const SizedBox(
                             height: 18,
                           ),

@@ -30,8 +30,8 @@ class Data {
   String? type;
   String? channelCode;
   String? transactionFeeType;
-  int? transactionFeePercentage;
-  dynamic transactionFeeFixAmount;
+  double? transactionFeePercentage;
+  double? transactionFeeFixAmount;
   dynamic accountNumber;
   String? segment;
   String? description;
@@ -74,8 +74,12 @@ class Data {
     type = json['type'];
     channelCode = json['channel_code'];
     transactionFeeType = json['transaction_fee_type'];
-    transactionFeePercentage = json['transaction_fee_percentage'];
-    transactionFeeFixAmount = json['transaction_fee_fix_amount'];
+    transactionFeePercentage = json['transaction_fee_percentage'] != null
+        ? double.parse(json['transaction_fee_percentage'].toString())
+        : null;
+    transactionFeeFixAmount = json['transaction_fee_fix_amount'] != null
+        ? double.parse((json['transaction_fee_fix_amount'] ?? "0.0").toString())
+        : null;
     accountNumber = json['account_number'];
     segment = json['segment'];
     description = json['description'];

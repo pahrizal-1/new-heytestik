@@ -17,7 +17,7 @@ class HistoryProductController extends StateClass {
       TransactionStatusModel.fromJson({}).obs;
 
   RxString expirytime = ''.obs;
-
+  RxBool qrCode = false.obs;
   launchURL(String url) async {
     final Uri urlParse = Uri.parse(url);
     if (!await launchUrl(urlParse)) {

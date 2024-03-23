@@ -14,6 +14,7 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:social_share/social_share.dart';
 import '../../widget/Text_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
@@ -58,8 +59,8 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isMinorLoading.value = true;
       method = await state.getPaymentmethod(context, widget.id);
-      if (method!.howToPays!.isNotEmpty) {
-        for (int i = 0; i < method!.howToPays!.length; i++) {
+      if (method?.howToPays?.isNotEmpty ?? false) {
+        for (int i = 0; i < (method?.howToPays?.length ?? 0); i++) {
           isVisibility.add(false);
         }
       }
@@ -354,16 +355,24 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         method?.name ?? '',
-                        style: blackTextStyle.copyWith(fontSize: 15),
+                        style: blackHigtTextStyle.copyWith(fontSize: 15),
                       ),
-                      const Spacer(),
-                      Image.network(
-                        '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
-                        width: 60,
-                      )
+                      if (widget.transactionType == "Treatment")
+                        if (!stateTreatment.qrCode.value)
+                          Image.network(
+                            '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
+                            width: 62,
+                          ),
+                      if (widget.transactionType == "Produk")
+                        if (!stateProduk.qrCode.value)
+                          Image.network(
+                            '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
+                            width: 62,
+                          )
                     ],
                   ),
                   const SizedBox(
@@ -419,7 +428,14 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                                 "");
                           }
                         case 'QR_CODE':
-                          return Container();
+                          return Center(
+                            child: QrImageView(
+                              data: stateTreatment
+                                  .transactionStatus.value.data?.qrString,
+                              version: QrVersions.auto,
+                              size: 200.0,
+                            ),
+                          );
                         case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                           return Container();
                         default:
@@ -435,12 +451,44 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         case 'FREE':
                           return Container();
                         case 'VIRTUAL_ACCOUNT':
-                          return virtualAccount(stateProduk.transactionStatus
-                                  .value.data?.transaction?.vaNumber
-                                  .toString() ??
-                              "");
+                          if (stateProduk
+                                      .transactionStatus
+                                      .value
+                                      .data
+                                      ?.transaction
+                                      ?.paymentMethod
+                                      ?.paymentGateway ==
+                                  "Midtrans" &&
+                              stateProduk.transactionStatus.value.data
+                                      ?.paymentMethod ==
+                                  "VIRTUAL_ACCOUNT" &&
+                              stateProduk.transactionStatus.value.data
+                                      ?.paymentType ==
+                                  "MANDIRI") {
+                            return billerCode(
+                                stateProduk.transactionStatus.value.data
+                                        ?.transaction?.billerCode
+                                        .toString() ??
+                                    "",
+                                stateProduk.transactionStatus.value.data
+                                        ?.transaction?.billKey
+                                        .toString() ??
+                                    "");
+                          } else {
+                            return virtualAccount(stateProduk.transactionStatus
+                                    .value.data?.transaction?.vaNumber
+                                    .toString() ??
+                                "");
+                          }
                         case 'QR_CODE':
-                          return Container();
+                          return Center(
+                            child: QrImageView(
+                              data: stateProduk
+                                  .transactionStatus.value.data?.qrString,
+                              version: QrVersions.auto,
+                              size: 200.0,
+                            ),
+                          );
                         case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                           return Container();
                         default:
