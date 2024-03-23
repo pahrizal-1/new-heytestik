@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
+import 'package:heystetik_mobileapps/core/captureAndSavePng.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
@@ -52,7 +53,7 @@ class _SelesaikanPembayaranTreatmentPageState
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
   Method.Data? method;
-
+  final GlobalKey _qrkey = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -408,11 +409,29 @@ class _SelesaikanPembayaranTreatmentPageState
                                   return virtualAccount();
                                 }
                               case 'QR_CODE':
-                                return QrImageView(
-                                  data: state
-                                      .transactionStatus.value.data?.qrString,
-                                  version: QrVersions.auto,
-                                  size: 200.0,
+                                return Column(
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        captureAndSavePng(context, _qrkey);
+                                      },
+                                      child: Text(
+                                        "Download Barcode",
+                                        style: blackHigtTextStyle.copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    RepaintBoundary(
+                                      key: _qrkey,
+                                      child: QrImageView(
+                                        data: state.transactionStatus.value.data
+                                            ?.qrString,
+                                        version: QrVersions.auto,
+                                        size: 200.0,
+                                      ),
+                                    ),
+                                  ],
                                 );
                               case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                                 return Container();
