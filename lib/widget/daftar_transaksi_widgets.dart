@@ -317,8 +317,7 @@ class TransaksiProduk extends StatelessWidget {
               paymentMethodId: product!.paymentMethodId!,
             ),
           );
-        } else if (product?.status.toString() == 'SELESAI' ||
-            product?.status.toString() == 'DIPROSES') {
+        } else {
           Get.to(
             () => DetailTransaksiPage(
               transactionId: product!.id.toString(),
