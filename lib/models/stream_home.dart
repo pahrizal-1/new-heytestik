@@ -16,13 +16,13 @@ class StreamHomeModel {
   final int streamCommentReplies;
   final bool saved;
   final bool liked;
-  final bool voted;
+  bool? voted;
   final bool follow;
   final int pollCount;
   final DateTime endTime;
   final List<String> postImage;
 
-  const StreamHomeModel({
+  StreamHomeModel({
     required this.id,
     required this.userId,
     required this.content,
@@ -40,7 +40,7 @@ class StreamHomeModel {
     required this.saved,
     required this.follow,
     required this.liked,
-    required this.voted,
+    this.voted = false,
     required this.hashtags,
     required this.pollCount,
     required this.endTime,

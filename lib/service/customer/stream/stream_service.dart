@@ -214,6 +214,7 @@ class StreamService extends ProviderClass {
         'User-Agent': await userAgent(),
       },
     );
+
     return StreamHomeModel.fromJson(response['data']);
   }
 

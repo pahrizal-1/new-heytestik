@@ -73,6 +73,7 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       stateStream.isLoading.value = true;
       post = await stateStream.getStreamById(context, widget.postId);
+      print("res $post");
       dataRemainingTime = post!.endTime
           .difference(DateTime.now())
           .toString()
