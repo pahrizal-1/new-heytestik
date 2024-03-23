@@ -61,6 +61,7 @@ class HistoryProductController extends StateClass {
           } else if (transactionStatus.value.data!.paymentMethod ==
               'BANK_TRANSFER_MANUAL_VERIFICATION') {
           } else if (transactionStatus.value.data!.paymentMethod == 'QR_CODE') {
+            qrCode.value = true;
           } else if (transactionStatus.value.data!.paymentMethod == 'FREE') {}
           break;
         case 'FAILED':

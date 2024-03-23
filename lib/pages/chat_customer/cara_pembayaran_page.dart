@@ -361,18 +361,10 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         method?.name ?? '',
                         style: blackHigtTextStyle.copyWith(fontSize: 15),
                       ),
-                      if (widget.transactionType == "Treatment")
-                        if (!stateTreatment.qrCode.value)
-                          Image.network(
-                            '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
-                            width: 62,
-                          ),
-                      if (widget.transactionType == "Produk")
-                        if (!stateProduk.qrCode.value)
-                          Image.network(
-                            '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
-                            width: 62,
-                          )
+                      Image.network(
+                        '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
+                        width: 62,
+                      ),
                     ],
                   ),
                   const SizedBox(

@@ -357,6 +357,26 @@ class _SelesaiPembayaranProdukPageState
                       padding: lsymetric.copyWith(top: 18, bottom: 18),
                       child: Column(
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                method?.name ?? '',
+                                style:
+                                    blackHigtTextStyle.copyWith(fontSize: 15),
+                              ),
+                              Image.network(
+                                '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
+                                width: 62,
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          const Divider(
+                            thickness: 1,
+                          ),
                           Obx(() {
                             if (state.qrCode.value) {
                               return QrImageView(
@@ -365,30 +385,9 @@ class _SelesaiPembayaranProdukPageState
                                 version: QrVersions.auto,
                                 size: 200.0,
                               );
-                            } else {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    method?.name ?? '',
-                                    style: blackHigtTextStyle.copyWith(
-                                        fontSize: 15),
-                                  ),
-                                  Image.network(
-                                    '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
-                                    width: 62,
-                                  )
-                                ],
-                              );
                             }
+                            return Container();
                           }),
-                          const SizedBox(
-                            height: 18,
-                          ),
-                          const Divider(
-                            thickness: 1,
-                          ),
                           const SizedBox(
                             height: 18,
                           ),
