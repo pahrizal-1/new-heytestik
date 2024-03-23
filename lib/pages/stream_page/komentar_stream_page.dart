@@ -1163,35 +1163,35 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                     ),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      backgroundColor: Colors.white,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadiusDirectional.only(
-                                          topEnd: Radius.circular(25),
-                                          topStart: Radius.circular(25),
-                                        ),
-                                      ),
-                                      builder: (context) => ShareLinkStream(
-                                        post: post!,
-                                        isMe: stateProfile.username.value ==
-                                                comment.userName
-                                            ? true
-                                            : false,
-                                        follow:
-                                            (follow ?? (post?.follow ?? false)),
-                                      ),
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.more_horiz,
-                                    color: subgreyColor,
-                                    size: 24,
-                                  ),
-                                )
+                                // InkWell(
+                                //   onTap: () {
+                                //     showModalBottomSheet(
+                                //       context: context,
+                                //       backgroundColor: Colors.white,
+                                //       shape: const RoundedRectangleBorder(
+                                //         borderRadius:
+                                //             BorderRadiusDirectional.only(
+                                //           topEnd: Radius.circular(25),
+                                //           topStart: Radius.circular(25),
+                                //         ),
+                                //       ),
+                                //       builder: (context) => ShareLinkStream(
+                                //         post: post!,
+                                //         isMe: stateProfile.username.value ==
+                                //                 comment.userName
+                                //             ? true
+                                //             : false,
+                                //         follow:
+                                //             (follow ?? (post?.follow ?? false)),
+                                //       ),
+                                //     );
+                                //   },
+                                //   child: Icon(
+                                //     Icons.more_horiz,
+                                //     color: subgreyColor,
+                                //     size: 24,
+                                //   ),
+                                // )
                               ],
                             );
                           }).toList(),
