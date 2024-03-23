@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
@@ -19,8 +17,6 @@ import 'package:heystetik_mobileapps/pages/solution/solutions_treatment1_page.da
 import '../pages/setings&akun/ulasan_settings_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treatment;
 
 class TransaksiKonsultan extends StatelessWidget {
   final String namaDokter;
@@ -814,14 +810,7 @@ class TransaksiTreatment extends StatelessWidget {
                               id: paymentMethodId,
                               orderId: orderId,
                               totalPaid: harga,
-                              // vaNumber: vaNumber,
                               transactionType: 'Treatment',
-                              treatment: Treatment.Data2.fromJson(
-                                jsonDecode(
-                                  jsonEncode(item![0].treatment),
-                                ),
-                              ),
-                              pax: item?[0].pax,
                             ));
                       },
                       child: Container(

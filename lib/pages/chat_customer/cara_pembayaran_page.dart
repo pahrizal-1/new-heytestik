@@ -17,24 +17,19 @@ import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:social_share/social_share.dart';
 import '../../widget/Text_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treatment;
 
 class CaraPembayaranPage extends StatefulWidget {
   int id;
   String orderId;
   int totalPaid;
   String transactionType;
-  int? pax;
-  Treatment.Data2? treatment;
+
   CaraPembayaranPage({
     super.key,
     required this.id,
     required this.orderId,
     required this.totalPaid,
     required this.transactionType,
-    this.pax = 0,
-    this.treatment,
   });
 
   @override
@@ -173,7 +168,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                 height: 22,
               ),
               Text(
-                '${widget.treatment?.clinic?.name}',
+                '${stateTreatment.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.clinic?.name}',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -190,7 +185,8 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
               ),
               Obx(
                 () => TextBoldSpacebetwen(
-                  title: '${widget.treatment?.name} ${widget.pax} pax',
+                  title:
+                      '${stateTreatment.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.name} ${stateTreatment.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].pax} pax',
                   title2: CurrencyFormat.convertToIdr(
                       stateTreatment.transactionStatus.value.data?.transaction
                           ?.totalPrice,

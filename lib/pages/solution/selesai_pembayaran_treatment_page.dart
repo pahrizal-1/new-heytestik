@@ -13,7 +13,6 @@ import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:social_share/social_share.dart';
@@ -26,20 +25,15 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.
 // ignore: must_be_immutable
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   bool isWillPop;
-
   String bankImage;
   String orderId;
   String expireTime;
-  final Data2 treatment;
-  int pax;
   int paymentMethodId;
   SelesaikanPembayaranTreatmentPage({
     required this.isWillPop,
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
-    required this.treatment,
-    this.pax = 0,
     required this.paymentMethodId,
     super.key,
   });
@@ -540,8 +534,6 @@ class _SelesaikanPembayaranTreatmentPageState
                                             .data?.transaction?.totalPaid ??
                                         0,
                                     transactionType: 'Treatment',
-                                    treatment: widget.treatment,
-                                    pax: widget.pax,
                                   ));
                             },
                             child: Center(
@@ -635,7 +627,7 @@ class _SelesaikanPembayaranTreatmentPageState
                 height: 22,
               ),
               Text(
-                '${widget.treatment.clinic?.name}',
+                '${state.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.clinic?.name}',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -652,7 +644,8 @@ class _SelesaikanPembayaranTreatmentPageState
               ),
               Obx(
                 () => TextBoldSpacebetwen(
-                  title: '${widget.treatment.name} ${widget.pax} pax',
+                  title:
+                      '${state.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.name} ${state.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].pax} pax',
                   title2: CurrencyFormat.convertToIdr(
                       state.transactionStatus.value.data?.transaction
                           ?.totalPrice,

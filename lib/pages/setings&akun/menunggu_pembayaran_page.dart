@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
@@ -11,8 +10,6 @@ import 'package:heystetik_mobileapps/widget/daftar_transaksi_widgets.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import '../../models/customer/transaction_history_model.dart';
 import '../../theme/theme.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treatment;
 
 class MenungguPemayaranPage extends StatefulWidget {
   String? search;
@@ -191,32 +188,17 @@ class _MenungguPemayaranPageState extends State<MenungguPemayaranPage> {
                             if (history[index].transactionType == 'TREATMENT') {
                               return InkWell(
                                 onTap: () {
-                                  Get.to(() =>
-                                      SelesaikanPembayaranTreatmentPage(
-                                        isWillPop: false,
-                                        orderId: history[index]
-                                            .transactionId
-                                            .toString(),
-                                        expireTime: '',
-                                        pax: history[index]
+                                  Get.to(
+                                      () => SelesaikanPembayaranTreatmentPage(
+                                            isWillPop: false,
+                                            orderId: history[index]
+                                                .transactionId
+                                                .toString(),
+                                            expireTime: '',
+                                            paymentMethodId: history[index]
                                                 .detail!
-                                                .transactionTreatmentItems?[0]
-                                                .pax ??
-                                            0,
-                                        treatment: Treatment.Data2.fromJson(
-                                          jsonDecode(
-                                            jsonEncode(
-                                              history[index]
-                                                  .detail!
-                                                  .transactionTreatmentItems?[0]
-                                                  .treatment,
-                                            ),
-                                          ),
-                                        ),
-                                        paymentMethodId: history[index]
-                                            .detail!
-                                            .paymentMethodId!,
-                                      ));
+                                                .paymentMethodId!,
+                                          ));
                                 },
                                 child: TransaksiTreatment(
                                   item: history[index]

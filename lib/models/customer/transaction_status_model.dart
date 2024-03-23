@@ -143,7 +143,7 @@ class Transaction {
   dynamic consultation;
   dynamic consultationReview;
   List<TransactionProductItems>? transactionProductItems;
-
+  List<TransactionTreatmentItems>? transactionTreatmentItems;
   Transaction(
       {this.id,
       this.customerId,
@@ -178,7 +178,8 @@ class Transaction {
       this.medicalHistory,
       this.consultation,
       this.consultationReview,
-      this.transactionProductItems});
+      this.transactionProductItems,
+      this.transactionTreatmentItems});
 
   Transaction.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -225,6 +226,12 @@ class Transaction {
         transactionProductItems!.add(TransactionProductItems.fromJson(v));
       });
     }
+    if (json['transaction_treatment_items'] != null) {
+      transactionTreatmentItems = <TransactionTreatmentItems>[];
+      json['transaction_treatment_items'].forEach((v) {
+        transactionTreatmentItems!.add(TransactionTreatmentItems.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -267,6 +274,14 @@ class Transaction {
     }
     data['consultation'] = this.consultation;
     data['consultation_review'] = this.consultationReview;
+    if (this.transactionProductItems != null) {
+      data['transaction_product_items'] =
+          this.transactionProductItems!.map((v) => v.toJson()).toList();
+    }
+    if (this.transactionTreatmentItems != null) {
+      data['transaction_treatment_items'] =
+          this.transactionTreatmentItems!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -305,7 +320,7 @@ class Customer {
   dynamic npwpNo;
   dynamic npwpImage;
   dynamic specialist;
-  int? rating;
+  // int? rating;
   dynamic statusSchedule;
   dynamic since;
   dynamic start;
@@ -350,7 +365,7 @@ class Customer {
       this.npwpNo,
       this.npwpImage,
       this.specialist,
-      this.rating,
+      // this.rating,
       this.statusSchedule,
       this.since,
       this.start,
@@ -395,7 +410,7 @@ class Customer {
     npwpNo = json['npwp_no'];
     npwpImage = json['npwp_image'];
     specialist = json['specialist'];
-    rating = json['rating'];
+    // // rating = json['rating'];
     statusSchedule = json['status_schedule'];
     since = json['since'];
     start = json['start'];
@@ -442,7 +457,7 @@ class Customer {
     data['npwp_no'] = this.npwpNo;
     data['npwp_image'] = this.npwpImage;
     data['specialist'] = this.specialist;
-    data['rating'] = this.rating;
+    // // data['rating'] = this.rating;
     data['status_schedule'] = this.statusSchedule;
     data['since'] = this.since;
     data['start'] = this.start;
@@ -722,6 +737,362 @@ class MedicalHistory {
   }
 }
 
+class TransactionTreatmentItems {
+  int? id;
+  String? transactionTreatmentId;
+  int? treatmentId;
+  int? pax;
+  int? price;
+  int? discount;
+  int? subtotal;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Treatment? treatment;
+  dynamic treatmentReview;
+
+  TransactionTreatmentItems(
+      {this.id,
+      this.transactionTreatmentId,
+      this.treatmentId,
+      this.pax,
+      this.price,
+      this.discount,
+      this.subtotal,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.treatment,
+      this.treatmentReview});
+
+  TransactionTreatmentItems.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    transactionTreatmentId = json['transaction_treatment_id'];
+    treatmentId = json['treatment_id'];
+    pax = json['pax'];
+    price = json['price'];
+    discount = json['discount'];
+    subtotal = json['subtotal'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    treatment = json['treatment'] != null
+        ? Treatment.fromJson(json['treatment'])
+        : null;
+    treatmentReview = json['treatment_review'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['transaction_treatment_id'] = this.transactionTreatmentId;
+    data['treatment_id'] = this.treatmentId;
+    data['pax'] = this.pax;
+    data['price'] = this.price;
+    data['discount'] = this.discount;
+    data['subtotal'] = this.subtotal;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.treatment != null) {
+      data['treatment'] = this.treatment!.toJson();
+    }
+    data['treatment_review'] = this.treatmentReview;
+    return data;
+  }
+}
+
+class Treatment {
+  int? id;
+  int? clinicId;
+  String? name;
+  String? category;
+  String? description;
+  String? duration;
+  String? downtime;
+  String? treatmentType;
+  String? treatmentStep;
+  int? price;
+  String? method;
+  bool? isActive;
+  // int? rating;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  List<MediaTreatments>? mediaTreatments;
+  Clinic? clinic;
+
+  Treatment(
+      {this.id,
+      this.clinicId,
+      this.name,
+      this.category,
+      this.description,
+      this.duration,
+      this.downtime,
+      this.treatmentType,
+      this.treatmentStep,
+      this.price,
+      this.method,
+      this.isActive,
+      // this.rating,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.mediaTreatments,
+      this.clinic});
+
+  Treatment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    clinicId = json['clinic_id'];
+    name = json['name'];
+    category = json['category'];
+    description = json['description'];
+    duration = json['duration'];
+    downtime = json['downtime'];
+    treatmentType = json['treatment_type'];
+    treatmentStep = json['treatment_step'];
+    price = json['price'];
+    method = json['method'];
+    isActive = json['is_active'];
+    // // rating = json['rating'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    if (json['media_treatments'] != null) {
+      mediaTreatments = <MediaTreatments>[];
+      json['media_treatments'].forEach((v) {
+        mediaTreatments!.add(MediaTreatments.fromJson(v));
+      });
+    }
+    clinic = json['clinic'] != null ? Clinic.fromJson(json['clinic']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['clinic_id'] = this.clinicId;
+    data['name'] = this.name;
+    data['category'] = this.category;
+    data['description'] = this.description;
+    data['duration'] = this.duration;
+    data['downtime'] = this.downtime;
+    data['treatment_type'] = this.treatmentType;
+    data['treatment_step'] = this.treatmentStep;
+    data['price'] = this.price;
+    data['method'] = this.method;
+    data['is_active'] = this.isActive;
+    // // data['rating'] = this.rating;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.mediaTreatments != null) {
+      data['media_treatments'] =
+          this.mediaTreatments!.map((v) => v.toJson()).toList();
+    }
+    if (this.clinic != null) {
+      data['clinic'] = this.clinic!.toJson();
+    }
+    return data;
+  }
+}
+
+class MediaTreatments {
+  int? id;
+  int? mediaId;
+  int? treatmentId;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+  Media? media;
+
+  MediaTreatments(
+      {this.id,
+      this.mediaId,
+      this.treatmentId,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.media});
+
+  MediaTreatments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    mediaId = json['media_id'];
+    treatmentId = json['treatment_id'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['media_id'] = this.mediaId;
+    data['treatment_id'] = this.treatmentId;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    if (this.media != null) {
+      data['media'] = this.media!.toJson();
+    }
+    return data;
+  }
+}
+
+class Clinic {
+  int? id;
+  String? name;
+  String? address;
+  double? pinpointLatitude;
+  double? pinpointLongitude;
+  String? pinpointAddress;
+  int? provinceId;
+  int? cityId;
+  int? postalCode;
+  int? registrationNumber;
+  String? phone;
+  String? email;
+  String? description;
+  String? companyName;
+  String? companyAddress;
+  int? companyCityId;
+  int? companyProvinceId;
+  String? companyPostalCode;
+  String? npwp;
+  String? picName;
+  String? picPhone;
+  String? contractExpiredDate;
+  dynamic status;
+  // int? rating;
+  dynamic createdBy;
+  dynamic updatedBy;
+  String? createdAt;
+  String? updatedAt;
+  dynamic deletedAt;
+
+  Clinic(
+      {this.id,
+      this.name,
+      this.address,
+      this.pinpointLatitude,
+      this.pinpointLongitude,
+      this.pinpointAddress,
+      this.provinceId,
+      this.cityId,
+      this.postalCode,
+      this.registrationNumber,
+      this.phone,
+      this.email,
+      this.description,
+      this.companyName,
+      this.companyAddress,
+      this.companyCityId,
+      this.companyProvinceId,
+      this.companyPostalCode,
+      this.npwp,
+      this.picName,
+      this.picPhone,
+      this.contractExpiredDate,
+      this.status,
+      // this.rating,
+      this.createdBy,
+      this.updatedBy,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Clinic.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    address = json['address'];
+    pinpointLatitude = json['pinpoint_latitude'];
+    pinpointLongitude = json['pinpoint_longitude'];
+    pinpointAddress = json['pinpoint_address'];
+    provinceId = json['province_id'];
+    cityId = json['city_id'];
+    postalCode = json['postal_code'];
+    registrationNumber = json['registration_number'];
+    phone = json['phone'];
+    email = json['email'];
+    description = json['description'];
+    companyName = json['company_name'];
+    companyAddress = json['company_address'];
+    companyCityId = json['company_city_id'];
+    companyProvinceId = json['company_province_id'];
+    companyPostalCode = json['company_postal_code'];
+    npwp = json['npwp'];
+    picName = json['pic_name'];
+    picPhone = json['pic_phone'];
+    contractExpiredDate = json['contract_expired_date'];
+    status = json['status'];
+    // // rating = json['rating'];
+    createdBy = json['created_by'];
+    updatedBy = json['updated_by'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['address'] = this.address;
+    data['pinpoint_latitude'] = this.pinpointLatitude;
+    data['pinpoint_longitude'] = this.pinpointLongitude;
+    data['pinpoint_address'] = this.pinpointAddress;
+    data['province_id'] = this.provinceId;
+    data['city_id'] = this.cityId;
+    data['postal_code'] = this.postalCode;
+    data['registration_number'] = this.registrationNumber;
+    data['phone'] = this.phone;
+    data['email'] = this.email;
+    data['description'] = this.description;
+    data['company_name'] = this.companyName;
+    data['company_address'] = this.companyAddress;
+    data['company_city_id'] = this.companyCityId;
+    data['company_province_id'] = this.companyProvinceId;
+    data['company_postal_code'] = this.companyPostalCode;
+    data['npwp'] = this.npwp;
+    data['pic_name'] = this.picName;
+    data['pic_phone'] = this.picPhone;
+    data['contract_expired_date'] = this.contractExpiredDate;
+    data['status'] = this.status;
+    // // data['rating'] = this.rating;
+    data['created_by'] = this.createdBy;
+    data['updated_by'] = this.updatedBy;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['deleted_at'] = this.deletedAt;
+    return data;
+  }
+}
+
 class TransactionProductItems {
   int? id;
   String? transactionProductId;
@@ -811,7 +1182,7 @@ class Product {
   int? productStock;
   dynamic productTreshold;
   String? productSku;
-  int? rating;
+  // int? rating;
   int? shippingProductWeight;
   String? shippingProductWeightType;
   String? shippingProductSizeLengthType;
@@ -843,7 +1214,7 @@ class Product {
       this.productStock,
       this.productTreshold,
       this.productSku,
-      this.rating,
+      // this.rating,
       this.shippingProductWeight,
       this.shippingProductWeightType,
       this.shippingProductSizeLengthType,
@@ -875,7 +1246,7 @@ class Product {
     productStock = json['product_stock'];
     productTreshold = json['product_treshold'];
     productSku = json['product_sku'];
-    rating = json['rating'];
+    // // rating = json['rating'];
     shippingProductWeight = json['shipping_product_weight'];
     shippingProductWeightType = json['shipping_product_weight_type'];
     shippingProductSizeLengthType = json['shipping_product_size_length_type'];
@@ -916,7 +1287,7 @@ class Product {
     data['product_stock'] = this.productStock;
     data['product_treshold'] = this.productTreshold;
     data['product_sku'] = this.productSku;
-    data['rating'] = this.rating;
+    // // data['rating'] = this.rating;
     data['shipping_product_weight'] = this.shippingProductWeight;
     data['shipping_product_weight_type'] = this.shippingProductWeightType;
     data['shipping_product_size_length_type'] =

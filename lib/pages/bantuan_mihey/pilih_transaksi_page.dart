@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -16,8 +14,6 @@ import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/transaction_history_model.dart';
 import 'package:heystetik_mobileapps/widget/card_transaction_minhey.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treat;
 
 class PilihTranskasiMinheyPage extends StatefulWidget {
   const PilihTranskasiMinheyPage({super.key});
@@ -235,33 +231,17 @@ class _PilihTranskasiMinheyPageState extends State<PilihTranskasiMinheyPage> {
                                 onTap: () {
                                   if (history[index].detail?.status ==
                                       'MENUNGGU_PEMBAYARAN') {
-                                    Get.to(() =>
-                                        SelesaikanPembayaranTreatmentPage(
-                                          isWillPop: false,
-                                          orderId: history[index]
-                                              .transactionId
-                                              .toString(),
-                                          expireTime: '',
-                                          pax: history[index]
+                                    Get.to(
+                                        () => SelesaikanPembayaranTreatmentPage(
+                                              isWillPop: false,
+                                              orderId: history[index]
+                                                  .transactionId
+                                                  .toString(),
+                                              expireTime: '',
+                                              paymentMethodId: history[index]
                                                   .detail!
-                                                  .transactionTreatmentItems?[0]
-                                                  .pax ??
-                                              0,
-                                          treatment: Treat.Data2.fromJson(
-                                            jsonDecode(
-                                              jsonEncode(
-                                                history[index]
-                                                    .detail!
-                                                    .transactionTreatmentItems?[
-                                                        0]
-                                                    .treatment,
-                                              ),
-                                            ),
-                                          ),
-                                          paymentMethodId: history[index]
-                                              .detail!
-                                              .paymentMethodId!,
-                                        ));
+                                                  .paymentMethodId!,
+                                            ));
                                   }
                                 },
                                 child: CardTransTreat(
