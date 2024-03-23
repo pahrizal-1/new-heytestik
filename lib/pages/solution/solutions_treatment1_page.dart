@@ -347,67 +347,67 @@ class _SolutionsTreatment1PageState extends State<SolutionsTreatment1Page> {
         controller: scrollController,
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Top Treatment for you 🥳',
-                    style: blackHigtTextStyle.copyWith(fontSize: 18),
-                  ),
-                  Text(
-                    'Pilihan treatment berdasarkan konsultasimu.',
-                    style: subGreyTextStyle.copyWith(
-                      fontSize: 14,
-                      color: const Color(0xFF9B9B9B),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Container(
-                        width: 111,
-                        height: 28,
-                        decoration: BoxDecoration(
-                            color: greenColor,
-                            borderRadius: BorderRadius.circular(24)),
-                        child: Center(
-                          child: Text(
-                            'Bekas Jerawat',
-                            style: whiteTextStyle.copyWith(
-                                fontWeight: regular, fontSize: 13),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 16),
-                        decoration: BoxDecoration(
-                            color: whiteColor,
-                            borderRadius: BorderRadius.circular(24),
-                            border: Border.all(color: const Color(0xffcccccc))),
-                        child: Center(
-                          child: Text(
-                            'Jerawat',
-                            style: blackTextStyle.copyWith(
-                                fontWeight: regular, fontSize: 13),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            //   child: Column(
+            //     crossAxisAlignment: CrossAxisAlignment.start,
+            //     children: [
+            //       Text(
+            //         'Top Treatment for you 🥳',
+            //         style: blackHigtTextStyle.copyWith(fontSize: 18),
+            //       ),
+            //       Text(
+            //         'Pilihan treatment berdasarkan konsultasimu.',
+            //         style: subGreyTextStyle.copyWith(
+            //           fontSize: 14,
+            //           color: const Color(0xFF9B9B9B),
+            //         ),
+            //       ),
+            //       const SizedBox(
+            //         height: 10,
+            //       ),
+            //       Row(
+            //         children: [
+            //           Container(
+            //             width: 111,
+            //             height: 28,
+            //             decoration: BoxDecoration(
+            //                 color: greenColor,
+            //                 borderRadius: BorderRadius.circular(24)),
+            //             child: Center(
+            //               child: Text(
+            //                 'Bekas Jerawat',
+            //                 style: whiteTextStyle.copyWith(
+            //                     fontWeight: regular, fontSize: 13),
+            //               ),
+            //             ),
+            //           ),
+            //           const SizedBox(
+            //             width: 8,
+            //           ),
+            //           Container(
+            //             padding: const EdgeInsets.symmetric(
+            //                 vertical: 6, horizontal: 16),
+            //             decoration: BoxDecoration(
+            //                 color: whiteColor,
+            //                 borderRadius: BorderRadius.circular(24),
+            //                 border: Border.all(color: const Color(0xffcccccc))),
+            //             child: Center(
+            //               child: Text(
+            //                 'Jerawat',
+            //                 style: blackTextStyle.copyWith(
+            //                     fontWeight: regular, fontSize: 13),
+            //               ),
+            //             ),
+            //           )
+            //         ],
+            //       ),
+            //       const SizedBox(
+            //         height: 16,
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(
               height: 222,
               child: ListView.builder(
