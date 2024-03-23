@@ -429,9 +429,10 @@ class OrderConsultationController extends StateClass {
         'total_paid': totalPaid.value.round(),
       };
 
-      print('reqOrder $reqOrder');
-      // return;
+      print('req order $reqOrder');
+
       var res = await TransactionService().orderConsultation(reqOrder);
+      print('res order $res');
       if (res.success != true && res.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
@@ -440,10 +441,10 @@ class OrderConsultationController extends StateClass {
       }
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
-      // JIKA SUKSES SET bank
-      // bank.value = bank.value;
-      // JIKA SUKSES SET expireTime
-      expireTime.value = res.data!.payment!.expiryTime.toString();
+      if (paymentType.value != "FREE_VOUCHER") {
+        // JIKA SUKSES DAN BUKAN FREE_VOUCHER  SET expireTime
+        expireTime.value = res.data!.payment!.expiryTime.toString();
+      }
       doInPost();
       clearVariabel();
     });

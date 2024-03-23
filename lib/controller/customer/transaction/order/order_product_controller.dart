@@ -537,13 +537,10 @@ class OrderProductController extends StateClass {
 
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
-      // JIKA SUKSES SET bank
-      // bank.value = bank.value;
-      // JIKA SUKSES SET expireTime
-      expireTime.value = res.data!.payment!.expiryTime.toString();
-      debugPrint('order CONT  ${orderId.value}');
-      // debugPrint('bank ${bank.value}');
-      debugPrint('expireTime CONT ${expireTime.value}');
+      if (paymentType.value != "FREE_VOUCHER") {
+        // JIKA SUKSES DAN BUKAN FREE_VOUCHER  SET expireTime
+        expireTime.value = res.data!.payment!.expiryTime.toString();
+      }
 
       if (isCart) {
         // jika dari keranjang, hapus produk di keranjang, pake id produk
