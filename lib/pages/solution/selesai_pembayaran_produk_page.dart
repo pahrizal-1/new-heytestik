@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
@@ -486,28 +487,28 @@ class _SelesaiPembayaranProdukPageState
                                     ),
                                   ),
                                   const Spacer(),
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     showModalBottomSheet(
-                                  //       isDismissible: false,
-                                  //       context: context,
-                                  //       backgroundColor: Colors.white,
-                                  //       shape: const RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //             BorderRadiusDirectional.only(
-                                  //           topEnd: Radius.circular(25),
-                                  //           topStart: Radius.circular(25),
-                                  //         ),
-                                  //       ),
-                                  //       builder: (context) => detail(context),
-                                  //     );
-                                  //   },
-                                  //   child: Text(
-                                  //     'Lihat detail',
-                                  //     style:
-                                  //         grenTextStyle.copyWith(fontSize: 14),
-                                  //   ),
-                                  // ),
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        isDismissible: false,
+                                        context: context,
+                                        backgroundColor: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.only(
+                                            topEnd: Radius.circular(25),
+                                            topStart: Radius.circular(25),
+                                          ),
+                                        ),
+                                        builder: (context) => detail(context),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Lihat detail',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
+                                  ),
                                   const SizedBox(
                                     width: 8,
                                   ),
@@ -587,131 +588,131 @@ class _SelesaiPembayaranProdukPageState
   Widget detail(BuildContext context) {
     return Wrap(
       children: [
-        // Padding(
-        //   padding:
-        //       const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Row(
-        //         children: [
-        //           InkWell(
-        //             onTap: () {
-        //               Navigator.pop(context);
-        //             },
-        //             child: Image.asset(
-        //               'assets/icons/danger-icons.png',
-        //               width: 20,
-        //             ),
-        //           ),
-        //           const SizedBox(
-        //             width: 19,
-        //           ),
-        //           Text(
-        //             'Detail Harga',
-        //             style: blackTextStyle.copyWith(
-        //               fontSize: 18,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //       const SizedBox(
-        //         height: 22,
-        //       ),
-        //       Text(
-        //         '${widget.treatment.clinic?.name}',
-        //         style: blackTextStyle.copyWith(
-        //           fontSize: 15,
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 10,
-        //       ),
-        //       Text(
-        //         'Harga',
-        //         style: subTitleTextStyle.copyWith(fontSize: 15),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: '${widget.treatment.name} ${widget.pax} pax',
-        //           title2: CurrencyFormat.convertToIdr(
-        //               state.transactionStatus.value.data?.transaction
-        //                   ?.totalPrice,
-        //               0),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       dividergrey(),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Text(
-        //         'Biaya Lainnya',
-        //         style: subTitleTextStyle.copyWith(fontSize: 15),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Tax',
-        //           title2: CurrencyFormat.convertToIdr(
-        //             state.transactionStatus.value.data?.transaction?.tax,
-        //             0,
-        //           ),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Diskon Voucher',
-        //           title2: CurrencyFormat.convertToIdr(
-        //               state.transactionStatus.value.data?.transaction
-        //                   ?.totalDiscount,
-        //               0),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Biaya transaksi',
-        //           title2: CurrencyFormat.convertToIdr(
-        //             state.transactionStatus.value.data?.transaction
-        //                 ?.transactionFee,
-        //             0,
-        //           ),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 10,
-        //       ),
-        //       dividergrey(),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Total Pembayaran',
-        //           title2: CurrencyFormat.convertToIdr(
-        //             state.transactionStatus.value.data?.transaction?.totalPaid,
-        //             0,
-        //           ),
-        //           title1: '',
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 19,
+                  ),
+                  Text(
+                    'Detail Harga',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Text(
+                'Harga',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              ...?state.transactionStatus.value.data?.transaction
+                  ?.transactionProductItems
+                  ?.map((val) {
+                return TextBoldSpacebetwen(
+                  title: "${val.product?.name} . ${val.qty}x",
+                  title2: CurrencyFormat.convertToIdr(val.price, 0),
+                  title1: '',
+                );
+              }).toList(),
+              const SizedBox(
+                height: 5,
+              ),
+              TextBoldSpacebetwen(
+                title: "Total Harga",
+                title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction?.totalPrice,
+                    0),
+                title1: '',
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Biaya Lainnya',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Tax',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction?.tax,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Diskon Voucher',
+                  title2: CurrencyFormat.convertToIdr(
+                      state.transactionStatus.value.data?.transaction
+                          ?.totalDiscount,
+                      0),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya transaksi',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction
+                        ?.transactionFee,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              dividergrey(),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Total Pembayaran',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction?.totalPaid,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }
