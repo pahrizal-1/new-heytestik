@@ -174,7 +174,8 @@ void main() async {
         message.data['type'] == "STREAM_COMMENT_LIKE" ||
         message.data['type'] == "STREAM_COMMENT_REPLY" ||
         message.data['type'] == "STREAM_COMMENT_REPLY_LIKE" ||
-        message.data['type'] == "STREAM_VOTE") {
+        message.data['type'] == "STREAM_VOTE" ||
+        message.data['type'] == "STREAM_USER_ACTIVITY") {
       print("INI NOTIF ${message.data['type']}");
       Get.to(
         () => KomentarStreamPage(
