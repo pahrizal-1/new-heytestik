@@ -49,11 +49,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
   int activeIndex = 0;
   @override
   void initState() {
-    dataRemainingTime = widget.stream.endTime
-        .difference(DateTime.now())
-        .toString()
-        .split('.')[0]
-        .split(":");
+    dataRemainingTime = widget.stream.endTime.difference(DateTime.now()).toString().split('.')[0].split(":");
 
     if (int.parse(dataRemainingTime[0]) < 0) {
       isTimeOver = true;
@@ -97,8 +93,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: widget.stream.photoUser == "" ||
-                              widget.stream.photoUser == "photo_profile"
+                      image: widget.stream.photoUser == "" || widget.stream.photoUser == "photo_profile"
                           ? AssetImage(
                               'assets/images/profiledummy.png',
                             )
@@ -154,10 +149,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     ),
                     builder: (context) => ShareLinkStream(
                       post: widget.stream,
-                      isMe:
-                          stateProfile.username.value == widget.stream.username
-                              ? true
-                              : false,
+                      isMe: stateProfile.username.value == widget.stream.username ? true : false,
                       follow: (follow ?? widget.stream.follow),
                     ),
                   );
@@ -191,8 +183,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                 padEnds: false,
                 enableInfiniteScroll: false,
                 height: 400,
-                onPageChanged: (index, reason) =>
-                    setState(() => activeIndex = index),
+                onPageChanged: (index, reason) => setState(() => activeIndex = index),
                 viewportFraction: 1,
               ),
               items: widget.stream.postImage.map((image) {
@@ -230,11 +221,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
               child: AnimatedSmoothIndicator(
                 activeIndex: activeIndex,
                 count: widget.stream.postImage.length,
-                effect: ScaleEffect(
-                    activeDotColor: greenColor,
-                    dotColor: const Color(0xffD9D9D9),
-                    dotWidth: 6,
-                    dotHeight: 6),
+                effect: ScaleEffect(activeDotColor: greenColor, dotColor: const Color(0xffD9D9D9), dotWidth: 6, dotHeight: 6),
               ),
             ),
           if (widget.stream.postImage.isNotEmpty)
@@ -298,16 +285,14 @@ class _StreamPostPageState extends State<StreamPostPage> {
                     }
 
                     if (allVotesCount > 0 && option.value['count'] > 0) {
-                      pollPercentage =
-                          (option.value['count'] / allVotesCount) * 100;
+                      pollPercentage = (option.value['count'] / allVotesCount) * 100;
                       pollColor = (option.value['count'] / allVotesCount);
                     }
 
                     return Stack(
                       children: [
                         Container(
-                          width: (MediaQuery.of(context).size.width - 70) *
-                              pollColor,
+                          width: (MediaQuery.of(context).size.width - 70) * pollColor,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16.0,
                             vertical: 16.0,
@@ -326,29 +311,21 @@ class _StreamPostPageState extends State<StreamPostPage> {
                         ),
                         InkWell(
                           onTap: () {
+                            print("INI BISA GA SIH KESINI");
+                            print(widget.stream.voted);
                             if (!isTimeOver) {
-                              if (votesCount == 0) {
+                              if (votesCount == 0 && !(widget.stream.voted ?? false)) {
                                 votesCount = votesCount + 1;
                                 allVotesCount = allVotesCount + 1;
 
                                 if (indexVotes != null) {
                                   streamPollOptions[indexVotes!]['count'] - 1;
-                                  stateStream.deletePolling(
-                                      context,
-                                      widget.stream.id,
-                                      streamPollOptions[indexVotes!]
-                                          ['stream_poll_id'],
-                                      streamPollOptions[indexVotes!]['id']);
+                                  stateStream.deletePolling(context, widget.stream.id, streamPollOptions[indexVotes!]['stream_poll_id'], streamPollOptions[indexVotes!]['id']);
                                 }
 
-                                stateStream.pickPolling(
-                                    context,
-                                    widget.stream.id,
-                                    option.value['stream_poll_id'],
-                                    option.value['id']);
+                                stateStream.pickPolling(context, widget.stream.id, option.value['stream_poll_id'], option.value['id']);
                                 indexVotes = option.key;
-                                option.value['count'] =
-                                    option.value['count'] + 1;
+                                option.value['count'] = option.value['count'] + 1;
                                 setState(() {});
                               }
                             }
@@ -373,18 +350,14 @@ class _StreamPostPageState extends State<StreamPostPage> {
                                 Text(
                                   option.value['option'].toString(),
                                   style: TextStyle(
-                                    color: option.value['count'] > 0
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color: option.value['count'] > 0 ? Colors.white : Colors.black,
                                   ),
                                 ),
                                 Spacer(),
                                 Text(
                                   "${pollPercentage.toInt()}%",
                                   style: TextStyle(
-                                    color: pollColor > 0.9
-                                        ? Colors.white
-                                        : Colors.black,
+                                    color: pollColor > 0.9 ? Colors.white : Colors.black,
                                   ),
                                 ),
                               ],
@@ -415,9 +388,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                       ),
                       Expanded(
                         child: Text(
-                          isTimeOver
-                              ? "Polling telah berakhir ${ConvertDate.streamDate(widget.stream.endTime.toString())}"
-                              : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
+                          isTimeOver ? "Polling telah berakhir ${ConvertDate.streamDate(widget.stream.endTime.toString())}" : "Polling berakhir dalam ${dataRemainingTime[0]} Jam ${dataRemainingTime[1]} Menit",
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: 12.0,
@@ -476,15 +447,13 @@ class _StreamPostPageState extends State<StreamPostPage> {
                         stateStream.unlikePost(context, widget.stream.id);
                         setState(() {
                           like = false;
-                          postLike["${widget.stream.id}"] =
-                              (postLike["${widget.stream.id}"] ?? 0) - 1;
+                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) - 1;
                         });
                       } else {
                         stateStream.likePost(context, widget.stream.id);
                         setState(() {
                           like = true;
-                          postLike["${widget.stream.id}"] =
-                              (postLike["${widget.stream.id}"] ?? 0) + 1;
+                          postLike["${widget.stream.id}"] = (postLike["${widget.stream.id}"] ?? 0) + 1;
                         });
                       }
                     },
@@ -507,8 +476,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      Uri? url =
-                          await createDynamicLinkStream(widget.stream.id);
+                      Uri? url = await createDynamicLinkStream(widget.stream.id);
                       print("url $url");
                       await SocialShare.shareOptions(url.toString());
 
@@ -566,8 +534,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          KomentarStreamPage(postId: widget.stream.id),
+                      builder: (context) => KomentarStreamPage(postId: widget.stream.id),
                     ),
                   );
                 },
