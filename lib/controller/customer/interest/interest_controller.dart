@@ -36,7 +36,8 @@ class InterestController extends StateClass {
   List toggleBentukObat = [];
   List toggleKemasanObat = [];
 
-  Future<List<Data2>> lookupSkinGoals(BuildContext context, String category) async {
+  Future<List<Data2>> lookupSkinGoals(
+      BuildContext context, String category) async {
     isLoading.value = true;
     RxList<Data2> lookupSkin = List<Data2>.empty().obs;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
@@ -48,7 +49,8 @@ class InterestController extends StateClass {
     return lookupSkin;
   }
 
-  Future<List<Data2>> lookupSkinGoalsFilter(BuildContext context, String category) async {
+  Future<List<Data2>> lookupSkinGoalsFilter(
+      BuildContext context, String category) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await InterestService().lookupSkinGoals(category);
@@ -59,7 +61,8 @@ class InterestController extends StateClass {
     return lookupSkinFilter;
   }
 
-  Future<List<Data2>> lookupGolonganObat(BuildContext context, String category) async {
+  Future<List<Data2>> lookupGolonganObat(
+      BuildContext context, String category) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await InterestService().lookupSkinGoals(category);
@@ -70,7 +73,8 @@ class InterestController extends StateClass {
     return lookupGolonganObatFilter;
   }
 
-  Future<List<Data2>> lookupKemasanObat(BuildContext context, String category) async {
+  Future<List<Data2>> lookupKemasanObat(
+      BuildContext context, String category) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       var res = await InterestService().lookupSkinGoals(category);
@@ -167,7 +171,8 @@ class InterestController extends StateClass {
       print(loginResponse);
       if (loginResponse['success'] == false) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          SnackbarWidget.getErrorSnackbar(context, 'Error', loginResponse['message']);
+          SnackbarWidget.getErrorSnackbar(
+              context, 'Error', loginResponse['message']);
         });
       } else {
         doInPost();
@@ -176,7 +181,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  faceCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
+  faceCorrectiveGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -204,7 +210,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  bodyCorrectiveGoals(BuildContext context, {required Function() doInPost}) async {
+  bodyCorrectiveGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -229,7 +236,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  augmentationSkinGoals(BuildContext context, {required Function() doInPost}) async {
+  augmentationSkinGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -254,7 +262,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  sexuallySkinSkinGoals(BuildContext context, {required Function() doInPost}) async {
+  sexuallySkinSkinGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
       List<Map<String, dynamic>> listData = [];
@@ -279,7 +288,8 @@ class InterestController extends StateClass {
     isLoading.value = false;
   }
 
-  pastTreatmentGoals(BuildContext context, {required Function() doInPost}) async {
+  pastTreatmentGoals(BuildContext context,
+      {required Function() doInPost}) async {
     isLoading.value = true;
 
     await ErrorConfig.doAndSolveCatchInContext(context, () async {

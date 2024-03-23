@@ -109,7 +109,8 @@ class VerificationPage extends StatelessWidget {
                   title: 'Konfimasi',
                   onPressed: () async {
                     await state.verifyPhoneNumber(context,
-                        isCompleteProfile: isCompleteProfile, doInPost: () async {
+                        isCompleteProfile: isCompleteProfile,
+                        doInPost: () async {
                       if (isCompleteProfile) {
                         Get
                           ..back(result: true)
