@@ -1,8 +1,11 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'dart:async';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_product_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
@@ -15,12 +18,19 @@ import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:social_share/social_share.dart';
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
 import '../chat_customer/cara_pembayaran_page.dart';
 import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.dart'
     as Method;
+import 'dart:io';
+// import 'dart:typed_data';
+// import 'dart:ui';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
+// import 'package:qr_flutter/qr_flutter.dart';
 
 class SelesaikanPembayaranProdukPage extends StatefulWidget {
   bool isWillPop;
@@ -50,7 +60,7 @@ class _SelesaiPembayaranProdukPageState
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
   Method.Data? method;
-
+  ScreenshotController screenshotController = ScreenshotController();
   @override
   void initState() {
     super.initState();
@@ -233,6 +243,58 @@ class _SelesaiPembayaranProdukPageState
     );
   }
 
+  final GlobalKey _qrkey = GlobalKey();
+  bool dirExists = false;
+  dynamic externalDir = '/storage/emulated/0/Download/Qr_code';
+  Future<void> _captureAndSavePng() async {
+    try {
+      RenderRepaintBoundary boundary =
+          _qrkey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+      var image = await boundary.toImage(pixelRatio: 3.0);
+
+      //Drawing White Background because Qr Code is Black
+      final whitePaint = Paint()..color = Colors.white;
+      final recorder = PictureRecorder();
+      final canvas = Canvas(recorder,
+          Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()));
+      canvas.drawRect(
+          Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble()),
+          whitePaint);
+      canvas.drawImage(image, Offset.zero, Paint());
+      final picture = recorder.endRecording();
+      final img = await picture.toImage(image.width, image.height);
+      ByteData? byteData = await img.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+      //Check for duplicate file name to avoid Override
+      String fileName = 'qr_code';
+      int i = 1;
+      while (await File('$externalDir/$fileName.png').exists()) {
+        fileName = 'qr_code_$i';
+        i++;
+      }
+
+      // Check if Directory Path exists or not
+      dirExists = await File(externalDir).exists();
+      //if not then create the path
+      if (!dirExists) {
+        await Directory(externalDir).create(recursive: true);
+        dirExists = true;
+      }
+
+      final file = await File('$externalDir/$fileName.png').create();
+      await file.writeAsBytes(pngBytes);
+
+      if (!mounted) return;
+      const snackBar = SnackBar(content: Text('QR code saved to gallery'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } catch (e) {
+      if (!mounted) return;
+      const snackBar = SnackBar(content: Text('Something went wrong!!!'));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     String strDigits(int n) => n.toString().padLeft(2, '0');
@@ -378,17 +440,6 @@ class _SelesaiPembayaranProdukPageState
                           const Divider(
                             thickness: 1,
                           ),
-                          Obx(() {
-                            if (state.qrCode.value) {
-                              return QrImageView(
-                                data: state
-                                    .transactionStatus.value.data?.qrString,
-                                version: QrVersions.auto,
-                                size: 200.0,
-                              );
-                            }
-                            return Container();
-                          }),
                           const SizedBox(
                             height: 18,
                           ),
@@ -419,7 +470,24 @@ class _SelesaiPembayaranProdukPageState
                                   return virtualAccount();
                                 }
                               case 'QR_CODE':
-                                return Container();
+                                return Column(
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          _captureAndSavePng();
+                                        },
+                                        child: Text("Unduh")),
+                                    RepaintBoundary(
+                                      key: _qrkey,
+                                      child: QrImageView(
+                                        data: state.transactionStatus.value.data
+                                            ?.qrString,
+                                        version: QrVersions.auto,
+                                        size: 200.0,
+                                      ),
+                                    ),
+                                  ],
+                                );
                               case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                                 return Container();
                               default:
@@ -664,6 +732,20 @@ class _SelesaiPembayaranProdukPageState
                   title: 'Tax',
                   title2: CurrencyFormat.convertToIdr(
                     state.transactionStatus.value.data?.transaction?.tax,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya Pengiriman',
+                  title2: CurrencyFormat.convertToIdr(
+                    state
+                        .transactionStatus.value.data?.transaction?.deliveryFee,
                     0,
                   ),
                   title1: '',

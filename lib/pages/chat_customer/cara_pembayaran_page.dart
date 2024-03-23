@@ -358,6 +358,19 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
               ),
               Obx(
                 () => TextBoldSpacebetwen(
+                  title: 'Biaya Pengiriman',
+                  title2: CurrencyFormat.convertToIdr(
+                      stateProduk.transactionStatus.value.data?.transaction
+                          ?.deliveryFee,
+                      0),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
                   title: 'Diskon Voucher',
                   title2: CurrencyFormat.convertToIdr(
                       stateProduk.transactionStatus.value.data?.transaction
@@ -673,16 +686,15 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         ],
                       ),
                       const Spacer(),
-                      if (widget.transactionType != 'Produk')
-                        InkWell(
-                          onTap: () {
-                            _detail();
-                          },
-                          child: Text(
-                            'Lihat Detail',
-                            style: grenTextStyle.copyWith(fontSize: 14),
-                          ),
+                      InkWell(
+                        onTap: () {
+                          _detail();
+                        },
+                        child: Text(
+                          'Lihat Detail',
+                          style: grenTextStyle.copyWith(fontSize: 14),
                         ),
+                      ),
                       const SizedBox(
                         width: 8,
                       ),

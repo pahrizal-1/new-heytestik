@@ -378,17 +378,6 @@ class _SelesaikanPembayaranTreatmentPageState
                           const Divider(
                             thickness: 1,
                           ),
-                          Obx(() {
-                            if (state.qrCode.value) {
-                              return QrImageView(
-                                data: state
-                                    .transactionStatus.value.data?.qrString,
-                                version: QrVersions.auto,
-                                size: 200.0,
-                              );
-                            }
-                            return Container();
-                          }),
                           const SizedBox(
                             height: 18,
                           ),
@@ -419,7 +408,12 @@ class _SelesaikanPembayaranTreatmentPageState
                                   return virtualAccount();
                                 }
                               case 'QR_CODE':
-                                return Container();
+                                return QrImageView(
+                                  data: state
+                                      .transactionStatus.value.data?.qrString,
+                                  version: QrVersions.auto,
+                                  size: 200.0,
+                                );
                               case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                                 return Container();
                               default:
