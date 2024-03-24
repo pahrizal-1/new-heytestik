@@ -68,7 +68,7 @@ class _NotifikasionPageState extends State<NotifikasionPage> {
           child: (notifications.isEmpty)
               ? Center(
                   child: Text(
-                    'Belum ada data',
+                    'Belum ada notifikasi',
                     style: TextStyle(
                       fontFamily: 'ProximaNova',
                       fontSize: 20,
