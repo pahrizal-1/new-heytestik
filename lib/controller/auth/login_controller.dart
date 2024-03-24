@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/core/error_config.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/core/state_class.dart';
-import 'package:heystetik_mobileapps/pages/auth/beauty_profile_page.dart';
 import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_customer.dart';
 import 'package:heystetik_mobileapps/pages/tabbar/tabbar_doctor.dart';
@@ -138,6 +137,7 @@ class LoginController extends StateClass {
             print(loginResponse['data']['user']['id']);
             print(loginResponse['data']['user']['id'].toString());
 
+            print("loginResponse   print(loginResponse);");
             // SAVE DATA USER
             await LocalStorage()
                 .setDataUser(dataUser: loginResponse['data']['user']);
@@ -151,16 +151,7 @@ class LoginController extends StateClass {
             await FirebaseMessaging.instance.subscribeToTopic(
                 loginResponse['data']['user']['id'].toString());
 
-            if (loginResponse['data']['user']['finish_register'] == false) {
-              Get.to(
-                () => BeautyProfilPage(
-                  isEdit: false,
-                  isCompleteProfile: false,
-                ),
-              );
-            } else {
-              doInPost();
-            }
+            doInPost();
 
             clear();
           }).catchError((err) {

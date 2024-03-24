@@ -7,7 +7,6 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/service/customer/register/register_service.dart';
 
 import '../../../core/local_storage.dart';
-import '../../../widget/snackbar_widget.dart';
 
 class RegisterController extends StateClass {
   TextEditingController fullName = TextEditingController();
@@ -132,7 +131,6 @@ class RegisterController extends StateClass {
   verifyEmail(BuildContext context, {required Function() doInPost}) async {
     isLoading.value = true;
     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-      print("INI APA COBA $codeEmail");
       if (codeEmail == "" || codeEmail == null || codeEmail!.isEmpty) {
         throw ErrorConfig(
           cause: ErrorConfig.userInput,
@@ -147,21 +145,11 @@ class RegisterController extends StateClass {
       };
 
       var loginResponse = await RegisterService().emailVerify(data);
-      print("INI STATUS");
-      print(loginResponse['success']);
-      if (loginResponse['success'] == false) {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          SnackbarWidget.getErrorSnackbar(
-            context,
-            'Info',
-            'Invalid verification code',
-          );
-        });
-      } else {
-        print(loginResponse);
-        email.clear();
-        doInPost();
-      }
+
+      print(loginResponse);
+      email.clear();
+      codeEmail = null;
+      doInPost();
     });
     isLoading.value = false;
   }
@@ -232,6 +220,7 @@ class RegisterController extends StateClass {
       print(loginResponse);
       LocalStorage().setUserID(userID: loginResponse['data']['id']);
       doInPost();
+      codePhoneNumber == null;
     });
     isLoading.value = false;
   }

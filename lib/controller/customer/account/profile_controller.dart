@@ -502,7 +502,6 @@ class ProfileController extends StateClass {
         await FirebaseMessaging.instance
             .unsubscribeFromTopic(userID.toString());
       });
-
       Get.offAll(() => const LoginPageNew());
     });
   }

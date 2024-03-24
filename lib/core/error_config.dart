@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/pages/auth/login_page_new.dart';
+import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
+import 'package:heystetik_mobileapps/pages/auth/phone_number_page.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
@@ -56,6 +56,13 @@ class ErrorConfig implements Exception {
 
   static ErrorConfig findDioError(DioError dioError) {
     String? message;
+    if (dioError.response?.data['data'] != null) {
+      if (dioError.response?.data['data']['error_code'] ==
+          "PHONE_NUMBER_REQUIRED") {
+        print("masuk");
+        Get.to(() => PhoneNumberPage(isCompleteProfile: true));
+      }
+    }
     if (dioError.response?.data['ket'] != null) {
       message = dioError.response?.data['ket'].toString();
     } else if (dioError.response?.data['errors'] != null) {
@@ -202,8 +209,12 @@ ErrorConfig handleError(
       case ErrorConfig.userUnauthorized:
         debugPrint("Error userUnauthorized");
         // go to login page when user unauthorized
-        LocalStorage().removeAccessToken();
-        Get.offAll(() => const LoginPageNew());
+        ProfileController().logout(context);
+        SnackbarWidget.getErrorSnackbar(
+          context,
+          'Info',
+          "Sesi kamu sudah habis, silahkan login kembali",
+        );
         break;
       case ErrorConfig.appNoInternet:
         // No internet issue
@@ -242,8 +253,12 @@ ErrorConfig handleError(
       case ErrorConfig.networkRequest401:
         debugPrint("Error networkRequest401");
         // go to login page when user unauthorized
-        LocalStorage().removeAccessToken();
-        Get.offAll(() => const LoginPageNew());
+        ProfileController().logout(context);
+        SnackbarWidget.getErrorSnackbar(
+          context,
+          'Info',
+          "Sesi kamu sudah habis, silahkan login kembali",
+        );
         break;
       case ErrorConfig.networkRequest404:
         debugPrint("Error networkRequest404");

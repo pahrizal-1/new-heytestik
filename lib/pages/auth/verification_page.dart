@@ -3,11 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:provider/provider.dart';
-
 import '../../controller/customer/register/register_controller.dart';
 import '../../theme/theme.dart';
 import '../../widget/more_dialog_widget.dart';
@@ -115,6 +113,11 @@ class VerificationPage extends StatelessWidget {
                         Get
                           ..back(result: true)
                           ..back(result: true);
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          'Info',
+                          "Nomor Hp berhasil disimpan",
+                        );
                       } else {
                         showDialog(
                           context: context,

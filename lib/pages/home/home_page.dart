@@ -17,7 +17,6 @@ import 'package:heystetik_mobileapps/pages/stream_page/view_detail_beauty_stream
 import 'package:heystetik_mobileapps/theme/theme.dart';
 import 'package:heystetik_mobileapps/widget/icons_notifikasi.dart';
 import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../controller/customer/account/profile_controller.dart';
 import '../../controller/customer/notification/notification_controller.dart';
 import '../../core/global.dart';
@@ -40,13 +39,6 @@ class _HomepageCutomerState extends State<HomepageCutomer> {
 
   final NotificationController stateNotification =
       Get.put(NotificationController());
-
-  _launchURL(String url) async {
-    final Uri urlParse = Uri.parse(url);
-    if (!await launchUrl(urlParse)) {
-      throw Exception('Could not launch $urlParse');
-    }
-  }
 
   @override
   void initState() {
