@@ -34,21 +34,6 @@ class RegisterController extends StateClass {
 
   final emailValid = RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$');
 
-  // Future<void> openTelegram({
-  //   required String phone,
-  //   LaunchMode mode = LaunchMode.externalApplication,
-  // }) async {
-  //   const String url = 'https://t.me/HeystetikMockOTP';
-  //   if (await canLaunchUrl(Uri.parse(url))) {
-  //     await launchUrl(
-  //       Uri.parse(url),
-  //       mode: mode,
-  //     );
-  //   } else {
-  //     throw Exception('Could not launch $url');
-  //   }
-  // }
-
   registerPhoneNumber(BuildContext context,
       {required Function() doInPost}) async {
     isLoading.value = true;

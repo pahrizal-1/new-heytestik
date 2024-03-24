@@ -10,6 +10,7 @@ import 'package:heystetik_mobileapps/core/captureAndSavePng.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/core/open_launchUrl.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
@@ -143,7 +144,7 @@ class _SelesaikanPembayaranTreatmentPageState
             ),
             InkWell(
               onTap: () async {
-                await state.launchURL(
+                await OpenOutSide.launchURL(
                   state.transactionStatus.value.data!.actions![0].url
                       .toString(),
                 );
