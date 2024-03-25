@@ -90,12 +90,18 @@ class _StreamPostPageState extends State<StreamPostPage> {
               InkWell(
                 onTap: () {
                   if (stateProfile.username.value == widget.stream.username) {
-                    Get.to(() => const ProfilCustomerPage());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ProfilCustomerPage()));
                   } else {
-                    Get.to(() => UserFollowedStreamPage(
-                          username: widget.stream.username,
-                          fullname: widget.stream.fullname,
-                        ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => UserFollowedStreamPage(
+                                  username: widget.stream.username,
+                                  fullname: widget.stream.fullname,
+                                )));
                   }
                 },
                 child: Container(
@@ -123,12 +129,18 @@ class _StreamPostPageState extends State<StreamPostPage> {
               InkWell(
                 onTap: () {
                   if (stateProfile.username.value == widget.stream.username) {
-                    Get.to(() => const ProfilCustomerPage());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ProfilCustomerPage()));
                   } else {
-                    Get.to(() => UserFollowedStreamPage(
-                          username: widget.stream.username,
-                          fullname: widget.stream.fullname,
-                        ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => UserFollowedStreamPage(
+                                  username: widget.stream.username,
+                                  fullname: widget.stream.fullname,
+                                )));
                   }
                 },
                 child: Column(

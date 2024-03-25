@@ -186,14 +186,19 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             onTap: () {
                               if (stateProfile.username.value ==
                                   post?.username) {
-                                Get.to(() => const ProfilCustomerPage());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const ProfilCustomerPage()));
                               } else {
-                                Get.to(
-                                  () => UserFollowedStreamPage(
-                                    username: post!.username,
-                                    fullname: post!.fullname,
-                                  ),
-                                );
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => UserFollowedStreamPage(
+                                              username: post!.username,
+                                              fullname: post!.fullname,
+                                            )));
                               }
                             },
                             child: Container(
@@ -222,12 +227,19 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                             onTap: () {
                               if (stateProfile.username.value ==
                                   post?.username) {
-                                Get.to(() => const ProfilCustomerPage());
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) =>
+                                            const ProfilCustomerPage()));
                               } else {
-                                Get.to(() => UserFollowedStreamPage(
-                                      username: post!.username,
-                                      fullname: post!.fullname,
-                                    ));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => UserFollowedStreamPage(
+                                              username: post!.username,
+                                              fullname: post!.fullname,
+                                            )));
                               }
                             },
                             child: Column(
@@ -715,12 +727,20 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                   onTap: () {
                                     if (stateProfile.username.value ==
                                         comment.userName) {
-                                      Get.to(() => const ProfilCustomerPage());
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const ProfilCustomerPage()));
                                     } else {
-                                      Get.to(
-                                        () => UserFollowedStreamPage(
-                                          username: comment.userName,
-                                          fullname: comment.fullName,
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              UserFollowedStreamPage(
+                                            username: comment.userName,
+                                            fullname: comment.fullName,
+                                          ),
                                         ),
                                       );
                                     }
@@ -758,13 +778,20 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                           onTap: () {
                                             if (stateProfile.username.value ==
                                                 comment.userName) {
-                                              Get.to(() =>
-                                                  const ProfilCustomerPage());
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          const ProfilCustomerPage()));
                                             } else {
-                                              Get.to(
-                                                () => UserFollowedStreamPage(
-                                                  username: comment.userName,
-                                                  fullname: comment.fullName,
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      UserFollowedStreamPage(
+                                                    username: comment.userName,
+                                                    fullname: comment.fullName,
+                                                  ),
                                                 ),
                                               );
                                             }
@@ -961,20 +988,25 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                             "${comment.commentID}"]![
                                                                         index]
                                                                     .userName) {
-                                                              Get.to(() =>
-                                                                  const ProfilCustomerPage());
+                                                              Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder:
+                                                                          (_) =>
+                                                                              const ProfilCustomerPage()));
                                                             } else {
-                                                              Get.to(
-                                                                () =>
-                                                                    UserFollowedStreamPage(
-                                                                  username: commentReplies[
-                                                                              "${comment.commentID}"]![
-                                                                          index]
-                                                                      .userName,
-                                                                  fullname: commentReplies[
-                                                                              "${comment.commentID}"]![
-                                                                          index]
-                                                                      .fullName,
+                                                              Navigator.push(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                  builder: (_) =>
+                                                                      UserFollowedStreamPage(
+                                                                    username: commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .userName,
+                                                                    fullname: commentReplies["${comment.commentID}"]![
+                                                                            index]
+                                                                        .fullName,
+                                                                  ),
                                                                 ),
                                                               );
                                                             }
@@ -1018,18 +1050,24 @@ class _KomentarStreamPageState extends State<KomentarStreamPage> {
                                                                     commentReplies["${comment.commentID}"]![
                                                                             index]
                                                                         .userName) {
-                                                                  Get.to(() =>
-                                                                      const ProfilCustomerPage());
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (_) =>
+                                                                              const ProfilCustomerPage()));
                                                                 } else {
-                                                                  Get.to(
-                                                                    () =>
-                                                                        UserFollowedStreamPage(
-                                                                      username:
-                                                                          commentReplies["${comment.commentID}"]![index]
-                                                                              .userName,
-                                                                      fullname:
-                                                                          commentReplies["${comment.commentID}"]![index]
-                                                                              .fullName,
+                                                                  Navigator
+                                                                      .push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (_) =>
+                                                                              UserFollowedStreamPage(
+                                                                        username:
+                                                                            commentReplies["${comment.commentID}"]![index].userName,
+                                                                        fullname:
+                                                                            commentReplies["${comment.commentID}"]![index].fullName,
+                                                                      ),
                                                                     ),
                                                                   );
                                                                 }
