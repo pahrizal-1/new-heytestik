@@ -636,21 +636,3 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
     );
   }
 }
-
-// Spacer(),
-// SnackBar(
-//     backgroundColor: blackColor,
-//     content: Padding(
-//       padding: EdgeInsets.symmetric(vertical: 10),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Image.asset(
-//             'assets/icons/centang22.png',
-//             width: 24,
-//           ),
-//           Text('Block @lauranabilah berhasil')
-//         ],
-//       ),
-//     )),
