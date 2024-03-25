@@ -12,7 +12,6 @@ import 'package:heystetik_mobileapps/pages/stream_page/user_stream_post.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
@@ -454,11 +453,6 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                                       widget.username,
                                     );
                                     setState(() {});
-                                    SnackbarWidget.getSuccessSnackbar(
-                                      context,
-                                      'Info',
-                                      'Unblock @${widget.username} berhasil',
-                                    );
                                   } else {
                                     blocked = true;
                                     stateStream.blockUser(
@@ -466,11 +460,6 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                                       widget.username,
                                     );
                                     setState(() {});
-                                    SnackbarWidget.getSuccessSnackbar(
-                                      context,
-                                      'Info',
-                                      'Block @${widget.username} berhasil',
-                                    );
                                   }
                                   Get.back();
                                 },

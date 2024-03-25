@@ -5,6 +5,7 @@ import 'package:heystetik_mobileapps/core/state_class.dart';
 import 'package:heystetik_mobileapps/models/customer/stream_post_model.dart';
 import 'package:heystetik_mobileapps/models/stream_image_recent_model.dart';
 import 'package:heystetik_mobileapps/service/customer/stream/stream_service.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 import '../../../models/stream_comment.dart';
 import '../../../models/stream_comment_reply.dart';
@@ -360,6 +361,11 @@ class StreamController extends StateClass {
     try {
       // isLoading.value = true;
       StreamService().blockUser(username);
+      SnackbarWidget.getBlockSnackbar(
+        context,
+        'Block',
+        username,
+      );
       // isLoading.value = false;
     } catch (error) {
       print("blockUser ${error.toString()}");
@@ -370,6 +376,11 @@ class StreamController extends StateClass {
     try {
       // isLoading.value = true;
       StreamService().unBlockUser(username);
+      SnackbarWidget.getBlockSnackbar(
+        context,
+        'UnBlock',
+        username,
+      );
       // isLoading.value = false;
     } catch (error) {
       print("unBlockUser ${error.toString()}");

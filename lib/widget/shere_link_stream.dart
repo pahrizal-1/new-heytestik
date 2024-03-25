@@ -114,11 +114,6 @@ class _ShareLinkStreamState extends State<ShareLinkStream> {
                   () async {
                     stateStream.blockUser(context, widget.post.username);
                     Get.back();
-                    SnackbarWidget.getSuccessSnackbar(
-                      context,
-                      'Info',
-                      'Block @${widget.post.username} berhasil',
-                    );
                   },
                   redColor,
                 ),

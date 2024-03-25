@@ -27,4 +27,25 @@ class SnackbarWidget {
       ),
     );
   }
+
+  static getBlockSnackbar(BuildContext context, String title, String username) {
+    final snackBar = SnackBar(
+      backgroundColor: blackColor,
+      content: Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/icons/centang22.png',
+              width: 24,
+            ),
+            Text('$title @$username berhasil')
+          ],
+        ),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }
