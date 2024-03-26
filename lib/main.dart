@@ -23,6 +23,7 @@ import 'package:heystetik_mobileapps/routes/init_dynamic_link.dart';
 import 'package:heystetik_mobileapps/service/doctor/consultation/notif_service.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'controller/doctor/schedule/schedule_doctor_controller.dart';
 import 'core/local_storage.dart';
 import 'firebase_options.dart';
 
@@ -238,6 +239,9 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider<DrugController>(
             create: (context) => DrugController(),
+          ),
+          ChangeNotifierProvider<ScheduleDoctorController>(
+            create: (context) => ScheduleDoctorController(),
           ),
         ],
         child: GetMaterialApp(

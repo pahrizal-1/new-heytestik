@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/pages/doctorpage/doctor_schedule_page.dart/change_scehdule_doctor_page.dart';
 import 'package:heystetik_mobileapps/theme/theme.dart';
-import 'package:heystetik_mobileapps/widget/filter_jadwal_doctor.dart';
+import 'package:intl/intl.dart';
+
+import '../../../controller/doctor/schedule/schedule_doctor_controller.dart';
+import '../../../core/string_name.dart';
+import '../../../models/doctor/doctor_schedule_model.dart' as DoctorItemModel;
 
 class ScheduleDoctorPage extends StatefulWidget {
   const ScheduleDoctorPage({super.key});
@@ -12,183 +16,171 @@ class ScheduleDoctorPage extends StatefulWidget {
 }
 
 class _ScheduleDoctorPageState extends State<ScheduleDoctorPage> {
+  final ScheduleDoctorController state = Get.put(ScheduleDoctorController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      state.getListStatusSchedule(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 20),
-          child: Row(
-            children: [
-              Icon(
-                Icons.arrow_back,
-                size: 30,
-              ),
-              SizedBox(
-                width: 9,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+      body: Obx(
+        () => ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 19, vertical: 20),
+              child: Row(
                 children: [
-                  Text(
-                    'Atur Jadwal Konsultasi Dokter',
-                    style: blackHigtTextStyle.copyWith(fontSize: 20),
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 30,
+                    ),
                   ),
-                  Text(
-                    'Atur jadwal biar pasien bisa konsultasi dengan dokter',
-                    style: subTitleTextStyle.copyWith(fontSize: 12),
+                  SizedBox(
+                    width: 9,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Atur Jadwal Konsultasi Dokter',
+                        style: blackHigtTextStyle.copyWith(fontSize: 20),
+                      ),
+                      Text(
+                        'Atur jadwal biar pasien bisa konsultasi dengan dokter',
+                        style: subTitleTextStyle.copyWith(fontSize: 12),
+                      )
+                    ],
                   )
                 ],
-              )
-            ],
-          ),
-        ),
-        CardSchedule(
-          mark: 'S',
-          title: 'Senin',
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        CardSchedule(
-          mark: 'S',
-          title: 'Selasa',
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        CardSchedule(
-          mark: 'R',
-          title: 'Rabu',
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        CardSchedule(
-          mark: 'K',
-          title: 'Kamis',
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        CardSchedule(
-          mark: 'J',
-          title: 'Jumat',
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        CardSchedule(
-          mark: 'S',
-          title: 'Sabtu',
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        CardSchedule(
-          mark: 'M',
-          title: 'Minggu',
-        ),
-      ],
-    ));
-  }
-}
+              ),
+            ),
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.scheduleWeekModel.value.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  String subName = getInitials(state.scheduleWeekModel.value.data?[index].day ?? '-');
+                  String timeRangesString = state.scheduleWeekModel.value.data?[index].startEndTime ?? '';
 
-class CardSchedule extends StatelessWidget {
-  final String mark;
-  final String title;
+                  // Remove square brackets
+                  timeRangesString = timeRangesString.replaceAll('[', '').replaceAll(']', '');
 
-  const CardSchedule({
-    super.key,
-    required this.mark,
-    required this.title,
-  });
+                  // Split the string by comma to get individual time ranges
+                  List<String> timeRanges = timeRangesString.split(',');
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: Container(
-        height: 71,
-        width: 250,
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            width: 2,
-            color: Color(
-              0xffECECEC,
-            ),
-          ),
-        ),
-        child: Row(
-          children: [
-            Text(
-              mark,
-              style: TextStyle(
-                  letterSpacing: 1.5,
-                  fontFamily: 'ProximaNova',
-                  fontWeight: bold,
-                  fontSize: 25,
-                  color: greenColor),
-            ),
-            SizedBox(
-              width: 17,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: bold,
-                      fontSize: 17,
-                      color: blackColor),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '09-00 - 12:00 WIB',
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: regular,
-                      fontSize: 14,
-                      color: blackColor),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '19-00 - 21:00 WIB',
-                  style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontFamily: 'ProximaNova',
-                      fontWeight: regular,
-                      fontSize: 14,
-                      color: blackColor),
-                ),
-              ],
-            ),
-            Spacer(),
-            InkWell(
-                onTap: () {
-                  Get.to(ChangeScheduleDoctorPage(
-                    title: title,
-                  ));
-                },
-                child: Text(
-                  'Ubah',
-                  style: grenTextStyle.copyWith(fontSize: 14),
-                )),
-            SizedBox(
-              width: 14,
-            ),
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          // height: 71,
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 2,
+                              color: Color(
+                                0xffECECEC,
+                              ),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                subName,
+                                style: TextStyle(letterSpacing: 1.5, fontFamily: 'ProximaNova', fontWeight: bold, fontSize: 25, color: greenColor),
+                              ),
+                              SizedBox(
+                                width: 17,
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    state.scheduleWeekModel.value.data?[index].day ?? '',
+                                    style: TextStyle(letterSpacing: 1.5, fontFamily: 'ProximaNova', fontWeight: bold, fontSize: 17, color: blackColor),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  // for (var i in time)
+                                  Column(
+                                    children: state.scheduleWeekModel.value.data![index].doctorScheduleTimes!
+                                        .map(
+                                          (e) => Text(
+                                            '${DateFormat('HH:mm').format(
+                                              DateTime.parse('${e.startTime}').toUtc().add(
+                                                    Duration(hours: 7, minutes: 00),
+                                                  ),
+                                            )} WIB - ${DateFormat('HH:mm').format(
+                                              DateTime.parse('${e.endTime}').toUtc().add(
+                                                    Duration(hours: 7, minutes: 00),
+                                                  ),
+                                            )} WIB',
+                                          ),
+                                        )
+                                        .toList(),
+                                  )
+                                ],
+                              ),
+                              Spacer(),
+                              InkWell(
+                                  onTap: () {
+                                    print('index ${state.scheduleWeekModel.value.data![index].doctorScheduleTimes.runtimeType}');
+                                    String name = '';
+                                    List dummy = [];
+                                    state.scheduleWeekModel.value.data?[index].doctorScheduleTimes!.map((e) {
+                                      name = e.startTime.toString();
+                                      dummy.add(e.toJson());
+                                    }).toList();
+
+                                    print('name ${name}');
+                                    print('dumy ${dummy}');
+
+                                    Get.to(ChangeScheduleDoctorPage(
+                                      title: state.scheduleWeekModel.value.data?[index].day ?? '',
+                                      timeStart: dummy,
+                                      dayNumber: state.scheduleWeekModel.value.data?[index].dayNumber?.toInt() ?? 0,
+                                    ))?.then((value) {
+                                      state.getListStatusSchedule(context);
+                                      state.mulaiScheduleWeek = [];
+                                      state.selesaiScheduleWeek = [];
+                                      state.changeSelesaiJamMinute = [];
+                                    });
+                                  },
+                                  child: Text(
+                                    'Ubah',
+                                    style: grenTextStyle.copyWith(fontSize: 14),
+                                  )),
+                              SizedBox(
+                                width: 14,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      // CardSchedule(
+                      //   mark: subName,
+                      //   title: state.scheduleWeekModel.value.data?[index].day ?? '',
+                      //   time: name,
+                      // ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  );
+                })
           ],
         ),
       ),

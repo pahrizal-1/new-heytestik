@@ -124,7 +124,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                               builder: (context) {
                                                 return FilterJadwalDoctor();
                                               },
-                                            );
+                                            ).then((value) => setState(() {}));
                                             // Get.to(ScheduleDoctorPage());
                                             // notificationService
                                             //     .showLocalNotification(
@@ -153,7 +153,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                       () => currentSchedule(
                                         state.isFirstSchedule.value,
                                         state.isFirstSchedule.value ? 'Online' : 'Jam pertama',
-                                        state.startTime.value,
+                                        "${state.startTime.value} - ${state.endTime.value}",
                                       ),
                                     ),
                                     const Divider(
@@ -163,7 +163,7 @@ class _HalamanChatPageState extends State<HalamanChatPage> {
                                       () => currentSchedule(
                                         state.isSecondSchedule.value,
                                         state.isSecondSchedule.value ? 'Online' : 'Jam berikutnya',
-                                        state.endTime.value,
+                                        "${state.startTimeNext.value} - ${state.endTimeNext.value}",
                                       ),
                                     ),
                                   ],
