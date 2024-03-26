@@ -25,8 +25,7 @@ class WebSocketChatController extends StateClass {
             .enableForceNew()
             .setExtraHeaders(
               {
-                'Authorization':
-                    'Bearer ${await LocalStorage().getAccessToken()}',
+                'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
               },
             )
             .build(),
@@ -34,7 +33,7 @@ class WebSocketChatController extends StateClass {
 
       _socket?.onConnect((data) async {
         await newConsultationSchedule();
-        print('Connection established');
+        print('Connection established masuk sini');
 
         // await recentChatt();
       });

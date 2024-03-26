@@ -24,22 +24,22 @@ class ConsultationDoctorScheduleServices extends ProviderClass {
     return CurrentDoctorScheduleModel.fromJson(response);
   }
 
-  // Future<FindDoctorScheduleModel> getDoctorSchedule(int currentScheduleId, String startTime, String endTime) async {
-  //   var response = await networkingConfig.doGet(
-  //     '/consultation/doctor-schedule/$currentScheduleId',
-  //     params: {
-  //       'start_time': startTime,
-  //       'end_time': endTime,
-  //     },
-  //     headers: {
-  //       'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
-  //       'User-Agent': await userAgent(),
-  //     },
-  //   );
-  //   print('hasil get doctor ${response}');
+  Future<FindDoctorScheduleModel> getDoctorSchedule(int currentScheduleId, String startTime, String endTime) async {
+    var response = await networkingConfig.doGet(
+      '/consultation/doctor-schedule/$currentScheduleId',
+      params: {
+        'start_time': startTime,
+        'end_time': endTime,
+      },
+      headers: {
+        'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
+        'User-Agent': await userAgent(),
+      },
+    );
+    print('hasil get doctor ${response}');
 
-  //   return FindDoctorScheduleModel.fromJson(response);
-  // }
+    return FindDoctorScheduleModel.fromJson(response);
+  }
 
   Future<RecentChatModel> recentChat() async {
     var response = await networkingConfig.doGet(

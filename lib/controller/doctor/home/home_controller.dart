@@ -38,7 +38,7 @@ class DoctorHomeController extends StateClass {
       var dataUser = await LocalStorage().getDataUser();
       fullName.value = dataUser['fullname'];
       await getCurrentDoctorSchedule(context);
-      // await getDoctorSchedule(context);
+      await getDoctorSchedule(context);
     });
     isLoading.value = false;
   }
@@ -55,6 +55,8 @@ class DoctorHomeController extends StateClass {
       if (currentSchedule.value!.success!) {
         today.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
         if (currentSchedule.value?.data?.currentSchedule != null) {
+          currentScheduleId.value = currentSchedule.value!.data!.currentSchedule!.doctorScheduleId ?? 0;
+
           startTime.value = DateFormat('HH:mm').format(
             DateTime.parse('${currentSchedule.value?.data?.currentSchedule!.startTime}').toUtc().add(
                   Duration(hours: 7, minutes: 00),
@@ -182,38 +184,38 @@ class DoctorHomeController extends StateClass {
     isLoading.value = false;
   }
 
-// getDoctorSchedule(BuildContext context) async {
-//     // isLoading.value = true;
-//     await ErrorConfig.doAndSolveCatchInContext(context, () async {
-//       print('tes');
-//       var start = '';
-//       var end = '';
-//       if (isFirstSchedule.value = true) {
-//         start = startTime1.value;
-//         end = startTime2.value;
-//       } else if (isSecondSchedule.value = true) {
-//         start = endTime1.value;
-//         end = endTime2.value;
-//       }
-//       print('curscensud ${currentScheduleId}');
-//       findSchedule.value = await ConsultationDoctorScheduleServices().getDoctorSchedule(
-//         currentScheduleId.toInt(),
-//         start,
-//         end,
-//       );
-//       print('helo ${findSchedule}');
+  getDoctorSchedule(BuildContext context) async {
+    // isLoading.value = true;
+    await ErrorConfig.doAndSolveCatchInContext(context, () async {
+      print('tes');
+      var start = '';
+      var end = '';
+      if (isFirstSchedule.value = true) {
+        start = startTime1.value;
+        end = startTime2.value;
+      } else if (isSecondSchedule.value = true) {
+        start = endTime1.value;
+        end = endTime2.value;
+      }
+      print('curscensud ${currentScheduleId}');
+      findSchedule.value = await ConsultationDoctorScheduleServices().getDoctorSchedule(
+        currentScheduleId.toInt(),
+        startTime.value,
+        endTime.value,
+      );
+      print('helo ${findSchedule}');
 
-//       if (findSchedule.value?.success != true && findSchedule.value?.message != 'Success') {
-//         throw ErrorConfig(
-//           cause: ErrorConfig.anotherUnknow,
-//           message: findSchedule.value!.message.toString(),
-//         );
-//       }
-//       // SET TOTAL totalFindSchedule
-//       totalFindSchedule.value = findSchedule.value!.data!.data!.length;
-//       print('total ${totalFindSchedule}');
-//     });
+      if (findSchedule.value?.success != true && findSchedule.value?.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: findSchedule.value!.message.toString(),
+        );
+      }
+      // SET TOTAL totalFindSchedule
+      totalFindSchedule.value = findSchedule.value!.data!.data!.length;
+      print('total ${totalFindSchedule}');
+    });
 
-//     // isLoading.value = false;
-//   }
+    // isLoading.value = false;
+  }
 }

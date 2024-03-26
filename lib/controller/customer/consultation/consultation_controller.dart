@@ -51,8 +51,7 @@ class ConsultationController extends StateClass {
         );
         showDialog(
           context: Get.context!,
-          builder: (context) =>
-              AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
+          builder: (context) => AlertWidget(subtitle: 'Permintaan anda telah kadaluarsa'),
         );
       }
     });
@@ -77,8 +76,7 @@ class ConsultationController extends StateClass {
       initiate.value = await ConsultationService().initiateChat(orderId);
 
       print(jsonDecode(jsonEncode(initiate.value)));
-      if (initiate.value!.success != true &&
-          initiate.value!.message != 'Success') {
+      if (initiate.value!.success != true && initiate.value!.message != 'Success') {
         resendTime.value == 200;
         // timeCondition();
         // connectSocket(Get.context!);
@@ -90,8 +88,7 @@ class ConsultationController extends StateClass {
         );
       }
 
-      if (initiate.value!.success == true &&
-          initiate.value!.message == 'Success') {
+      if (initiate.value!.success == true && initiate.value!.message == 'Success') {
         resendTime.value == 200;
         // timeCondition();
         // connectSocket(Get.context!);
@@ -106,18 +103,15 @@ class ConsultationController extends StateClass {
         ));
         showDialog(
           context: Get.context!,
-          builder: (context) =>
-              AlertWidget(subtitle: 'Data Anda Sudah Terkirim ke Doktor'),
+          builder: (context) => AlertWidget(subtitle: 'Data Anda Sudah Terkirim ke Doktor'),
         );
 
-        status.value =
-            'Data anda sedang di review oleh dokter, harap tunggu yaa';
+        status.value = 'Data anda sedang di review oleh dokter, harap tunggu yaa';
       } else {
         print("hasil ${initiate.value}");
         showDialog(
           context: Get.context!,
-          builder: (context) =>
-              AlertWidget(subtitle: 'Tidak Ada Doktor Yang Online'),
+          builder: (context) => AlertWidget(subtitle: 'Tidak Ada Doktor Yang Online'),
         );
       }
     });
@@ -170,8 +164,7 @@ class ConsultationController extends StateClass {
             .enableForceNew()
             .setExtraHeaders(
               {
-                'Authorization':
-                    'Bearer ${await LocalStorage().getAccessToken()}',
+                'Authorization': 'Bearer ${await LocalStorage().getAccessToken()}',
               },
             )
             .build(),
@@ -231,8 +224,7 @@ class ConsultationController extends StateClass {
       customerId.value = (await LocalStorage().getUserID())!;
       recentChat.value = await ConsultationService().recentChat(search: search);
 
-      if (recentChat.value!.success != true &&
-          recentChat.value!.message != 'Success') {
+      if (recentChat.value!.success != true && recentChat.value!.message != 'Success') {
         throw ErrorConfig(
           cause: ErrorConfig.anotherUnknow,
           message: recentChat.value!.message.toString(),
