@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/chat/chat_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:social_share/social_share.dart';
@@ -126,10 +125,21 @@ class _DetailPerawatanPageState extends State<DetailPerawatanPage> {
                       ],
                     ),
                     TextButton(
-                      onPressed: () {
-                        Get.to(InvoiceHeystetikPage(
-                          id: widget.id,
-                        ));
+                      onPressed: () async {
+                        // Get.to(InvoiceHeystetikPage(
+                        //   id: widget.id,
+                        // ));
+                        SnackbarWidget.getSuccessSnackbar(
+                          context,
+                          "Berhasil",
+                          "Opening your file, please wait while we working on your file",
+                        );
+                        await state.getInvoice(
+                          context,
+                          state.data.value.transactionConsultationId ?? "",
+                          'consultation',
+                          doInPost: () {},
+                        );
                       },
                       child: Text(
                         'Lihat Invoice',

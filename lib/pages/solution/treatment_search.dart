@@ -344,7 +344,7 @@ class _TreatmentSearchState extends State<TreatmentSearch> {
                               urlImg: element.mediaTreatments!.isEmpty
                                   ? ""
                                   : "${Global.FILE}/${element.mediaTreatments![0].media!.path!}",
-                              rating: '${element.rating} (120k)',
+                              rating: '${element.rating} (0k)',
                               km: element.distance!,
                               lokasiKlinik: element.clinic!.city!.name!,
                               treatmentData: element,

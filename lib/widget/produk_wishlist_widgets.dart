@@ -66,36 +66,36 @@ class _ProdukWishlistSkinCareState extends State<ProdukWishlistSkinCare> {
               const SizedBox(
                 height: 4,
               ),
-              Row(
-                children: [
-                  Container(
-                    width: 28,
-                    height: 13,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(3),
-                        color: const Color.fromRGBO(201, 42, 42, 0.2)),
-                    child: Center(
-                      child: Text(
-                        '${CurrencyFormat.convertToIdr(widget.data.product?.price, 0)}%',
-                        style: blackHigtTextStyle.copyWith(
-                            color: redColor, fontSize: 11),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Text(
-                    CurrencyFormat.convertToIdr(widget.data.product?.price, 0),
-                    style: subGreyTextStyle.copyWith(
-                      fontSize: 12,
-                      decoration: TextDecoration.lineThrough,
-                      decorationThickness: 2,
-                      color: const Color(0xff9B9B9B),
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Container(
+              //       width: 28,
+              //       height: 13,
+              //       decoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(3),
+              //           color: const Color.fromRGBO(201, 42, 42, 0.2)),
+              //       child: Center(
+              //         child: Text(
+              //           '${CurrencyFormat.convertToIdr(widget.data.product?.price, 0)}%',
+              //           style: blackHigtTextStyle.copyWith(
+              //               color: redColor, fontSize: 11),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       width: 4,
+              //     ),
+              //     Text(
+              //       CurrencyFormat.convertToIdr(widget.data.product?.price, 0),
+              //       style: subGreyTextStyle.copyWith(
+              //         fontSize: 12,
+              //         decoration: TextDecoration.lineThrough,
+              //         decorationThickness: 2,
+              //         color: const Color(0xff9B9B9B),
+              //       ),
+              //     ),
+              //   ],
+              // ),
               Text(
                 CurrencyFormat.convertToIdr(widget.data.product?.price, 0),
                 style: blackHigtTextStyle.copyWith(fontSize: 15),
@@ -288,7 +288,7 @@ class _ProdukWishlistObatState extends State<ProdukWishlistObat> {
                     size: 18,
                   ),
                   Text(
-                    '${widget.data.product?.rating} (120k)',
+                    '${widget.data.product?.rating} (0k)',
                     style: subGreyTextStyle.copyWith(
                         fontSize: 11, color: const Color(0xff9B9B9B)),
                   )

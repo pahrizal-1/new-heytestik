@@ -10,159 +10,6 @@ import '../pages/solution/reservasi_page.dart';
 import '../theme/theme.dart';
 import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 
-class ProdukKeranjang extends StatelessWidget {
-  final String namaBrand;
-  final String namaProduk;
-  final String diskonProduk;
-  final String hargaDiskon;
-  final String harga;
-  final String urlImg;
-  final String rating;
-  const ProdukKeranjang({
-    super.key,
-    required this.namaBrand,
-    required this.namaProduk,
-    required this.diskonProduk,
-    required this.hargaDiskon,
-    required this.harga,
-    required this.urlImg,
-    required this.rating,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(right: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
-        border: Border.all(color: subwhiteColor, width: 0.6),
-      ),
-      child: InkWell(
-        onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => const DetailSkinCarePage(),
-          //   ),
-          // );
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 135,
-              width: 120,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(urlImg),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 7,
-            ),
-            Container(
-                padding: const EdgeInsets.only(left: 8, right: 9, bottom: 10),
-                constraints: const BoxConstraints(maxWidth: 130),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      namaBrand,
-                      style: blackHigtTextStyle.copyWith(fontSize: 13),
-                    ),
-                    Text(
-                      namaProduk,
-                      style: blackHigtTextStyle.copyWith(
-                          fontSize: 13,
-                          fontWeight: regular,
-                          overflow: TextOverflow.ellipsis),
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 28,
-                          height: 13,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: const Color.fromRGBO(201, 42, 42, 0.2)),
-                          child: Center(
-                            child: Text(
-                              diskonProduk,
-                              style: blackHigtTextStyle.copyWith(
-                                  color: redColor, fontSize: 11),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        Text(
-                          hargaDiskon,
-                          style: subGreyTextStyle.copyWith(
-                            fontSize: 12,
-                            decoration: TextDecoration.lineThrough,
-                            decorationThickness: 2,
-                            color: const Color(0xff9B9B9B),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      harga,
-                      style: blackHigtTextStyle.copyWith(fontSize: 15),
-                    ),
-                    const SizedBox(
-                      height: 3,
-                    ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.star,
-                          color: yellowColor,
-                          size: 18,
-                        ),
-                        Text(
-                          rating,
-                          style: subGreyTextStyle.copyWith(
-                              fontSize: 11, color: const Color(0xff9B9B9B)),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 5, top: 5),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(3),
-                          color: greenColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            '+ Keranjang',
-                            style: whiteTextStyle.copyWith(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ))
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class ProdukObat extends StatelessWidget {
   final String namaBrand;
   final String harga;
@@ -342,53 +189,51 @@ class ProductTreatmentDoctor extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  namaTreatmen,
-                  style: blackHigtTextStyle.copyWith(
-                      fontSize: 13,
-                      fontWeight: regular,
-                      overflow: TextOverflow.ellipsis,
-                      color: greenColor),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'cost',
-                  style: blackHigtTextStyle.copyWith(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                namaTreatmen,
+                style: blackHigtTextStyle.copyWith(
                     fontSize: 13,
                     fontWeight: regular,
                     overflow: TextOverflow.ellipsis,
-                  ),
+                    color: greenColor),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'cost',
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: regular,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
-                  height: 5,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Recov. Time',
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: regular,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                Text(
-                  'Recov. Time',
-                  style: blackHigtTextStyle.copyWith(
-                    fontSize: 13,
-                    fontWeight: regular,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Type',
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: regular,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'Type',
-                  style: blackHigtTextStyle.copyWith(
-                    fontSize: 13,
-                    fontWeight: regular,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           SizedBox(
             width: 10,

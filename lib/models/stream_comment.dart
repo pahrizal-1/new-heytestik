@@ -7,6 +7,7 @@ class StreamCommentModel {
   final String fullName;
   final String createdAt;
   final int like;
+  final bool liked;
   final int commentReplies;
 
   const StreamCommentModel({
@@ -18,6 +19,7 @@ class StreamCommentModel {
     required this.fullName,
     required this.createdAt,
     required this.like,
+    required this.liked,
     required this.commentReplies,
   });
 
@@ -32,6 +34,7 @@ class StreamCommentModel {
       fullName: json['user']['fullname'],
       userName: json['user']['username'],
       createdAt: json['created_at'],
+      liked: json['like'],
       like: json['_count']['stream_comment_likes'],
       commentReplies: json['_count']['stream_comment_replies'],
     );

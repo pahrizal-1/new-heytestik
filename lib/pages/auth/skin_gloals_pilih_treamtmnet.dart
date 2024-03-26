@@ -238,7 +238,7 @@ class _SkinGloalsPilihTreamtmnetState extends State<SkinGloalsPilihTreamtmnet> {
                     ),
                     Wrap(
                       direction: Axis.horizontal,
-                      spacing: 8,
+                      spacing: 5,
                       runSpacing: 8,
                       children: [
                         for (int index = 0;

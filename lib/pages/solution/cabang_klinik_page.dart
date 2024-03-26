@@ -99,7 +99,7 @@ class CabangKlinikPage extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          '4.9 (120k)',
+                          '4.9 (0k)',
                           style: subGreyTextStyle.copyWith(
                               fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
@@ -167,7 +167,7 @@ class CabangKlinikPage extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          '4.9 (120k)',
+                          '4.9 (0k)',
                           style: subGreyTextStyle.copyWith(
                               fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
