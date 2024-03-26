@@ -252,11 +252,12 @@ class _HomePageDoctorState extends State<HomePageDoctor> {
                                     ),
                                     Obx(
                                       () => Text(
-                                        state.isFirstSchedule.value
-                                            ? state.startTime.value
-                                            : state.isSecondSchedule.value
-                                                ? state.endTime.value
-                                                : 'Istirahat',
+                                        "${state.startTime.value} - ${state.endTime.value}",
+                                        // state.isFirstSchedule.value
+                                        //     ? state.startTime.value
+                                        //     : state.isSecondSchedule.value
+                                        //         ? state.endTime.value
+                                        //         : 'Istirahat',
                                         style: TextStyle(
                                           fontWeight: bold,
                                           fontSize: paddingL,
