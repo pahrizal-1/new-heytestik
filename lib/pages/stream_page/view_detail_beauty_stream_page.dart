@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/stream/news_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/open_launchUrl.dart';
 import 'package:heystetik_mobileapps/models/customer/article_model.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/news_search_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/view_detail_category.dart';
@@ -17,7 +18,6 @@ import 'package:heystetik_mobileapps/widget/shimmer_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/tags.dart';
 import 'package:social_share/social_share.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../theme/theme.dart';
 
@@ -38,13 +38,6 @@ class ViewDetailBeutyStreamPage extends StatefulWidget {
 
 class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
   final NewsController state = Get.put(NewsController());
-
-  _launchURL(String url) async {
-    final Uri urlParse = Uri.parse(url);
-    if (!await launchUrl(urlParse, mode: LaunchMode.externalApplication)) {
-      throw Exception('Could not launch $urlParse');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -276,7 +269,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                         Style(maxLines: 2, textOverflow: TextOverflow.ellipsis),
                   },
                   onAnchorTap: (url, attributes, element) {
-                    _launchURL(url.toString());
+                    OpenOutSide.launchURL(url.toString());
                   },
                 ),
                 const SizedBox(
@@ -350,7 +343,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                         SnackbarWidget.getSuccessSnackbar(
                             context, "Berhasil", "Berhasil disalin");
                         var ig = 'https://www.instagram.com/direct/new/';
-                        await _launchURL(ig);
+                        await OpenOutSide.launchURL(ig);
                       },
                       child: Image.asset(
                         'assets/icons/ig-icons-cickerl.png',
@@ -371,7 +364,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                         SnackbarWidget.getSuccessSnackbar(
                             context, "Berhasil", "Berhasil disalin");
                         var fb = 'http://m.me/';
-                        await _launchURL(fb);
+                        await OpenOutSide.launchURL(fb);
                       },
                       child: Image.asset(
                         'assets/icons/facbook-icons-cickel.png',
@@ -394,7 +387,7 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                         String emailUrl =
                             "mailto:$email?subject=$subject&body=$body";
 
-                        await _launchURL(emailUrl.toString());
+                        await OpenOutSide.launchURL(emailUrl.toString());
                       },
                       child: Image.asset(
                         'assets/icons/mail-icons-cirkel.png',
@@ -417,17 +410,17 @@ class _ViewDetailBeutyStreamPageState extends State<ViewDetailBeutyStreamPage> {
                         //     "https://wa.me/text=${Uri.parse(url.toString())}";
                         // if (Platform.isIOS) {
                         //   // for iOS phone only
-                        //   if (await canLaunchUrl(Uri.parse(whatappURLIOS))) {
-                        //     await _launchURL(whatappURLIOS);
+                        //   if (await canOpenOutSide.launchURL(Uri.parse(whatappURLIOS))) {
+                        //     await OpenOutSide.launchURL(whatappURLIOS);
                         //   } else {
                         //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         //         content: Text("whatsapp no installed")));
                         //   }
                         // } else {
                         //   // android , web
-                        //   if (await canLaunchUrl(
+                        //   if (await canOpenOutSide.launchURL(
                         //       Uri.parse(whatsappURlAndroid))) {
-                        //     await _launchURL(whatsappURlAndroid);
+                        //     await OpenOutSide.launchURL(whatsappURlAndroid);
                         //   } else {
                         //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         //         content: Text("whatsapp no installed")));

@@ -6,13 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_product_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
+import 'package:heystetik_mobileapps/core/captureAndSavePng.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/core/open_launchUrl.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
+import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:social_share/social_share.dart';
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
@@ -48,7 +53,8 @@ class _SelesaiPembayaranProdukPageState
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
   Method.Data? method;
-
+  ScreenshotController screenshotController = ScreenshotController();
+  final GlobalKey _qrkey = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -140,7 +146,7 @@ class _SelesaiPembayaranProdukPageState
             ),
             InkWell(
               onTap: () async {
-                await state.launchURL(
+                await OpenOutSide.launchURL(
                   state.transactionStatus.value.data!.actions![0].url
                       .toString(),
                 );
@@ -360,7 +366,7 @@ class _SelesaiPembayaranProdukPageState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                method?.name ?? '-',
+                                method?.name ?? '',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
@@ -406,7 +412,30 @@ class _SelesaiPembayaranProdukPageState
                                   return virtualAccount();
                                 }
                               case 'QR_CODE':
-                                return Container();
+                                return Column(
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        captureAndSavePng(context, _qrkey);
+                                      },
+                                      child: Text(
+                                        "Download Barcode",
+                                        style: blackHigtTextStyle.copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    RepaintBoundary(
+                                      key: _qrkey,
+                                      child: QrImageView(
+                                        data: state.transactionStatus.value.data
+                                            ?.qrString,
+                                        version: QrVersions.auto,
+                                        size: 200.0,
+                                      ),
+                                    ),
+                                  ],
+                                );
                               case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                                 return Container();
                               default:
@@ -474,28 +503,28 @@ class _SelesaiPembayaranProdukPageState
                                     ),
                                   ),
                                   const Spacer(),
-                                  // InkWell(
-                                  //   onTap: () {
-                                  //     showModalBottomSheet(
-                                  //       isDismissible: false,
-                                  //       context: context,
-                                  //       backgroundColor: Colors.white,
-                                  //       shape: const RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //             BorderRadiusDirectional.only(
-                                  //           topEnd: Radius.circular(25),
-                                  //           topStart: Radius.circular(25),
-                                  //         ),
-                                  //       ),
-                                  //       builder: (context) => detail(context),
-                                  //     );
-                                  //   },
-                                  //   child: Text(
-                                  //     'Lihat detail',
-                                  //     style:
-                                  //         grenTextStyle.copyWith(fontSize: 14),
-                                  //   ),
-                                  // ),
+                                  InkWell(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        isDismissible: false,
+                                        context: context,
+                                        backgroundColor: Colors.white,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadiusDirectional.only(
+                                            topEnd: Radius.circular(25),
+                                            topStart: Radius.circular(25),
+                                          ),
+                                        ),
+                                        builder: (context) => detail(context),
+                                      );
+                                    },
+                                    child: Text(
+                                      'Lihat detail',
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 14),
+                                    ),
+                                  ),
                                   const SizedBox(
                                     width: 8,
                                   ),
@@ -575,131 +604,145 @@ class _SelesaiPembayaranProdukPageState
   Widget detail(BuildContext context) {
     return Wrap(
       children: [
-        // Padding(
-        //   padding:
-        //       const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Row(
-        //         children: [
-        //           InkWell(
-        //             onTap: () {
-        //               Navigator.pop(context);
-        //             },
-        //             child: Image.asset(
-        //               'assets/icons/danger-icons.png',
-        //               width: 20,
-        //             ),
-        //           ),
-        //           const SizedBox(
-        //             width: 19,
-        //           ),
-        //           Text(
-        //             'Detail Harga',
-        //             style: blackTextStyle.copyWith(
-        //               fontSize: 18,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //       const SizedBox(
-        //         height: 22,
-        //       ),
-        //       Text(
-        //         '${widget.treatment.clinic?.name}',
-        //         style: blackTextStyle.copyWith(
-        //           fontSize: 15,
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 10,
-        //       ),
-        //       Text(
-        //         'Harga',
-        //         style: subTitleTextStyle.copyWith(fontSize: 15),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: '${widget.treatment.name} ${widget.pax} pax',
-        //           title2: CurrencyFormat.convertToIdr(
-        //               state.transactionStatus.value.data?.transaction
-        //                   ?.totalPrice,
-        //               0),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       dividergrey(),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Text(
-        //         'Biaya Lainnya',
-        //         style: subTitleTextStyle.copyWith(fontSize: 15),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Tax',
-        //           title2: CurrencyFormat.convertToIdr(
-        //             state.transactionStatus.value.data?.transaction?.tax,
-        //             0,
-        //           ),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Diskon Voucher',
-        //           title2: CurrencyFormat.convertToIdr(
-        //               state.transactionStatus.value.data?.transaction
-        //                   ?.totalDiscount,
-        //               0),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 5,
-        //       ),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Biaya transaksi',
-        //           title2: CurrencyFormat.convertToIdr(
-        //             state.transactionStatus.value.data?.transaction
-        //                 ?.transactionFee,
-        //             0,
-        //           ),
-        //           title1: '',
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 10,
-        //       ),
-        //       dividergrey(),
-        //       Obx(
-        //         () => TextBoldSpacebetwen(
-        //           title: 'Total Pembayaran',
-        //           title2: CurrencyFormat.convertToIdr(
-        //             state.transactionStatus.value.data?.transaction?.totalPaid,
-        //             0,
-        //           ),
-        //           title1: '',
-        //         ),
-        //       ),
-        //     ],
-        //   ),
-        // ),
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 19,
+                  ),
+                  Text(
+                    'Detail Harga',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Text(
+                'Harga',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              ...?state.transactionStatus.value.data?.transaction
+                  ?.transactionProductItems
+                  ?.map((val) {
+                return TextBoldSpacebetwen(
+                  title: "${val.product?.name} . ${val.qty}x",
+                  title2: CurrencyFormat.convertToIdr(val.price, 0),
+                  title1: '',
+                );
+              }).toList(),
+              const SizedBox(
+                height: 5,
+              ),
+              TextBoldSpacebetwen(
+                title: "Total Harga",
+                title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction?.totalPrice,
+                    0),
+                title1: '',
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Biaya Lainnya',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Tax',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction?.tax,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya Pengiriman',
+                  title2: CurrencyFormat.convertToIdr(
+                    state
+                        .transactionStatus.value.data?.transaction?.deliveryFee,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Diskon Voucher',
+                  title2: CurrencyFormat.convertToIdr(
+                      state.transactionStatus.value.data?.transaction
+                          ?.totalDiscount,
+                      0),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya transaksi',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction
+                        ?.transactionFee,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              dividergrey(),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Total Pembayaran',
+                  title2: CurrencyFormat.convertToIdr(
+                    state.transactionStatus.value.data?.transaction?.totalPaid,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

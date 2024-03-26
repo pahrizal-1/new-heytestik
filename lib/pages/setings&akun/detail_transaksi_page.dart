@@ -8,7 +8,6 @@ import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/models/customer/detail_transaksi_produk_model.dart';
-import 'package:heystetik_mobileapps/pages/chat_customer/invoic_hestetik.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/drug_solutions_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/solution_skincare_page.dart';
@@ -30,7 +29,8 @@ class DetailTransaksiPage extends StatefulWidget {
 }
 
 class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
-  final HistoryTransactionController state = Get.put(HistoryTransactionController());
+  final HistoryTransactionController state =
+      Get.put(HistoryTransactionController());
   final OrderProductController stateProduct = Get.put(OrderProductController());
 
   List<TransactionProductItems> listProduct = [];
@@ -44,7 +44,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
         context,
         widget.transactionId.toString(),
       );
-      listProduct.addAll(state.detailTransaksiProd.value.data?.transactionProductItems ?? []);
+      listProduct.addAll(
+          state.detailTransaksiProd.value.data?.transactionProductItems ?? []);
       setState(() {});
     });
   }
@@ -52,64 +53,68 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: state.detailTransaksiProd.value.data?.orderStatus == 'ORDER_COMPLETED'
-          ? Wrap(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 25, right: 25, bottom: 30, top: 11),
-                  child: Row(
-                    children: [
-                      InkWell(
-                        onTap: () async {},
-                        child: Container(
-                          height: 40,
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7),
-                            border: Border.all(color: greenColor),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.more_horiz,
-                                color: blackColor,
-                                size: 17,
+      bottomNavigationBar:
+          state.detailTransaksiProd.value.data?.orderStatus == 'ORDER_COMPLETED'
+              ? Wrap(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 25, right: 25, bottom: 30, top: 11),
+                      child: Row(
+                        children: [
+                          InkWell(
+                            onTap: () async {},
+                            child: Container(
+                              height: 40,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(7),
+                                border: Border.all(color: greenColor),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            Get.to(() => UlasanSetingsPage());
-                          },
-                          child: Container(
-                            width: 142,
-                            decoration: BoxDecoration(
-                              color: greenColor,
-                              border: Border.all(color: greenColor),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            height: 40,
-                            child: Center(
-                              child: Text(
-                                'Beri Ulasan',
-                                style: whiteTextStyle.copyWith(fontSize: 15, fontWeight: bold),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.more_horiz,
+                                    color: blackColor,
+                                    size: 17,
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(() => UlasanSetingsPage());
+                              },
+                              child: Container(
+                                width: 142,
+                                decoration: BoxDecoration(
+                                  color: greenColor,
+                                  border: Border.all(color: greenColor),
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                                height: 40,
+                                child: Center(
+                                  child: Text(
+                                    'Beri Ulasan',
+                                    style: whiteTextStyle.copyWith(
+                                        fontSize: 15, fontWeight: bold),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            )
-          : null,
+                    ),
+                  ],
+                )
+              : null,
       appBar: AppBar(
         elevation: 3,
         automaticallyImplyLeading: false,
@@ -148,7 +153,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
           child: ListView(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 21),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 21, vertical: 21),
                 child: Column(
                   children: [
                     Row(
@@ -157,23 +163,40 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                         Row(
                           children: [
                             Text(
-                              state.detailTransaksiProd.value.data?.orderStatus == 'NEW_ORDER' || state.detailTransaksiProd.value.data?.orderStatus == 'DELIVERY_PROCESS'
+                              state.detailTransaksiProd.value.data
+                                              ?.orderStatus ==
+                                          'NEW_ORDER' ||
+                                      state.detailTransaksiProd.value.data
+                                              ?.orderStatus ==
+                                          'DELIVERY_PROCESS'
                                   ? 'Pesanan Diproses'
-                                  : state.detailTransaksiProd.value.data?.orderStatus == 'IN_DELIVERY'
+                                  : state.detailTransaksiProd.value.data
+                                              ?.orderStatus ==
+                                          'IN_DELIVERY'
                                       ? 'Pesanan Dikirim'
-                                      : state.detailTransaksiProd.value.data?.orderStatus == 'ORDER_COMPLETED'
+                                      : state.detailTransaksiProd.value.data
+                                                  ?.orderStatus ==
+                                              'ORDER_COMPLETED'
                                           ? 'Pesanan Selesai'
                                           : '-',
-                              style: subGreyTextStyle.copyWith(fontSize: 15, color: const Color(0XFF323232), fontWeight: bold),
+                              style: subGreyTextStyle.copyWith(
+                                  fontSize: 15,
+                                  color: const Color(0XFF323232),
+                                  fontWeight: bold),
                             ),
                           ],
                         ),
-                        if (state.detailTransaksiProd.value.data?.orderStatus == 'IN_DELIVERY' || state.detailTransaksiProd.value.data?.orderStatus == 'ORDER_COMPLETED')
+                        if (state.detailTransaksiProd.value.data?.orderStatus ==
+                                'IN_DELIVERY' ||
+                            state.detailTransaksiProd.value.data?.orderStatus ==
+                                'ORDER_COMPLETED')
                           InkWell(
                             onTap: () {
                               Get.to(
                                 () => DetailStatusPage(
-                                  transactionId: state.detailTransaksiProd.value.data!.id.toString(),
+                                  transactionId: state
+                                      .detailTransaksiProd.value.data!.id
+                                      .toString(),
                                 ),
                               );
                             },
@@ -192,8 +215,12 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                         Row(
                           children: [
                             Text(
-                              state.detailTransaksiProd.value.data?.invoiceID ?? "",
-                              style: subGreyTextStyle.copyWith(fontSize: 15, color: const Color(0XFF323232), fontWeight: regular),
+                              state.detailTransaksiProd.value.data?.invoiceID ??
+                                  "",
+                              style: subGreyTextStyle.copyWith(
+                                  fontSize: 15,
+                                  color: const Color(0XFF323232),
+                                  fontWeight: regular),
                             ),
                             SizedBox(
                               width: 9,
@@ -201,7 +228,9 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                             InkWell(
                               onTap: () {
                                 SocialShare.copyToClipboard(
-                                  text: state.detailTransaksiProd.value.data?.invoiceID ?? "",
+                                  text: state.detailTransaksiProd.value.data
+                                          ?.invoiceID ??
+                                      "",
                                 );
                                 SnackbarWidget.getSuccessSnackbar(
                                   context,
@@ -220,7 +249,6 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                         ),
                         TextButton(
                           onPressed: () async {
-                            // Get.to(() => InvoiceHeystetikPage());
                             SnackbarWidget.getSuccessSnackbar(
                               context,
                               "Berhasil",
@@ -269,11 +297,16 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                       height: 20,
                     ),
                     if (!state.isLoading.value)
-                      for (int index = 0; index < (isMore ? listProduct.length : 1); index++)
+                      for (int index = 0;
+                          index < (isMore ? listProduct.length : 1);
+                          index++)
                         Container(
                           margin: EdgeInsets.only(bottom: 9),
-                          decoration: BoxDecoration(border: Border.all(color: borderColor), borderRadius: BorderRadius.circular(7)),
-                          padding: EdgeInsets.symmetric(vertical: 14, horizontal: 14),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: borderColor),
+                              borderRadius: BorderRadius.circular(7)),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 14, horizontal: 14),
                           child: Row(
                             children: [
                               Container(
@@ -282,7 +315,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(5),
                                   image: DecorationImage(
-                                    image: NetworkImage('${Global.FILE}/${listProduct[index].product?.mediaProducts?[0].media?.path}'),
+                                    image: NetworkImage(
+                                        '${Global.FILE}/${listProduct[index].product?.mediaProducts?[0].media?.path}'),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -296,14 +330,16 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                   children: [
                                     Text(
                                       listProduct[index].product?.name ?? '-',
-                                      style: grenTextStyle.copyWith(fontSize: 15),
+                                      style:
+                                          grenTextStyle.copyWith(fontSize: 15),
                                     ),
                                     SizedBox(
                                       height: 3,
                                     ),
                                     Text(
                                       '${listProduct[index].qty} items',
-                                      style: subTitleTextStyle.copyWith(fontSize: 15),
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 15),
                                     ),
                                     SizedBox(
                                       height: 3,
@@ -326,21 +362,25 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                     ),
                                     Text(
                                       'Note : ${listProduct[index].note}',
-                                      style: subTitleTextStyle.copyWith(fontSize: 15),
+                                      style: subTitleTextStyle.copyWith(
+                                          fontSize: 15),
                                     ),
                                   ],
                                 ),
                               ),
                               InkWell(
                                 onTap: () {
-                                  if (listProduct[index].product?.type == 'DRUGS') {
+                                  if (listProduct[index].product?.type ==
+                                      'DRUGS') {
                                     Get.to(() => const DrugSolutionsPage());
-                                  } else if (listProduct[index].product?.type == 'SKINCARE') {
+                                  } else if (listProduct[index].product?.type ==
+                                      'SKINCARE') {
                                     Get.to(() => const SolutionSkincare1Page());
                                   }
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 7),
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 7),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(7),
                                     border: Border.all(
@@ -434,12 +474,16 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                 children: [
                                   Text(
                                     'Kurir',
-                                    style: blackRegulerTextStyle.copyWith(color: blackColor),
+                                    style: blackRegulerTextStyle.copyWith(
+                                        color: blackColor),
                                   ),
                                   Obx(
                                     () => Text(
                                       '${state.detailTransaksiProd.value.data?.shippingProduct?.shippingMethod?.type} - ${state.detailTransaksiProd.value.data?.shippingProduct?.shippingMethod?.name}',
-                                      style: grenTextStyle.copyWith(fontSize: 15, color: blackColor, fontWeight: regular),
+                                      style: grenTextStyle.copyWith(
+                                          fontSize: 15,
+                                          color: blackColor,
+                                          fontWeight: regular),
                                     ),
                                   ),
                                 ],
@@ -457,7 +501,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                     InkWell(
                                       onTap: () {
                                         SocialShare.copyToClipboard(
-                                          text: state.detailTransaksiProd.value.data?.shippingProduct?.waybill,
+                                          text: state.detailTransaksiProd.value
+                                              .data?.shippingProduct?.waybill,
                                         );
 
                                         SnackbarWidget.getSuccessSnackbar(
@@ -470,7 +515,10 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                         children: [
                                           Text(
                                             'No Resi',
-                                            style: subGreyTextStyle.copyWith(fontSize: 15, color: const Color(0XFF323232), fontWeight: regular),
+                                            style: subGreyTextStyle.copyWith(
+                                                fontSize: 15,
+                                                color: const Color(0XFF323232),
+                                                fontWeight: regular),
                                           ),
                                           SizedBox(
                                             width: 9,
@@ -485,8 +533,13 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                       ),
                                     ),
                                     Text(
-                                      state.detailTransaksiProd.value.data?.shippingProduct?.waybill ?? '-',
-                                      style: grenTextStyle.copyWith(fontSize: 15, color: blackColor, fontWeight: regular),
+                                      state.detailTransaksiProd.value.data
+                                              ?.shippingProduct?.waybill ??
+                                          '-',
+                                      style: grenTextStyle.copyWith(
+                                          fontSize: 15,
+                                          color: blackColor,
+                                          fontWeight: regular),
                                     ),
                                   ],
                                 ),
@@ -504,7 +557,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                     InkWell(
                                       onTap: () {
                                         SocialShare.copyToClipboard(
-                                          text: '${state.detailTransaksiProd.value.data?.shippingProduct?.recipientName}\n${state.detailTransaksiProd.value.data?.shippingProduct?.recipientPhone}\n${state.detailTransaksiProd.value.data?.shippingProduct?.recipientAddress}',
+                                          text:
+                                              '${state.detailTransaksiProd.value.data?.shippingProduct?.recipientName}\n${state.detailTransaksiProd.value.data?.shippingProduct?.recipientPhone}\n${state.detailTransaksiProd.value.data?.shippingProduct?.recipientAddress}',
                                         );
 
                                         SnackbarWidget.getSuccessSnackbar(
@@ -517,7 +571,10 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                         children: [
                                           Text(
                                             'Alamat',
-                                            style: subGreyTextStyle.copyWith(fontSize: 15, color: const Color(0XFF323232), fontWeight: regular),
+                                            style: subGreyTextStyle.copyWith(
+                                                fontSize: 15,
+                                                color: const Color(0XFF323232),
+                                                fontWeight: regular),
                                           ),
                                           SizedBox(
                                             width: 9,
@@ -533,7 +590,10 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                                     ),
                                     Text(
                                       '${state.detailTransaksiProd.value.data?.shippingProduct?.recipientName}\n${state.detailTransaksiProd.value.data?.shippingProduct?.recipientPhone}\n${state.detailTransaksiProd.value.data?.shippingProduct?.recipientAddress}',
-                                      style: grenTextStyle.copyWith(fontSize: 15, color: blackColor, fontWeight: regular),
+                                      style: grenTextStyle.copyWith(
+                                          fontSize: 15,
+                                          color: blackColor,
+                                          fontWeight: regular),
                                     ),
                                   ],
                                 ),
@@ -562,7 +622,9 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                     Obx(
                       () => TextSpaceBetween(
                         title: 'Metode Pembayaran',
-                        title2: state.detailTransaksiProd.value.data?.paymentMethod?.name ?? '-',
+                        title2: state.detailTransaksiProd.value.data
+                                ?.paymentMethod?.name ??
+                            '-',
                       ),
                     ),
                     SizedBox(
@@ -570,7 +632,8 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                     ),
                     Obx(
                       () => TextSpaceBetween(
-                        title: 'Total Harga (${state.detailTransaksiProd.value.data?.transactionProductItems?.length ?? '0'} barang)',
+                        title:
+                            'Total Harga (${state.detailTransaksiProd.value.data?.transactionProductItems?.length ?? '0'} barang)',
                         title2: CurrencyFormat.convertToIdr(
                           state.detailTransaksiProd.value.data?.totalPrice,
                           0,
@@ -604,7 +667,7 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                     ),
                     Obx(
                       () => TextSpaceBetween(
-                        title: 'Diskon Promo',
+                        title: 'Diskon Voucher',
                         title2: CurrencyFormat.convertToIdr(
                           state.detailTransaksiProd.value.data?.totalDiscount,
                           0,
@@ -616,7 +679,7 @@ class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
                     ),
                     Obx(
                       () => TextSpaceBetween(
-                        title: 'PPN',
+                        title: 'Tax',
                         title2: CurrencyFormat.convertToIdr(
                           state.detailTransaksiProd.value.data?.tax,
                           0,

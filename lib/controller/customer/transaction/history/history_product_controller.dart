@@ -10,20 +10,13 @@ import 'package:heystetik_mobileapps/pages/chat_customer/failed_page.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/success_page.dart';
 import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_bank.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class HistoryProductController extends StateClass {
   Rx<TransactionStatusModel> transactionStatus =
       TransactionStatusModel.fromJson({}).obs;
 
   RxString expirytime = ''.obs;
-
-  launchURL(String url) async {
-    final Uri urlParse = Uri.parse(url);
-    if (!await launchUrl(urlParse)) {
-      throw Exception('Could not launch $urlParse');
-    }
-  }
+  RxBool qrCode = false.obs;
 
   Future<void> getTransactionStatus(
       BuildContext context, String orderId) async {
@@ -53,14 +46,12 @@ class HistoryProductController extends StateClass {
           print("PENDING");
           expirytime.value = transactionStatus.value.data?.expiryTime ?? '';
           if (transactionStatus.value.data!.paymentMethod == 'EWALLET') {
-            // await _launchURL(
-            //   transactionStatus.value.data!.actions![0].url.toString(),
-            // );
           } else if (transactionStatus.value.data!.paymentMethod ==
               'VIRTUAL_ACCOUNT') {
           } else if (transactionStatus.value.data!.paymentMethod ==
               'BANK_TRANSFER_MANUAL_VERIFICATION') {
           } else if (transactionStatus.value.data!.paymentMethod == 'QR_CODE') {
+            qrCode.value = true;
           } else if (transactionStatus.value.data!.paymentMethod == 'FREE') {}
           break;
         case 'FAILED':

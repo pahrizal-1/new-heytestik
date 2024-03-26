@@ -2,11 +2,11 @@ class StreamHomeModel {
   final int id;
   final int userId;
   final String content;
-  // final String type;
   final String createdAt;
   final String visibility;
   final List<String> streamHashtags;
   final List<Map<String, dynamic>> streamPollOptions;
+  final List<Map<String, dynamic>> streamPollings;
   final List<String> hashtags;
   final String fullname;
   final String photoUser;
@@ -17,20 +17,21 @@ class StreamHomeModel {
   final int streamCommentReplies;
   final bool saved;
   final bool liked;
+  bool? voted;
   final bool follow;
   final int pollCount;
   final DateTime endTime;
   final List<String> postImage;
 
-  const StreamHomeModel({
+  StreamHomeModel({
     required this.id,
     required this.userId,
     required this.content,
-    // required this.type,
     required this.createdAt,
     required this.visibility,
     required this.streamHashtags,
     required this.streamPollOptions,
+    required this.streamPollings,
     required this.fullname,
     required this.username,
     required this.photoUser,
@@ -41,6 +42,7 @@ class StreamHomeModel {
     required this.saved,
     required this.follow,
     required this.liked,
+    this.voted = false,
     required this.hashtags,
     required this.pollCount,
     required this.endTime,
@@ -73,7 +75,6 @@ class StreamHomeModel {
       id: json['id'],
       userId: json['user_id'],
       content: json['content'] ?? "",
-      // type: json['type'] ?? "",
       createdAt: json['created_at'] ?? "",
       visibility: json['visibility'] ?? "",
       streamHashtags: json['stream_hastags'] == null
@@ -82,7 +83,7 @@ class StreamHomeModel {
               .map((e) => "#${e['hashtag']['tag']}")
               .toList(),
       streamPollOptions: dataPolling,
-
+      streamPollings: dataPollingSelected,
       fullname: json['user']['fullname'] ?? "-",
       username: json['user']['username'] ?? "-",
       photoUser: json['user']['media_user_profile_picture'] != null
@@ -94,6 +95,7 @@ class StreamHomeModel {
       streamCommentReplies: json['_count']['stream_comment_replies'],
       saved: json['saved'],
       follow: json['follow'],
+      voted: json['voted'],
       liked: json['like'],
       hashtags: json['stream_hastags'] == null
           ? []

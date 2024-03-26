@@ -185,21 +185,21 @@ class OrderProductController extends StateClass {
         discountPercentage.value = 0;
         // TOTAL DISKON = freeShippingAmount
         totalDiscount.value = voucher.freeShippingAmount!.toDouble();
-        // JIKA KURANG MAKA KASIH 0 shippingPrice
-        if (shippingPriceSet.value < totalDiscount.value) {
+        // JIKA LEBIH MAKA KASIH 0 shippingPrice
+        // RUBAH JADI TRUE
+        isOngkir.value = true;
+        if (totalDiscount.value > shippingPriceSet.value) {
           totalDiscount.value = shippingPriceSet.value;
           shippingPrice.value = 0.0;
+          // TOTAL FEE DIKURANG TOTAL freeShippingAmount
+          totalPaid.value = totalPrice.value + shippingPrice.value;
         } else {
           // LANGSUNG DIKURANG SAJA
           shippingPrice.value = shippingPriceSet.value - totalDiscount.value;
 
           // RUBAH PERSENTASE DISKON ONGKIR SESUAI freeShippingAmount
           discountPercentage.value =
-              ((totalDiscount.value / shippingPriceSet.value) * 100).toInt();
-
-          // RUBAH JADI TRUE
-          isOngkir.value = true;
-
+              ((shippingPriceSet.value / totalDiscount.value) * 100).toInt();
           // TOTAL FEE DIKURANG TOTAL freeShippingAmount
           totalPaid.value = totalPrice.value + shippingPrice.value;
         }
@@ -537,13 +537,10 @@ class OrderProductController extends StateClass {
 
       // JIKA SUKSES SET ORDER ID
       orderId.value = res.data!.transaction!.id.toString();
-      // JIKA SUKSES SET bank
-      // bank.value = bank.value;
-      // JIKA SUKSES SET expireTime
-      expireTime.value = res.data!.payment!.expiryTime.toString();
-      debugPrint('order CONT  ${orderId.value}');
-      // debugPrint('bank ${bank.value}');
-      debugPrint('expireTime CONT ${expireTime.value}');
+      if (paymentType.value != "FREE_VOUCHER") {
+        // JIKA SUKSES DAN BUKAN FREE_VOUCHER  SET expireTime
+        expireTime.value = res.data!.payment!.expiryTime.toString();
+      }
 
       if (isCart) {
         // jika dari keranjang, hapus produk di keranjang, pake id produk

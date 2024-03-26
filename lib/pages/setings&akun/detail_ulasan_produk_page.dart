@@ -1,14 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/review_controller.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/models/customer/finished_review_model.dart';
 import '../../theme/theme.dart';
-import '../../widget/share_solusion_widget_page.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class DetailSkinUlasanProduk extends StatelessWidget {
@@ -47,30 +45,30 @@ class DetailSkinUlasanProduk extends StatelessWidget {
             ],
           ),
         ),
-        actions: [
-          InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                isDismissible: false,
-                context: context,
-                backgroundColor: Colors.white,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.only(
-                    topEnd: Radius.circular(25),
-                    topStart: Radius.circular(25),
-                  ),
-                ),
-                builder: (context) => ShareShowWidget(),
-              );
-            },
-            child: SvgPicture.asset(
-              'assets/icons/share-icons.svg',
-            ),
-          ),
-          SizedBox(
-            width: 25,
-          )
-        ],
+        // actions: [
+        //   InkWell(
+        //     onTap: () {
+        //       showModalBottomSheet(
+        //         isDismissible: false,
+        //         context: context,
+        //         backgroundColor: Colors.white,
+        //         shape: const RoundedRectangleBorder(
+        //           borderRadius: BorderRadiusDirectional.only(
+        //             topEnd: Radius.circular(25),
+        //             topStart: Radius.circular(25),
+        //           ),
+        //         ),
+        //         builder: (context) => ShareShowWidget(),
+        //       );
+        //     },
+        //     child: SvgPicture.asset(
+        //       'assets/icons/share-icons.svg',
+        //     ),
+        //   ),
+        //   SizedBox(
+        //     width: 25,
+        //   )
+        // ],
       ),
       body: ListView(
         children: [

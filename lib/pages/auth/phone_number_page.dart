@@ -13,10 +13,7 @@ import 'package:provider/provider.dart';
 
 class PhoneNumberPage extends StatelessWidget {
   bool isCompleteProfile = false;
-  PhoneNumberPage({
-    this.isCompleteProfile = false,
-    super.key,
-  });
+  PhoneNumberPage({this.isCompleteProfile = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +32,7 @@ class PhoneNumberPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Text(
-                'Membuat Akun Baru',
-                style: grenTextStyle,
-              ),
+              child: Text('Membuat Akun Baru', style: grenTextStyle),
             ),
             const SizedBox(
               height: 9,
@@ -108,7 +102,8 @@ class PhoneNumberPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => VerificationPage(
-                              isCompleteProfile: isCompleteProfile),
+                            isCompleteProfile: isCompleteProfile,
+                          ),
                         ),
                       );
                       SnackbarWidget.getSuccessSnackbar(

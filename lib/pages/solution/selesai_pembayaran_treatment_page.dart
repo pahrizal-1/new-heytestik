@@ -3,19 +3,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_transaction_controller.dart';
 import 'package:heystetik_mobileapps/controller/customer/transaction/history/history_treatment_controller.dart';
+import 'package:heystetik_mobileapps/core/captureAndSavePng.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
+import 'package:heystetik_mobileapps/core/open_launchUrl.dart';
 import 'package:heystetik_mobileapps/widget/alert_dialog_transaksi.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:social_share/social_share.dart';
 import '../../theme/theme.dart';
 import '../../widget/Text_widget.dart';
@@ -26,20 +27,15 @@ import 'package:heystetik_mobileapps/models/customer/payment_method_by_id_model.
 // ignore: must_be_immutable
 class SelesaikanPembayaranTreatmentPage extends StatefulWidget {
   bool isWillPop;
-
   String bankImage;
   String orderId;
   String expireTime;
-  final Data2 treatment;
-  int pax;
   int paymentMethodId;
   SelesaikanPembayaranTreatmentPage({
     required this.isWillPop,
     this.bankImage = '',
     this.orderId = '',
     this.expireTime = '',
-    required this.treatment,
-    this.pax = 0,
     required this.paymentMethodId,
     super.key,
   });
@@ -58,7 +54,7 @@ class _SelesaikanPembayaranTreatmentPageState
   Timer? countdownTimer;
   Duration myDuration = const Duration(hours: 1);
   Method.Data? method;
-
+  final GlobalKey _qrkey = GlobalKey();
   @override
   void initState() {
     super.initState();
@@ -148,7 +144,7 @@ class _SelesaikanPembayaranTreatmentPageState
             ),
             InkWell(
               onTap: () async {
-                await state.launchURL(
+                await OpenOutSide.launchURL(
                   state.transactionStatus.value.data!.actions![0].url
                       .toString(),
                 );
@@ -368,7 +364,7 @@ class _SelesaikanPembayaranTreatmentPageState
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                method?.name ?? '-',
+                                method?.name ?? '',
                                 style:
                                     blackHigtTextStyle.copyWith(fontSize: 15),
                               ),
@@ -414,7 +410,30 @@ class _SelesaikanPembayaranTreatmentPageState
                                   return virtualAccount();
                                 }
                               case 'QR_CODE':
-                                return Container();
+                                return Column(
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        captureAndSavePng(context, _qrkey);
+                                      },
+                                      child: Text(
+                                        "Download Barcode",
+                                        style: blackHigtTextStyle.copyWith(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                    ),
+                                    RepaintBoundary(
+                                      key: _qrkey,
+                                      child: QrImageView(
+                                        data: state.transactionStatus.value.data
+                                            ?.qrString,
+                                        version: QrVersions.auto,
+                                        size: 200.0,
+                                      ),
+                                    ),
+                                  ],
+                                );
                               case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                                 return Container();
                               default:
@@ -529,8 +548,6 @@ class _SelesaikanPembayaranTreatmentPageState
                                             .data?.transaction?.totalPaid ??
                                         0,
                                     transactionType: 'Treatment',
-                                    treatment: widget.treatment,
-                                    pax: widget.pax,
                                   ));
                             },
                             child: Center(
@@ -624,7 +641,7 @@ class _SelesaikanPembayaranTreatmentPageState
                 height: 22,
               ),
               Text(
-                '${widget.treatment.clinic?.name}',
+                '${state.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.clinic?.name}',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -641,7 +658,8 @@ class _SelesaikanPembayaranTreatmentPageState
               ),
               Obx(
                 () => TextBoldSpacebetwen(
-                  title: '${widget.treatment.name} ${widget.pax} pax',
+                  title:
+                      '${state.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.name} ${state.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].pax} pax',
                   title2: CurrencyFormat.convertToIdr(
                       state.transactionStatus.value.data?.transaction
                           ?.totalPrice,

@@ -108,60 +108,61 @@ class _NotifikasiSettingPageState extends State<NotifikasiSettingPage> {
                 ...data.map((val) {
                   bool selected = val.isEnabled!;
                   return val.name == 'Teman di Heystetik'
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Teman di Heystetik',
-                                  style: blackRegulerTextStyle.copyWith(
-                                      fontSize: 15, color: blackColor),
-                                ),
-                                SizedBox(
-                                  height: 2,
-                                ),
-                                Text(
-                                  'Laura, salah satu kontak kamu, ada di Heystetik\nsebagai @laurado. Apakah kamu ingin mengikuti?',
-                                  style: subTitleTextStyle.copyWith(
-                                    fontSize: 11,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            Switch(
-                              focusColor: greenColor,
-                              activeColor: greenColor,
-                              value: selected,
-                              onChanged: (value) async {
-                                List data = [
-                                  {
-                                    "type": val.type,
-                                    "is_enabled":
-                                        val.isEnabled == true ? false : true
-                                  }
-                                ];
-                                selected = !selected;
-                                setState(() {});
-                                bool cek = await state.postSettingNotif(
-                                  context,
-                                  data: data,
-                                  isEnabled:
-                                      val.isEnabled == true ? false : true,
-                                );
-                                if (cek) {
-                                  selected = true;
-                                  get();
-                                } else {
-                                  selected = false;
-                                }
-                                setState(() {});
-                              },
-                            ),
-                          ],
-                        )
+                      ? Container()
+                      //     ? Row(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: [
+                      //           Column(
+                      //             crossAxisAlignment: CrossAxisAlignment.start,
+                      //             children: [
+                      //               Text(
+                      //                 'Teman di Heystetik',
+                      //                 style: blackRegulerTextStyle.copyWith(
+                      //                     fontSize: 15, color: blackColor),
+                      //               ),
+                      //               SizedBox(
+                      //                 height: 2,
+                      //               ),
+                      //               Text(
+                      //                 'Laura, salah satu kontak kamu, ada di Heystetik\nsebagai @laurado. Apakah kamu ingin mengikuti?',
+                      //                 style: subTitleTextStyle.copyWith(
+                      //                   fontSize: 11,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //           const Spacer(),
+                      //           Switch(
+                      //             focusColor: greenColor,
+                      //             activeColor: greenColor,
+                      //             value: selected,
+                      //             onChanged: (value) async {
+                      //               List data = [
+                      //                 {
+                      //                   "type": val.type,
+                      //                   "is_enabled":
+                      //                       val.isEnabled == true ? false : true
+                      //                 }
+                      //               ];
+                      //               selected = !selected;
+                      //               setState(() {});
+                      //               bool cek = await state.postSettingNotif(
+                      //                 context,
+                      //                 data: data,
+                      //                 isEnabled:
+                      //                     val.isEnabled == true ? false : true,
+                      //               );
+                      //               if (cek) {
+                      //                 selected = true;
+                      //                 get();
+                      //               } else {
+                      //                 selected = false;
+                      //               }
+                      //               setState(() {});
+                      //             },
+                      //           ),
+                      //         ],
+                      //       )
                       : switchNotif(
                           title: val.name ?? '-',
                           selected: selected,

@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:heystetik_mobileapps/controller/customer/account/profile_controller.dart';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
+import 'package:heystetik_mobileapps/core/local_storage.dart';
 import 'package:heystetik_mobileapps/models/stream_home.dart';
 import 'package:heystetik_mobileapps/pages/profile_costumer/profil_customer_page.dart';
 import 'package:heystetik_mobileapps/pages/stream_page/user_followed_stream_page.dart';
@@ -38,6 +39,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
   bool? like;
   bool? follow;
   bool? saved;
+  int? currentUserId;
   Map<String, int> postLike = {};
   bool isTimeOver = false;
   List<String> dataRemainingTime = [];
@@ -45,6 +47,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
   int votesCount = 0;
   int allVotesCount = 0;
   int? indexVotes;
+  int? keyVotes;
   List<Map<String, dynamic>> streamPollOptions = [];
   int activeIndex = 0;
   @override
@@ -60,8 +63,13 @@ class _StreamPostPageState extends State<StreamPostPage> {
     }
     allVotesCount = widget.stream.pollCount;
     streamPollOptions = widget.stream.streamPollOptions;
+    getCurrentUserID();
     super.initState();
     setState(() {});
+  }
+
+  void getCurrentUserID() async {
+    currentUserId = await LocalStorage().getUserID();
   }
 
   @override
@@ -82,12 +90,18 @@ class _StreamPostPageState extends State<StreamPostPage> {
               InkWell(
                 onTap: () {
                   if (stateProfile.username.value == widget.stream.username) {
-                    Get.to(() => const ProfilCustomerPage());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ProfilCustomerPage()));
                   } else {
-                    Get.to(() => UserFollowedStreamPage(
-                          username: widget.stream.username,
-                          fullname: widget.stream.fullname,
-                        ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => UserFollowedStreamPage(
+                                  username: widget.stream.username,
+                                  fullname: widget.stream.fullname,
+                                )));
                   }
                 },
                 child: Container(
@@ -115,12 +129,18 @@ class _StreamPostPageState extends State<StreamPostPage> {
               InkWell(
                 onTap: () {
                   if (stateProfile.username.value == widget.stream.username) {
-                    Get.to(() => const ProfilCustomerPage());
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => const ProfilCustomerPage()));
                   } else {
-                    Get.to(() => UserFollowedStreamPage(
-                          username: widget.stream.username,
-                          fullname: widget.stream.fullname,
-                        ));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => UserFollowedStreamPage(
+                                  username: widget.stream.username,
+                                  fullname: widget.stream.fullname,
+                                )));
                   }
                 },
                 child: Column(
@@ -187,10 +207,10 @@ class _StreamPostPageState extends State<StreamPostPage> {
           if (widget.stream.postImage.isNotEmpty)
             CarouselSlider(
               options: CarouselOptions(
-                pauseAutoPlayInFiniteScroll: false,
+                pauseAutoPlayInFiniteScroll: true,
                 padEnds: false,
-                enableInfiniteScroll: true,
-                height: 300,
+                enableInfiniteScroll: false,
+                height: 400,
                 onPageChanged: (index, reason) =>
                     setState(() => activeIndex = index),
                 viewportFraction: 1,
@@ -208,7 +228,7 @@ class _StreamPostPageState extends State<StreamPostPage> {
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            fit: BoxFit.cover,
+                            fit: BoxFit.fitHeight,
                             image: NetworkImage(
                               "${Global.FILE}/$image",
                             ),
@@ -326,30 +346,86 @@ class _StreamPostPageState extends State<StreamPostPage> {
                         ),
                         InkWell(
                           onTap: () {
-                            if (!isTimeOver) {
-                              if (votesCount == 0) {
-                                votesCount = votesCount + 1;
-                                allVotesCount = allVotesCount + 1;
-
-                                if (indexVotes != null) {
-                                  streamPollOptions[indexVotes!]['count'] - 1;
-                                  stateStream.deletePolling(
+                            if (currentUserId != null) {
+                              if (!isTimeOver) {
+                                if (!(widget.stream.voted ?? false) &&
+                                    votesCount == 0) {
+                                  votesCount = votesCount + 1;
+                                  allVotesCount = allVotesCount + 1;
+                                  stateStream.pickPolling(
                                       context,
                                       widget.stream.id,
-                                      streamPollOptions[indexVotes!]
-                                          ['stream_poll_id'],
-                                      streamPollOptions[indexVotes!]['id']);
+                                      option.value['stream_poll_id'],
+                                      option.value['id']);
+                                  indexVotes = option.value['id'];
+                                  keyVotes = option.key;
+                                  option.value['count'] =
+                                      option.value['count'] + 1;
+                                  setState(() {});
                                 }
 
-                                stateStream.pickPolling(
-                                    context,
-                                    widget.stream.id,
-                                    option.value['stream_poll_id'],
-                                    option.value['id']);
-                                indexVotes = option.key;
-                                option.value['count'] =
-                                    option.value['count'] + 1;
-                                setState(() {});
+                                if (widget.stream.voted ??
+                                    false || votesCount != 0) {
+                                  for (int i = 0;
+                                      i < widget.stream.streamPollings.length;
+                                      i++) {
+                                    if (widget.stream.streamPollings[i]
+                                            ['user_id'] ==
+                                        currentUserId) {
+                                      if (indexVotes != null) {
+                                        stateStream.deletePolling(
+                                            context,
+                                            widget.stream.id,
+                                            option.value['stream_poll_id'],
+                                            indexVotes!);
+                                      } else {
+                                        stateStream.deletePolling(
+                                            context,
+                                            widget.stream.id,
+                                            option.value['stream_poll_id'],
+                                            widget.stream.streamPollings[i]
+                                                ['stream_poll_option_id']);
+                                      }
+                                    }
+                                    for (int j = 0;
+                                        j < streamPollOptions.length;
+                                        j++) {
+                                      if (keyVotes != null) {
+                                        streamPollOptions[keyVotes!]['count'] =
+                                            streamPollOptions[keyVotes!]
+                                                    ['count'] -
+                                                1;
+                                        stateStream.pickPolling(
+                                            context,
+                                            widget.stream.id,
+                                            option.value['stream_poll_id'],
+                                            option.value['id']);
+                                        indexVotes = option.value['id'];
+                                        keyVotes = option.key;
+                                        option.value['count'] =
+                                            option.value['count'] + 1;
+                                        setState(() {});
+                                      } else {
+                                        if (streamPollOptions[j]['id'] ==
+                                            widget.stream.streamPollings[i]
+                                                ['stream_poll_option_id']) {
+                                          streamPollOptions[j]['count'] =
+                                              streamPollOptions[j]['count'] - 1;
+                                          stateStream.pickPolling(
+                                              context,
+                                              widget.stream.id,
+                                              option.value['stream_poll_id'],
+                                              option.value['id']);
+                                          indexVotes = option.value['id'];
+                                          keyVotes = option.key;
+                                          option.value['count'] =
+                                              option.value['count'] + 1;
+                                          setState(() {});
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
                               }
                             }
                           },

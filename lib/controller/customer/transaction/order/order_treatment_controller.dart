@@ -225,30 +225,25 @@ class OrderTreatmentController extends StateClass {
         "total_paid": totalPaid.value.round()
       };
       print("req order $reqOrder");
-      try {
-        var res = await TransactionService().orderTreatment(reqOrder);
-        print("res order ${jsonEncode(res)}");
-        if (res.success != true && res.message != 'Success') {
-          throw ErrorConfig(
-            cause: ErrorConfig.anotherUnknow,
-            message: res.message.toString(),
-          );
-        }
 
-        // JIKA SUKSES SET ORDER ID
-        orderId.value = res.data!.transaction!.id.toString();
-        // JIKA SUKSES SET bank
-        // // bank.value = bank.value;
-        // JIKA SUKSES SET expireTime
-        expireTime.value = res.data!.payment!.expiryTime.toString();
-        print('orderId ${orderId.value}');
-        // print('bank ${bank.value}');
-        print('expireTime ${expireTime.value}');
-        doInPost();
-        clearVariabel();
-      } catch (e) {
-        print("eeee $e");
+      var res = await TransactionService().orderTreatment(reqOrder);
+      print("res order ${jsonEncode(res)}");
+      if (res.success != true && res.message != 'Success') {
+        throw ErrorConfig(
+          cause: ErrorConfig.anotherUnknow,
+          message: res.message.toString(),
+        );
       }
+
+      // JIKA SUKSES SET ORDER ID
+      orderId.value = res.data!.transaction!.id.toString();
+      if (paymentType.value != "FREE_VOUCHER") {
+        // JIKA SUKSES DAN BUKAN FREE_VOUCHER  SET expireTime
+        expireTime.value = res.data!.payment!.expiryTime.toString();
+      }
+
+      doInPost();
+      clearVariabel();
     });
     isMinorLoading.value = false;
   }

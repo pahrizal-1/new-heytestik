@@ -12,6 +12,7 @@ import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/pages/chat_customer/select_conditions_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/pages/setings&akun/ulasan_settings_page.dart';
+import 'package:heystetik_mobileapps/pages/solution/produk_promo_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/skincare_search_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/pembayaran_produk_page.dart';
 import 'package:heystetik_mobileapps/pages/solution/ulasan_produk_page.dart';
@@ -341,7 +342,9 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                     ),
                     InkWell(
                       onTap: () {
-                        // Get.to(() => PromoPage());
+                        Get.to(() => ProdukPromoPage(
+                              isDetail: true,
+                            ));
                       },
                       child: Stack(
                         children: [
@@ -366,12 +369,12 @@ class _DetailSkinCarePageState extends State<DetailSkinCarePage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Ada Promo Spesial',
+                                      'Cek Promo Spesial',
                                       style: blackHigtTextStyle.copyWith(
                                           fontSize: 15),
                                     ),
                                     Text(
-                                      'Masih ada 6 kupon promo buat kamu!',
+                                      'Masih ada kupon promo buat kamu!',
                                       style: subTitleTextStyle,
                                     ),
                                   ],

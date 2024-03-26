@@ -10,7 +10,8 @@ import '../../theme/theme.dart';
 import '../../widget/promo_kupon_widget.dart';
 
 class ProdukPromoPage extends StatefulWidget {
-  const ProdukPromoPage({super.key});
+  bool isDetail;
+  ProdukPromoPage({this.isDetail = false, super.key});
 
   @override
   State<ProdukPromoPage> createState() => _ProdukPromoPageState();
@@ -118,6 +119,7 @@ class _ProdukPromoPageState extends State<ProdukPromoPage> {
                     child: TextFormField(
                       controller: control,
                       decoration: InputDecoration(
+                        border: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         hintText: 'Masukkan kode voucher',
                       ),
@@ -207,6 +209,8 @@ class _ProdukPromoPageState extends State<ProdukPromoPage> {
                         ...find.map((val) {
                           return InkWell(
                             onTap: () {
+                              if (widget.isDetail) return;
+
                               if (stateOrder.totalPrice.value >
                                   (val.minimumPurchase ?? 0)) {
                                 stateOrder.voucher(val);
@@ -226,6 +230,8 @@ class _ProdukPromoPageState extends State<ProdukPromoPage> {
                         ...data.map((val) {
                           return InkWell(
                             onTap: () {
+                              if (widget.isDetail) return;
+
                               if (stateOrder.totalPrice.value >
                                   (val.minimumPurchase ?? 0)) {
                                 stateOrder.voucher(val);

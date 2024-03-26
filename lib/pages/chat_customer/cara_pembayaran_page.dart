@@ -14,26 +14,22 @@ import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
 import 'package:heystetik_mobileapps/widget/more_dialog_transaksi_widget.dart';
 import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:social_share/social_share.dart';
 import '../../widget/Text_widget.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treatment;
 
 class CaraPembayaranPage extends StatefulWidget {
   int id;
   String orderId;
   int totalPaid;
   String transactionType;
-  int? pax;
-  Treatment.Data2? treatment;
+
   CaraPembayaranPage({
     super.key,
     required this.id,
     required this.orderId,
     required this.totalPaid,
     required this.transactionType,
-    this.pax = 0,
-    this.treatment,
   });
 
   @override
@@ -58,8 +54,8 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       state.isMinorLoading.value = true;
       method = await state.getPaymentmethod(context, widget.id);
-      if (method!.howToPays!.isNotEmpty) {
-        for (int i = 0; i < method!.howToPays!.length; i++) {
+      if (method?.howToPays?.isNotEmpty ?? false) {
+        for (int i = 0; i < (method?.howToPays?.length ?? 0); i++) {
           isVisibility.add(false);
         }
       }
@@ -121,6 +117,18 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
         );
         break;
       case 'Produk':
+        showModalBottomSheet(
+          isDismissible: false,
+          context: context,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadiusDirectional.only(
+              topEnd: Radius.circular(25),
+              topStart: Radius.circular(25),
+            ),
+          ),
+          builder: (context) => detailProduk(context),
+        );
         break;
     }
   }
@@ -160,7 +168,7 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                 height: 22,
               ),
               Text(
-                '${widget.treatment?.clinic?.name}',
+                '${stateTreatment.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.clinic?.name}',
                 style: blackTextStyle.copyWith(
                   fontSize: 15,
                 ),
@@ -177,7 +185,8 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
               ),
               Obx(
                 () => TextBoldSpacebetwen(
-                  title: '${widget.treatment?.name} ${widget.pax} pax',
+                  title:
+                      '${stateTreatment.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].treatment?.name} ${stateTreatment.transactionStatus.value.data?.transaction?.transactionTreatmentItems?[0].pax} pax',
                   title2: CurrencyFormat.convertToIdr(
                       stateTreatment.transactionStatus.value.data?.transaction
                           ?.totalPrice,
@@ -246,6 +255,153 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                   title: 'Total Pembayaran',
                   title2: CurrencyFormat.convertToIdr(
                     stateTreatment
+                        .transactionStatus.value.data?.transaction?.totalPaid,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget detailProduk(BuildContext context) {
+    return Wrap(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.only(left: 25, right: 25, top: 36, bottom: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Image.asset(
+                      'assets/icons/danger-icons.png',
+                      width: 20,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 19,
+                  ),
+                  Text(
+                    'Detail Harga',
+                    style: blackTextStyle.copyWith(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 22,
+              ),
+              Text(
+                'Harga',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              ...?stateProduk.transactionStatus.value.data?.transaction
+                  ?.transactionProductItems
+                  ?.map((val) {
+                return TextBoldSpacebetwen(
+                  title: "${val.product?.name} . ${val.qty}x",
+                  title2: CurrencyFormat.convertToIdr(val.price, 0),
+                  title1: '',
+                );
+              }).toList(),
+              const SizedBox(
+                height: 5,
+              ),
+              TextBoldSpacebetwen(
+                title: "Total Harga",
+                title2: CurrencyFormat.convertToIdr(
+                    stateProduk
+                        .transactionStatus.value.data?.transaction?.totalPrice,
+                    0),
+                title1: '',
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              dividergrey(),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Biaya Lainnya',
+                style: subTitleTextStyle.copyWith(fontSize: 15),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Tax',
+                  title2: CurrencyFormat.convertToIdr(
+                    stateProduk.transactionStatus.value.data?.transaction?.tax,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya Pengiriman',
+                  title2: CurrencyFormat.convertToIdr(
+                      stateProduk.transactionStatus.value.data?.transaction
+                          ?.deliveryFee,
+                      0),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Diskon Voucher',
+                  title2: CurrencyFormat.convertToIdr(
+                      stateProduk.transactionStatus.value.data?.transaction
+                          ?.totalDiscount,
+                      0),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Biaya transaksi',
+                  title2: CurrencyFormat.convertToIdr(
+                    stateProduk.transactionStatus.value.data?.transaction
+                        ?.transactionFee,
+                    0,
+                  ),
+                  title1: '',
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              dividergrey(),
+              Obx(
+                () => TextBoldSpacebetwen(
+                  title: 'Total Pembayaran',
+                  title2: CurrencyFormat.convertToIdr(
+                    stateProduk
                         .transactionStatus.value.data?.transaction?.totalPaid,
                     0,
                   ),
@@ -354,16 +510,16 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         method?.name ?? '',
-                        style: blackTextStyle.copyWith(fontSize: 15),
+                        style: blackHigtTextStyle.copyWith(fontSize: 15),
                       ),
-                      const Spacer(),
                       Image.network(
                         '${Global.FILE}/${method?.mediaPaymentMethod?.media?.path.toString()}',
-                        width: 60,
-                      )
+                        width: 62,
+                      ),
                     ],
                   ),
                   const SizedBox(
@@ -419,7 +575,14 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                                 "");
                           }
                         case 'QR_CODE':
-                          return Container();
+                          return Center(
+                            child: QrImageView(
+                              data: stateTreatment
+                                  .transactionStatus.value.data?.qrString,
+                              version: QrVersions.auto,
+                              size: 200.0,
+                            ),
+                          );
                         case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                           return Container();
                         default:
@@ -435,12 +598,44 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         case 'FREE':
                           return Container();
                         case 'VIRTUAL_ACCOUNT':
-                          return virtualAccount(stateProduk.transactionStatus
-                                  .value.data?.transaction?.vaNumber
-                                  .toString() ??
-                              "");
+                          if (stateProduk
+                                      .transactionStatus
+                                      .value
+                                      .data
+                                      ?.transaction
+                                      ?.paymentMethod
+                                      ?.paymentGateway ==
+                                  "Midtrans" &&
+                              stateProduk.transactionStatus.value.data
+                                      ?.paymentMethod ==
+                                  "VIRTUAL_ACCOUNT" &&
+                              stateProduk.transactionStatus.value.data
+                                      ?.paymentType ==
+                                  "MANDIRI") {
+                            return billerCode(
+                                stateProduk.transactionStatus.value.data
+                                        ?.transaction?.billerCode
+                                        .toString() ??
+                                    "",
+                                stateProduk.transactionStatus.value.data
+                                        ?.transaction?.billKey
+                                        .toString() ??
+                                    "");
+                          } else {
+                            return virtualAccount(stateProduk.transactionStatus
+                                    .value.data?.transaction?.vaNumber
+                                    .toString() ??
+                                "");
+                          }
                         case 'QR_CODE':
-                          return Container();
+                          return Center(
+                            child: QrImageView(
+                              data: stateProduk
+                                  .transactionStatus.value.data?.qrString,
+                              version: QrVersions.auto,
+                              size: 200.0,
+                            ),
+                          );
                         case 'BANK_TRANSFER_MANUAL_VERIFICATION':
                           return Container();
                         default:
@@ -491,16 +686,15 @@ class _CaraPembayaranPageState extends State<CaraPembayaranPage> {
                         ],
                       ),
                       const Spacer(),
-                      if (widget.transactionType != 'Produk')
-                        InkWell(
-                          onTap: () {
-                            _detail();
-                          },
-                          child: Text(
-                            'Lihat Detail',
-                            style: grenTextStyle.copyWith(fontSize: 14),
-                          ),
+                      InkWell(
+                        onTap: () {
+                          _detail();
+                        },
+                        child: Text(
+                          'Lihat Detail',
+                          style: grenTextStyle.copyWith(fontSize: 14),
                         ),
+                      ),
                       const SizedBox(
                         width: 8,
                       ),

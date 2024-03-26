@@ -1,13 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
-import 'dart:convert';
 import 'dart:io';
 import 'package:heystetik_mobileapps/core/convert_date.dart';
 import 'package:heystetik_mobileapps/core/currency_format.dart';
 import 'package:heystetik_mobileapps/core/global.dart';
 import 'package:heystetik_mobileapps/core/local_storage.dart';
-import 'package:heystetik_mobileapps/models/customer/treatmet_model.dart'
-    as Treat;
 import 'package:flutter/material.dart';
 import 'package:from_css_color/from_css_color.dart';
 import 'package:get/get.dart';
@@ -270,21 +267,6 @@ class _HomeMinheyPageState extends State<HomeMinheyPage> {
                                         isWillPop: false,
                                         orderId: val.transactionId.toString(),
                                         expireTime: '',
-                                        pax: val
-                                                .detail!
-                                                .transactionTreatmentItems?[0]
-                                                .pax ??
-                                            0,
-                                        treatment: Treat.Data2.fromJson(
-                                          jsonDecode(
-                                            jsonEncode(
-                                              val
-                                                  .detail!
-                                                  .transactionTreatmentItems?[0]
-                                                  .treatment,
-                                            ),
-                                          ),
-                                        ),
                                         paymentMethodId:
                                             val.detail!.paymentMethodId!,
                                       ));

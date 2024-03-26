@@ -12,7 +12,6 @@ import 'package:heystetik_mobileapps/pages/stream_page/user_stream_post.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/button_widget.dart';
 import 'package:heystetik_mobileapps/widget/show_modal_dialog.dart';
-import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 import '../../theme/theme.dart';
 import '../setings&akun/akun_home_page.dart';
 import 'package:heystetik_mobileapps/models/customer/user_profile_overview_model.dart'
@@ -454,11 +453,6 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                                       widget.username,
                                     );
                                     setState(() {});
-                                    SnackbarWidget.getSuccessSnackbar(
-                                      context,
-                                      'Info',
-                                      'Unblock @${widget.username} berhasil',
-                                    );
                                   } else {
                                     blocked = true;
                                     stateStream.blockUser(
@@ -466,11 +460,6 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
                                       widget.username,
                                     );
                                     setState(() {});
-                                    SnackbarWidget.getSuccessSnackbar(
-                                      context,
-                                      'Info',
-                                      'Block @${widget.username} berhasil',
-                                    );
                                   }
                                   Get.back();
                                 },
@@ -610,53 +599,37 @@ class _UserFollowedStreamPageState extends State<UserFollowedStreamPage> {
             const SizedBox(
               height: 20,
             ),
-            (blocked ?? (userOverview?.blocked ?? false))
-                ? Padding(
-                    padding: const EdgeInsets.only(
-                      top: 70,
-                      left: 32,
-                      right: 32,
+            if (blocked ?? (userOverview?.blocked ?? false))
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 70,
+                  left: 32,
+                  right: 32,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset('assets/icons/lock-blokir.svg'),
+                    Text(
+                      '@${widget.username} is Blocked',
+                      style: blackHigtTextStyle.copyWith(fontSize: 18),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset('assets/icons/lock-blokir.svg'),
-                        Text(
-                          '@${widget.username} is Blocked',
-                          style: blackHigtTextStyle.copyWith(fontSize: 18),
-                        ),
-                        SizedBox(
-                          height: 14,
-                        ),
-                        Text(
-                          'Kamu tidak bisa melihat postingan ini maupun mengirimkan pesan. Buka untuk melihat postingan ini.',
-                          style: blackRegulerTextStyle,
-                          textAlign: TextAlign.center,
-                        ),
-                        Spacer(),
-                        SnackBar(
-                            backgroundColor: blackColor,
-                            content: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    'assets/icons/centang22.png',
-                                    width: 24,
-                                  ),
-                                  Text('Block @lauranabilah berhasil')
-                                ],
-                              ),
-                            )),
-                      ],
+                    SizedBox(
+                      height: 14,
                     ),
-                  )
-                : UserStreamPost(
-                    username: widget.username,
-                    fullname: widget.fullname,
-                  ),
+                    Text(
+                      'Kamu tidak bisa melihat postingan ini maupun mengirimkan pesan. Buka untuk melihat postingan ini.',
+                      style: blackRegulerTextStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              )
+            else
+              UserStreamPost(
+                username: widget.username,
+                fullname: widget.fullname,
+              ),
           ],
         ),
       ),
