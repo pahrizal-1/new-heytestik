@@ -110,7 +110,7 @@ class TampilanRight extends StatelessWidget {
                           size: 18,
                         ),
                         Text(
-                          '${treatment.rating} (120k)',
+                          '${treatment.rating} (0k)',
                           style: subGreyTextStyle.copyWith(
                               fontSize: 11, color: const Color(0xff9B9B9B)),
                         ),
