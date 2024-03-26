@@ -52,7 +52,7 @@ class _ListChatPageState extends State<ListChatPage> {
                         print(state.recentChat.value!.data![i].lastChat!.receiverId!);
                         print(state.recentChat.value!.data![i].customer!.fullname);
                         print(state.recentChat.value!.data![i].doctor!.fullname);
-                        String refresh = await Navigator.push(
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: ((context) {
@@ -89,12 +89,11 @@ class _ListChatPageState extends State<ListChatPage> {
                               );
                             }),
                           ),
-                        );
-                        if (refresh == 'refresh') {
+                        ).then((value) {
                           setState(() {
                             state.getRecentChat(context, search: search);
                           });
-                        }
+                        });
                       },
                       // doctorId:
                       //     state.recentChat.value!.data![i].doctorId!.toInt(),

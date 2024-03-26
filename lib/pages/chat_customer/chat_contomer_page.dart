@@ -668,6 +668,201 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                     timetitle: formattedTime,
                                     title: msglist![index].message,
                                   );
+                                } else if (msglist![index].senderId != userID && msglist![index].message == '#####') {
+                                  print('dsini ga cok');
+                                  return Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              penerima,
+                                              style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: FutureBuilder(
+                                            future: doktorState.detailConsultation(context, widget.id ?? 0),
+                                            builder: ((context, snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Center(child: CircularProgressIndicator());
+                                              }
+                                              if (snapshot.connectionState == ConnectionState.done) {
+                                                print('data kesini');
+                                                return Padding(
+                                                  padding: const EdgeInsets.only(top: 10),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                                                        height: 43,
+                                                        width: 270,
+                                                        decoration: BoxDecoration(color: greenColor, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
+                                                        child: Text(
+                                                          'Rekomendasi Dokter',
+                                                          style: whiteTextStyle.copyWith(fontSize: 15),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                                                        // height: 299,
+                                                        width: 270,
+                                                        color: whiteColor,
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          mainAxisAlignment: MainAxisAlignment.center,
+                                                          children: [
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            const Text(
+                                                              'Obat',
+                                                              style: TextStyle(fontSize: 15),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 10),
+                                                              child: ListView.builder(
+                                                                  shrinkWrap: true,
+                                                                  itemCount: doktorState.data.value.consultationRecipeDrug?.length,
+                                                                  itemBuilder: (context, index) {
+                                                                    return Column(
+                                                                      children: [
+                                                                        Row(
+                                                                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Expanded(
+                                                                              child: Text(
+                                                                                doktorState.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
+                                                                                style: grenTextStyle.copyWith(fontSize: 12),
+                                                                              ),
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Text(
+                                                                                doktorState.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                                maxLines: 1,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                style: greyTextStyle,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 5,
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                            ),
+                                                            Divider(
+                                                              thickness: 2,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            const Text(
+                                                              'Skincare',
+                                                              style: TextStyle(fontSize: 15),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 10),
+                                                              child: ListView.builder(
+                                                                  shrinkWrap: true,
+                                                                  itemCount: doktorState.data.value.consultationRecomendationSkincare?.length,
+                                                                  itemBuilder: (context, index) {
+                                                                    return Column(
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              doktorState.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
+                                                                              style: grenTextStyle.copyWith(fontSize: 12),
+                                                                            ),
+                                                                            Text(
+                                                                              doktorState.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
+                                                                              style: greyTextStyle,
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 5,
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                            ),
+                                                            Divider(
+                                                              thickness: 2,
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            const Text(
+                                                              'Treatment',
+                                                              style: TextStyle(fontSize: 15),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            Container(
+                                                              margin: EdgeInsets.only(top: 10),
+                                                              child: ListView.builder(
+                                                                  shrinkWrap: true,
+                                                                  itemCount: doktorState.data.value.consultationRecomendationTreatment?.length,
+                                                                  itemBuilder: (context, index) {
+                                                                    return Column(
+                                                                      children: [
+                                                                        Row(
+                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Text(
+                                                                              doktorState.data.value.consultationRecomendationTreatment?[index].treatmentType ?? '-',
+                                                                              style: grenTextStyle.copyWith(fontSize: 12),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        SizedBox(
+                                                                          height: 5,
+                                                                        ),
+                                                                      ],
+                                                                    );
+                                                                  }),
+                                                            ),
+                                                            const SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            const ButtonGreenWidget(title: 'Lihat Detail')
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              }
+                                              return Container();
+                                            }),
+                                          ),
+                                        ),
+                                        // Align(
+                                        //     alignment: Alignment.centerRight,
+                                        //     child: RekomendasiDokterWidget(id: widget.id!.toInt(),)),
+                                      ],
+                                    ),
+                                  );
                                 } else if (msglist![index].senderId == userID && msglist![index].mediaChatMessages!.length == 0) {
                                   return ChatRight(
                                     imgUser: imagePenerima != "" ? '${Global.FILE}/$imagePenerima' : namesImguser,
@@ -859,208 +1054,6 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
                                                 color: subgreenColor,
                                                 title: msglist![index].message.toString(),
                                               ),
-                                  );
-                                } else if (msglist![index].senderId == userID && msglist![index].message == '#####') {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              penerima,
-                                              style: blackTextStyle.copyWith(fontSize: 15, color: const Color(0xFF616161)),
-                                            ),
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                          ],
-                                        ),
-                                        Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: FutureBuilder(
-                                            future: doktorState.detailConsultation(context, widget.id!),
-                                            builder: ((context, snapshot) {
-                                              if (snapshot.connectionState == ConnectionState.waiting) {
-                                                return Center(child: CircularProgressIndicator());
-                                              }
-                                              if (snapshot.connectionState == ConnectionState.done) {
-                                                return Padding(
-                                                  padding: const EdgeInsets.only(top: 10),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Container(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                                                        height: 43,
-                                                        width: 270,
-                                                        decoration: BoxDecoration(color: greenColor, borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-                                                        child: Text(
-                                                          'Rekomendasi Dokter',
-                                                          style: whiteTextStyle.copyWith(fontSize: 15),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-                                                        // height: 299,
-                                                        width: 270,
-                                                        color: whiteColor,
-                                                        child: Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          mainAxisAlignment: MainAxisAlignment.center,
-                                                          children: [
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            const Text(
-                                                              'Obat',
-                                                              style: TextStyle(fontSize: 15),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 10),
-                                                              child: ListView.builder(
-                                                                  shrinkWrap: true,
-                                                                  itemCount: doktorState.data.value.consultationRecipeDrug?.length,
-                                                                  itemBuilder: (context, index) {
-                                                                    return Column(
-                                                                      children: [
-                                                                        Row(
-                                                                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                          children: [
-                                                                            Expanded(
-                                                                              child: Text(
-                                                                                doktorState.data.value.consultationRecipeDrug?[index].product?.name ?? '-',
-                                                                                style: grenTextStyle.copyWith(fontSize: 12),
-                                                                              ),
-                                                                            ),
-                                                                            Expanded(
-                                                                              child: Text(
-                                                                                doktorState.data.value.consultationRecipeDrug?[index].product?.drugDetail?.specificationDose ?? '-',
-                                                                                maxLines: 1,
-                                                                                overflow: TextOverflow.ellipsis,
-                                                                                style: greyTextStyle,
-                                                                              ),
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height: 5,
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                  }),
-                                                            ),
-                                                            Divider(
-                                                              thickness: 2,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            const Text(
-                                                              'Skincare',
-                                                              style: TextStyle(fontSize: 15),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 10),
-                                                              child: ListView.builder(
-                                                                  shrinkWrap: true,
-                                                                  itemCount: doktorState.data.value.consultationRecomendationSkincare?.length,
-                                                                  itemBuilder: (context, index) {
-                                                                    return Column(
-                                                                      children: [
-                                                                        Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                          children: [
-                                                                            Text(
-                                                                              doktorState.data.value.consultationRecomendationSkincare?[index].product?.name ?? '-',
-                                                                              style: grenTextStyle.copyWith(fontSize: 12),
-                                                                            ),
-                                                                            Text(
-                                                                              doktorState.data.value.consultationRecomendationSkincare?[index].product?.drugDetail?.specificationDose ?? '-',
-                                                                              style: greyTextStyle,
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height: 5,
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                  }),
-                                                            ),
-                                                            Divider(
-                                                              thickness: 2,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            const Text(
-                                                              'Treatment',
-                                                              style: TextStyle(fontSize: 15),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            Container(
-                                                              margin: EdgeInsets.only(top: 10),
-                                                              child: ListView.builder(
-                                                                  shrinkWrap: true,
-                                                                  itemCount: doktorState.data.value.consultationRecomendationTreatment?.length,
-                                                                  itemBuilder: (context, index) {
-                                                                    return Column(
-                                                                      children: [
-                                                                        Row(
-                                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                          children: [
-                                                                            Text(
-                                                                              doktorState.data.value.consultationRecomendationTreatment?[index].treatmentType ?? '-',
-                                                                              style: grenTextStyle.copyWith(fontSize: 12),
-                                                                            ),
-                                                                          ],
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height: 5,
-                                                                        ),
-                                                                      ],
-                                                                    );
-                                                                  }),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 5,
-                                                            ),
-                                                            ButtonGreenWidget(
-                                                                onPressed: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder: (context) => TabBarChat(id: widget.id),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                title: 'Lihat Detail')
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              }
-                                              return Container();
-                                            }),
-                                          ),
-                                        ),
-                                        // Align(
-                                        //     alignment: Alignment.centerRight,
-                                        //     child: RekomendasiDokterWidget(id: widget.id!.toInt(),)),
-                                      ],
-                                    ),
                                   );
                                 } else if (msglist![index].senderId != userID && (msglist![index].mediaChatMessages?.length ?? 0) > 0) {
                                   return Padding(
@@ -1465,7 +1458,9 @@ class AkhiriConsultasi extends StatelessWidget {
               Expanded(
                 child: ButtonWhiteWidget(
                   title: 'Kemabli',
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
               SizedBox(
