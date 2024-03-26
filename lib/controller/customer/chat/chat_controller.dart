@@ -11,8 +11,11 @@ import 'package:heystetik_mobileapps/models/customer/detail_consultation_model.d
     as Detail;
 import 'package:heystetik_mobileapps/models/customer/gallery_file_model.dart'
     as Gallery;
+import 'package:heystetik_mobileapps/service/customer/transaction/transaction_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../../../core/local_storage.dart';
 import '../../../core/state_class.dart';
@@ -441,6 +444,38 @@ class CustomerChatController extends StateClass {
       }
     });
     isLoading.value = false;
+  }
+
+  Future<void> getInvoice(
+      BuildContext context, String transactionID, String invoiceType,
+      {required Function() doInPost}) async {
+    try {
+      isMinorLoading.value = true;
+      await ErrorConfig.doAndSolveCatchInContext(context, () async {
+        try {
+          print("INI GIMANA SIH");
+          var res =
+              await TransactionService().getInvoice(invoiceType, transactionID);
+          print("INI SAMPE MANA INI");
+          var tempDir = await getTemporaryDirectory();
+          final fileName = '/invoice-$transactionID.pdf';
+          print("INI SAMPE SINI");
+          var file =
+              File(tempDir.path + fileName).openSync(mode: FileMode.write);
+          print(res.runtimeType);
+          file.writeFromSync(res);
+          print("INI SAMPE SINI");
+          await file.close();
+          print(fileName);
+          OpenFile.open(tempDir.path + fileName);
+        } catch (error) {
+          print(error);
+        }
+      });
+      isMinorLoading.value = false;
+    } catch (error) {
+      print(error);
+    }
   }
 
   onChecklistObat(int number, bool isAll) async {
