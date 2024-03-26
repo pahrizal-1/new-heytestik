@@ -189,53 +189,51 @@ class ProductTreatmentDoctor extends StatelessWidget {
           //     ),
           //   ),
           // ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  namaTreatmen,
-                  style: blackHigtTextStyle.copyWith(
-                      fontSize: 13,
-                      fontWeight: regular,
-                      overflow: TextOverflow.ellipsis,
-                      color: greenColor),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'cost',
-                  style: blackHigtTextStyle.copyWith(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                namaTreatmen,
+                style: blackHigtTextStyle.copyWith(
                     fontSize: 13,
                     fontWeight: regular,
                     overflow: TextOverflow.ellipsis,
-                  ),
+                    color: greenColor),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'cost',
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: regular,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
-                  height: 5,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Recov. Time',
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: regular,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                Text(
-                  'Recov. Time',
-                  style: blackHigtTextStyle.copyWith(
-                    fontSize: 13,
-                    fontWeight: regular,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                'Type',
+                style: blackHigtTextStyle.copyWith(
+                  fontSize: 13,
+                  fontWeight: regular,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  'Type',
-                  style: blackHigtTextStyle.copyWith(
-                    fontSize: 13,
-                    fontWeight: regular,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
           SizedBox(
             width: 10,

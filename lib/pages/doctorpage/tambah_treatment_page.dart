@@ -18,13 +18,17 @@ class TambahTreatmentCatatanDoktor extends StatefulWidget {
   const TambahTreatmentCatatanDoktor({super.key});
 
   @override
-  State<TambahTreatmentCatatanDoktor> createState() => _TambahTreatmentCatatanDoktorState();
+  State<TambahTreatmentCatatanDoktor> createState() =>
+      _TambahTreatmentCatatanDoktorState();
 }
 
-class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDoktor> {
+class _TambahTreatmentCatatanDoktorState
+    extends State<TambahTreatmentCatatanDoktor> {
   final TreatmentDoctorController state = Get.put(TreatmentDoctorController());
-  final TreatmentRecommendationController stateTreatment = Get.put(TreatmentRecommendationController());
-  final DoctorConsultationController stateDoctor = Get.put(DoctorConsultationController());
+  final TreatmentRecommendationController stateTreatment =
+      Get.put(TreatmentRecommendationController());
+  final DoctorConsultationController stateDoctor =
+      Get.put(DoctorConsultationController());
   TextEditingController searchController = TextEditingController();
   ScrollController scrollController = ScrollController();
   String type = '';
@@ -89,14 +93,16 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
             const Spacer(),
             InkWell(
               onTap: () {
-                if (stateDoctor.listTreatmentMethods.isNotEmpty || stateTreatment.methodsTreatment.isNotEmpty) {
+                if (stateDoctor.listTreatmentMethods.isNotEmpty ||
+                    stateTreatment.methodsTreatment.isNotEmpty) {
                   Navigator.pop(
                     context,
                   );
                 } else {
                   showDialog(
                     context: context,
-                    builder: (context) => AlertWidget(subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
+                    builder: (context) => AlertWidget(
+                        subtitle: 'Silahkan Pilih Terlebih Dahulu)'),
                   );
                 }
               },
@@ -128,11 +134,16 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                             onFieldSubmitted: (v) {
                               if (searchController.text == '') {
                                 setState(() {
-                                  context.read<TreatmentDoctorController>().refresh(context, search: '');
+                                  context
+                                      .read<TreatmentDoctorController>()
+                                      .refresh(context, search: '');
                                 });
                               } else {
                                 setState(() {
-                                  context.read<TreatmentDoctorController>().refresh(context, search: searchController.text);
+                                  context
+                                      .read<TreatmentDoctorController>()
+                                      .refresh(context,
+                                          search: searchController.text);
                                 });
                               }
                             },
@@ -161,16 +172,28 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const FilterPageTreatment(),
+                                builder: (context) =>
+                                    const FilterPageTreatment(),
                               ),
                             ).then((value) => setState(() {
-                                  print('state.total ${state.totalPage.value} ${state.currentPage.value}');
-                                  context.read<TreatmentDoctorController>().refresh(
+                                  print(
+                                      'state.total ${state.totalPage.value} ${state.currentPage.value}');
+                                  context
+                                      .read<TreatmentDoctorController>()
+                                      .refresh(
                                         context,
                                         // 1,
                                         // search: '',
-                                        minPrice: state.minPriceController.text.isEmpty ? null : int.parse(state.minPriceController.text),
-                                        maxPrice: state.maxPriceController.text.isEmpty ? null : int.parse(state.maxPriceController.text),
+                                        minPrice: state
+                                                .minPriceController.text.isEmpty
+                                            ? null
+                                            : int.parse(
+                                                state.minPriceController.text),
+                                        maxPrice: state
+                                                .maxPriceController.text.isEmpty
+                                            ? null
+                                            : int.parse(
+                                                state.maxPriceController.text),
                                         methods: state.filterMethods,
                                       );
                                 }));
@@ -199,7 +222,8 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -212,14 +236,18 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                     onPressed: () {
                                       if (searchController.text == '') {
                                         setState(() {
-                                          context.read<TreatmentDoctorController>().refresh(
+                                          context
+                                              .read<TreatmentDoctorController>()
+                                              .refresh(
                                                 context,
                                                 search: '',
                                               );
                                         });
                                       } else {
                                         setState(() {
-                                          context.read<TreatmentDoctorController>().refresh(
+                                          context
+                                              .read<TreatmentDoctorController>()
+                                              .refresh(
                                                 context,
                                                 search: '',
                                               );
@@ -281,25 +309,43 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                             ? Center(
                                 child: CircularProgressIndicator(),
                               )
-                            : Consumer<TreatmentDoctorController>(builder: (_, state, __) {
+                            : Consumer<TreatmentDoctorController>(
+                                builder: (_, state, __) {
                                 return Container(
                                   child: ListView.builder(
                                       // controller: scrollController,
                                       shrinkWrap: true,
-                                      itemCount: state.hasMore.value ? state.listOfTreatment.length + 1 : state.listOfTreatment.length + 0,
+                                      itemCount: state.hasMore.value
+                                          ? state.listOfTreatment.length + 1
+                                          : state.listOfTreatment.length + 0,
                                       physics: ClampingScrollPhysics(),
                                       itemBuilder: (context, i) {
                                         if (i < state.listOfTreatment.length) {
                                           return ProductTreatmentDoctor(
-                                            treatmentData: state.listOfTreatment[i],
-                                            namaKlinik: state.listOfTreatment[i].clinics?.map((e) => e.name).toList().toString() ?? '-',
+                                            treatmentData:
+                                                state.listOfTreatment[i],
+                                            namaKlinik: state
+                                                    .listOfTreatment[i].clinics
+                                                    ?.map((e) => e.name)
+                                                    .toList()
+                                                    .toString() ??
+                                                '-',
                                             // namaKlinik: state.listOfTreatment[i].clinic?.name ?? '-',
-                                            recovTime: state.listOfTreatment[i].recoveryTime ?? '-',
-                                            typeTreatment: state.listOfTreatment[i].method ?? '-',
-                                            namaTreatmen: state.listOfTreatment[i].treatmentType ?? '-',
+                                            recovTime: state.listOfTreatment[i]
+                                                    .recoveryTime ??
+                                                '-',
+                                            typeTreatment: state
+                                                    .listOfTreatment[i]
+                                                    .method ??
+                                                '-',
+                                            namaTreatmen: state
+                                                    .listOfTreatment[i]
+                                                    .treatmentType ??
+                                                '-',
                                             // diskonProduk: '0',
                                             // hargaDiskon: '0',
-                                            harga: "${state.listOfTreatment[i].cost}",
+                                            harga:
+                                                "${state.listOfTreatment[i].cost}",
                                             // urlImg: state.listOfTreatment[i].mediaTreatments!.isEmpty ? "" : "${Global.FILE}/${state.listOfTreatment[i].mediaTreatments![0].media!.path!}",
                                             // rating: '${state.listOfTreatment[i].rating} (0k)',
                                             // km: '${state.listOfTreatment[i].distance ?? '0'} km',
@@ -310,17 +356,35 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                                   setState(() {
                                                     state.toogle.remove(i);
                                                     // stateDoctor.listTreatmentNote.remove(stateDoctor.listTreatmentNote[i]);
-                                                    stateDoctor.listTreatmentMethods.remove(stateDoctor.listTreatmentMethods[i]);
-                                                    stateTreatment.methodsTreatment.remove(stateTreatment.methodsTreatment[i]);
-                                                    print('delete ${stateDoctor.listTreatmentNote}');
+                                                    stateDoctor
+                                                        .listTreatmentMethods
+                                                        .remove(stateDoctor
+                                                            .listTreatmentMethods[i]);
+                                                    stateTreatment
+                                                        .methodsTreatment
+                                                        .remove(stateTreatment
+                                                            .methodsTreatment[i]);
+                                                    print(
+                                                        'delete ${stateDoctor.listTreatmentNote}');
                                                   });
                                                 } else {
                                                   setState(() {
                                                     state.toogle.add(i);
-                                                    stateDoctor.listTreatmentMethods.add(state.listOfTreatment[i].treatmentType.toString());
-                                                    stateTreatment.methodsTreatment.add(state.listOfTreatment[i].treatmentType.toString());
+                                                    stateDoctor
+                                                        .listTreatmentMethods
+                                                        .add(state
+                                                            .listOfTreatment[i]
+                                                            .treatmentType
+                                                            .toString());
+                                                    stateTreatment
+                                                        .methodsTreatment
+                                                        .add(state
+                                                            .listOfTreatment[i]
+                                                            .treatmentType
+                                                            .toString());
 
-                                                    print('list ${stateTreatment.methodsTreatment}');
+                                                    print(
+                                                        'list ${stateTreatment.methodsTreatment}');
                                                     // stateDoctor.listTreatmentNote.add();
                                                   });
                                                 }
@@ -330,14 +394,18 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                                 height: 29,
                                                 width: 40,
                                                 decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(9),
-                                                  border: Border.all(color: greenColor),
+                                                  borderRadius:
+                                                      BorderRadius.circular(9),
+                                                  border: Border.all(
+                                                      color: greenColor),
                                                 ),
                                                 child: state.toogle.contains(i)
                                                     ? Center(
                                                         child: Text(
                                                           '-',
-                                                          style: grenTextStyle.copyWith(fontSize: 20),
+                                                          style: grenTextStyle
+                                                              .copyWith(
+                                                                  fontSize: 20),
                                                         ),
                                                       )
                                                     : Icon(
@@ -349,7 +417,8 @@ class _TambahTreatmentCatatanDoktorState extends State<TambahTreatmentCatatanDok
                                           );
                                         } else {
                                           return Padding(
-                                            padding: EdgeInsets.symmetric(vertical: 10),
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 10),
                                             child: Center(
                                               child: SizedBox(),
                                             ),
