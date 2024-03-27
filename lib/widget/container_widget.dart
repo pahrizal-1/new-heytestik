@@ -309,6 +309,13 @@ class ContainerProdukSkicare extends StatefulWidget {
 
 class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
   final CustomerChatController state = Get.put(CustomerChatController());
+  TextEditingController controll = TextEditingController();
+  @override
+  void initState() {
+    controll.text = state.listSkincare.value[widget.index]['notes'];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -442,18 +449,18 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  '0x sehari',
-                                  style: TextStyle(
-                                    fontFamily: 'ProximaNova',
-                                    fontSize: 12,
-                                    height: 1.3,
-                                    letterSpacing: 0.5,
-                                    color: fromCssColor(
-                                      '#9B9B9B',
-                                    ),
-                                  ),
-                                ),
+                                // Text(
+                                //   '0x sehari',
+                                //   style: TextStyle(
+                                //     fontFamily: 'ProximaNova',
+                                //     fontSize: 12,
+                                //     height: 1.3,
+                                //     letterSpacing: 0.5,
+                                //     color: fromCssColor(
+                                //       '#9B9B9B',
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
@@ -487,10 +494,12 @@ class _ContainerProdukSkicareState extends State<ContainerProdukSkicare> {
                       width: 250,
                       height: 40,
                       child: TextFormField(
-                        onChanged: (value) {
-                          state.listSkincare.value[widget.index]['notes'] =
-                              value;
-                        },
+                        // onChanged: (value) {
+                        //   state.listSkincare.value[widget.index]['notes'] =
+                        //       value;
+                        // },
+                        readOnly: true,
+                        controller: controll,
                         decoration: InputDecoration(
                           labelText: 'Catatan',
                           enabledBorder: OutlineInputBorder(
@@ -596,6 +605,12 @@ class ContainerProdukObat extends StatefulWidget {
 
 class _ContainerProdukObatState extends State<ContainerProdukObat> {
   final CustomerChatController state = Get.put(CustomerChatController());
+  TextEditingController controll = TextEditingController();
+  @override
+  void initState() {
+    controll.text = state.listObat.value[widget.index]['notes'];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -732,18 +747,18 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                                         ),
                                       ),
                                     ),
-                                    Text(
-                                      '0x sehari',
-                                      style: TextStyle(
-                                        fontFamily: 'ProximaNova',
-                                        fontSize: 12,
-                                        height: 1.3,
-                                        letterSpacing: 0.5,
-                                        color: fromCssColor(
-                                          '#9B9B9B',
-                                        ),
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   '0x sehari',
+                                    //   style: TextStyle(
+                                    //     fontFamily: 'ProximaNova',
+                                    //     fontSize: 12,
+                                    //     height: 1.3,
+                                    //     letterSpacing: 0.5,
+                                    //     color: fromCssColor(
+                                    //       '#9B9B9B',
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ],
@@ -800,9 +815,11 @@ class _ContainerProdukObatState extends State<ContainerProdukObat> {
                       width: 250,
                       height: 40,
                       child: TextFormField(
-                        onChanged: (value) {
-                          state.listObat.value[widget.index]['notes'] = value;
-                        },
+                        // onChanged: (value) {
+                        //   state.listObat.value[widget.index]['notes'] = value;
+                        // },
+                        readOnly: true,
+                        controller: controll,
                         decoration: InputDecoration(
                           labelText: 'Catatan',
                           enabledBorder: OutlineInputBorder(
