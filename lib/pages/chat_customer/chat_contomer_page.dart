@@ -25,6 +25,7 @@ import '../../core/local_storage.dart';
 import '../../service/doctor/consultation/notif_service.dart';
 import '../../service/doctor/recent_chat/recent_chat_service.dart';
 import '../../theme/theme.dart';
+import '../../widget/alert_dialog.dart';
 import '../../widget/chat_widget.dart';
 import '../../widget/preview_widget.dart';
 import '../../widget/text_button_vaigator.dart';
@@ -495,7 +496,11 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
           actions: [
             TextButton(
                 onPressed: () {
-                  customeModal(context, AkhiriConsultasi());
+                  customeModal(
+                      context,
+                      AkhiriConsultasi(
+                        id: widget.id ?? 0,
+                      ));
                 },
                 child: Text(
                   'Selesai',
@@ -1429,12 +1434,16 @@ class _ChatCostomerPageState extends State<ChatCostomerPage> {
 }
 
 class AkhiriConsultasi extends StatelessWidget {
+  final int id;
   const AkhiriConsultasi({
     super.key,
+    required this.id,
   });
 
   @override
   Widget build(BuildContext context) {
+    final DoctorConsultationController doktorState = Get.put(DoctorConsultationController());
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 42, horizontal: 27),
       child: Wrap(
@@ -1495,7 +1504,18 @@ class AkhiriConsultasi extends StatelessWidget {
                                   Expanded(
                                     child: ButtonGreenWidget(
                                       title: 'Oke',
-                                      onPressed: () {},
+                                      onPressed: () async {
+                                        await doktorState.postFinishConsultation(context, id);
+
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                        showDialog(
+                                          context: Get.context!,
+                                          builder: (context) => AlertWidget(
+                                            subtitle: 'Kamu masih bisa melihat riwayat chat dan lampiran dokter disini. Namun, tidak dapat mengirim pesan baru ke dokter.',
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                   SizedBox(
