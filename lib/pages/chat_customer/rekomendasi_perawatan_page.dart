@@ -15,6 +15,7 @@ import 'package:heystetik_mobileapps/widget/alert_dialog.dart';
 import 'package:heystetik_mobileapps/widget/appbar_widget.dart';
 import 'package:heystetik_mobileapps/widget/container_widget.dart';
 import 'package:heystetik_mobileapps/widget/loading_widget.dart';
+import 'package:heystetik_mobileapps/widget/snackbar_widget.dart';
 
 import '../../widget/button_widget.dart';
 
@@ -92,6 +93,18 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
+                                  if (DateTime.parse(
+                                          state.data.value.endDate.toString())
+                                      .isBefore(DateTime.now())) {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertWidget(
+                                        subtitle:
+                                            'Masa aktif rekomendasi dokter sudah tidak berlaku',
+                                      ),
+                                    );
+                                    return;
+                                  }
                                   if (state.listObatSelected.isEmpty &&
                                           state.listSkincareSelected.isEmpty ||
                                       state.totalAmount.value <= 0) {
@@ -493,9 +506,20 @@ class _RekomendasiPerawatan1PageState extends State<RekomendasiPerawatan1Page> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-                    Get.to(() => ResepDigitalPage());
-                    debugPrint("UNDUH RESEP");
+                  onTap: () async {
+                    // Get.to(() => ResepDigitalPage());
+                    // debugPrint("UNDUH RESEP");
+                    SnackbarWidget.getSuccessSnackbar(
+                      context,
+                      "Berhasil",
+                      "Opening your file, please wait while we working on your file",
+                    );
+                    await state.getInvoice(
+                      context,
+                      state.data.value.transactionConsultationId ?? "",
+                      'consultation',
+                      doInPost: () {},
+                    );
                   },
                   child: Icon(
                     Icons.file_download_rounded,
