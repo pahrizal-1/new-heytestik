@@ -73,9 +73,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color:
-                                  isSelected == 0 ? greenColor : borderColor),
+                          border: Border.all(color: isSelected == 0 ? greenColor : borderColor),
                         ),
                         child: Row(
                           children: [
@@ -84,9 +82,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                               style: blackTextStyle.copyWith(
                                 fontSize: 14,
                                 fontWeight: regular,
-                                color: isSelected == 0
-                                    ? greenColor
-                                    : const Color(0xff6B6B6B),
+                                color: isSelected == 0 ? greenColor : const Color(0xff6B6B6B),
                               ),
                             ),
                           ],
@@ -109,9 +105,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color:
-                                  isSelected == 1 ? greenColor : borderColor),
+                          border: Border.all(color: isSelected == 1 ? greenColor : borderColor),
                         ),
                         child: Row(
                           children: [
@@ -120,9 +114,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                               style: blackTextStyle.copyWith(
                                 fontSize: 14,
                                 fontWeight: regular,
-                                color: isSelected == 1
-                                    ? greenColor
-                                    : const Color(0xff6B6B6B),
+                                color: isSelected == 1 ? greenColor : const Color(0xff6B6B6B),
                               ),
                             ),
                           ],
@@ -145,9 +137,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(7),
-                          border: Border.all(
-                              color:
-                                  isSelected == 2 ? greenColor : borderColor),
+                          border: Border.all(color: isSelected == 2 ? greenColor : borderColor),
                         ),
                         child: Row(
                           children: [
@@ -156,9 +146,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                               style: blackTextStyle.copyWith(
                                 fontSize: 14,
                                 fontWeight: regular,
-                                color: isSelected == 2
-                                    ? greenColor
-                                    : const Color(0xff6B6B6B),
+                                color: isSelected == 2 ? greenColor : const Color(0xff6B6B6B),
                               ),
                             ),
                           ],
@@ -193,11 +181,7 @@ class _OnboardingChatState extends State<OnboardingChat> {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: stateProfile.imgNetwork.value != ""
-                          ? NetworkImage(
-                                  '${Global.FILE}/${stateProfile.imgNetwork.value}')
-                              as ImageProvider
-                          : AssetImage('assets/images/profiledummy.png'),
+                      image: stateProfile.imgNetwork.value != "" ? NetworkImage('${Global.FILE}/${stateProfile.imgNetwork.value}') as ImageProvider : AssetImage('assets/images/profiledummy.png'),
                     ),
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -269,9 +253,15 @@ class _OnboardingChatState extends State<OnboardingChat> {
           isLoading: state.isLoading.value,
           child: state.totalRecentChat.value == 0
               ? const BelumKonsultasiChat()
-              : ListChatPage(
-                  recentChat: state.recentChat.value,
-                ),
+              : isSelected == 0
+                  ? ListChatPage(
+                      recentChat: state.recentChat.value,
+                    )
+                  : isSelected == 1
+                      ? ListChatActivePage(
+                          recentChat: state.recentChat.value,
+                        )
+                      : ListChatDonePage(recentChat: state.recentChat.value),
         ),
       ),
       floatingActionButton: Obx(
@@ -348,8 +338,7 @@ class BelumKonsultasiChat extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  const SelectConditionsPage(),
+                              builder: (context) => const SelectConditionsPage(),
                             ),
                           ).then((value) => Navigator.pop(context));
                         },
