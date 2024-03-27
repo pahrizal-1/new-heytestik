@@ -48,10 +48,6 @@ class _ListChatPageState extends State<ListChatPage> {
                   itemBuilder: (BuildContext context, int i) {
                     return DoctorChat(
                       ontap: () async {
-                        print(state.recentChat.value!.data![i].lastChat!.senderId!);
-                        print(state.recentChat.value!.data![i].lastChat!.receiverId!);
-                        print(state.recentChat.value!.data![i].customer!.fullname);
-                        print(state.recentChat.value!.data![i].doctor!.fullname);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -61,6 +57,7 @@ class _ListChatPageState extends State<ListChatPage> {
                                 // roomId: state.recentChat.value!.data![i].id!
                                 //     .toInt(),
                                 roomCode: state.recentChat.value!.data![i].code.toString(),
+
                                 // senderId: state
                                 //     .recentChat.value!.data![i].customerId!
                                 //     .toInt(),
@@ -108,6 +105,7 @@ class _ListChatPageState extends State<ListChatPage> {
                       seen: state.recentChat.value!.data![i].lastChat!.seen ?? false,
                       valueChat: state.recentChat.value!.data?[i].unseenCount.toString(),
                       isMe: state.recentChat.value?.data?[i].lastChat!.senderId == state.customerId.value ? true : false,
+                      status: state.recentChat.value!.data![i].ended == true ? true : false,
                     );
                   },
                 ),
@@ -129,6 +127,7 @@ class DoctorChat extends StatelessWidget {
   // final Color? colorTanggal;
   final String? valueChat;
   final bool seen;
+  final bool status;
   const DoctorChat({
     super.key,
     // required this.doctorId,
@@ -142,6 +141,7 @@ class DoctorChat extends StatelessWidget {
     this.ontap,
     required this.seen,
     required this.isMe,
+    required this.status,
   });
 
   @override
@@ -192,7 +192,151 @@ class DoctorChat extends StatelessWidget {
                         color: Color(0xff24A7A0).withOpacity(0.1),
                       ),
                       child: Text(
-                        'Aktif',
+                        status ? 'Selesai' : 'Aktif',
+                        style: grenTextStyle.copyWith(fontSize: 12, fontWeight: regular),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      doctorName,
+                      style: blackTextStyle.copyWith(fontSize: 15),
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      chat,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 13,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  time,
+                  style: grenTextStyle.copyWith(
+                    fontSize: 12,
+                    fontWeight: regular,
+                    color: seen ? greyColor : greenColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                isMe
+                    ? Image.asset(
+                        'assets/images/logo_cheac_wa.png',
+                        width: 20,
+                        color: seen ? null : greyColor,
+                      )
+                    : seen
+                        ? Container()
+                        : Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 7,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(color: greenColor, shape: BoxShape.circle),
+                            child: Text(
+                              valueChat.toString(),
+                              style: whiteTextStyle.copyWith(fontSize: 12, color: whiteColor),
+                            ),
+                          ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChatIsDone extends StatelessWidget {
+  // final int doctorId;
+  final String doctorName;
+  final VoidCallback? ontap;
+  final String chat;
+  final String img;
+  final String time;
+  // final String roomCode;
+  final bool isMe;
+  // final Color? colorTanggal;
+  final String? valueChat;
+  final bool seen;
+  final bool status;
+  const ChatIsDone({
+    super.key,
+    // required this.doctorId,
+    required this.doctorName,
+    required this.chat,
+    required this.img,
+    required this.time,
+    // required this.roomCode,
+    this.valueChat = '',
+    // this.colorTanggal,
+    this.ontap,
+    required this.seen,
+    required this.isMe,
+    required this.status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: lsymetric.copyWith(top: 30),
+      child: InkWell(
+        onTap: ontap,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRect(
+              child: img != null
+                  ? Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            img,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  : Image.asset(
+                      img,
+                      width: 52,
+                      height: 52,
+                      fit: BoxFit.cover,
+                    ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Container(
+                color: Colors.transparent,
+                margin: const EdgeInsets.only(top: 5),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 19, vertical: 2),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(9),
+                        color: Color(0xff24A7A0).withOpacity(0.1),
+                      ),
+                      child: Text(
+                        status ? 'Selesai' : 'Aktif',
                         style: grenTextStyle.copyWith(fontSize: 12, fontWeight: regular),
                       ),
                     ),
